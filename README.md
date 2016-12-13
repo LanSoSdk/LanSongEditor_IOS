@@ -1,2 +1,3 @@
 # LanSongEditor_IOS
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
+ 蓝松科技的视频编辑SDK IOS版本Demo演示.
