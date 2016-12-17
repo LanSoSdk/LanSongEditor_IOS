@@ -2,7 +2,7 @@
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
-###注意: 当前版本是1.0.0. MediaEditor和MediaInfo可以, 
+###注意: 当前版本是1.0.0. MediaEditor和MediaInfo中的各种方法,请直接使用 
 ###我们架构的 [画板+画笔]的部分,处于不建议使用状态,大概20161225号前推出.
 
 
