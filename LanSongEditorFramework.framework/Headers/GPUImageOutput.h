@@ -40,6 +40,7 @@ void reportAvailableMemoryForGPUImage(NSString *tag);
  */
 @interface GPUImageOutput : NSObject
 {
+    //作为输出的的纹理传递到下一个Target
     GPUImageFramebuffer *outputFramebuffer;
     /**
      *       目标列表

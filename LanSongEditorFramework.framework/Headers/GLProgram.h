@@ -15,6 +15,7 @@
 
 @interface GLProgram : NSObject 
 {
+    //属性数组.
     NSMutableArray  *attributes;
     NSMutableArray  *uniforms;
     GLuint          program,

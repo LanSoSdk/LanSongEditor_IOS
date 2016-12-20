@@ -7,8 +7,8 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
 @protocol GPUImageMovieWriterDelegate <NSObject>
 
 @optional
-- (void)movieRecordingCompleted;
-- (void)movieRecordingFailedWithError:(NSError*)error;
+- (void)movieRecordingCompleted;  //视频处理完后的代理
+- (void)movieRecordingFailedWithError:(NSError*)error;  //编码失败的代理
 
 @end
 /**
@@ -29,8 +29,12 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
     CVPixelBufferRef renderTarget;
     CVOpenGLESTextureRef renderTexture;
 
-    CGSize videoSize;
+    CGSize drawPadSize;
+    CGSize inputSize; //输入源的大小.
     GPUImageRotationMode inputRotation;
+    
+    //把image投递到view中的哪些坐标点.
+    GLfloat imageVertices[8];
 }
 
 @property(readwrite, nonatomic) BOOL hasAudioTrack;
@@ -39,7 +43,9 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
 @property(nonatomic, copy) void(^completionBlock)(void);
 @property(nonatomic, copy) void(^failureBlock)(NSError*);
 @property(nonatomic, assign) id<GPUImageMovieWriterDelegate> delegate;
-@property(readwrite, nonatomic) BOOL encodingLiveVideo;
+
+@property(readwrite, nonatomic) BOOL encodingLiveVideo;  //是否实时编码???
+
 @property(nonatomic, copy) BOOL(^videoInputReadyCallback)(void);
 @property(nonatomic, copy) BOOL(^audioInputReadyCallback)(void);
 @property(nonatomic, copy) void(^audioProcessingCallback)(SInt16 **samplesRef, CMItemCount numSamplesInBuffer);
@@ -67,7 +73,10 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
 // Movie recording
 - (void)startRecording;
 - (void)startRecordingInOrientation:(CGAffineTransform)orientationTransform;
+
+//结束编码.
 - (void)finishRecording;
+
 - (void)finishRecordingWithCompletionHandler:(void (^)(void))handler;
 - (void)cancelRecording;
 - (void)processAudioBuffer:(CMSampleBufferRef)audioBuffer;

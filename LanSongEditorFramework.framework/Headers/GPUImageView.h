@@ -2,8 +2,12 @@
 #import "GPUImageContext.h"
 
 typedef NS_ENUM(NSUInteger, GPUImageFillModeType) {
-    kGPUImageFillModeStretch,                       // Stretch to fill the full view, which may distort the image outside of its normal aspect ratio
-    kGPUImageFillModePreserveAspectRatio,           // Maintains the aspect ratio of the source image, adding bars of the specified background color
+    //平铺模式
+    kGPUImageFillModeStretch,    // Stretch to fill the full view, which may distort the image outside of its normal aspect ratio
+    
+    //即保持长宽比,其余空白处使用背景色填充
+    kGPUImageFillModePreserveAspectRatio,// Maintains the aspect ratio of the source image, adding bars of the specified background color
+//    即保持长宽比,从中间放大,并全部填充.
     kGPUImageFillModePreserveAspectRatioAndFill     // Maintains the aspect ratio of the source image, zooming in on its center to fill the view
 };
 

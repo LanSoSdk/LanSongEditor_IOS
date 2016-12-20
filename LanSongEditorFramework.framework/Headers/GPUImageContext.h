@@ -82,7 +82,10 @@ typedef NS_ENUM(NSUInteger, GPUImageRotationMode) {
  */
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
 /**
- *  设置输入的GPUImageFrameBuffer旋转模式,
+ *  设置输入的GPUImageFrameBuffer旋转模式, 
+ 
+  1, 目前只在GPUImageCamera中看到有相关的回调,其他地方没有用到. 暂时不用.
+ 
  *
  *  @param newInputRotation <#newInputRotation description#>
  *  @param textureIndex     <#textureIndex description#>

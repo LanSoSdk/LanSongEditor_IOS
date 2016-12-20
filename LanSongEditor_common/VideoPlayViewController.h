@@ -10,4 +10,6 @@
 
 @interface VideoPlayViewController : UIViewController
 
+//外界输入的视频路径.
+@property NSString *videoPath;
 @end

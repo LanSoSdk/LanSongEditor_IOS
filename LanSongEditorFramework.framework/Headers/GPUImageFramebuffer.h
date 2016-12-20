@@ -24,11 +24,15 @@ typedef struct GPUTextureOptions {
 } GPUTextureOptions;
 
 /**
- *  统一管理 纹理和Opengl中的framebuffer, 当在Opengl支持快速读取渲染好的数据的设备上,支持直接读取数据到CVPixelBufferRef中,
+ *  是上一个target的draw到这个FrameBuffer, 然后在下一个Target时, 又把这个FrameBuffer作为纹理输入,
+ 
+ 统一管理 纹理和Opengl中的framebuffer, 当在Opengl支持快速读取渲染好的数据的设备上,支持直接读取数据到CVPixelBufferRef中,
  *  opengl内部有 texture索引和opengl内部的frameBuffer索引;
  *  glGenFramebuffers(1, &framebuffer):是创建opengl内部的framebuffer.
  *  glGenTextures(1, &_texture):是创建opengl内部的纹理索引.
  *  通过texture可以绘制图像, 通过frameBuffer可以得到绘制后的数据.
+ 
+ 
  */
 @interface GPUImageFramebuffer : NSObject
 

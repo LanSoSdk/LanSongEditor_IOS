@@ -122,6 +122,15 @@
 +(NSString *)genTmpMp3Path;
 
 /**
+ *
+ *  在当前app下Documents文件夹里,创建一个指定文件名的路径
+ *  @param filename 返回该路径的字符串(只是生成一个字符串, 没有真正生成文件)
+ *
+ *  @return 路径字符串
+ */
++(NSString *)genFilePathWithName:(NSString *)filename;
+
+/**
  *  把URL转换为 实际的路径字符串
  *
  *  @param url

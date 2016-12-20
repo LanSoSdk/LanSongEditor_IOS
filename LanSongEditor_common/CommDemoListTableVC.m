@@ -9,7 +9,8 @@
 #import "CommDemoListTableVC.h"
 #import "CommDemoItem.h"
 #import "MBProgressHUD.h"
-
+#import "VideoPlayViewController.h"
+#import "LanSongUtils.h"
 #import <LanSongEditorFramework/LanSongEditor.h>
 enum {
     ID_SHOW_MEDIAINFO,
@@ -66,7 +67,6 @@ enum {
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_RORATE90 hint:@"视频旋转90度"],
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_RORATE180 hint:@"视频旋转180度"],
                   [[CommDemoItem alloc] initWithID:ID_DIRECT_PLAY hint:@"直接视频播放"],
-                  
                  nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -101,8 +101,30 @@ enum {
     if (demoHintHUD!=nil) {
         NSLog(@"hide is yes");
         [demoHintHUD hide:YES];
+        
+        [self showIsPlayDialog];
     }
 }
+-(void)startVideoPlayVC
+{
+    if ([SDKFileUtil fileExist:dstMp4]) {
+        VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+        videoVC.videoPath=dstMp4;
+        [self.navigationController pushViewController:videoVC animated:YES];
+    }else if([SDKFileUtil fileExist:dstAAC]){
+        VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+        videoVC.videoPath=dstAAC;
+        [self.navigationController pushViewController:videoVC animated:YES];
+    }else{
+        [LanSongUtils showHUDToast:@"dstMp4 or dstAAC is not exist!"];
+    }
+}
+-(void)showIsPlayDialog
+{
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要结果预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
+    [alertView show];
+}
+
 - (void)lanSongEditorCompletionNotificationReceiver:(NSNotification*) notification
 {
     if ([[notification name] isEqualToString:@"LanSoEditorCommonCompletion"]) {
@@ -180,6 +202,9 @@ enum {
    
     [self showProgressHUD];
     switch (item.demoID) {
+        case ID_SHOW_MEDIAINFO:
+                [self hideProgressHUD];
+                break;
             case ID_DELETE_AUDIO:
                 [CommDemoItem demoDeleteAudio:srcVideo dstMp4:dstMp4];
                 [self hideProgressHUD];
@@ -227,8 +252,15 @@ enum {
         default:
             break;
     }
-    // ShowcaseFilterViewController *filterViewController = [[ShowcaseFilterViewController alloc] initWithFilterType:(GPUImageShowcaseFilterType)indexPath.row];
-    //    [self.navigationController pushViewController:filterViewController animated:YES];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"当前是否需要预览:%d",buttonIndex);
+    if (buttonIndex==0) {  //修改延时
+        [self startVideoPlayVC];
+    }else {  //返回
+        
+    }
 }
 
 /*

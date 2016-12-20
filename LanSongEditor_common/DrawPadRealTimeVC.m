@@ -1,8 +1,15 @@
 #import "DrawPadRealTimeVC.h"
+#import "VideoPlayViewController.h"
 
 @implementation DrawPadRealTimeVC
 {
     int frameCount;
+        
+        DrawPadView *drawpad;
+        NSTimer * timer;
+    VideoPen *mainVideoPen;
+    NSString *dstPath;
+    
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,16 +34,25 @@
     
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     
+    //获取一个临时文件
+   dstPath = [SDKFileUtil genTmpMp4Path];
    
-    NSString *pathToMovie = [SDKFileUtil genTmpMp4Path];
-
-   
     
-    drawpad =[[DrawPadView alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL] dstPath:pathToMovie];
+    drawpad =[[DrawPadView alloc] initWithWidth:480 height:480];
+    //设置实时录制
+    [drawpad setEncodeRealTime:dstPath width:480 height:480];
     
-    GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
+    //增加一个View用来显示效果.
+    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 80, 320,320)];
     
-    [drawpad setDrawPadPreView:self.view filter:filter];
+    [self.view addSubview: filterView];
+    
+    //设置显示的view
+    [drawpad setDrawPadPreView:filterView];
+    
+    //增加一个视频画笔,并给画笔增加滤镜.
+    GPUImageSepiaFilter *filter=[[GPUImageSepiaFilter alloc] init];
+    mainVideoPen=[drawpad addVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
     
     //设置进度
     __weak typeof(self) weakSelf = self;
@@ -45,13 +61,17 @@
               weakSelf.progressLabel.text = [NSString stringWithFormat:@"%f",sampleTime];  //后面更改为weak版本的self
           });
       }];
+    
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             weakSelf.progressLabel.text=@"完成";  //后面更改为weak版本的self
+            [weakSelf showIsPlayDialog];
             
         });
     }];
+    
     //开始drawpad
     
     if (_isAddUIPen) {
@@ -78,7 +98,6 @@
     }
     
      [drawpad startDrawPad];
-    
 }
 
 - (void)retrievingProgress
@@ -99,12 +118,34 @@
 
 - (IBAction)updatePixelWidth:(id)sender
 {
-//    [(GPUImageUnsharpMaskFilter *)filter setIntensity:[(UISlider *)sender value]];
-//    [(GPUImagePixellateFilter *)filter setFractionalWidthOfAPixel:[(UISlider *)sender value]];
+    //暂时没有效果.
 }
 
 - (void)dealloc {
 //    [_progressLabel release];
 //    [super dealloc];
+}
+//------------------------提示是否要播放.
+-(void)showIsPlayDialog
+{
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
+    [alertView show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"当前是否需要预览:%d",buttonIndex);
+    if (buttonIndex==0) {  //修改延时
+        [self startVideoPlayerVC];
+    }else {  //返回
+        
+    }
+}
+-(void)startVideoPlayerVC
+{
+    if ([SDKFileUtil fileExist:dstPath]) {
+        VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+        videoVC.videoPath=dstPath;
+        [self.navigationController pushViewController:videoVC animated:YES];
+    }
 }
 @end

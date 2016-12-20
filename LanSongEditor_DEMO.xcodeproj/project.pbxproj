@@ -11,7 +11,6 @@
 		8B20FA041DFBD59300E27A83 /* CommDemoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20FA031DFBD59300E27A83 /* CommDemoItem.m */; };
 		8B32F0EF1D65C8B800D09C66 /* DrawPadRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B32F0ED1D65C8B800D09C66 /* DrawPadRealTimeVC.m */; };
 		8B32F0F01D65C8B800D09C66 /* DrawPadRealTimeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B32F0EE1D65C8B800D09C66 /* DrawPadRealTimeVC.xib */; };
-		8B6A599C1DFED6B1004F936E /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6A599B1DFED6B1004F936E /* LanSongEditorFramework.framework */; };
 		8B8638141D51AB29007A353C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638131D51AB29007A353C /* main.m */; };
 		8B8638171D51AB29007A353C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638161D51AB29007A353C /* AppDelegate.m */; };
 		8B86381A1D51AB29007A353C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638191D51AB29007A353C /* ViewController.m */; };
@@ -27,6 +26,9 @@
 		8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383C1D51ABDC007A353C /* CoreMedia.framework */; };
 		8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383E1D51ABE8007A353C /* OpenGLES.framework */; };
 		8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8638461D51AD0E007A353C /* QuartzCore.framework */; };
+		8BE1D41A1E0377E200B1FAFD /* weixin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE1D4191E0377E200B1FAFD /* weixin.png */; };
+		8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */; };
+		8BE966AE1E08BC1A00B1CFCE /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE966AD1E08BC1A00B1CFCE /* LanSongEditorFramework.framework */; };
 		8BEB086A1DFCFBF000675BCE /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */; };
 		8BEB086C1DFCFE3100675BCE /* honor30s2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8BEB08671DFCF80E00675BCE /* honor30s2.m4a */; };
 		8BF0E2901D51CA6600F52374 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF0E28F1D51CA6600F52374 /* libz.tbd */; };
@@ -59,8 +61,7 @@
 		8B32F0EC1D65C8B800D09C66 /* DrawPadRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawPadRealTimeVC.h; sourceTree = "<group>"; };
 		8B32F0ED1D65C8B800D09C66 /* DrawPadRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawPadRealTimeVC.m; sourceTree = "<group>"; };
 		8B32F0EE1D65C8B800D09C66 /* DrawPadRealTimeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawPadRealTimeVC.xib; sourceTree = "<group>"; };
-		8B6A599B1DFED6B1004F936E /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
-		8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B86380F1D51AB29007A353C /* LanSongEditor_DEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B8638131D51AB29007A353C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8B8638151D51AB29007A353C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8B8638161D51AB29007A353C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -79,6 +80,10 @@
 		8B86383C1D51ABDC007A353C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		8B86383E1D51ABE8007A353C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8B8638461D51AD0E007A353C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8BE1D4191E0377E200B1FAFD /* weixin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weixin.png; sourceTree = "<group>"; };
+		8BE3ADFE1E07DAC700EB26B8 /* LanSongUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanSongUtils.h; sourceTree = "<group>"; };
+		8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanSongUtils.m; sourceTree = "<group>"; };
+		8BE966AD1E08BC1A00B1CFCE /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8BEB08671DFCF80E00675BCE /* honor30s2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = honor30s2.m4a; sourceTree = "<group>"; };
 		8BEB08681DFCFBF000675BCE /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -135,7 +140,7 @@
 				8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */,
 				8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */,
 				8B86383B1D51ABD4007A353C /* AVFoundation.framework in Frameworks */,
-				8B6A599C1DFED6B1004F936E /* LanSongEditorFramework.framework in Frameworks */,
+				8BE966AE1E08BC1A00B1CFCE /* LanSongEditorFramework.framework in Frameworks */,
 				8B8638371D51ABC2007A353C /* VideoToolbox.framework in Frameworks */,
 				8B8638351D51ABBA007A353C /* UIKit.framework in Frameworks */,
 				8B8638331D51ABB0007A353C /* AudioToolbox.framework in Frameworks */,
@@ -149,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				8BF0E2931D51CB2F00F52374 /* frameworks */,
-				8B8638111D51AB29007A353C /* LanSongEditor_DEMO */,
+				8B8638111D51AB29007A353C /* LanSongEditor_all */,
 				8B8638101D51AB29007A353C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -157,12 +162,12 @@
 		8B8638101D51AB29007A353C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */,
+				8B86380F1D51AB29007A353C /* LanSongEditor_DEmo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8B8638111D51AB29007A353C /* LanSongEditor_DEMO */ = {
+		8B8638111D51AB29007A353C /* LanSongEditor_all */ = {
 			isa = PBXGroup;
 			children = (
 				8BEB086B1DFCFBF600675BCE /* widgets */,
@@ -192,7 +197,7 @@
 				8B86381E1D51AB29007A353C /* LanSongEditor_common.xcdatamodeld */,
 				8B8638121D51AB29007A353C /* Supporting Files */,
 			);
-			name = LanSongEditor_DEMO;
+			name = LanSongEditor_all;
 			path = LanSongEditor_common;
 			sourceTree = "<group>";
 		};
@@ -212,6 +217,8 @@
 				8BFC00AD1DFE912B005D3BF2 /* Masonry */,
 				8BEB08681DFCFBF000675BCE /* MBProgressHUD.h */,
 				8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */,
+				8BE3ADFE1E07DAC700EB26B8 /* LanSongUtils.h */,
+				8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */,
 			);
 			name = widgets;
 			sourceTree = "<group>";
@@ -219,7 +226,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B6A599B1DFED6B1004F936E /* LanSongEditorFramework.framework */,
+				8BE966AD1E08BC1A00B1CFCE /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -237,6 +244,7 @@
 		8BF0E2A71D51D53600F52374 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				8BE1D4191E0377E200B1FAFD /* weixin.png */,
 				8BEB08671DFCF80E00675BCE /* honor30s2.m4a */,
 				8BF0E2A61D51D52C00F52374 /* ping20s.mp4 */,
 			);
@@ -288,9 +296,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8B86380E1D51AB29007A353C /* LanSongEditor_DEMO */ = {
+		8B86380E1D51AB29007A353C /* LanSongEditor_DEmo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEMO" */;
+			buildConfigurationList = 8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEmo" */;
 			buildPhases = (
 				8B86380B1D51AB29007A353C /* Sources */,
 				8B86380C1D51AB29007A353C /* Frameworks */,
@@ -300,9 +308,9 @@
 			);
 			dependencies = (
 			);
-			name = LanSongEditor_DEMO;
+			name = LanSongEditor_DEmo;
 			productName = LanSongEditor_common;
-			productReference = 8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */;
+			productReference = 8B86380F1D51AB29007A353C /* LanSongEditor_DEmo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -319,7 +327,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8B86380A1D51AB29007A353C /* Build configuration list for PBXProject "LanSongEditor_DEMO" */;
+			buildConfigurationList = 8B86380A1D51AB29007A353C /* Build configuration list for PBXProject "LanSongEditor_DEmo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -332,7 +340,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8B86380E1D51AB29007A353C /* LanSongEditor_DEMO */,
+				8B86380E1D51AB29007A353C /* LanSongEditor_DEmo */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BEB086C1DFCFE3100675BCE /* honor30s2.m4a in Resources */,
+				8BE1D41A1E0377E200B1FAFD /* weixin.png in Resources */,
 				8B32F0F01D65C8B800D09C66 /* DrawPadRealTimeVC.xib in Resources */,
 				8BFC00CA1DFE912B005D3BF2 /* LICENSE in Resources */,
 				8BF0E2A81D51D54C00F52374 /* ping20s.mp4 in Resources */,
@@ -380,6 +389,7 @@
 				8BFC00D11DFE912B005D3BF2 /* NSArray+MASAdditions.m in Sources */,
 				8BFC00D21DFE912B005D3BF2 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				8B8638201D51AB29007A353C /* LanSongEditor_common.xcdatamodeld in Sources */,
+				8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */,
 				8B32F0EF1D65C8B800D09C66 /* DrawPadRealTimeVC.m in Sources */,
 				8B8638141D51AB29007A353C /* main.m in Sources */,
 				8BFC00D51DFE912B005D3BF2 /* UIColor+Util.m in Sources */,
@@ -506,8 +516,8 @@
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = lansong.LanSongEditor;
-				PRODUCT_NAME = LanSongEditor_DEMO;
+				PRODUCT_BUNDLE_IDENTIFIER = "lansong.LanSongEditor-common";
+				PRODUCT_NAME = LanSongEditor_DEmo;
 			};
 			name = Debug;
 		};
@@ -527,15 +537,15 @@
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = lansong.LanSongEditor;
-				PRODUCT_NAME = LanSongEditor_DEMO;
+				PRODUCT_BUNDLE_IDENTIFIER = "lansong.LanSongEditor-common";
+				PRODUCT_NAME = LanSongEditor_DEmo;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8B86380A1D51AB29007A353C /* Build configuration list for PBXProject "LanSongEditor_DEMO" */ = {
+		8B86380A1D51AB29007A353C /* Build configuration list for PBXProject "LanSongEditor_DEmo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B8638271D51AB29007A353C /* Debug */,
@@ -544,7 +554,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEMO" */ = {
+		8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEmo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B86382A1D51AB29007A353C /* Debug */,

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "GPUImage.h"
+#import "VideoPen.h"
 
 @interface DrawPadView : NSObject
 
@@ -34,19 +35,15 @@
 /**
  *  drawPad的高度和宽度.注意:这里是像素值, 不是 屏幕点,如果您使用, 要根据layer.contentScale来得到屏幕点.
  */
-@property CGFloat width;
-@property CGFloat height;
+@property CGFloat drawPadWidth;
+@property CGFloat drawPadHeight;
 
-/**
- *   初始化
- *
- *  @param srcPath 输入视频源
- *  @param dstPath 目标视频路径名.
- *
- *  @return <#return value description#>
- */
 
-- (id)initWithPath:(NSString *)srcPath dstPath:(NSString *)dstPath;
+- (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight;
+
+-(VideoPen *)addVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
+
+-(void)setEncodeRealTime:(NSString *)dstPath width:(CGFloat)encW height:(CGFloat)encH;
 
 
 /**
@@ -55,7 +52,7 @@
  *  @param preview 处理过程中需要显示的UIView,后台会做根据视频的宽高做等比例缩放
  *  @param filter 处理视频时需要的滤镜效果, 如不需要滤镜,则设置为nil
  */
--(void) setDrawPadPreView:(UIView *)preview filter:(GPUImageFilter *)filter;
+-(void) setDrawPadPreView:(UIView *)preview;
 
 /**
  *  增加UI画笔.
@@ -63,6 +60,7 @@
 -(void)addUIPen:(UIView *)view fromUI:(BOOL)fromUI;
 
 -(CGFloat)getDrawPadWidth;
+
 -(CGFloat)getDrawPadHeight;
 
 
@@ -71,7 +69,7 @@
  *
  *  @param filter 滤镜对象,如不需要滤镜, 则设置为nil
  */
--(void)switchFilterTo:(GPUImageFilter *)filter;
+//-(void)switchFilterTo:(GPUImageFilter *)filter;
 
 /**
  *  开始执行.

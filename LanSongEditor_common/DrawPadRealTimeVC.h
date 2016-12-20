@@ -3,12 +3,8 @@
 #import <LanSongEditorFramework/LanSongEditor.h>
 
 
-@interface DrawPadRealTimeVC : UIViewController
-{
-    
-    DrawPadView *drawpad;
-    NSTimer * timer;
-}
+@interface DrawPadRealTimeVC : UIViewController <UIAlertViewDelegate>
+
 
 //是否增加UI画笔
 @property BOOL isAddUIPen;

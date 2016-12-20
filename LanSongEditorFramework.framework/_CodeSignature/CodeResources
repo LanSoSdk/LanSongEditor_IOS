@@ -14,11 +14,11 @@
 		</data>
 		<key>Headers/DrawPadView.h</key>
 		<data>
-		UeIIqsgtLr0yq9UX6a/s+IbbOJw=
+		pcWlfCBop87+YMkTg9ZgvA9XEMk=
 		</data>
 		<key>Headers/GLProgram.h</key>
 		<data>
-		mxV0e3ySbX5wXHtFNuXmzouYzhg=
+		A0Phy960Y6XQk0kTYAd6b3HrjLE=
 		</data>
 		<key>Headers/GPUImage.h</key>
 		<data>
@@ -138,7 +138,7 @@
 		</data>
 		<key>Headers/GPUImageContext.h</key>
 		<data>
-		1y2EvRKdxUj91fRJA4ycNkt26j0=
+		X1OHtb9bZxWF8qhPsv/Kt5yPOYE=
 		</data>
 		<key>Headers/GPUImageContrastFilter.h</key>
 		<data>
@@ -210,7 +210,7 @@
 		</data>
 		<key>Headers/GPUImageFilter.h</key>
 		<data>
-		v2aP9XfLqYxgqJ4F0G/O7bTqbIQ=
+		jzwIw4WhXKqOjM4TJQkT742489c=
 		</data>
 		<key>Headers/GPUImageFilterGroup.h</key>
 		<data>
@@ -226,7 +226,7 @@
 		</data>
 		<key>Headers/GPUImageFramebuffer.h</key>
 		<data>
-		ZTUm34jP5KNsEQMfqbfysl16Q1I=
+		dzz/rb9gmKlQ9K24BNxbVAz8IUE=
 		</data>
 		<key>Headers/GPUImageFramebufferCache.h</key>
 		<data>
@@ -410,7 +410,7 @@
 		</data>
 		<key>Headers/GPUImageMovieWriter.h</key>
 		<data>
-		03V6zz17Jcaf9nBR6fsp/El3g1g=
+		qd2HPgUlVGPGLCj7JrhfDD7uRZw=
 		</data>
 		<key>Headers/GPUImageMultiplyBlendFilter.h</key>
 		<data>
@@ -438,7 +438,7 @@
 		</data>
 		<key>Headers/GPUImageOutput.h</key>
 		<data>
-		xtjC7euHaGH6Z/fPQGtQh+0LkRM=
+		dbwprg49fH6tWk2LNTSClkb5qbs=
 		</data>
 		<key>Headers/GPUImageOverlayBlendFilter.h</key>
 		<data>
@@ -638,7 +638,7 @@
 		</data>
 		<key>Headers/GPUImageTransformFilter.h</key>
 		<data>
-		hYC1or0IxZQGx6tlTlsWGIEAGtg=
+		RWWqnXnGp4Jymwk9t970CcmbmLM=
 		</data>
 		<key>Headers/GPUImageTwoInputCrossTextureSamplingFilter.h</key>
 		<data>
@@ -670,7 +670,7 @@
 		</data>
 		<key>Headers/GPUImageView.h</key>
 		<data>
-		JttiO2LRvk7193e1j1cJBYNlqwc=
+		DtCQo7YbyiEWNHrOY1HdE8KeBbk=
 		</data>
 		<key>Headers/GPUImageVignetteFilter.h</key>
 		<data>
@@ -702,7 +702,7 @@
 		</data>
 		<key>Headers/LanSongEditor.h</key>
 		<data>
-		hlGKvYrB0VRywtGZ5a7O+lz4WTM=
+		jDpHvLno0+WRPI84IgVs+eZ2pZc=
 		</data>
 		<key>Headers/MediaEditor.h</key>
 		<data>
@@ -714,7 +714,11 @@
 		</data>
 		<key>Headers/SDKFileUtil.h</key>
 		<data>
-		Yf8WJLTT01L/zyGdJnKHS0hvoag=
+		5EpMjAvFBd+sF8P88NPPLej1Kbw=
+		</data>
+		<key>Headers/VideoPen.h</key>
+		<data>
+		P++RZRWScsMqbhnY7g+UA7JS0lQ=
 		</data>
 		<key>Headers/ls_ffmpeg_videotoolbox.h</key>
 		<data>
@@ -723,6 +727,10 @@
 		<key>Info.plist</key>
 		<data>
 		XCquImWVNpq8PsBaapUIt4g2Tn0=
+		</data>
+		<key>weixin.png</key>
+		<data>
+		v6c1rUgwRGZoxLqSHAOWs52kNuU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -737,11 +745,11 @@
 		</data>
 		<key>Headers/DrawPadView.h</key>
 		<data>
-		UeIIqsgtLr0yq9UX6a/s+IbbOJw=
+		pcWlfCBop87+YMkTg9ZgvA9XEMk=
 		</data>
 		<key>Headers/GLProgram.h</key>
 		<data>
-		mxV0e3ySbX5wXHtFNuXmzouYzhg=
+		A0Phy960Y6XQk0kTYAd6b3HrjLE=
 		</data>
 		<key>Headers/GPUImage.h</key>
 		<data>
@@ -861,7 +869,7 @@
 		</data>
 		<key>Headers/GPUImageContext.h</key>
 		<data>
-		1y2EvRKdxUj91fRJA4ycNkt26j0=
+		X1OHtb9bZxWF8qhPsv/Kt5yPOYE=
 		</data>
 		<key>Headers/GPUImageContrastFilter.h</key>
 		<data>
@@ -933,7 +941,7 @@
 		</data>
 		<key>Headers/GPUImageFilter.h</key>
 		<data>
-		v2aP9XfLqYxgqJ4F0G/O7bTqbIQ=
+		jzwIw4WhXKqOjM4TJQkT742489c=
 		</data>
 		<key>Headers/GPUImageFilterGroup.h</key>
 		<data>
@@ -949,7 +957,7 @@
 		</data>
 		<key>Headers/GPUImageFramebuffer.h</key>
 		<data>
-		ZTUm34jP5KNsEQMfqbfysl16Q1I=
+		dzz/rb9gmKlQ9K24BNxbVAz8IUE=
 		</data>
 		<key>Headers/GPUImageFramebufferCache.h</key>
 		<data>
@@ -1133,7 +1141,7 @@
 		</data>
 		<key>Headers/GPUImageMovieWriter.h</key>
 		<data>
-		03V6zz17Jcaf9nBR6fsp/El3g1g=
+		qd2HPgUlVGPGLCj7JrhfDD7uRZw=
 		</data>
 		<key>Headers/GPUImageMultiplyBlendFilter.h</key>
 		<data>
@@ -1161,7 +1169,7 @@
 		</data>
 		<key>Headers/GPUImageOutput.h</key>
 		<data>
-		xtjC7euHaGH6Z/fPQGtQh+0LkRM=
+		dbwprg49fH6tWk2LNTSClkb5qbs=
 		</data>
 		<key>Headers/GPUImageOverlayBlendFilter.h</key>
 		<data>
@@ -1361,7 +1369,7 @@
 		</data>
 		<key>Headers/GPUImageTransformFilter.h</key>
 		<data>
-		hYC1or0IxZQGx6tlTlsWGIEAGtg=
+		RWWqnXnGp4Jymwk9t970CcmbmLM=
 		</data>
 		<key>Headers/GPUImageTwoInputCrossTextureSamplingFilter.h</key>
 		<data>
@@ -1393,7 +1401,7 @@
 		</data>
 		<key>Headers/GPUImageView.h</key>
 		<data>
-		JttiO2LRvk7193e1j1cJBYNlqwc=
+		DtCQo7YbyiEWNHrOY1HdE8KeBbk=
 		</data>
 		<key>Headers/GPUImageVignetteFilter.h</key>
 		<data>
@@ -1425,7 +1433,7 @@
 		</data>
 		<key>Headers/LanSongEditor.h</key>
 		<data>
-		hlGKvYrB0VRywtGZ5a7O+lz4WTM=
+		jDpHvLno0+WRPI84IgVs+eZ2pZc=
 		</data>
 		<key>Headers/MediaEditor.h</key>
 		<data>
@@ -1437,11 +1445,19 @@
 		</data>
 		<key>Headers/SDKFileUtil.h</key>
 		<data>
-		Yf8WJLTT01L/zyGdJnKHS0hvoag=
+		5EpMjAvFBd+sF8P88NPPLej1Kbw=
+		</data>
+		<key>Headers/VideoPen.h</key>
+		<data>
+		P++RZRWScsMqbhnY7g+UA7JS0lQ=
 		</data>
 		<key>Headers/ls_ffmpeg_videotoolbox.h</key>
 		<data>
 		K+UWDz8mxklJHdZi6zNRmx/DqQU=
+		</data>
+		<key>weixin.png</key>
+		<data>
+		v6c1rUgwRGZoxLqSHAOWs52kNuU=
 		</data>
 	</dict>
 	<key>rules</key>

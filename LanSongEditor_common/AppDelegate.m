@@ -12,6 +12,9 @@
 #import "MainViewController.h"
 #import "UIColor+Util.h"
 
+#import "DrawPadRealTimeVC.h"
+#import "VideoPlayViewController.h"
+
 
 @interface AppDelegate ()
 {
@@ -38,6 +41,10 @@
     
     MainViewController *rootVC=[[MainViewController alloc] init];
     
+   // DrawPadRealTimeVC *rootVC=[[DrawPadRealTimeVC alloc] initWithNibName:@"DrawPadRealTimeVC" bundle:nil];
+    
+   // VideoPlayViewController *rootVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+
     //_gWeekRetValue=0;
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:rootVC];
     self.window.rootViewController = navController;

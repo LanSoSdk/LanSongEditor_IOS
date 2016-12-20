@@ -30,14 +30,14 @@
                     </connections>
                 </slider>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l47-Ex-uqa">
-                    <rect key="frame" x="217" y="377" width="46" height="30"/>
+                    <rect key="frame" x="137" y="377" width="46" height="30"/>
                     <state key="normal" title="暂停"/>
                     <connections>
                         <action selector="pause:" destination="-1" eventType="touchUpInside" id="ttv-Ti-DPh"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="21G-bW-DeJ">
-                    <rect key="frame" x="217" y="332" width="46" height="30"/>
+                    <rect key="frame" x="217" y="377" width="46" height="30"/>
                     <state key="normal" title="停止"/>
                     <connections>
                         <action selector="stop:" destination="-1" eventType="touchUpInside" id="sju-v2-6Q4"/>
@@ -46,7 +46,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="367" y="337"/>
+            <point key="canvasLocation" x="454" y="329"/>
         </view>
     </objects>
 </document>

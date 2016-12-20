@@ -68,7 +68,9 @@ typedef struct GPUMatrix3x3 GPUMatrix3x3;
 }
 
 @property(readonly) CVPixelBufferRef renderTarget;
-@property(readwrite, nonatomic) BOOL preventRendering;
+
+@property(readwrite, nonatomic) BOOL preventRendering;  //是否阻止渲染, 如阻止,则不渲染直接传递下去.
+
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
 
 /// @name Initialization and teardown

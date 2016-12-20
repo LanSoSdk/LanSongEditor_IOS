@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommDemoListTableVC : UITableViewController
+@interface CommDemoListTableVC : UITableViewController <UIAlertViewDelegate>
 
 @end
