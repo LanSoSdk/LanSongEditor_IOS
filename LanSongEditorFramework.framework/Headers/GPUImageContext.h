@@ -4,15 +4,46 @@
 
 #define GPUImageRotationSwapsWidthAndHeight(rotation) ((rotation) == kGPUImageRotateLeft || (rotation) == kGPUImageRotateRight || (rotation) == kGPUImageRotateRightFlipVertical || (rotation) == kGPUImageRotateRightFlipHorizontal)
 
+
+/**
+ *  注意,这里只是对外部输入源的纹理顶点做旋转操作, 固定点调换操作,从而把调换后的顶点投射过去而已.
+ 
+ 如果真要达到旋转的效果, 还需要对gl-display的坐标数组做变化.
+ 
+ */
 typedef NS_ENUM(NSUInteger, GPUImageRotationMode) {
-	kGPUImageNoRotation,
-	kGPUImageRotateLeft,
-	kGPUImageRotateRight,
-	kGPUImageFlipVertical,
-	kGPUImageFlipHorizonal,
-	kGPUImageRotateRightFlipVertical,
-	kGPUImageRotateRightFlipHorizontal,
-	kGPUImageRotate180
+    /**
+     *  输入源纹理数组不旋转
+     */
+    kGPUImageNoRotation,
+    /**
+     *  向左旋转90度.逆时针
+     */
+    kGPUImageRotateLeft,
+    /**
+     *  顺时针旋转90度
+     */
+     kGPUImageRotateRight,
+    /**
+     *  垂直翻转
+     */
+    kGPUImageFlipVertical,
+    /**
+     *  水平翻转
+     */
+    kGPUImageFlipHorizonal,
+    /**
+     *  顺时针90度并垂直翻转
+     */
+    kGPUImageRotateRightFlipVertical,
+    /**
+     *  顺时针90度,并水平翻转
+     */
+    kGPUImageRotateRightFlipHorizontal,
+    /**
+     *  旋转180度.
+     */
+    kGPUImageRotate180
 };
 /**
  *  定义了一个GPUImageContext 环境.
@@ -81,20 +112,11 @@ typedef NS_ENUM(NSUInteger, GPUImageRotationMode) {
  *  @param textureIndex 在当前滤镜中的target序号.
  */
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
-/**
- *  设置输入的GPUImageFrameBuffer旋转模式, 
- 
-  1, 目前只在GPUImageCamera中看到有相关的回调,其他地方没有用到. 暂时不用.
- 
- *
- *  @param newInputRotation <#newInputRotation description#>
- *  @param textureIndex     <#textureIndex description#>
- */
+
 - (void)setInputRotation:(GPUImageRotationMode)newInputRotation atIndex:(NSInteger)textureIndex;
 - (CGSize)maximumOutputSize;
-/**
- *  结束实现协议的对象.
- */
+
+
 - (void)endProcessing;
 
 - (BOOL)shouldIgnoreUpdatesToThisTarget;

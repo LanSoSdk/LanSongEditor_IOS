@@ -1,48 +1,56 @@
 //
-//  VideoPen.h
+//  MyDecoder.h
 //  LanSongEditorFramework
 //
-//  Created by sno on 16/12/19.
+//  Created by sno on 16/12/21.
 //  Copyright © 2016年 sno. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
-#import "GPUImageMovie.h"
-#import "GPUImageFilter.h"
-#import "GPUImageOutput.h"
+#import <AVFoundation/AVFoundation.h>
+#import "Pen.h"
 
 
-@interface VideoPen : NSObject
 
-@property CGFloat videoWidth;
-@property CGFloat videoHeight;
+
 
 /**
- *  drawPad架构内部使用, 外界不许调用
+ * Source object for filtering movies
+ * 解码传递过来的文件路径. 解码
  */
--(id)initWithPath:(NSString *)videoPath filter:(GPUImageFilter *)filter;
+@interface VideoPen : Pen
+
+
+@property(readwrite, nonatomic) BOOL playSound;
+
+@property (readwrite, retain) AVAsset *asset;
+
+@property (readwrite, retain) AVPlayerItem *playerItem;
+@property(readwrite, retain) NSURL *url;
+
+
+@property(readwrite, nonatomic) BOOL playAtActualSpeed;
+
+@property(readwrite, nonatomic) BOOL shouldRepeat;
+
+
+@property(readonly, nonatomic) float progress;
+
+
+
+@property (readonly, nonatomic) AVAssetReader *assetReader;
+@property (readonly, nonatomic) BOOL audioEncodingIsFinished;
+@property (readonly, nonatomic) BOOL videoEncodingIsFinished;
 
 /**
- *  drawPad架构内部使用, 外界不许调用
+ *  初始化
+ *
+ *  @param url    url路径
+ *  @param size   画板的尺寸
+ *  @param target 目标
+ *
+ *  @return
  */
--(void)prepare:(BOOL)speed encoder:(GPUImageMovieWriter *)movieWriter;
-/**
- *  drawPad架构内部使用, 外界不许调用
- */
--(void)start;
-
-/**
- *  drawPad架构内部使用, 外界不许调用
- */
--(GPUImageOutput *)getTarget;
-
-
-
--(void)setRotate:(CGFloat)angle;
-
--(void)setPosition:(CGFloat)posX posY:(CGFloat)posY;
-
--(void)setScale:(CGFloat)scaleX scaleY:(CGFloat)scaleY;
+- (id)initWithURL:(NSURL *)url drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
 
 @end

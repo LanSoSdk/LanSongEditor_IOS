@@ -19,10 +19,24 @@ typedef NS_ENUM(NSInteger, UIImageOrientation) {
 
 dispatch_queue_attr_t GPUImageDefaultQueueAttribute(void);
 void runOnMainQueueWithoutDeadlocking(void (^block)(void));
+/**
+ *  在视频处理队列中执行, GPuImage中的所有滤镜都是在这里执行的.
+ *
+ *  @param ^block <#^block description#>
+ */
 void runSynchronouslyOnVideoProcessingQueue(void (^block)(void));
 void runAsynchronouslyOnVideoProcessingQueue(void (^block)(void));
+
+/**
+ *  在指定的queu中执行.
+ *
+ *  @param context <#context description#>
+ *  @param ^block  <#^block description#>
+ */
 void runSynchronouslyOnContextQueue(GPUImageContext *context, void (^block)(void));
 void runAsynchronouslyOnContextQueue(GPUImageContext *context, void (^block)(void));
+
+
 void reportAvailableMemoryForGPUImage(NSString *tag);
 
 @class GPUImageMovieWriter;

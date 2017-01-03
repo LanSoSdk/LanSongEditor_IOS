@@ -7,8 +7,11 @@
 //
 
 #import "LanSongUtils.h"
+#import <LanSongEditorFramework/LanSongEditor.h>
+
 #import <Foundation/Foundation.h>
 #import "MBProgressHUD.h"
+#import "VideoPlayViewController.h"
 
 @implementation LanSongUtils
 
@@ -24,6 +27,18 @@
     HUD.mode=MBProgressHUDModeDeterminate;
     HUD.labelText=strHint;
     [HUD hide:YES afterDelay:1];
+}
+
++(void)startVideoPlayerVC:(UINavigationController*)nav dstPath:(NSString *)dstPath
+{
+    if ([SDKFileUtil fileExist:dstPath]) {
+        VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+        videoVC.videoPath=dstPath;
+        [nav pushViewController:videoVC animated:YES];
+    }else{
+        NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
+        [LanSongUtils showHUDToast:str];
+    }
 }
 
 @end

@@ -10,12 +10,17 @@
 #import "UIColor+Util.h"
 #import "Masonry.h"
 #import <LanSongEditorFramework/LanSongEditor.h>
+#import "VideoPlayViewController.h"
+#import "LanSongUtils.h"
+
 
 @interface FilterBackGroundVC ()
 {
     UILabel *labProgresse;
     UIButton *btnPlay;
+    
     DrawPadExecute *drawPad; //后台录制的画板.
+    NSString *dstPath;
 }
 @end
 
@@ -25,10 +30,84 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-      self.view.backgroundColor=[UIColor lightGrayColor];
     
+    self.view.backgroundColor=[UIColor lightGrayColor];
+    
+    
+    [self initUI];
+    
+}
+
+
+-(void)startExecute
+{
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    
+    
+    dstPath = [SDKFileUtil genTmpMp4Path];
+    
+    //step1: 设置画板
+    drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 bitrate:1000*1000 dstPath:dstPath];
+    
+    //step2: 增加一个视频画笔,并给画笔增加滤镜.
+    GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
+    [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
+    
+ 
+    //设置进度
+    __weak typeof(self) weakSelf = self;
+    [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"当前的进度是:%f",sampleTime);
+            [weakSelf showProgress:sampleTime];
+        });
+    }];
+    
+    //设置完成后的回调
+    [drawPad setOnCompletionBlock:^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showComplete];
+        });
+    }];
+    
+    //step3: 开始执行
+    [drawPad startDrawPad];
+}
+-(void) showProgress:(CGFloat) sampleTime
+{
+    NSString *hint=[NSString stringWithFormat:@"当前进度是:%f",sampleTime];
+    labProgresse.text=hint;
+}
+-(void)showComplete
+{
+    labProgresse.text=@"处理完毕";
+    btnPlay.enabled=YES;
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)doButtonClicked:(UIView *)sender
+{
+    switch (sender.tag) {
+            
+        case 100 :
+            [self startExecute];
+            break;
+        case  101:
+            [self startVideoPlayerVC];
+            break;
+        default:
+            break;
+    }
+}
+-(void)initUI
+{
     UIButton *btn=[[UIButton alloc] init];
-      btn.tag=100;
+    btn.tag=100;
     [btn setTitle:@"开始执行" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     btn.backgroundColor=[UIColor whiteColor];
@@ -38,7 +117,7 @@
     
     labProgresse=[[UILabel alloc] init];
     labProgresse.text=@"";
-
+    
     
     btnPlay=[[UIButton alloc] init];
     btnPlay.tag=101;
@@ -75,74 +154,18 @@
     }];
     
     btnPlay.enabled=NO;
-    
-    
 }
--(void)doButtonClicked:(UIView *)sender
+//--------------------------
+
+-(void)startVideoPlayerVC
 {
-    switch (sender.tag) {
-            
-        case 100 :
-            [self startExecute];
-            break;
-        case  101:
-            
-            break;
-        default:
-            break;
+    if ([SDKFileUtil fileExist:dstPath]) {
+        VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+        videoVC.videoPath=dstPath;
+        [self.navigationController pushViewController:videoVC animated:YES];
+    }else{
+        NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
+        [LanSongUtils showHUDToast:str];
     }
 }
--(void) showProgress:(CGFloat) sampleTime
-{
-    NSString *hint=[NSString stringWithFormat:@"当前进度是:%f",sampleTime];
-    labProgresse.text=hint;
-}
--(void)showComplete
-{
-    labProgresse.text=@"处理完毕";
-    btnPlay.enabled=YES;
-}
--(void)startExecute
-{
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    
-    
-    NSString *pathToMovie = [SDKFileUtil genTmpMp4Path];
-    
-    
-    
-    drawPad =[[DrawPadExecute alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL] dstPath:pathToMovie];
-    
-    GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
-    
-    [drawPad switchFilterTo:filter];
-    //设置进度
-    __weak typeof(self) weakSelf = self;
-    [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"当前的进度是:%f",sampleTime);
-            [weakSelf showProgress:sampleTime];
-            // weakSelf.progressLabel.text = [NSString stringWithFormat:@"%f",sampleTime];  //后面更改为weak版本的self
-        });
-    }];
-    
-    //设置完成后的回调
-    [drawPad setOnCompletionBlock:^{
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //            weakSelf.progressLabel.text=@"完成";  //后面更改为weak版本的self
-            NSLog(@"处理完成");
-            [weakSelf showComplete];
-        });
-    }];
-    
-    [drawPad startDrawPad];
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 @end

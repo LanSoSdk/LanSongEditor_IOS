@@ -1,0 +1,285 @@
+//
+//  TestDemoVC.m
+//  LanSongEditor_all
+//
+//  Created by sno on 16/12/3.
+//  Copyright © 2016年 sno. All rights reserved.
+//
+
+#import "TestDemoVC.h"
+
+/**
+ 说明:  此代码用来 蓝松科技工程师 调试代码所用, 建议不要作为参考.
+ 
+ */
+#import "LanSongUtils.h"
+#import "PIDrawerView.h"
+#import "THCapture.h"
+#import "BlazeiceDooleView.h"
+
+@interface TestDemoVC ()
+{
+    DrawPadView *drawpad;
+    
+    NSString *dstPath;
+    
+    Pen *operationPen;  //当前操作的画笔
+    
+    
+    CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
+    CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
+    int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
+    BOOL isadd;
+    THCapture *capture;
+    
+    //THCapture *capture;
+    BlazeiceDooleView *doodleView;
+    
+}
+@end
+
+@implementation TestDemoVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.view.backgroundColor=[UIColor whiteColor];
+    
+    
+    
+    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+    if ([SDKFileUtil fileExist:dstPath]) {
+        [SDKFileUtil deleteFile:dstPath];
+    }
+    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+    
+    //step1:第一步: 创建一个画板,并增加编码保存路径
+    drawPadWidth=480;
+    drawPadHeight=480;
+    drawPadBitRate=1000*1000;
+    drawpad=[[DrawPadView alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    
+    
+    
+    CGSize size=self.view.frame.size;
+    CGFloat padding=size.height*0.01;
+    
+    //step2:第二步:  增加一个View用来预览显示.暂时采用宽度为固定值,来调整高度,如果您的视频是竖的, 则应该固定高度来调整宽度. 或者设置一个正方形
+    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    
+    [self.view addSubview: filterView];
+    [drawpad setDrawPadPreView:filterView];
+    
+    
+    //step3: 增加两个画笔.一个大的做背景,调节视频.
+    //    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
+    //    [drawpad addBitmapPen:imag];
+    
+    
+    //增加一个主视频画笔
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+    
+    
+    
+    
+    
+    
+    //    CGRect frame = CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+    //    doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
+    //    doodleView.drawView.formPush = YES;//标志他是从教师端推送过来的。
+    //    [self.view addSubview:doodleView];
+    
+    //    _isAddUIPen=YES;
+    //
+    //    if (_isAddUIPen) {
+    //        UIView *mainView=[[UIView alloc] initWithFrame:CGRectMake(0, 60, 320.0f, 320*(drawPadHeight/drawPadWidth))];
+    //        mainView.backgroundColor=[UIColor colorWithRed:0.5f green:0.0f blue:0.0f alpha:0.5f];
+    //
+    //
+    //        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, size.width, 60.0f)];
+    //        _timeLabel.font = [UIFont systemFontOfSize:30.0f];
+    //        _timeLabel.text = @"Time: 0.0 s";
+    //        _timeLabel.textAlignment = NSTextAlignmentCenter;
+    //        _timeLabel.backgroundColor = [UIColor clearColor];
+    //        _timeLabel.textColor = [UIColor whiteColor];
+    //
+    //        [mainView addSubview:_timeLabel];
+    //        [self.view addSubview:mainView];
+    //
+    //        //这里再增加一个UI画笔.
+    //        [drawpad addViewPen:mainView fromUI:YES];
+    //    }
+    //
+    
+    
+    //设置进度回调.
+    __weak typeof(self) weakSelf = self;
+    [drawpad setOnProgressBlock:^(CGFloat currentPts) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.timeLabel.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+            weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+            
+        });
+    }];
+    
+    //设置完成后的回调
+    [drawpad setOnCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf showIsPlayDialog];
+            
+        });
+    }];
+    
+    //step4: 开始工作
+    [drawpad startDrawPad];
+    
+    //把视频缩小一半,放在背景图上.
+    operationPen.scaleWidth=0.5f;
+    operationPen.scaleHeight=0.5f;
+    
+    
+    //----一下是ui操作.
+    _labProgress=[[UILabel alloc] init];
+    _labProgress.textColor=[UIColor redColor];
+    
+    [self.view addSubview:_labProgress];
+    
+    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(filterView.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(filterView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 40));
+    }];
+    
+    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
+    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:102 labText:@"缩放:"];
+    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:103 labText:@"旋转:"];
+    
+    
+    
+    
+    //------------------
+    CGRect frame = CGRectMake(0, 100, kMainScreenWidth,kMainScreenHeight-80);
+    doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
+    doodleView.drawView.formPush = YES;//标志他是从教师端推送过来的。
+    [self.view addSubview:doodleView];
+    
+    if(capture == nil){
+        capture=[[THCapture alloc] init];
+    }
+    capture.frameRate = 35;
+    //    capture.delegate = self;
+    capture.captureLayer = doodleView.layer;
+    
+    NSLog(@"START  RECORD..2222....");
+    
+    [capture performSelector:@selector(startRecording1)];
+    
+}
+
+- (void)slideChanged:(UISlider*)sender
+{
+    
+    CGFloat val=[(UISlider *)sender value];
+    CGFloat pos2=drawpad.drawpadSize.width*val;
+    switch (sender.tag) {
+        case 101:  //weizhi
+            operationPen.positionX=pos2;
+            
+            //当宽度增加后, 也演示下高度的变化.
+            if (operationPen.positionX > drawpad.drawpadSize.width/2) {
+                
+                operationPen.positionY+=10;
+                if (operationPen.positionY>=drawpad.drawpadSize.height) {
+                    operationPen.positionY=0;
+                }
+            }
+            break;
+        case 102:  //scale
+            if (operationPen!=nil) {
+                operationPen.scaleHeight=val;
+                operationPen.scaleWidth=val;
+            }
+            break;
+            
+        case 103:  //rotate;
+            if (operationPen!=nil) {
+                operationPen.rotateDegree=val;
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/**
+ 初始化一个slide
+ */
+-(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
+
+{
+    UILabel *labPos=[[UILabel alloc] init];
+    labPos.text=text;
+    
+    UISlider *slidePos=[[UISlider alloc] init];
+    
+    slidePos.maximumValue=max;
+    slidePos.minimumValue=min;
+    slidePos.value=value;
+    slidePos.continuous = YES;
+    slidePos.tag=tag;
+    
+    [slidePos addTarget:self action:@selector(slideChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    
+    CGSize size=self.view.frame.size;
+    CGFloat padding=size.height*0.01;
+    
+    [self.view addSubview:labPos];
+    [self.view addSubview:slidePos];
+    
+    
+    [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(parentView.mas_bottom).offset(padding);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.size.mas_equalTo(CGSizeMake(40, 40));
+    }];
+    
+    [slidePos mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(labPos.mas_centerY);
+        make.left.mas_equalTo(labPos.mas_right);
+        make.size.mas_equalTo(CGSizeMake(size.width-50, 15));
+    }];
+    return labPos;
+}
+-(void)showIsPlayDialog
+{
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
+    [alertView show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==0) {
+        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+    }else {  //返回
+        
+    }
+}
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+@end

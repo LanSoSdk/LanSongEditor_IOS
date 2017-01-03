@@ -12,8 +12,7 @@
 #import "MainViewController.h"
 #import "UIColor+Util.h"
 
-#import "DrawPadRealTimeVC.h"
-#import "VideoPlayViewController.h"
+
 
 
 @interface AppDelegate ()
@@ -31,17 +30,13 @@
     // Override point for customization after application launch.
     
 //    VideoPlayViewController *vl=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
-    
   
-    
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor navigationbarColor]];
     
-    
-    
     MainViewController *rootVC=[[MainViewController alloc] init];
     
-   // DrawPadRealTimeVC *rootVC=[[DrawPadRealTimeVC alloc] initWithNibName:@"DrawPadRealTimeVC" bundle:nil];
+    
     
    // VideoPlayViewController *rootVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
 
@@ -50,7 +45,14 @@
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
 
+#if TARGET_IPHONE_SIMULATOR
 
+#error 当前SDK不支持MAC系统的模拟器
+#error current version sdk  cannot support mac os simulator
+
+#endif
+    
+    
     
 //    navigationController = [[UINavigationController alloc] init];
 //    

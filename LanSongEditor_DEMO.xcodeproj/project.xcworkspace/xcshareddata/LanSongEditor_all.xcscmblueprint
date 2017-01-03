@@ -9,7 +9,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3F224230-F225-49DA-AF9A-E83204E03685",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : "LanSongEditor_ios\/",
+    "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : "LanSongEditor_all\/",
     "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC" : "..\/..\/bilibili\/ijkplayer-ios"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "LanSongEditor_all",

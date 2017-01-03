@@ -44,7 +44,7 @@
  */
 + (void)demoDeleteAudio:(NSString *)srcPath dstMp4:(NSString *)dstMp4
 {
-    [MediaEditor executeDeleteAudio:srcPath dstPath:dstMp4];
+    [VideoEditor executeDeleteAudio:srcPath dstPath:dstMp4];
 }
 /**
  *  演示删除视频,即提取音频部分
@@ -54,7 +54,7 @@
  */
 + (void)demoDeleteVideo:(NSString *)srcPath dstAAC:(NSString *)dstAAC
 {
-    [MediaEditor executeDeleteVideo:srcPath dstPath:dstAAC];
+    [VideoEditor executeDeleteVideo:srcPath dstPath:dstAAC];
 }
 /**
  *  演示音视频合并, 也可以用作增加背景音乐,替换音频.
@@ -71,10 +71,10 @@
             NSString *tmpMp4= [SDKFileUtil genTmpMp4Path];
             [CommDemoItem demoDeleteAudio:srcVideo dstMp4:tmpMp4];
             
-            [MediaEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
+            [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
             [SDKFileUtil deleteFile:tmpMp4];
         }else{
-            [MediaEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
+            [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
         }
     }
 }
@@ -88,7 +88,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcAudio];
     if ([info prepare]) {
-       [MediaEditor executeAudioCutOut:srcAudio dstFile:dstPath startS:0.0 duration:info.aDuration/2];
+       [VideoEditor executeAudioCutOut:srcAudio dstFile:dstPath startS:0.0 duration:info.aDuration/2];
     }
 }
 /**
@@ -101,7 +101,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcVideo];
     if ([info prepare]) {
-        [MediaEditor executeVideoCutOut:srcVideo dstFile:dstPath start:0.0 durationS:info.vDuration/2];
+        [VideoEditor executeVideoCutOut:srcVideo dstFile:dstPath start:0.0 durationS:info.vDuration/2];
     }
 }
 /**
@@ -122,12 +122,12 @@
         NSString *segTs2=[SDKFileUtil genFileNameWithSuffix:@"ts"];
         
         //为了演示方便,直接截成两个文件, 实际中你可以传入两个文件
-        [MediaEditor executeVideoCutOut:srcVideo dstFile:seg1 start:0 durationS:info.vDuration/3];
-        [MediaEditor executeVideoCutOut:srcVideo dstFile:seg2 start:info.vDuration*2/3 durationS:info.vDuration];
+        [VideoEditor executeVideoCutOut:srcVideo dstFile:seg1 start:0 durationS:info.vDuration/3];
+        [VideoEditor executeVideoCutOut:srcVideo dstFile:seg2 start:info.vDuration*2/3 durationS:info.vDuration];
         
         //第二步:把MP4文件转换为TS流
-        [MediaEditor executeConvertMp4toTs:seg1 dstTs:segTs1];
-        [MediaEditor executeConvertMp4toTs:seg2 dstTs:segTs2];
+        [VideoEditor executeConvertMp4toTs:seg1 dstTs:segTs1];
+        [VideoEditor executeConvertMp4toTs:seg2 dstTs:segTs2];
      
         NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:2];
      
@@ -135,7 +135,7 @@
             [mutableArray addObject:segTs2];
 
         //第三步: 把ts流再次转换为MP4文件.
-        [MediaEditor executeConvertTsToMp4:mutableArray dstFile:dstVideo];
+        [VideoEditor executeConvertTsToMp4:mutableArray dstFile:dstVideo];
         
         //删除为了演示而生成的临时文件.
         [SDKFileUtil deleteFile:segTs2];
@@ -154,7 +154,7 @@
  */
 +(void)demoRorateVideo90:(NSString *)srcPath dstPath:(NSString *)dstPath
 {
-    [MediaEditor executeRotate90WithPath:srcPath dstPath:dstPath];
+    [VideoEditor executeRotate90WithPath:srcPath dstPath:dstPath];
 }
 /**
  *  旋转视频180度.
@@ -164,7 +164,7 @@
  */
 +(void)demoRorateVideo180:(NSString *)srcPath dstPath:(NSString *)dstPath
 {
-    [MediaEditor executeRotate180WithPath:srcPath dstPath:dstPath];
+    [VideoEditor executeRotate180WithPath:srcPath dstPath:dstPath];
 }
 
 /**
@@ -175,7 +175,7 @@
  */
 +(void)demoScaleWithPath:(NSString*)srcPath dstPash:(NSString *)dstPash
 {
-    [MediaEditor executeScaleWithPath:srcPath scaleX:0.5f scaleY:0.5f dstPath:dstPash];
+    [VideoEditor executeScaleWithPath:srcPath scaleX:0.5f scaleY:0.5f dstPath:dstPash];
 }
 /**
  *  给视频增加一个CALayer
@@ -206,7 +206,7 @@
         //设置layer在视频中的中心位置. 以视频的中心为中心.
         retLayer.position =CGPointMake(info.vWidth/2,info.vHeight/2);  //设置位置.
        
-        [MediaEditor executeAddLayerWithPath:srcVideo watermarkLayer:retLayer dstPath:dstPash];
+        [VideoEditor executeAddLayerWithPath:srcVideo watermarkLayer:retLayer dstPath:dstPash];
     }else{
         NSLog(@" add calayer  error!!!:%@",info);
     }
@@ -221,7 +221,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcPath];
     if ([info prepare]) {
-        [MediaEditor executeCropFrameWithPath:srcPath startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
+        [VideoEditor executeCropFrameWithPath:srcPath startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
     }
 }
 /**
@@ -255,10 +255,7 @@
         //设置layer在视频中的中心位置. 以视频的中心为中心.
         retLayer.position =CGPointMake(info.vWidth/4,info.vHeight/4);  //设置位置.
         
-        
-        
-        
-        [MediaEditor executeCropCALayerWithPath:srcPath layer:retLayer startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
+        [VideoEditor executeCropCALayerWithPath:srcPath layer:retLayer startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
     
     }
 }

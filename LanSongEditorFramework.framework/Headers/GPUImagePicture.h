@@ -24,6 +24,7 @@
 // Image rendering
 - (void)processImage;
 - (CGSize)outputImageSize;
+-(GPUImageFramebuffer *)getFrameBuffer;
 
 /**
  * Process image with all targets and filters asynchronously

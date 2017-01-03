@@ -10,6 +10,8 @@
 #import <AVKit/AVKit.h>
 #import <LanSongEditorFramework/LanSongEditor.h>
 
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #import "LanSongUtils.h"
 
 @interface VideoPlayViewController ()
@@ -65,7 +67,7 @@
     
    // CGFloat height=mInfo.vHeight/layer.contentsScale;  //把像素换算成点.
     
-    layer.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300);
+    layer.frame = CGRectMake(0, 60, [UIScreen mainScreen].bounds.size.width, 300);
     layer.backgroundColor = [UIColor whiteColor].CGColor;
     
     layer.videoGravity = AVLayerVideoGravityResizeAspect;
@@ -79,7 +81,6 @@
     
     //增加一个定时器,监听播放进度.
     self.avTimer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-    self.isPlaying=NO;
     
     [self.player play];
     self.isPlaying=YES;
@@ -113,6 +114,7 @@
 }
 - (IBAction)player:(id)sender {
     if (self.isPlaying==NO) {
+       // [self.player seekToTime:kCMTimeZero];
         [self.player play];
         self.isPlaying=YES;
     }
@@ -127,6 +129,7 @@
     //把当前播放Item设置为nil,这样就释放了资源.画面为空, 故可以停止播放,
     if (self.isPlaying) {
         [self.player replaceCurrentItemWithPlayerItem:nil];
+        self.isPlaying=NO;
     }
 }
 - (IBAction)changeProgress:(id)sender {
@@ -137,6 +140,25 @@
     
     [self.player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*self.sumPlayOperation, self.player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
         [self.player play];
+    }];
+}
+- (IBAction)saveToPhotoLibrary:(UIButton *)sender {
+    NSURL *url=[NSURL fileURLWithPath:_videoPath];
+
+    [self writeVideoToPhotoLibrary:url];
+    
+}
+- (void)writeVideoToPhotoLibrary:(NSURL *)url
+{
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    
+    [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
+        if (error) {
+            NSLog(@"Video could not be saved");
+            [LanSongUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
+        }else{
+            [LanSongUtils showHUDToast:@"已导出到相册"];
+        }
     }];
 }
 /*

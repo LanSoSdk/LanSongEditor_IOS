@@ -20,6 +20,9 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+@property int currentFilterIndex;
+@property BOOL gDeviceListFirstShow;
+
 
 @end
 

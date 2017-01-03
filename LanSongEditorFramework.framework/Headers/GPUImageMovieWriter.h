@@ -30,7 +30,7 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
     CVOpenGLESTextureRef renderTexture;
 
     CGSize drawPadSize;
-    CGSize inputSize; //输入源的大小.
+    CGSize inputSize;
     GPUImageRotationMode inputRotation;
     
     //把image投递到view中的哪些坐标点.
