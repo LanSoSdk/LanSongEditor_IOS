@@ -24,10 +24,13 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/GPUImage.h>
 
+#import <LanSongEditorFramework/DrawPadDisplay.h>
+
 #import <LanSongEditorFramework/DrawPadView.h>
 #import <LanSongEditorFramework/DrawPadExecute.h>
 #import <LanSongEditorFramework/Pen.h>
 #import <LanSongEditorFramework/VideoPen.h>
 #import <LanSongEditorFramework/ViewPen.h>
 #import <LanSongEditorFramework/BitmapPen.h>
+#import <LanSongEditorFramework/CameraPen.h>
 

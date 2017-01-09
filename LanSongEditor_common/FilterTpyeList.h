@@ -14,7 +14,6 @@ typedef enum {
     GPUIMAGE_SHARPEN,
     GPUIMAGE_UNSHARPMASK,
     GPUIMAGE_TRANSFORM3D,
-    GPUIMAGE_CROP,
     GPUIMAGE_MASK,
     GPUIMAGE_GAMMA,
     GPUIMAGE_TONECURVE,
@@ -111,7 +110,7 @@ typedef enum {
 @property GPUImageOutput<GPUImageInput> *filter;
 
 
-@property VideoPen *videoPen;
+@property Pen *filterPen;
 /**
  当slider滑动时调用这里,更改相关效果.
  */

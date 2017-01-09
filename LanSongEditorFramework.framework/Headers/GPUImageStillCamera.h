@@ -3,6 +3,9 @@
 void stillImageDataReleaseCallback(void *releaseRefCon, const void *baseAddress);
 void GPUImageCreateResizedSampleBuffer(CVPixelBufferRef cameraFrame, CGSize finalSize, CMSampleBufferRef *sampleBuffer);
 
+/**
+ 这个是用来处理图片的???
+ */
 @interface GPUImageStillCamera : GPUImageVideoCamera
 
 /** The JPEG compression quality to use when capturing a photo as a JPEG.

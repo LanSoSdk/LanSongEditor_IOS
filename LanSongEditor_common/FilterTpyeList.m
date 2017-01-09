@@ -102,7 +102,6 @@
         case GPUIMAGE_THRESHOLD: cell.textLabel.text = @"Threshold"; break;
         case GPUIMAGE_ADAPTIVETHRESHOLD: cell.textLabel.text = @"Adaptive threshold"; break;
         case GPUIMAGE_AVERAGELUMINANCETHRESHOLD: cell.textLabel.text = @"Average luminance threshold"; break;
-        case GPUIMAGE_CROP: cell.textLabel.text = @"Crop"; break;
         case GPUIMAGE_TRANSFORM3D: cell.textLabel.text = @"Transform (3-D)"; break;
         case GPUIMAGE_MASK: cell.textLabel.text = @"Mask"; break;
         case GPUIMAGE_COLORINVERT: cell.textLabel.text = @"Color invert"; break;
@@ -190,8 +189,11 @@
 {
     filterType=(GPUImageShowcaseFilterType)indexPath.row;
     [self setupFilter]; //更新filter;
+    /*
+     当选中一个滤镜的时候, 在这里切换到该滤镜.
+     */
+    [_filterPen switchFilter:_filter];
     
-    [_videoPen switchFilter:_filter];
     [self.navigationController popViewControllerAnimated:YES];
 }
 /**
@@ -536,17 +538,6 @@
             [self.filterSlider setValue:1.0];
             
             self.filter = [[GPUImageAverageLuminanceThresholdFilter alloc] init];
-        }; break;
-        case GPUIMAGE_CROP:
-        {
-            self.title = @"Crop";
-            self.filterSlider.hidden = NO;
-            
-            [self.filterSlider setMinimumValue:0.2];
-            [self.filterSlider setMaximumValue:1.0];
-            [self.filterSlider setValue:0.5];
-            
-            self.filter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.25)];
         }; break;
         case GPUIMAGE_MASK:
         {
@@ -1231,9 +1222,9 @@
 }
      
 /**
-   当slider滑动时调用这里,更改相关效果.
 
- @param sender <#sender description#>
+ 当slider滑动时调用这里,更改相关效果.
+
  */
 - (void)updateFilterFromSlider:(UISlider *)sender;
 {
@@ -1301,7 +1292,6 @@
         case GPUIMAGE_GAUSSIAN_SELECTIVE: [(GPUImageGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:[(UISlider*)sender value]]; break;
         case GPUIMAGE_GAUSSIAN_POSITION: [(GPUImageGaussianBlurPositionFilter *)self.filter setBlurRadius:[(UISlider *)sender value]]; break;
         case GPUIMAGE_FILTERGROUP: [(GPUImagePixellateFilter *)[(GPUImageFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_CROP: [(GPUImageCropFilter *)self.filter setCropRegion:CGRectMake(0.0, 0.0, 1.0, [(UISlider*)sender value])]; break;
       case GPUIMAGE_TRANSFORM3D:
         {
             CATransform3D perspectiveTransform = CATransform3DIdentity;
@@ -1326,6 +1316,12 @@
         }; break;
         default: break;
     }
+}
+-(void)dealloc
+{
+    _filterPen=nil;
+    _filter=nil;
+    
 }
 
 @end

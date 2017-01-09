@@ -16,18 +16,21 @@
 typedef NS_ENUM(NSUInteger, PenTpye) {
     kVideoPen,
     kBitmapPen,
-    kViewPen
+    kViewPen,
+    kCameraPen
 };
 
 
-@protocol PenDelegate <NSObject>
 
-- (void)decodeFrame;
 
-@end
-
+/**
+ ios版本的GPUImage功能很强大, 为了滤镜部分和它兼容, 我们的画笔继承自GPUImage中的GPUImageOutput,
+ 您可以直接使用GPUImage的滤镜效果,并支持GPUImage的各种扩展效果.
+ */
 @interface Pen : GPUImageOutput
-
+{
+      NSObject *framebufferLock;  //数据的同步锁.
+}
 
 /**
  *  当前画笔的类型
@@ -60,10 +63,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  *  当前定义的画板尺寸
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
-/**
- *  内部使用
- */
-@property(readwrite, nonatomic) id<GPUImageInput> drawpadTarget;
 
 //当前画笔在画板中的ID号,不一定等于画板的层数.inner used
 @property int  idInDrawPad;
@@ -78,6 +77,12 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @property GPUImageRotationMode inputRotation;
 
+
+/**
+ 当前画笔是否隐藏, 
+ 可以用这个在新创建的画笔做隐藏/显示的效果, 类似闪烁, 或创建好,暂时不显示等效果.
+ */
+@property(getter=isHidden) BOOL hidden;
 /**
  *  旋转角度 0--360度.
  */
@@ -91,7 +96,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  *  缩放因子, 大于1.0为放大, 小于1.0为缩小.
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidth,scaleHeight;
-
 
 /**
  *  内部使用
@@ -128,6 +132,8 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 -(void)switchFilter:(GPUImageOutput<GPUImageInput> *)filter;
 
-- (void)startProcessing;
+- (void)startProcessing:(BOOL)isAutoMode;
+
+-(void)endProcessing;
 
 @end

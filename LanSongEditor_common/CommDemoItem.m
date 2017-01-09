@@ -71,11 +71,15 @@
             NSString *tmpMp4= [SDKFileUtil genTmpMp4Path];
             [CommDemoItem demoDeleteAudio:srcVideo dstMp4:tmpMp4];
             
-            [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
+            
+            int  ret= [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
             [SDKFileUtil deleteFile:tmpMp4];
         }else{
-            [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
+          [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
+            
         }
+    }else{
+        
     }
 }
 /**

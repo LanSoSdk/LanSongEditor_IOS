@@ -14,19 +14,14 @@
 @interface FilterRealTimeDemoVC ()
 {
     
-    DrawPadView *drawpad;
+    DrawPadDisplay *drawpad;
     
     NSString *dstPath;
     
     VideoPen *mVideoPen;
     
-    CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
-    CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
-    int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
-    BOOL isadd;
-    
     FilterTpyeList *filterListVC;
-    
+    BOOL  isSelectFilter;
 }
 @end
 
@@ -40,32 +35,32 @@
     
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    if ([SDKFileUtil fileExist:dstPath]) {
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    
-  
+   
     /*
+     
      step1:第一步: 创建一个画板,(主要参数为:画板宽度高度,码率,保存路径,预览View)
+     
      */
-    drawPadWidth=480;
-    drawPadHeight=480;
-    drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadView alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+   int  drawPadWidth=480;
+   int  drawPadHeight=480;
+   int  drawPadBitRate=1000*1000;
+   
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
     //暂时采用宽度为屏幕宽度, 调整高度值,使它宽高比等于画板的宽高比
-    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
     
     
     /*
+     
      第二步:增加各种画笔,这里先增加一个背景图片,然后再增加视频画笔
+     
      */
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];
@@ -137,25 +132,36 @@
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=slide;
-    filterListVC.videoPen=mVideoPen;
+    filterListVC.filterPen=mVideoPen;
+    isSelectFilter=NO;
 
 }
 
-/**
- 点击按钮后的相应
- */
+
 -(void)doButtonClicked:(UIView *)sender
 {
+    isSelectFilter=YES;
      [self.navigationController pushViewController:filterListVC animated:YES];
+  
+    
 }
-
-/**
+-(void)viewDidAppear:(BOOL)animated
+{
+    isSelectFilter=NO;
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (drawpad!=nil && isSelectFilter==NO) {
+        [drawpad stopDrawPad];
+    }
+}
+/*
+ 
  滑动 效果调节后的相应
 
  */
 - (void)slideChanged:(UISlider*)sender
 {
-    CGFloat val=[(UISlider *)sender value];
     switch (sender.tag) {
         case 101:  //weizhi
             [filterListVC updateFilterFromSlider:sender];
@@ -165,11 +171,35 @@
     }
 }
 
+-(void)showIsPlayDialog
+{
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
+    [alertView show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==0) {
+        
+        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+    }else {  //返回
+        
+    }
+}
+
+-(void)dealloc
+{
+    filterListVC=nil;
+    mVideoPen=nil;
+    dstPath=nil;
+    if([SDKFileUtil fileExist:dstPath]){
+        [SDKFileUtil deleteFile:dstPath];
+    }
+    NSLog(@"Filter real time demo dealloc....");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 /**
  初始化一个slide 返回这个UISlider对象
  */
@@ -209,28 +239,6 @@
     }];
     return slideFilter;
 }
--(void)showIsPlayDialog
-{
-    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
-    [alertView show];
-}
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==0) {
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-    }else {  //返回
-        
-    }
-}
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
 

@@ -17,7 +17,7 @@
 {
     int frameCount;
     
-    DrawPadView *drawpad;
+    DrawPadDisplay *drawpad;
     NSTimer * timer;
     NSString *dstPath;
     
@@ -51,7 +51,7 @@
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadView alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     
     
@@ -59,7 +59,7 @@
     CGFloat padding=size.height*0.01;
     
     //step2:第二步:  增加一个View用来预览显示.暂时采用宽度为固定值,来调整高度,如果您的视频是竖的, 则应该固定高度来调整宽度. 或者设置一个正方形
-    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
@@ -236,6 +236,19 @@
         [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else {  //返回
         
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (drawpad!=nil) {
+        [drawpad stopDrawPad];
+    }
+}
+-(void)dealloc
+{
+    if([SDKFileUtil fileExist:dstPath]){
+        [SDKFileUtil deleteFile:dstPath];
     }
 }
 /*

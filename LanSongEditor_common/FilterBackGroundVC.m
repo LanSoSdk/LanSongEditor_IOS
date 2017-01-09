@@ -104,6 +104,8 @@
             break;
     }
 }
+
+
 -(void)initUI
 {
     UIButton *btn=[[UIButton alloc] init];
@@ -166,6 +168,12 @@
     }else{
         NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
         [LanSongUtils showHUDToast:str];
+    }
+}
+-(void)dealloc
+{
+    if([SDKFileUtil fileExist:dstPath]){
+        [SDKFileUtil deleteFile:dstPath];
     }
 }
 @end

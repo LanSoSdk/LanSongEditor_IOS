@@ -36,7 +36,8 @@
             self.backgroundColor = [UIColor colorWithHexString:colorStr];
         }*/
         NSString* colorStr=@"475e45";
-        self.backgroundColor = [UIColor colorWithHexString:colorStr];
+       // self.backgroundColor = [UIColor colorWithHexString:colorStr];
+        self.backgroundColor = [UIColor clearColor];
         //初始化 悬浮图片view
         saveImageView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         saveImageView.backgroundColor=[UIColor clearColor];
@@ -47,7 +48,7 @@
         drawView.isclear = NO;
         drawView.lineAlpha = 1.0;
         drawView.lineWidth = 3.0;
-        drawView.lineColor = [UIColor whiteColor];
+        drawView.lineColor = [UIColor redColor];
         [self addSubview:drawView];
 
     }

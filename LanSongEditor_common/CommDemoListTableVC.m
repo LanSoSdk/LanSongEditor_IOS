@@ -24,8 +24,6 @@ enum {
     ID_ADD_PICTURE_WORD,
     ID_VIDEO_FRAME_CROP,
     ID_VIDEO_CROP_ADDWORD,
-    ID_VIDEO_RORATE90,
-    ID_VIDEO_RORATE180,
     ID_DIRECT_PLAY,
 };
 @interface CommDemoListTableVC ()
@@ -51,6 +49,7 @@ enum {
     srcVideo=[SDKFileUtil copyAssetFile:@"ping20s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
     srcAudio=[SDKFileUtil copyAssetFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];
     
+    NSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:
                    [[CommDemoItem alloc] initWithID:ID_SHOW_MEDIAINFO hint:@"获取视频信息"],
                   [[CommDemoItem alloc] initWithID:ID_DELETE_AUDIO hint:@"删除多媒体中的音频"],
@@ -64,8 +63,6 @@ enum {
                   [[CommDemoItem alloc] initWithID:ID_ADD_PICTURE_WORD hint:@"增加图片或文字"],
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_FRAME_CROP hint:@"视频画面裁剪"],
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_CROP_ADDWORD hint:@"视频画面裁剪增加文字"],
-                  [[CommDemoItem alloc] initWithID:ID_VIDEO_RORATE90 hint:@"视频旋转90度"],
-                  [[CommDemoItem alloc] initWithID:ID_VIDEO_RORATE180 hint:@"视频旋转180度"],
                   [[CommDemoItem alloc] initWithID:ID_DIRECT_PLAY hint:@"直接视频播放"],
                  nil];
     
@@ -90,7 +87,6 @@ enum {
 -(void)showProgressHUD
 {
     if (demoHintHUD!=nil) {
-        NSLog(@"show  is yes");
         [demoHintHUD show:YES];
          demoHintHUD.labelText=@"正在处理...(进度提示稍后增加)";
         demoHintHUD.mode=MBProgressHUDModeIndeterminate;
@@ -99,7 +95,6 @@ enum {
 -(void)hideProgressHUD
 {
     if (demoHintHUD!=nil) {
-        NSLog(@"hide is yes");
         [demoHintHUD hide:YES];
         
         [self showIsPlayDialog];
@@ -197,9 +192,6 @@ enum {
     }
     dstAAC =[SDKFileUtil genTmpM4APath];
     
-
-  
-   
     [self showProgressHUD];
     switch (item.demoID) {
         case ID_SHOW_MEDIAINFO:
@@ -243,11 +235,9 @@ enum {
             case ID_VIDEO_CROP_ADDWORD:
                 [CommDemoItem demoCropCALayerWithPath:srcVideo dstPash:dstMp4];
                 break;
-            case ID_VIDEO_RORATE90:
-                [CommDemoItem demoRorateVideo90:srcVideo dstPath:dstMp4];
-                break;
-            case ID_VIDEO_RORATE180:
-                [CommDemoItem demoRorateVideo180:srcVideo dstPath:dstMp4];
+            case ID_DIRECT_PLAY:
+                dstMp4=srcVideo;
+                [self hideProgressHUD];
                 break;
         default:
             break;
@@ -255,7 +245,6 @@ enum {
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"当前是否需要预览:%d",buttonIndex);
     if (buttonIndex==0) {  //修改延时
         [self startVideoPlayVC];
     }else {  //返回

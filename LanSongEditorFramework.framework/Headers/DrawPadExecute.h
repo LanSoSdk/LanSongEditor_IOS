@@ -10,7 +10,11 @@
 #import "DrawPad.h"
 
 
-
+/**
+ 
+ 继承自DrawPad, 用在 [后台] 做处理的类.
+ 
+ */
 @interface DrawPadExecute : DrawPad
 
 @end

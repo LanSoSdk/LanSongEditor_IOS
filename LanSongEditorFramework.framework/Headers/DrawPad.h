@@ -12,6 +12,8 @@
 #import "VideoPen.h"
 #import "BitmapPen.h"
 #include "ViewPen.h"
+#include "CameraPen.h"
+
 
 typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
     //当pen准备好时,刷新,默认采用这个刷新模式; 当有主视频画笔时,自动设置为这种模式
@@ -53,7 +55,10 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 @property CGFloat drawPadHeight;
 
 @property CGSize  drawpadSize;
-//是否前台播放. 内部使用.
+
+/**
+ 是否前台播放. 内部使用.
+ */
 @property BOOL isForeGround;
 
 //当前画板 DrawPad是否在工作.
@@ -104,7 +109,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *  增加 UI画笔
  *
  *  @param view   大小,尽量等于画板的大小.
- *  @param fromUI 这个view是否属于UI界面的一部分.
+ *  @param fromUI 这个view是否属于UI界面的一部分, 如果是属于UI的一部分,则画板在渲染的时候, 不会再次渲染到预览画面上
  *
  *  @return
  */
@@ -119,6 +124,17 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *  @return <#return value description#>
  */
 -(ViewPen *)addViewPenWithLayer:(CALayer *)inputLayer fromUI:(BOOL)fromUI;
+
+
+/**
+ 增加摄像头画笔
+ 
+ @param sessionPreset 预览分辨率, 建议是:AVCaptureSessionPreset640x480
+ @param cameraPosition 如使用前置摄像头,则为AVCaptureDevicePositionFront; 后置则是: AVCaptureDevicePositionBack;
+ 
+ @return
+ */
+-(CameraPen *)addCameraPen:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition;
 /**
  *  删除一个画笔
  */

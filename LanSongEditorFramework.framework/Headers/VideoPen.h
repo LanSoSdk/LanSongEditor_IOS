@@ -21,26 +21,14 @@
 @interface VideoPen : Pen
 
 
-@property(readwrite, nonatomic) BOOL playSound;
 
 @property (readwrite, retain) AVAsset *asset;
 
-@property (readwrite, retain) AVPlayerItem *playerItem;
 @property(readwrite, retain) NSURL *url;
 
 
 @property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
-@property(readwrite, nonatomic) BOOL shouldRepeat;
-
-
-@property(readonly, nonatomic) float progress;
-
-
-
-@property (readonly, nonatomic) AVAssetReader *assetReader;
-@property (readonly, nonatomic) BOOL audioEncodingIsFinished;
-@property (readonly, nonatomic) BOOL videoEncodingIsFinished;
 
 /**
  *  初始化

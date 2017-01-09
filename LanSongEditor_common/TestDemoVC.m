@@ -8,18 +8,13 @@
 
 #import "TestDemoVC.h"
 
-/**
- 说明:  此代码用来 蓝松科技工程师 调试代码所用, 建议不要作为参考.
- 
- */
+
 #import "LanSongUtils.h"
-#import "PIDrawerView.h"
-#import "THCapture.h"
 #import "BlazeiceDooleView.h"
 
 @interface TestDemoVC ()
 {
-    DrawPadView *drawpad;
+    DrawPadDisplay *drawpad;
     
     NSString *dstPath;
     
@@ -30,11 +25,6 @@
     CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
     int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
     BOOL isadd;
-    THCapture *capture;
-    
-    //THCapture *capture;
-    BlazeiceDooleView *doodleView;
-    
 }
 @end
 
@@ -53,73 +43,41 @@
     }
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
-    //step1:第一步: 创建一个画板,并增加编码保存路径
+    //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadView alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
-    //step2:第二步:  增加一个View用来预览显示.暂时采用宽度为固定值,来调整高度,如果您的视频是竖的, 则应该固定高度来调整宽度. 或者设置一个正方形
-    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    filterView.backgroundColor=[UIColor blackColor];
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
     
     
-    //step3: 增加两个画笔.一个大的做背景,调节视频.
-    //    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
-    //    [drawpad addBitmapPen:imag];
+    //第二步: 增加一些画笔,当然您也可以在画板开始后增加
+//    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
+//    [drawpad addBitmapPen:imag];
     
-    
-    //增加一个主视频画笔
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+    [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
     
     
-    
-    
-    
-    
-    //    CGRect frame = CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
-    //    doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
-    //    doodleView.drawView.formPush = YES;//标志他是从教师端推送过来的。
-    //    [self.view addSubview:doodleView];
-    
-    //    _isAddUIPen=YES;
-    //
-    //    if (_isAddUIPen) {
-    //        UIView *mainView=[[UIView alloc] initWithFrame:CGRectMake(0, 60, 320.0f, 320*(drawPadHeight/drawPadWidth))];
-    //        mainView.backgroundColor=[UIColor colorWithRed:0.5f green:0.0f blue:0.0f alpha:0.5f];
-    //
-    //
-    //        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, size.width, 60.0f)];
-    //        _timeLabel.font = [UIFont systemFontOfSize:30.0f];
-    //        _timeLabel.text = @"Time: 0.0 s";
-    //        _timeLabel.textAlignment = NSTextAlignmentCenter;
-    //        _timeLabel.backgroundColor = [UIColor clearColor];
-    //        _timeLabel.textColor = [UIColor whiteColor];
-    //
-    //        [mainView addSubview:_timeLabel];
-    //        [self.view addSubview:mainView];
-    //
-    //        //这里再增加一个UI画笔.
-    //        [drawpad addViewPen:mainView fromUI:YES];
-    //    }
-    //
-    
-    
-    //设置进度回调.
+      
+    //第三步, 设置 进度回调,完成回调, 开始执行.
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.timeLabel.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
-            
+            if (currentPts>=20.0f) {
+                [weakSelf stopDrawPad];
+            }
         });
     }];
     
@@ -132,12 +90,10 @@
         });
     }];
     
-    //step4: 开始工作
+    // 开始工作
     [drawpad startDrawPad];
     
-    //把视频缩小一半,放在背景图上.
-    operationPen.scaleWidth=0.5f;
-    operationPen.scaleHeight=0.5f;
+    
     
     
     //----一下是ui操作.
@@ -153,57 +109,37 @@
     }];
     
     UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
-    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:102 labText:@"缩放:"];
-    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:103 labText:@"旋转:"];
-    
-    
-    
-    
-    //------------------
-    CGRect frame = CGRectMake(0, 100, kMainScreenWidth,kMainScreenHeight-80);
-    doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
-    doodleView.drawView.formPush = YES;//标志他是从教师端推送过来的。
-    [self.view addSubview:doodleView];
-    
-    if(capture == nil){
-        capture=[[THCapture alloc] init];
-    }
-    capture.frameRate = 35;
-    //    capture.delegate = self;
-    capture.captureLayer = doodleView.layer;
-    
-    NSLog(@"START  RECORD..2222....");
-    
-    [capture performSelector:@selector(startRecording1)];
+    currslide=  [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
+    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
+    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
     
 }
-
+-(void)stopDrawPad
+{
+    [drawpad stopDrawPad];
+}
 - (void)slideChanged:(UISlider*)sender
 {
     
     CGFloat val=[(UISlider *)sender value];
-    CGFloat pos2=drawpad.drawpadSize.width*val;
+    CGFloat posX=drawpad.drawpadSize.width*val;
+    CGFloat posY=drawpad.drawpadSize.height*val;
     switch (sender.tag) {
         case 101:  //weizhi
-            operationPen.positionX=pos2;
-            
-            //当宽度增加后, 也演示下高度的变化.
-            if (operationPen.positionX > drawpad.drawpadSize.width/2) {
-                
-                operationPen.positionY+=10;
-                if (operationPen.positionY>=drawpad.drawpadSize.height) {
-                    operationPen.positionY=0;
-                }
-            }
+            operationPen.positionX=posX;
             break;
-        case 102:  //scale
+        case 102:  //Y坐标
+            operationPen.positionY=posY;
+            break;
+            
+        case 103:  //scale
             if (operationPen!=nil) {
                 operationPen.scaleHeight=val;
                 operationPen.scaleWidth=val;
             }
             break;
             
-        case 103:  //rotate;
+        case 104:  //rotate;
             if (operationPen!=nil) {
                 operationPen.rotateDegree=val;
             }
@@ -249,13 +185,13 @@
     [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(parentView.mas_bottom).offset(padding);
         make.left.mas_equalTo(self.view.mas_left);
-        make.size.mas_equalTo(CGSizeMake(40, 40));
+        make.size.mas_equalTo(CGSizeMake(80, 40));
     }];
     
     [slidePos mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(labPos.mas_centerY);
         make.left.mas_equalTo(labPos.mas_right);
-        make.size.mas_equalTo(CGSizeMake(size.width-50, 15));
+        make.size.mas_equalTo(CGSizeMake(size.width-80, 15));
     }];
     return labPos;
 }
@@ -272,6 +208,21 @@
         
     }
 }
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (drawpad!=nil) {
+        [drawpad stopDrawPad];
+    }
+}
+-(void)dealloc
+{
+    operationPen=nil;
+    drawpad=nil;
+    if([SDKFileUtil fileExist:dstPath]){
+        [SDKFileUtil deleteFile:dstPath];
+    }
+    NSLog(@"VideoPictureRealTime VC  dealloc");
+}
 /*
  #pragma mark - Navigation
  
@@ -281,5 +232,4 @@
  // Pass the selected object to the new view controller.
  }
  */
-
 @end

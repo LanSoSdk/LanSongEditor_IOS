@@ -17,6 +17,8 @@
 @interface VideoPlayViewController ()
 {
     MediaInfo *mInfo;
+    AVPlayerLayer *layer;
+      CGContextRef   context;        //绘制layer的context
 }
 //监控进度
 @property (nonatomic,strong)NSTimer *avTimer;
@@ -38,10 +40,7 @@
     // Do any additional setup after loading the view from its nib.
     [super viewDidLoad];
     
-   //  _videoPath=[SDKFileUtil copyAssetFile:@"ping20s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
-//    if (_videoPath!=nil) {
-//        <#statements#>
-//    }
+  
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         
@@ -63,19 +62,18 @@
     self.player = [[AVPlayer alloc] initWithPlayerItem:item];  //初始化player对象
     
     //设置播放页面
-    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    layer = [AVPlayerLayer playerLayerWithPlayer:_player];
     
-   // CGFloat height=mInfo.vHeight/layer.contentsScale;  //把像素换算成点.
     
-    layer.frame = CGRectMake(0, 60, [UIScreen mainScreen].bounds.size.width, 300);
+    layer.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 300);
     layer.backgroundColor = [UIColor whiteColor].CGColor;
     
     layer.videoGravity = AVLayerVideoGravityResizeAspect;
     [self.view.layer addSublayer:layer];
     
-    //设置播放进度的默认值
+    //设置播放进度
     self.progressSlider.value = 0;
-    //设置播放的默认音量值
+    //设置播放的音量
     self.player.volume = 1.0f;
     
     
@@ -83,6 +81,7 @@
     self.avTimer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
     
     [self.player play];
+    
     self.isPlaying=YES;
     
     //设置最大值最小值音量
@@ -98,6 +97,8 @@
     if (self.isPlaying) {
         [self.player replaceCurrentItemWithPlayerItem:nil];
     }
+    mInfo=nil;
+    layer=nil;
 }
 //监控播放进度方法
 - (void)timer
@@ -126,7 +127,7 @@
     }
   }
 - (IBAction)stop:(id)sender {
-    //把当前播放Item设置为nil,这样就释放了资源.画面为空, 故可以停止播放,
+    
     if (self.isPlaying) {
         [self.player replaceCurrentItemWithPlayerItem:nil];
         self.isPlaying=NO;
@@ -145,6 +146,7 @@
 - (IBAction)saveToPhotoLibrary:(UIButton *)sender {
     NSURL *url=[NSURL fileURLWithPath:_videoPath];
 
+//    [self snapshot];
     [self writeVideoToPhotoLibrary:url];
     
 }
@@ -161,14 +163,49 @@
         }
     }];
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
+
+/**
+ 测试保存视频, 暂时不行.
  */
+-(void)snapshot
+{
+    CGSize size = layer.frame.size;
+    if (context== NULL)
+    {
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        context = CGBitmapContextCreate (NULL,
+                                         size.width,
+                                         size.height,
+                                         8,//bits per component
+                                         size.width * 4,
+                                         colorSpace,
+                                         kCGImageAlphaNoneSkipFirst);
+        CGColorSpaceRelease(colorSpace);
+        CGContextSetAllowsAntialiasing(context,NO);
+        CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0,-1, 0, size.height);
+        CGContextConcatCTM(context, flipVertical);
+    }
+    
+    size_t width  = CGBitmapContextGetWidth(context);
+    size_t height = CGBitmapContextGetHeight(context);
+    @try {
+        CGContextClearRect(context, CGRectMake(0, 0,width , height));
+        [layer renderInContext:context];
+        
+        
+        layer.contents=nil;
+        CGImageRef cgImage = CGBitmapContextCreateImage(context);
+        
+        
+                    UIImage *viewImage=[[UIImage alloc] initWithCGImage:cgImage];
+                    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);//然后将该图片保存到图片图
+       
+        CGImageRelease(cgImage);
+    }
+    @catch (NSException *exception) {
+        
+    }
+
+}
 
 @end

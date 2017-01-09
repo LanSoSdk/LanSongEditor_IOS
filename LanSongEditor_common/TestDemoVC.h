@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ 说明:  此ViewControlloer用来作为 蓝松科技工程师 调试代码所用, 建议不要作为参考.
+ 
+ */
 @interface TestDemoVC : UIViewController
 
 @property UILabel *labProgress;

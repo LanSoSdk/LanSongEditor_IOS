@@ -12,6 +12,7 @@
 #import "MainViewController.h"
 #import "UIColor+Util.h"
 
+#import "TestDemoVC.h"
 
 
 
@@ -36,10 +37,10 @@
     
     MainViewController *rootVC=[[MainViewController alloc] init];
     
-    
-    
-   // VideoPlayViewController *rootVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
+   // TestDemoVC *rootVC=[[TestDemoVC alloc] init];
 
+   // ViewPenRealTimeDemoVC *rootVC=[[ViewPenRealTimeDemoVC alloc] init];
+    
     //_gWeekRetValue=0;
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:rootVC];
     self.window.rootViewController = navController;

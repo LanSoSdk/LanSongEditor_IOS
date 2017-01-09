@@ -17,7 +17,6 @@
  */
 @property BOOL isFromUI;
 
-
 - (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
 - (id)initWithLayer:(CALayer *)inputLayer drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
 

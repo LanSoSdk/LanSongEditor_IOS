@@ -9,23 +9,15 @@
 #import "VideoPictureRealTimeVC.h"
 
 #import "LanSongUtils.h"
-#import "PIDrawerView.h"
-#import "THCapture.h"
 #import "BlazeiceDooleView.h"
 
 @interface VideoPictureRealTimeVC ()
 {
-    DrawPadView *drawpad;
+    DrawPadDisplay *drawpad;
     
     NSString *dstPath;
     
     Pen *operationPen;  //当前操作的画笔
-    
-    
-    CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
-    CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
-    int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
-    BOOL isadd;
     
 }
 @end
@@ -46,17 +38,16 @@
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
     //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
-    drawPadWidth=480;
-    drawPadHeight=480;
-    drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadView alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
-    
+    CGFloat     drawPadWidth=480;
+    CGFloat     drawPadHeight=480;
+    int    drawPadBitRate=1000*1000;
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
-    GPUImageView *filterView=[[GPUImageView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
@@ -68,11 +59,8 @@
     
     
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
-    
-    
-    
-    
+   
+  operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
     
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
@@ -95,7 +83,6 @@
     
     // 开始工作
     [drawpad startDrawPad];
-    
     
     
     //把视频缩小一半,放在背景图上.
@@ -211,6 +198,21 @@
     }else {  //返回
         
     }
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (drawpad!=nil) {
+        [drawpad stopDrawPad];
+    }
+}
+-(void)dealloc
+{
+    operationPen=nil;
+    drawpad=nil;
+    if([SDKFileUtil fileExist:dstPath]){
+        [SDKFileUtil deleteFile:dstPath];
+    }
+    NSLog(@"VideoPictureRealTime VC  dealloc");
 }
 /*
  #pragma mark - Navigation

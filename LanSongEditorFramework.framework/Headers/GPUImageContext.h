@@ -121,6 +121,12 @@ typedef NS_ENUM(NSUInteger, GPUImageRotationMode) {
 
 - (BOOL)shouldIgnoreUpdatesToThisTarget;
 - (BOOL)enabled;
+
+/**
+ 接收者是否可以 以单色 输入.
+
+ @return 
+ */
 - (BOOL)wantsMonochromeInput;
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 @end
