@@ -62,15 +62,14 @@
      第二步:增加各种画笔,这里先增加一个背景图片,然后再增加视频画笔
      
      */
-    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
-    [drawpad addBitmapPen:imag];
+    //先增加一个背景
+//    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
+//    [drawpad addBitmapPen:imag];
     
     
     //增加主视频画笔
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     mVideoPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
-    
-    
     
     /*
      第三步: 设置进度回调和完成回调,开始执行.

@@ -40,8 +40,8 @@
 		8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383E1D51ABE8007A353C /* OpenGLES.framework */; };
 		8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8638461D51AD0E007A353C /* QuartzCore.framework */; };
 		8B9F75371E14F0AF00B54FDB /* PictureSetsRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9F75361E14F0AF00B54FDB /* PictureSetsRealTimeVC.m */; };
+		8BDA937A1E2478C400D649A2 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDA93791E2478C400D649A2 /* LanSongEditorFramework.framework */; };
 		8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */; };
-		8BE909691E23981800E9FCED /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE909681E23981800E9FCED /* LanSongEditorFramework.framework */; };
 		8BEB086A1DFCFBF000675BCE /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */; };
 		8BEF48491E1A0E5800EC1D05 /* BlazeiceCurledViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF48271E1A0E5800EC1D05 /* BlazeiceCurledViewBase.m */; };
 		8BEF484A1E1A0E5800EC1D05 /* BlazeiceObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF482A1E1A0E5800EC1D05 /* BlazeiceObject.m */; };
@@ -129,9 +129,9 @@
 		8B8638461D51AD0E007A353C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8B9F75351E14F0AF00B54FDB /* PictureSetsRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureSetsRealTimeVC.h; sourceTree = "<group>"; };
 		8B9F75361E14F0AF00B54FDB /* PictureSetsRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureSetsRealTimeVC.m; sourceTree = "<group>"; };
+		8BDA93791E2478C400D649A2 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8BE3ADFE1E07DAC700EB26B8 /* LanSongUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanSongUtils.h; sourceTree = "<group>"; };
 		8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanSongUtils.m; sourceTree = "<group>"; };
-		8BE909681E23981800E9FCED /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8BEB08681DFCFBF000675BCE /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8BEF48251E1A0E5800EC1D05 /* BlazeiceCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlazeiceCommon.h; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 				8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */,
 				8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */,
 				8B86383B1D51ABD4007A353C /* AVFoundation.framework in Frameworks */,
-				8BE909691E23981800E9FCED /* LanSongEditorFramework.framework in Frameworks */,
+				8BDA937A1E2478C400D649A2 /* LanSongEditorFramework.framework in Frameworks */,
 				8B8638371D51ABC2007A353C /* VideoToolbox.framework in Frameworks */,
 				8B8638351D51ABBA007A353C /* UIKit.framework in Frameworks */,
 				8B8638331D51ABB0007A353C /* AudioToolbox.framework in Frameworks */,
@@ -387,7 +387,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8BE909681E23981800E9FCED /* LanSongEditorFramework.framework */,
+				8BDA93791E2478C400D649A2 /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,

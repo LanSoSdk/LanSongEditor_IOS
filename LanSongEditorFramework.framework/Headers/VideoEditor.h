@@ -11,6 +11,10 @@
 
 @interface VideoEditor : NSObject
 
++(int)getLimitedYear;
++(int)getLimitedMonth;
++(NSString *)getVersion;
+
 //+(NSString *) docmd;
 
 /**

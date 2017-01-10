@@ -18,6 +18,7 @@
 #import "ViewPenRealTimeDemoVC.h"
 #import "TestDemoVC.h"
 #import "CameraPenDemoVC.h"
+#import <LanSongEditorFramework/LanSongEditor.h>
 
 
 
@@ -57,7 +58,12 @@
     //自动折行设置
   //  notUse.lineBreakMode = UILineBreakModeWordWrap;
     versionHint.numberOfLines=0;
-    versionHint.text=@"1.4.0,当前已有的画笔有: 视频画笔, 图片画笔, UI画笔,摄像头画笔,欢迎您的使用.\n 欢迎联系我们: QQ:1852600324; email:support@lansongtech.com";
+    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月底之前.欢迎联系我们: QQ:1852600324; email:support@lansongtech.com",
+                        [VideoEditor getVersion],
+                        [VideoEditor getLimitedYear],
+                         [VideoEditor getLimitedMonth]];
+    
+    versionHint.text=available;
     versionHint.textColor=[UIColor whiteColor];
     versionHint.backgroundColor=[UIColor redColor];
     
@@ -67,7 +73,7 @@
     view=[self newButton:view index:1 hint:@"后台滤镜"];
     view=[self newButton:view index:2 hint:@"视频和图片叠加"];
     view=[self newButton:view index:3 hint:@"视频和UI叠加"];
-    view=[self newButton:view index:4 hint:@"图片影集"];
+    view=[self newButton:view index:4 hint:@"多图片演示"];
     
     view=[self newButton:view index:5 hint:@"摄像头画笔"];
     
