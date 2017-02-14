@@ -10,6 +10,7 @@
 
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
+#import "YXLabel.h"
 
 @interface ViewPenRealTimeDemoVC ()
 {
@@ -27,7 +28,7 @@
     
     BlazeiceDooleView *doodleView;
     
-    
+    YXLabel *label;
     NSTimer        *timer;         //按帧率写屏的定时器 测试使用的定时器.
 }
 @end
@@ -77,13 +78,27 @@
             operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
             
             // 增加一个UI画笔, 把这个UI画板的位置和大小和画板对齐.
-            CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
-            
-            doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
-            doodleView.drawView.formPush = YES;//
-            [self.view addSubview:doodleView];
-            
-            [drawpad addViewPen:doodleView fromUI:YES];
+//            CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+//            
+//            doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
+//            doodleView.drawView.formPush = YES;//
+//            [self.view addSubview:doodleView];
+//            [drawpad addViewPen:doodleView fromUI:YES];
+    
+     CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+    label   = [[YXLabel alloc] initWithFrame:frame];
+    label.text       = @"蓝松科技, 短视频处理";
+    label.startScale = 0.3f;
+    label.endScale   = 2.f;
+    label.backedLabelColor = [UIColor whiteColor];
+    label.colorLabelColor  = [UIColor cyanColor];
+    label.font=[UIFont systemFontOfSize:30];
+    label.center      = self.view.center;
+    [self.view addSubview:label];
+    [drawpad addViewPen:label fromUI:YES];
+    
+   
+    
     
     
     //step3: 第三步: 设置回调,开始运行画板.
@@ -105,6 +120,8 @@
     }];
     // 开始工作
     [drawpad startDrawPad];
+    
+    [label startAnimation];
     
     
     //把视频缩小一半,放在背景图上.
@@ -138,18 +155,7 @@
     
     
     
-//    YXLabel *label   = [[YXLabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-//    label.text       = @"蓝松科技, 短视频处理";
-//    label.startScale = 0.3f;
-//    label.endScale   = 2.f;
-//    label.backedLabelColor = [UIColor whiteColor];
-//    label.colorLabelColor  = [UIColor cyanColor];
-//    label.font=[UIFont systemFontOfSize:30];
-//    label.center      = self.view.center;
-//    [self.view addSubview:label];
-//    
-//    
-//    [label startAnimation];
+   
 
 }
 

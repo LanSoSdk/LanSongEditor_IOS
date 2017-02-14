@@ -20,4 +20,16 @@
 
 - (void)startAnimation;
 
+//    YXLabel *label   = [[YXLabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+//    label.text       = @"蓝松科技, 短视频处理";
+//    label.startScale = 0.3f;
+//    label.endScale   = 2.f;
+//    label.backedLabelColor = [UIColor whiteColor];
+//    label.colorLabelColor  = [UIColor cyanColor];
+//    label.font=[UIFont systemFontOfSize:30];
+//    label.center      = self.view.center;
+//    [self.view addSubview:label];
+//
+//
+//    [label startAnimation];
 @end

@@ -152,6 +152,7 @@
 {
     [drawpad stopDrawPad];
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     isSelectFilter=NO;

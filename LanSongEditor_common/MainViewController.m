@@ -40,6 +40,10 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
     
 
+   /*
+    初始化SDK.
+    */
+    [LanSongEditor initSDK:nil];
     
     UIScrollView *scrollView = [UIScrollView new];
     [self.view  addSubview:scrollView];
@@ -59,14 +63,16 @@
   //  notUse.lineBreakMode = UILineBreakModeWordWrap;
     versionHint.numberOfLines=0;
     NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月底之前.欢迎联系我们: QQ:1852600324; email:support@lansongtech.com",
-                        [VideoEditor getVersion],
-                        [VideoEditor getLimitedYear],
-                         [VideoEditor getLimitedMonth]];
+                        [LanSongEditor getVersion],
+                        [LanSongEditor getLimitedYear],
+                         [LanSongEditor getLimitedMonth]];
+    
+    NSLog(@"%@",available);
     
     versionHint.text=available;
     versionHint.textColor=[UIColor whiteColor];
     versionHint.backgroundColor=[UIColor redColor];
-    
+ 
     
     
     UIView *view=[self newButton:container index:0 hint:@"前台滤镜"];

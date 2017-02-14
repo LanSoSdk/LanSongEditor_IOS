@@ -34,3 +34,39 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/BitmapPen.h>
 #import <LanSongEditorFramework/CameraPen.h>
 
+@interface LanSongEditor : NSObject
+
+/**
+  获取当前sdk的限制时间中的年份.
+
+ @return <#return value description#>
+ */
++(int)getLimitedYear;
+
+/**
+ 获取当前sdk的限制时间中的月份
+
+ @return
+ */
++(int)getLimitedMonth;
+
+/**
+ 返回当前sdk的版本号.
+
+ @return
+ */
++(NSString *)getVersion;
+/**
+ 初始化sdk,
+
+ @return
+ */
++(void)initSDK:(NSString *)name;
+
+/**
+ 使用完毕sdk后, 注销sdk, 
+ (当前内部执行为空,可以不调用. 仅预留)
+ */
++(void)unInitSDK;
+
+@end
