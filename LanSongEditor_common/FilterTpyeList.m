@@ -103,7 +103,7 @@
         case GPUIMAGE_ADAPTIVETHRESHOLD: cell.textLabel.text = @"Adaptive threshold"; break;
         case GPUIMAGE_AVERAGELUMINANCETHRESHOLD: cell.textLabel.text = @"Average luminance threshold"; break;
         case GPUIMAGE_TRANSFORM3D: cell.textLabel.text = @"Transform (3-D)"; break;
-        case GPUIMAGE_MASK: cell.textLabel.text = @"Mask"; break;
+       
         case GPUIMAGE_COLORINVERT: cell.textLabel.text = @"Color invert"; break;
         case GPUIMAGE_GRAYSCALE: cell.textLabel.text = @"Grayscale"; break;
         case GPUIMAGE_SEPIA: cell.textLabel.text = @"Sepia tone"; break;
@@ -539,16 +539,16 @@
             
             self.filter = [[GPUImageAverageLuminanceThresholdFilter alloc] init];
         }; break;
-        case GPUIMAGE_MASK:
-        {
-            self.title = @"Mask";
-            self.filterSlider.hidden = YES;
-            needsSecondImage = YES;
-            
-            self.filter = [[GPUImageMaskFilter alloc] init];
-            
-            [(GPUImageFilter*)self.filter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
-        }; break;
+//        case GPUIMAGE_MASK:  暂时不支持Mask
+//        {
+//            self.title = @"Mask";
+//            self.filterSlider.hidden = YES;
+//            needsSecondImage = YES;
+//            
+//            self.filter = [[GPUImageMaskFilter alloc] init];
+//            
+//            [(GPUImageFilter*)self.filter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+//        }; break;
         case GPUIMAGE_TRANSFORM3D:
         {
             self.title = @"Transform (3-D)";
@@ -1206,13 +1206,13 @@
         {
             UIImage *inputImage;
             
-            if (filterType == GPUIMAGE_MASK)
-            {
-                inputImage = [UIImage imageNamed:@"mask"];
-            }
-            else {
+//            if (filterType == GPUIMAGE_MASK)
+//            {
+//                inputImage = [UIImage imageNamed:@"mask"];
+//            }
+//            else {
                 inputImage = [UIImage imageNamed:@"WID-small.jpg"];
-            }
+//            }
             
             sourcePicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
             [sourcePicture processImage];  //图片在这里得到处理.

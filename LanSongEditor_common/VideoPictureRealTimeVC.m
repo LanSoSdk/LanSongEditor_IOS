@@ -17,7 +17,7 @@
     
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的画笔
+    Pen *operationPen;  //当前操作的图层
     
 }
 @end
@@ -53,14 +53,14 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-   //第二步: 增加一些画笔,当然您也可以在画板开始后增加
+   //第二步: 增加一些图层,当然您也可以在画板开始后增加
+    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
-    [drawpad addBitmapPen:imag];
+    [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
-    
+    //增加一个视频图层.
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-   
-  operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
     
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
@@ -90,7 +90,7 @@
     operationPen.scaleHeight=0.5f;
     
     
-    //----一下是ui操作.
+    //一下是ui操作.
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
     

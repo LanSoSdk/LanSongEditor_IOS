@@ -18,7 +18,7 @@
     
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的画笔
+    Pen *operationPen;  //当前操作的图层
     
     
     CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
@@ -61,7 +61,7 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-    //第二步: 增加一些画笔,当然您也可以在画板开始后增加
+    //第二步: 增加一些图层,当然您也可以在画板开始后增加
 //    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
 //    [drawpad addBitmapPen:imag];
     

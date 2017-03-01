@@ -18,7 +18,7 @@
     
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的画笔
+    Pen *operationPen;  //当前操作的图层
     
     
     CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
@@ -68,16 +68,16 @@
     [drawpad setDrawPadPreView:filterView];  //增加一个预览界面
     
     
-    //step2第二步:增加画笔(当然也可以在画板进行中增加)
+    //step2第二步:增加图层(当然也可以在画板进行中增加)
             UIImage *imag=[UIImage imageNamed:@"p640x1136"];
             [drawpad addBitmapPen:imag];
             
             
-            //增加一个主视频画笔
+            //增加一个主视频图层
             NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
             operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
             
-            // 增加一个UI画笔, 把这个UI画板的位置和大小和画板对齐.
+            // 增加一个UI图层, 把这个UI画板的位置和大小和画板对齐.
 //            CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
 //            
 //            doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
@@ -143,7 +143,7 @@
     
     UILabel *labHint=[[UILabel alloc] init];
     labHint.numberOfLines=0;
-    labHint.text=@"演示:滑动画面,进行涂鸦  \n\n  把[视频画笔] 和 [UI画笔] 同时放到 画板上. 原理:把您做好的UI界面叠加到画板上.\n\n  这里用涂鸦举例,实际可以是文字,线条,动画等.";
+    labHint.text=@"演示:滑动画面,进行涂鸦  \n\n  把[视频图层] 和 [UI图层] 同时放到 画板上. 原理:把您做好的UI界面叠加到画板上.\n\n  这里用涂鸦举例,实际可以是文字,线条,动画等.";
     [self.view addSubview: labHint];
     
     [labHint mas_makeConstraints:^(MASConstraintMaker *make) {

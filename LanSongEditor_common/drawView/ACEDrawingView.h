@@ -46,7 +46,7 @@ typedef enum {
 @class RDPObject;
 @interface ACEDrawingView : UIView<UITextViewDelegate>
 {
-    BOOL TextOrPen;//记录当前是批注/画笔
+    BOOL TextOrPen;//记录当前是批注/图层
     BOOL assist;//远程控制
     CGPoint lastPoint;
     CGPoint lastPoint2;

@@ -11,13 +11,15 @@
 #import "Masonry.h"
 #import "FilterRealTimeDemoVC.h"
 
-#import "FilterBackGroundVC.h"
+#import "ExecuteFilterDemoVC.h"
 #import "CommDemoListTableVC.h"
 #import "PictureSetsRealTimeVC.h"
 #import "VideoPictureRealTimeVC.h"
 #import "ViewPenRealTimeDemoVC.h"
 #import "TestDemoVC.h"
 #import "CameraPenDemoVC.h"
+#import "MVPenDemoRealTimeVC.h"
+
 #import <LanSongEditorFramework/LanSongEditor.h>
 
 
@@ -29,21 +31,29 @@
 }
 @end
 
+#define kVideoFilterDemo 1
+#define kVideoFilterBackGroudDemo 2
+#define kVideoPictureDemo 3
+#define kVideoUIDemo 4
+#define kMorePictureDemo 5
+#define kCameraPenDemo 6
+#define kCommonEditDemo 7
+#define kMVPenDemo 8
+
 @implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"[画板画笔]---开发架构举例";
+    self.title = @"[画板图层]---开发架构举例";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
     
-
-   /*
-    初始化SDK.
-    */
-    [LanSongEditor initSDK:nil];
+    /*
+     初始化SDK
+     */
+    [LanSongEditor initSDK:@"kuosanyun_veditor.key"];
     
     UIScrollView *scrollView = [UIScrollView new];
     [self.view  addSubview:scrollView];
@@ -67,23 +77,20 @@
                         [LanSongEditor getLimitedYear],
                          [LanSongEditor getLimitedMonth]];
     
-    NSLog(@"%@",available);
-    
     versionHint.text=available;
     versionHint.textColor=[UIColor whiteColor];
     versionHint.backgroundColor=[UIColor redColor];
  
     
     
-    UIView *view=[self newButton:container index:0 hint:@"前台滤镜"];
-    view=[self newButton:view index:1 hint:@"后台滤镜"];
-    view=[self newButton:view index:2 hint:@"视频和图片叠加"];
-    view=[self newButton:view index:3 hint:@"视频和UI叠加"];
-    view=[self newButton:view index:4 hint:@"多图片演示"];
-    
-    view=[self newButton:view index:5 hint:@"摄像头画笔"];
-    
-    view=[self newButton:view index:6 hint:@"视频基本编辑>>>"];
+    UIView *view=[self newButton:container index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
+    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜(后台)"];
+    view=[self newButton:view index:kVideoPictureDemo hint:@"图片图层 (BitmapPen)演示"];
+    view=[self newButton:view index:kVideoUIDemo hint:@"UI图层 (ViewPen)演示"];
+    view=[self newButton:view index:kMVPenDemo hint:@"MV图层  (MVPen)演示"];
+    view=[self newButton:view index:kMorePictureDemo hint:@"多张图片 (BitmapPen)演示"];
+    view=[self newButton:view index:kCameraPenDemo hint:@"摄像头 (CameraPen)图层"];
+    view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
   
     
     [container addSubview:versionHint];
@@ -110,29 +117,33 @@
     
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
+    
     switch (sender.tag) {
-        case 0:
+        case kVideoFilterDemo:
             pushVC=[[FilterRealTimeDemoVC alloc] init];  //滤镜
           //  pushVC =[[TestDemoVC alloc] init];
             break;
-        case 1:
-            pushVC=[[FilterBackGroundVC alloc] init];  //后台滤镜
-            ((FilterBackGroundVC *)pushVC).isAddUIPen=NO;
+        case kVideoFilterBackGroudDemo:
+            pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
+            ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
             break;
-        case 2:
-            pushVC=[[VideoPictureRealTimeVC alloc] init];  //视频画笔和图片画笔
+        case kVideoPictureDemo:
+            pushVC=[[VideoPictureRealTimeVC alloc] init];  //视频图层和图片图层
             break;
-        case 3:
-            pushVC=[[ViewPenRealTimeDemoVC alloc] init];  //视频+UI画笔.
+        case kVideoUIDemo:
+            pushVC=[[ViewPenRealTimeDemoVC alloc] init];  //视频+UI图层.
             break;
-        case 4:
-            pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片画笔
+        case kMorePictureDemo:
+            pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
             break;
-        case 5:
-            pushVC=[[CameraPenDemoVC alloc] init]; //摄像头画笔演示
+        case kCameraPenDemo:
+            pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
             break;
-        case 6:
+        case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
+            break;
+        case kMVPenDemo:
+            pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
             break;
         default:
             break;

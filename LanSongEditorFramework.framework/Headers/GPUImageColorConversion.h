@@ -5,7 +5,13 @@ extern GLfloat *kColorConversion601;
 extern GLfloat *kColorConversion601FullRange;
 extern GLfloat *kColorConversion709;
 extern NSString *const kGPUImageYUVVideoRangeConversionForRGFragmentShaderString;
+
+
 extern NSString *const kGPUImageYUVFullRangeConversionForLAFragmentShaderString;
+extern NSString *const kMVPenGPUImageYUVFullRangeConversionForLAFragmentShaderString;
+
+
+
 extern NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString;
 
 

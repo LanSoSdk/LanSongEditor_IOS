@@ -22,7 +22,7 @@
     
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的画笔
+    Pen *operationPen;  //当前操作的图层
     
     
     FilterTpyeList *filterListVC;
@@ -69,7 +69,7 @@
     
     /*
     
-     step2:第二步: 增加一些画笔,当然您也可以在画板开始后增加
+     step2:第二步: 增加一些图层,当然您也可以在画板开始后增加
      
      */
     //摄像头的背景
@@ -77,7 +77,7 @@
     [drawpad addBitmapPen:imag];
     
     
-    //增加摄像头画笔, 你可以认为是一个图层
+    //增加摄像头图层, 你可以认为是一个图层
     operationPen=  [drawpad addCameraPen:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
     ((CameraPen *)operationPen).outputImageOrientation = UIInterfaceOrientationPortrait;  //设置当前手机屏幕是 横屏.
     

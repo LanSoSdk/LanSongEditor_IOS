@@ -11,15 +11,16 @@
 #import "GPUImage.h"
 #import "VideoPen.h"
 #import "BitmapPen.h"
-#include "ViewPen.h"
-#include "CameraPen.h"
+#import "ViewPen.h"
+#import "CameraPen.h"
+#import "MVPen.h"
 
 
 typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
-    //当pen准备好时,刷新,默认采用这个刷新模式; 当有主视频画笔时,自动设置为这种模式
+    //当pen准备好时,刷新,默认采用这个刷新模式; 当有主视频图层时,自动设置为这种模式
     kPenReadyUpdate,
     
-    //自动定时器刷新; 适用于照片影集,摄像头等没有视频画笔的场合.
+    //自动定时器刷新; 适用于照片影集,摄像头等没有视频图层的场合.
     kAutoTimerUpdate,
 };
 /**
@@ -87,17 +88,31 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(VideoPen *)addMainVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
 
 /**
- *  增加视频画笔
+ *  增加视频图层
  *
  *  @param videoPath 文件的绝对路径
- *  @param filter    滤镜, 不增加可以设置为nil
+ *  @param filter    滤镜, 不增加设置为nil
  *
  *  @return
  */
 -(VideoPen *)addVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
 
+
+
 /**
- *  增加图片画笔
+ 向画板中增加一个MV图层, 以用来显示MV效果.
+
+ @param colorPath mv视频的彩色视频
+ @param maskPath  mv视频中的黑白视频
+ @param filter  可以给mv效果设置一个滤镜,如果不需要,设置为null
+ @return  返回MV图层对象.
+ */
+-(MVPen *)addMVPen:(NSString *)colorPath  maskPath:(NSString *)maskPath filter:(GPUImageFilter *)filter;
+
+
+
+/**
+ *  增加图片图层
  *
  *  @param inputImage
  *
@@ -106,7 +121,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(BitmapPen *)addBitmapPen:(UIImage *)inputImage;
 
 /**
- *  增加 UI画笔
+ *  增加 UI图层
  *
  *  @param view   大小,尽量等于画板的大小.
  *  @param fromUI 这个view是否属于UI界面的一部分, 如果是属于UI的一部分,则画板在渲染的时候, 不会再次渲染到预览画面上
@@ -116,18 +131,18 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(ViewPen *)addViewPen:(UIView *)view fromUI:(BOOL)fromUI;
 
 /**
- *  增加UI画笔
+ *  增加UI图层
  *
  *  @param inputLayer CALayer格式
  *  @param fromUI     是否来自UI界面的一部分.
  *
- *  @return <#return value description#>
+ *  @return ViewPen对象.
  */
 -(ViewPen *)addViewPenWithLayer:(CALayer *)inputLayer fromUI:(BOOL)fromUI;
 
 
 /**
- 增加摄像头画笔
+ 增加摄像头图层
  
  @param sessionPreset 预览分辨率, 建议是:AVCaptureSessionPreset640x480
  @param cameraPosition 如使用前置摄像头,则为AVCaptureDevicePositionFront; 后置则是: AVCaptureDevicePositionBack;
@@ -136,7 +151,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 -(CameraPen *)addCameraPen:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition;
 /**
- *  删除一个画笔
+ *  删除一个图层
  */
 -(void)removePen:(Pen *)pen;
 /**
@@ -175,7 +190,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(void)stopDrawPad;
 
 /**
- *  设置画笔的背景颜色, 默认是黑色,
+ *  设置图层的背景颜色, 默认是黑色,
  *
  *  @param redComponent   红色, 值0.0f---1.0f
  *  @param greenComponent 绿色 值0.0f---1.0f

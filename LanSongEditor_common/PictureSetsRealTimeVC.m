@@ -21,7 +21,7 @@
     NSTimer * timer;
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的画笔
+    Pen *operationPen;  //当前操作的图层
     
     
     CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
@@ -65,7 +65,7 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-    //step3: 增加两个画笔.一个大的做背景,一个小的用来调节.
+    //step3: 增加两个图层.一个大的做背景,一个小的用来调节.
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];
     
@@ -133,7 +133,7 @@
         isadd=YES;
         UIImage *image=[UIImage imageNamed:@"mm"];
         operationPen=[drawpad addBitmapPen:image];
-        [LanSongUtils showHUDToast:@"演示再次增加一个画笔"];
+        [LanSongUtils showHUDToast:@"演示再次增加一个图层"];
     }
 }
 -(void)removeBitmapPen
@@ -141,7 +141,7 @@
     if (drawpad!=nil && operationPen!=nil) {
         [drawpad removePen:operationPen];
         operationPen=nil;
-        [LanSongUtils showHUDToast:@"演示删除一个画笔"];
+        [LanSongUtils showHUDToast:@"演示删除一个图层"];
     }
 }
 - (void)slideChanged:(UISlider*)sender

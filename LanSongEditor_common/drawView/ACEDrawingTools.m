@@ -33,7 +33,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
 }
 
-#pragma mark - ACEDrawingPenTool 画笔
+#pragma mark - ACEDrawingPenTool 
 
 @implementation ACEDrawingPenTool
 

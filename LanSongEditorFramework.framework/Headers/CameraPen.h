@@ -9,7 +9,7 @@
 
 
 /**
-摄像头画笔, 可作为一个图层放到画板上.继承自Pen, 具有Pen的移动旋转缩放滤镜等特性.
+摄像头图层, 可作为一个图层放到画板上.继承自Pen, 具有Pen的移动旋转缩放滤镜等特性.
  */
 @interface CameraPen : Pen <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 

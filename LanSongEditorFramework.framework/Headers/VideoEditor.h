@@ -46,7 +46,6 @@
  * @param dstFile  合成后的输出，文件名的后缀是.mp4
  * @return 返回执行的结果.
  *
- * 注意:如果合并的音频是aac格式,ffmpeg -i test.mp4 -i test.aac -vcodec copy -acodec copy -absf aac_adtstoasc shanchu4.mp4
  */
 +(int) executeVideoMergeAudio:(NSString *)videoFile audioFile:(NSString *)audioFile dstFile:(NSString *)dstFile;
 
@@ -59,7 +58,7 @@
  * @param audioFile  需要增加的音频文件
  * @param dstFile  处理后保存的路径 文件名的后缀需要.mp4格式
  * @param audiostartS  音频增加的时间点，单位秒，类型float，可以有小数，比如从音频的2.35秒开始增加到视频中。
- * @return 执行成功,返回0, 失败返回错误码
+ * @return 执行成功,返回0, 失败返回FFMPEG的错误码
  */
 +(int) executeVideoMergeAudio:(NSString*)videoFile audioFile:(NSString *)audioFile dstFile:(NSString *)dstFile audioStartS:(float)audiostartS;
 
