@@ -49,6 +49,11 @@ typedef struct GPUTextureOptions {
 // Usage
 - (void)activateFramebuffer;
 
+/**
+ 蓝松++
+ */
+-(BOOL)isReferenceCountingDisabled;
+
 // Reference counting
 - (void)lock;
 - (void)unlock;

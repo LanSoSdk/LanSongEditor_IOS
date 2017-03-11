@@ -17,7 +17,8 @@
     DrawPadDisplay *drawpad;
     
     NSString *dstPath;
-    
+    NSString *dstTmpPath;
+    NSURL *sampleURL;
     Pen *operationPen;  //当前操作的图层
     
     
@@ -29,7 +30,7 @@
     BlazeiceDooleView *doodleView;
     
     YXLabel *label;
-    NSTimer        *timer;         //按帧率写屏的定时器 测试使用的定时器.
+    
 }
 @end
 /**
@@ -38,7 +39,8 @@
  */
 @implementation ViewPenRealTimeDemoVC
 
-- (void)viewDidLoad {
+-(void)viewDidLoad
+{
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
@@ -50,12 +52,14 @@
         [SDKFileUtil deleteFile:dstPath];
     }
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+    dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+
     
     //step1:第一步: 创建一个画板(尺寸,码率,保存路径,预览界面)
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     
@@ -74,46 +78,50 @@
             
             
             //增加一个主视频图层
-            NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+            sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
             operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
-            
+    
+    
             // 增加一个UI图层, 把这个UI画板的位置和大小和画板对齐.
 //            CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
-//            
 //            doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
 //            doodleView.drawView.formPush = YES;//
 //            [self.view addSubview:doodleView];
 //            [drawpad addViewPen:doodleView fromUI:YES];
     
-     CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
-    label   = [[YXLabel alloc] initWithFrame:frame];
-    label.text       = @"蓝松科技, 短视频处理";
-    label.startScale = 0.3f;
-    label.endScale   = 2.f;
-    label.backedLabelColor = [UIColor whiteColor];
-    label.colorLabelColor  = [UIColor cyanColor];
-    label.font=[UIFont systemFontOfSize:30];
-    label.center      = self.view.center;
-    [self.view addSubview:label];
-    [drawpad addViewPen:label fromUI:YES];
+    
+        CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+        label   = [[YXLabel alloc] initWithFrame:frame];
+        label.text       = @"蓝松科技, 短视频处理";
+        label.startScale = 0.3f;
+        label.endScale   = 2.f;
+        label.backedLabelColor = [UIColor redColor];
+        label.colorLabelColor  = [UIColor cyanColor];
+        label.font=[UIFont systemFontOfSize:30];
+        label.center      = self.view.center;
+        [self.view addSubview:label];
+        
+        [drawpad addViewPen:label fromUI:YES];
     
    
-    
-    
-    
     //step3: 第三步: 设置回调,开始运行画板.
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             
+           //  NSLog(@"当前处理进度是:%f\n",currentPts);
+            
+            if (currentPts>6) {
+                [weakSelf stopDrawpad];
+            }
         });
     }];
     
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
             
         });
@@ -143,7 +151,7 @@
     
     UILabel *labHint=[[UILabel alloc] init];
     labHint.numberOfLines=0;
-    labHint.text=@"演示:滑动画面,进行涂鸦  \n\n  把[视频图层] 和 [UI图层] 同时放到 画板上. 原理:把您做好的UI界面叠加到画板上.\n\n  这里用涂鸦举例,实际可以是文字,线条,动画等.";
+    labHint.text=@"演示 ViewPen[UI图层]  \n\n  把[视频图层] 和 [UI图层] 同时放到画板上.\n\n  这里用一个文字动画举例,实际可以是文字,线条,动画等您的UI界面.";
     [self.view addSubview: labHint];
     
     [labHint mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -152,11 +160,14 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 200));
     }];
     
-    
-    
-    
-   
 
+    
+
+}
+
+-(void)stopDrawpad
+{
+    [drawpad stopDrawPad];
 }
 
 - (void)slideChanged:(UISlider*)sender
@@ -212,8 +223,19 @@
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
     }
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
+    }
+    NSLog(@"ViewPenRealTimeDemo. dealloc");
 }
-
+-(void)addAudio
+{
+    if ([SDKFileUtil fileExist:dstTmpPath]) {
+        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:sampleURL] newMp4:dstTmpPath dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
+}
 -(void)showIsPlayDialog
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];

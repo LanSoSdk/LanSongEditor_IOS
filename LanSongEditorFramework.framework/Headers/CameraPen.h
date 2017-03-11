@@ -10,6 +10,8 @@
 
 /**
 摄像头图层, 可作为一个图层放到画板上.继承自Pen, 具有Pen的移动旋转缩放滤镜等特性.
+ 
+ 2017 3月11日, 当前不建议使用这个类.
  */
 @interface CameraPen : Pen <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 

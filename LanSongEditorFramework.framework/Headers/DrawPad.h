@@ -14,10 +14,13 @@
 #import "ViewPen.h"
 #import "CameraPen.h"
 #import "MVPen.h"
+#import "CALayerPen.h"
+#import "DataPen.h"
+
 
 
 typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
-    //当pen准备好时,刷新,默认采用这个刷新模式; 当有主视频图层时,自动设置为这种模式
+    //当所有的pen准备好时,刷新,默认采用这个刷新模式; 当有主视频图层时,自动设置为这种模式
     kPenReadyUpdate,
     
     //自动定时器刷新; 适用于照片影集,摄像头等没有视频图层的场合.
@@ -130,15 +133,18 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 -(ViewPen *)addViewPen:(UIView *)view fromUI:(BOOL)fromUI;
 
+
 /**
- *  增加UI图层
- *
- *  @param inputLayer CALayer格式
- *  @param fromUI     是否来自UI界面的一部分.
- *
- *  @return ViewPen对象.
+ 向DrawPad中增加一个CALayer
+ 注意, 因IOS的UI是采用[点]的概念, 而我们的DrawPad里是[像素], 像素和点呈现在屏幕上是有偏差的, 
+ 因增加到DrawPad后的CALayer,也会显示到屏幕上, 作为预览使用. 建议您不要再增加到屏幕上,
+
+ @param inputLayer 创建好的CALayer对象.
+ @param fromUI 是否来自UI, 建议设置为NO,即增加到DrawPad上的calayer不要再增加到其他UIView中.
+ @return 图层对象
  */
--(ViewPen *)addViewPenWithLayer:(CALayer *)inputLayer fromUI:(BOOL)fromUI;
+-(CALayerPen *)addCALayerPenWithLayer:(CALayer *)inputLayer fromUI:(BOOL)fromUI;
+
 
 
 /**

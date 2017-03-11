@@ -16,8 +16,10 @@
     DrawPadDisplay *drawpad;
     
     NSString *dstPath;
+    NSString *dstTmpPath;
     
     Pen *operationPen;  //当前操作的图层
+    NSURL *videoURL;
     
 }
 @end
@@ -31,22 +33,23 @@
     
     self.title=@"演示增加MV图层";
     
+    dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+    
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    if ([SDKFileUtil fileExist:dstPath]) {
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+  
     
     //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
     int    drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    //DrawPadDisplay是一个线程,用来
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
+    //DrawPadView是用来显示 DrawPadDisplay画面的一个载体.
     DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
@@ -58,18 +61,34 @@
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
+    //NSLog(@"增加一个Layer...");
+    
+    CALayer *mainLayer=[CALayer layer];
+    mainLayer.frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+    mainLayer.backgroundColor=[UIColor clearColor].CGColor;
+
+    
+    
+    CALayer *layer=[CALayer layer];
+    layer.frame=CGRectMake(0, 20, 50, 50);
+    layer.backgroundColor=[UIColor redColor].CGColor;
+    
+    [mainLayer addSublayer:layer];
+    
+    
+    [drawpad addCALayerPenWithLayer:mainLayer fromUI:NO];
+    
+    
     
     //增加一个视频图层.
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+    videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:nil];
     
     
     //增加一个mv图层.
     NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
     NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
     [drawpad addMVPen:[SDKFileUtil urlToFileString:colorPath] maskPath:[SDKFileUtil urlToFileString:maskPath] filter:nil];
-    
-    
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
     __weak typeof(self) weakSelf = self;
@@ -80,12 +99,14 @@
         });
     }];
     
+    
+    
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
-            
         });
     }];
     
@@ -115,7 +136,14 @@
     currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
 }
-
+-(void)addAudio
+{
+    if ([SDKFileUtil fileExist:dstTmpPath]) {
+        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:videoURL] newMp4:dstTmpPath dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
+}
 - (void)slideChanged:(UISlider*)sender
 {
     
@@ -218,6 +246,9 @@
     drawpad=nil;
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
+    }
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
     }
     NSLog(@"VideoPictureRealTime VC  dealloc");
 }

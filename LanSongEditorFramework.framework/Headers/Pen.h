@@ -19,10 +19,10 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
     kBitmapPen,
     kViewPen,
     kCameraPen,
-    kMVPen
+    kMVPen,
+    kCALayerPen,
+    kDataPen
 };
-
-
 
 
 /**
@@ -109,6 +109,11 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 - (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target penType:(PenTpye) type;
 
+
+/**
+ 内部使用.
+ */
+-(void)releasePen;
 /**
  *  内部使用
  */

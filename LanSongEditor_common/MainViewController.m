@@ -19,6 +19,8 @@
 #import "TestDemoVC.h"
 #import "CameraPenDemoVC.h"
 #import "MVPenDemoRealTimeVC.h"
+#import "TestViewPen.h"
+
 
 #import <LanSongEditorFramework/LanSongEditor.h>
 
@@ -50,10 +52,13 @@
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
     
+    //这里仅仅是用来测试
+//    [self performSelector:@selector(testAVDecoder:) withObject:nil afterDelay:1.0f];
+    
     /*
      初始化SDK
      */
-    [LanSongEditor initSDK:@"kuosanyun_veditor.key"];
+    [LanSongEditor initSDK:NULL];
     
     UIScrollView *scrollView = [UIScrollView new];
     [self.view  addSubview:scrollView];
@@ -92,7 +97,6 @@
     view=[self newButton:view index:kCameraPenDemo hint:@"摄像头 (CameraPen)图层"];
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
   
-    
     [container addSubview:versionHint];
     
     
@@ -137,12 +141,13 @@
             pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
             break;
         case kCameraPenDemo:
-            pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
+           // pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
             break;
         case kMVPenDemo:
+            //pushVC=[[TestViewPen alloc] init];
             pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
             break;
         default:
@@ -210,5 +215,69 @@
     // Pass the selected object to the new view controller.
 }
 */
+///------------------------------------------------------测试视频解码器.
+- (CGImageRef)imageRefFromBGRABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(imageBytes,
+                                                 imageSize.width,
+                                                 imageSize.height,
+                                                 8,
+                                                 imageSize.width * 4,
+                                                 colorSpace,
+                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    return imageRef;
+}
+- (UIImage *)imageFromBRGABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
+    CGImageRef imageRef = [self imageRefFromBGRABytes:imageBytes imageSize:imageSize];
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    return image;
+}
+-(void)testAVDecoder:(id)sender
+{
+    
+     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    
+    NSString *filepath=[SDKFileUtil urlToFileString:sampleURL];
+    
+    
+    MediaInfo *info=[[MediaInfo alloc] initWithPath:filepath];
+    if ([info prepare] && [info hasVideo])
+    {
+        NSLog(@"开始自行.....");
+        AVDecoder *decoder=[[AVDecoder alloc] initWithPath:filepath];
+        
+        int  *rgbOut=(int *)malloc(info.vWidth * info.vHeight*4);
+        
+        while (YES) {
+            long pts=[decoder decodeOneFrame:-1 rgbOut:rgbOut];
+            
+            CGSize size=CGSizeMake(info.vWidth, info.vHeight);
+            UIImage *imge=[self imageFromBRGABytes:(unsigned char *)rgbOut imageSize:size];
+            
+            if (imge==nil) {
+                NSLog(@" imge  获取到的是null");
+            }
+            UIImageWriteToSavedPhotosAlbum(imge, nil, nil, nil);//然后将该图片保存到图片图
+            
+          //  sleep(1);
+            
+            NSLog(@"Test 发送到相册 AVdecoder current pts:%ld....",pts);
+            if ([decoder isEnd]) {
+                
+                break;
+            }
+        }
+        NSLog(@"Test  AVdecoder is end....");
+        [decoder releaseDecoder];
+        free(rgbOut);
+    }
+   
+}
 
 @end

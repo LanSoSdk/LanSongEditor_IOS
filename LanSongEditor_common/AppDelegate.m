@@ -48,14 +48,11 @@
 
 #if TARGET_IPHONE_SIMULATOR
 
-#error 当前SDK不支持MAC系统的模拟器
+#error 因Mac模拟器上的GPU和真机差别太大, 我们SDK暂不支持MAC系统的模拟器,请在真机上测试试用,谢谢.
 #error current version sdk  cannot support mac os simulator
 
 #endif
-    
-    
-    
-//    navigationController = [[UINavigationController alloc] init];
+    //    navigationController = [[UINavigationController alloc] init];
 //    
 //    startController = [[CommDemoListTableViewController alloc] initWithNibName:nil bundle:nil];
 //    [navigationController pushViewController:startController animated:NO];

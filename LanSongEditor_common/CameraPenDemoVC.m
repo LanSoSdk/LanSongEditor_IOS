@@ -14,7 +14,7 @@
 
 
 // 定义录制的时间,这里是15秒
-#define  CAMERAPEN_RECORD_MAX_TIME 15
+#define  CAMERAPEN_RECORD_MAX_TIME 5
 
 @interface CameraPenDemoVC ()
 {

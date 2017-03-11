@@ -20,7 +20,9 @@
     UIButton *btnPlay;
     
     DrawPadExecute *drawPad; //后台录制的画板.
-    NSString *dstPath;
+    NSString *dstTmpPath;
+     NSString *dstPath;
+    NSURL *videoURL;
 }
 @end
 
@@ -41,25 +43,23 @@
 
 -(void)startExecute
 {
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     
-    dstPath = [SDKFileUtil genTmpMp4Path];
+    dstTmpPath = [SDKFileUtil genTmpMp4Path];
+    dstPath=[SDKFileUtil genTmpMp4Path];
+    
     
     //step1: 设置画板
-    drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 bitrate:1000*1000 dstPath:dstPath];
+    drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 bitrate:1000*1000 dstPath:dstTmpPath];
+    
     
     //step2: 增加一个视频图层,并给图层增加滤镜.
     GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
-    [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
-    
- 
-
-
+    [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:filter];
     
     //设置进度
     __weak typeof(self) weakSelf = self;
     [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
-        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"当前的进度是:%f",sampleTime);
@@ -71,6 +71,7 @@
     [drawPad setOnCompletionBlock:^{
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf addAudio];
             [weakSelf showComplete];
         });
     }];
@@ -82,6 +83,14 @@
 {
     NSString *hint=[NSString stringWithFormat:@"当前进度是:%f",sampleTime];
     labProgresse.text=hint;
+}
+-(void)addAudio
+{
+    if ([SDKFileUtil fileExist:dstTmpPath]) {
+        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:videoURL] newMp4:dstTmpPath dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
 }
 -(void)showComplete
 {
@@ -106,8 +115,6 @@
             break;
     }
 }
-
-
 -(void)initUI
 {
     UIButton *btn=[[UIButton alloc] init];
@@ -168,12 +175,15 @@
         videoVC.videoPath=dstPath;
         [self.navigationController pushViewController:videoVC animated:YES];
     }else{
-        NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
+        NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstTmpPath];
         [LanSongUtils showHUDToast:str];
     }
 }
 -(void)dealloc
 {
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
+    }
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
     }

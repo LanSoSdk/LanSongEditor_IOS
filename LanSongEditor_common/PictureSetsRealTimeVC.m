@@ -20,6 +20,7 @@
     DrawPadDisplay *drawpad;
     NSTimer * timer;
     NSString *dstPath;
+    NSString *dstTmpPath;
     
     Pen *operationPen;  //当前操作的图层
     
@@ -42,16 +43,12 @@
     
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    if ([SDKFileUtil fileExist:dstPath]) {
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    
+    dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     //step1:第一步: 创建一个画板,并增加编码保存路径
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     
@@ -81,13 +78,14 @@
             
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             //在15秒的时候结束.
-            if (currentPts>=15.0f) {
+            if (currentPts>=8.0f) {
                 [weakSelf stopDrawPad];
-            }else if(currentPts>10.0f){  //再次显示
-                [weakSelf addBitmapPen];
-            }else if(currentPts>5.0f){
-                [weakSelf removeBitmapPen];
             }
+//            else if(currentPts>10.0f){  //可以用来演示在进度进行中,删除一个图层, 然后再增加一个图层.
+//                [weakSelf addBitmapPen];
+//            }else if(currentPts>5.0f){
+//                [weakSelf removeBitmapPen];
+//            }
             
         });
     }];
@@ -95,7 +93,7 @@
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
             
         });
@@ -225,6 +223,17 @@
     }];
     return labPos;
 }
+-(void)addAudio
+{
+    //因为影集是没有音频的, 这里增加一个别的作为背景音乐.
+    NSURL *audioRrl = [[NSBundle mainBundle] URLForResource:@"honor30s2" withExtension:@"m4a"];
+    if([SDKFileUtil fileExist:dstTmpPath])
+    {
+        [VideoEditor executeVideoMergeAudio:dstTmpPath audioFile:[SDKFileUtil urlToFileString:audioRrl] dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
+}
 -(void)showIsPlayDialog
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
@@ -249,6 +258,9 @@
 {
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
+    }
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
     }
 }
 /*

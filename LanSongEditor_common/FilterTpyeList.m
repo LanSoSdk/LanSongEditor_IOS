@@ -192,7 +192,10 @@
     /*
      当选中一个滤镜的时候, 在这里切换到该滤镜.
      */
-    [_filterPen switchFilter:_filter];
+    if (_filterPen!=nil) {
+         [_filterPen switchFilter:_filter];
+    }
+   
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -322,13 +325,13 @@
             
             self.filter = [[GPUImageSoftEleganceFilter alloc] init];
         }; break;
-        case GPUIMAGE_MISSETIKATE:
-        {
-            self.title = @"Miss Etikate (Lookup)";
-            self.filterSlider.hidden = YES;
-            
-            self.filter = [[GPUImageMissEtikateFilter alloc] init];
-        }; break;
+//        case GPUIMAGE_MISSETIKATE:
+//        {
+//            self.title = @"Miss Etikate (Lookup)";
+//            self.filterSlider.hidden = YES;
+//            
+//            self.filter = [[GPUImageMissEtikateFilter alloc] init];
+//        }; break;
         case GPUIMAGE_AMATORKA:
         {
             self.title = @"Amatorka (Lookup)";

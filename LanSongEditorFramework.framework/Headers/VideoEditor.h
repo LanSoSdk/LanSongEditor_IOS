@@ -40,6 +40,17 @@
 +(int) executeDeleteVideo:(NSString *)srcPath dstPath:(NSString *)dstPath;
 
 /**
+ 给视频增加上音频,
+ 仅适用于当用DrawPad对一个视频处理,生成新的视频后,增加原视频中的音频部分的场合.
+ 
+ @param oldMp4 原视频,
+ @param newMp4 用DrawPad处理后的新视频
+ @param dstFile 增加音频后的视频文件
+ @return 支持成功返回YES, 如果原视频中没有音频或没有视频,则执行失败返回NO
+ */
++(BOOL)drawPadAddAudio:(NSString *)oldMp4 newMp4:(NSString*)newMp4 dstFile:(NSString *)dstFile;
+
+/**
  * 音频和视频合成为多媒体文件，等于给视频增加一个音频。
  * @param videoFile 输入的视频文件,需视频文件中不存储音频部分, 如有音频则会增加两个声音.
  * @param audioFile 输入的音频文件

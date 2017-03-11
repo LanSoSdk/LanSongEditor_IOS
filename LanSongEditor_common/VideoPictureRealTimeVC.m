@@ -15,10 +15,11 @@
 {
     DrawPadDisplay *drawpad;
     
+    NSURL *sampleURL;
     NSString *dstPath;
+    NSString *dstTmpPath;
     
     Pen *operationPen;  //当前操作的图层
-    
 }
 @end
 
@@ -32,16 +33,13 @@
     
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    if ([SDKFileUtil fileExist:dstPath]) {
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
+    dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
     //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
     int    drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     CGSize size=self.view.frame.size;
@@ -59,7 +57,7 @@
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
     //增加一个视频图层.
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
     
     
@@ -75,7 +73,7 @@
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
             
         });
@@ -186,6 +184,14 @@
     }];
     return labPos;
 }
+-(void)addAudio
+{
+    if ([SDKFileUtil fileExist:dstTmpPath]) {
+        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:sampleURL] newMp4:dstTmpPath dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
+}
 -(void)showIsPlayDialog
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
@@ -211,6 +217,9 @@
     drawpad=nil;
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
+    }
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
     }
     NSLog(@"VideoPictureRealTime VC  dealloc");
 }

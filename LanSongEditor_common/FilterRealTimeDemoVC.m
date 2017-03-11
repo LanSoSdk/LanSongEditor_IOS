@@ -17,11 +17,16 @@
     DrawPadDisplay *drawpad;
     
     NSString *dstPath;
+    NSString *dstTmpPath;
+    
+    NSURL *sampleURL;
     
     VideoPen *mVideoPen;
     
     FilterTpyeList *filterListVC;
     BOOL  isSelectFilter;
+    
+    NSTimer *testTimer;
 }
 @end
 
@@ -34,6 +39,7 @@
     
     
     
+    dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
    
     /*
@@ -45,7 +51,7 @@
    int  drawPadHeight=480;
    int  drawPadBitRate=1000*1000;
    
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
@@ -68,15 +74,15 @@
     
     
     //增加主视频图层
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    mVideoPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+     GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
+    sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    mVideoPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
     
-    
-    NSURL *sampleURL2 = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
-    NSURL *sampleURL3 = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
-    //[drawpad addVideoPen:[SDKFileUtil urlToFileString:sampleURL2] filter:nil];
-    [drawpad addMVPen:[SDKFileUtil urlToFileString:sampleURL2] maskPath:[SDKFileUtil urlToFileString:sampleURL3] filter:nil];
-    
+//    
+//    NSURL *sampleURL2 = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
+//    NSURL *sampleURL3 = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
+//    [drawpad addMVPen:[SDKFileUtil urlToFileString:sampleURL2] maskPath:[SDKFileUtil urlToFileString:sampleURL3] filter:nil];
+//    
     
     /*
      第三步: 设置进度回调和完成回调,开始执行.
@@ -92,7 +98,7 @@
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
             
         });
@@ -103,7 +109,11 @@
    
     
     //---------一下是ui操作.-------------------------------------------------
-    
+    testTimer=[NSTimer scheduledTimerWithTimeInterval: 1   /*10秒钟触发一次,可以有小数,比如0.1*/
+                                               target: self
+                                             selector: @selector(timerSelector:)
+                                             userInfo: nil
+                                              repeats: NO];
     
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
@@ -142,8 +152,16 @@
     isSelectFilter=NO;
 
 }
-
-
+-(void)timerSelector: (NSTimer *) timer
+{
+}
+-(void)stopTestTimer
+{
+    if (testTimer!=NULL) {
+        [testTimer invalidate];
+        testTimer=NULL;
+    }
+}
 -(void)doButtonClicked:(UIView *)sender
 {
     isSelectFilter=YES;
@@ -160,6 +178,7 @@
     if (drawpad!=nil && isSelectFilter==NO) {
         [drawpad stopDrawPad];
     }
+    [self stopTestTimer];
 }
 /*
  
@@ -176,7 +195,14 @@
             break;
     }
 }
-
+-(void)addAudio
+{
+    if ([SDKFileUtil fileExist:dstTmpPath]) {
+        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString: sampleURL] newMp4:dstTmpPath dstFile:dstPath];
+    }else{
+        dstPath=dstTmpPath;
+    }
+}
 -(void)showIsPlayDialog
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
@@ -199,6 +225,9 @@
     dstPath=nil;
     if([SDKFileUtil fileExist:dstPath]){
         [SDKFileUtil deleteFile:dstPath];
+    }
+    if([SDKFileUtil fileExist:dstTmpPath]){
+        [SDKFileUtil deleteFile:dstTmpPath];
     }
     NSLog(@"Filter real time demo dealloc....");
 }
@@ -245,6 +274,5 @@
     }];
     return slideFilter;
 }
-
 @end
 

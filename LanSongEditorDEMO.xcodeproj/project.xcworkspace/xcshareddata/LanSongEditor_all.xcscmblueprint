@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "40E04DCACC45F115DC9DDC4963F70448C55C4C6F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : 0,
+    "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3F224230-F225-49DA-AF9A-E83204E03685",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : "LanSongEditor_all\/",
+    "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC" : "..\/..\/bilibili\/ijkplayer-ios"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LanSongEditor_all",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LanSongEditor_all.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/LanSoSdk\/LanSongEditor_ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "40E04DCACC45F115DC9DDC4963F70448C55C4C6F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Bilibili\/ijkplayer.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC"
+    }
+  ]
+}

@@ -11,7 +11,17 @@
 #import "Pen.h"
 
 
-
+/**
+ 当MV播放到最后一帧的时候, 做合作方式处理
+ */
+typedef NS_ENUM(NSUInteger, MVEndMode) {
+    /*循环播放 ,默认是循环.*/
+    kMVMode_Loop,
+    /*停留在最后一帧*/
+    kMVMode_LastFrame,
+    /*消失*/
+    kMVMode_Hide
+};
 
 
 /**
@@ -20,17 +30,19 @@
  */
 @interface MVPen : Pen
 
-
-
-@property (readwrite, retain) AVAsset *asset;
-@property(readwrite, retain) NSURL *url;
-
-@property (readwrite, retain) AVAsset *asset2;
-@property(readwrite, retain) NSURL *url2;
-
+/**
+ 内部使用.
+ */
 @property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
 
+
+/**
+ MV当播放到最后一帧时, 采用何种方式.
+  有, 循环播放/停留在最后一帧/消失三种方法.
+ 默认是循环
+ */
+@property MVEndMode mvMode;
 /**
  *  初始化
  *

@@ -12,19 +12,18 @@
 
 @interface ViewPen : Pen
 
+
+
 /**
  内部使用 inner use
  */
 @property BOOL isFromUI;
 
+/**
+ 内部使用 inner use
+ */
 - (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
-- (id)initWithLayer:(CALayer *)inputLayer drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
 
-- (CGSize)layerSizeInPixels;
-
-- (void)updateUsingCurrentTime;
-
-- (void)updateWithTimestamp:(CMTime)frameTime;
 
 
 @end
