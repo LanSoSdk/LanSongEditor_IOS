@@ -14,7 +14,9 @@
 #import "ExecuteFilterDemoVC.h"
 #import "CommDemoListTableVC.h"
 #import "PictureSetsRealTimeVC.h"
-#import "VideoPictureRealTimeVC.h"
+
+#import "AnimationDemoRealTimeVC.h"
+
 #import "ViewPenRealTimeDemoVC.h"
 #import "TestDemoVC.h"
 #import "CameraPenDemoVC.h"
@@ -35,7 +37,8 @@
 
 #define kVideoFilterDemo 1
 #define kVideoFilterBackGroudDemo 2
-#define kVideoPictureDemo 3
+//移动缩放旋转演示
+#define kAnimationDemo 3
 #define kVideoUIDemo 4
 #define kMorePictureDemo 5
 #define kCameraPenDemo 6
@@ -90,7 +93,7 @@
     
     UIView *view=[self newButton:container index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
     view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜(后台)"];
-    view=[self newButton:view index:kVideoPictureDemo hint:@"图片图层 (BitmapPen)演示"];
+    view=[self newButton:view index:kAnimationDemo hint:@"移动缩放旋转(图层属性)"];
     view=[self newButton:view index:kVideoUIDemo hint:@"UI图层 (ViewPen)演示"];
     view=[self newButton:view index:kMVPenDemo hint:@"MV图层  (MVPen)演示"];
     view=[self newButton:view index:kMorePictureDemo hint:@"多张图片 (BitmapPen)演示"];
@@ -131,8 +134,8 @@
             pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
             ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
             break;
-        case kVideoPictureDemo:
-            pushVC=[[VideoPictureRealTimeVC alloc] init];  //视频图层和图片图层
+        case kAnimationDemo:
+            pushVC=[[AnimationDemoRealTimeVC alloc] init];  //移动缩放旋转.
             break;
         case kVideoUIDemo:
             pushVC=[[ViewPenRealTimeDemoVC alloc] init];  //视频+UI图层.
@@ -173,22 +176,21 @@
     [container addSubview:btn];
     
     CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.03;
+    CGFloat padding=size.height*0.04;
     
     if (topView==container) {
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(container.mas_top).with.offset(padding);
             make.left.mas_equalTo(container.mas_left);
-            make.size.mas_equalTo(CGSizeMake(size.width, 40));
+            make.size.mas_equalTo(CGSizeMake(size.width, 50));  //按钮的高度.
         }];
     }else{
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(topView.mas_bottom).with.offset(padding);
             make.left.mas_equalTo(container.mas_left);
-            make.size.mas_equalTo(CGSizeMake(size.width, 40));
+            make.size.mas_equalTo(CGSizeMake(size.width, 50));
         }];
     }
-    
     return btn;
 }
 -(void)btnDown:(UIView *)sender

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VideoPictureRealTimeVC : UIViewController <UIAlertViewDelegate>
+@interface AnimationDemoRealTimeVC : UIViewController <UIAlertViewDelegate>
 
 @property UILabel *labProgress;
 

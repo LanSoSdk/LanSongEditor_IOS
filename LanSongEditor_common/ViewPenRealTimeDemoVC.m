@@ -98,7 +98,6 @@
         label.backedLabelColor = [UIColor redColor];
         label.colorLabelColor  = [UIColor cyanColor];
         label.font=[UIFont systemFontOfSize:30];
-        label.center      = self.view.center;
         [self.view addSubview:label];
         
         [drawpad addViewPen:label fromUI:YES];

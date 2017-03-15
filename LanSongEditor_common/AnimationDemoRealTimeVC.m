@@ -6,12 +6,12 @@
 //  Copyright © 2016年 sno. All rights reserved.
 //
 
-#import "VideoPictureRealTimeVC.h"
+#import "AnimationDemoRealTimeVC.h"
 
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
 
-@interface VideoPictureRealTimeVC ()
+@interface AnimationDemoRealTimeVC ()
 {
     DrawPadDisplay *drawpad;
     
@@ -23,7 +23,7 @@
 }
 @end
 
-@implementation VideoPictureRealTimeVC
+@implementation AnimationDemoRealTimeVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,8 +36,27 @@
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
     //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+    
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
+    
+//    CGFloat     drawPadWidth=1280;  //OK
+//    CGFloat     drawPadHeight=720;
+
+//    CGFloat     drawPadWidth=720;  //OK
+//    CGFloat     drawPadHeight=1280;
+    
+//    CGFloat     drawPadWidth=560; //OK
+//    CGFloat     drawPadHeight=992;
+    
+//    CGFloat     drawPadWidth=544;  //OK
+//    CGFloat     drawPadHeight=960;
+    
+//    CGFloat     drawPadWidth=960;  //OK
+//    CGFloat     drawPadHeight=544;
+    
+    
+    
     int    drawPadBitRate=1000*1000;
     drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
@@ -45,14 +64,22 @@
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
-    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    DrawPadView *filterView;
+    if (drawPadWidth>drawPadHeight) {
+        filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+        
+    }else{
+        //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
+        filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.height*(drawPadWidth/drawPadHeight)/2,size.height/2)];
+        filterView.center=CGPointMake(size.width/2, filterView.center.y);
+   }
+    
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
     
     
    //第二步: 增加一些图层,当然您也可以在画板开始后增加
-    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
@@ -87,7 +114,6 @@
     operationPen.scaleWidth=0.5f;
     operationPen.scaleHeight=0.5f;
     
-    
     //一下是ui操作.
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
@@ -109,25 +135,29 @@
 
 - (void)slideChanged:(UISlider*)sender
 {
-    
     CGFloat val=[(UISlider *)sender value];
+    
     CGFloat posX=drawpad.drawpadSize.width*val;
     CGFloat posY=drawpad.drawpadSize.height*val;
+    
+    
     switch (sender.tag) {
         case 101:  //weizhi
+            /*
+             你可以通过
+           
+             */
             operationPen.positionX=posX;
             break;
         case 102:  //Y坐标
             operationPen.positionY=posY;
             break;
-            
         case 103:  //scale
             if (operationPen!=nil) {
                 operationPen.scaleHeight=val;
                 operationPen.scaleWidth=val;
             }
             break;
-            
         case 104:  //rotate;
             if (operationPen!=nil) {
                 operationPen.rotateDegree=val;

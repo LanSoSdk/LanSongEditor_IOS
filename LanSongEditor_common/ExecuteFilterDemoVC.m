@@ -12,6 +12,7 @@
 #import <LanSongEditorFramework/LanSongEditor.h>
 #import "VideoPlayViewController.h"
 #import "LanSongUtils.h"
+#import "YXLabel.h"
 
 
 @interface ExecuteFilterDemoVC ()
@@ -23,6 +24,7 @@
     NSString *dstTmpPath;
      NSString *dstPath;
     NSURL *videoURL;
+    YXLabel *label;
 }
 @end
 
@@ -76,6 +78,15 @@
         });
     }];
     
+    CALayer *mainLayer=[CALayer layer];
+    mainLayer.frame=CGRectMake(0, 60, 480,480);
+    mainLayer.backgroundColor=[UIColor clearColor].CGColor;
+    
+    CALayer *layer=[CALayer layer];
+    layer.frame=CGRectMake(0, 80, 50, 50);
+    layer.backgroundColor=[UIColor blueColor].CGColor;
+    [mainLayer addSublayer:layer];
+    [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
     //step3: 开始执行
     [drawPad startDrawPad];
 }

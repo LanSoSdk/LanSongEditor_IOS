@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 /**
  *  增加 UI图层
  *
- *  @param view   大小,尽量等于画板的大小.
+ *  @param view   大小,建议尽量等于画板的大小.
  *  @param fromUI 这个view是否属于UI界面的一部分, 如果是属于UI的一部分,则画板在渲染的时候, 不会再次渲染到预览画面上
  *
  *  @return

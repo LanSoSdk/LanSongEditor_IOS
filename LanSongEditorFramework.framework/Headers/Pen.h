@@ -53,25 +53,41 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- *VideoPen的图像实际宽高.
- BitmapPen就等于图片原尺寸.
- ViewPen  等于当前view的实际像素尺寸.
+ 当前正在处理的帧的画面的大小尺寸,默认等于画面原来的大小,比如等于视频的实际宽高,等于图片的实际宽高.
+ 缩放是以这个尺寸进行操作的. 如果你要实时获取当前图层的尺寸,并调整他们的宽高,则可以用这个尺寸来调整.
+ 很多场合基本等于画面原始的大小.
+ 
+ 注意:每次是在视频处理完一帧后得到当前帧的frameSize
  */
 @property CGSize frameBufferSize;
 
 /**
- *  在绘制到画板上时的初始尺寸.
-   为固定值,不随图层的形变而变化.
+ *  在绘制到画板上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
+    如果你要获取当前画面的实时尺寸,则可以通过上面的frameBufferSize这个属性来获取. 缩放也是基于frameBufferSize进行的.
+    
+    此尺寸可以作为移动的参考.
+ 
+ 
+  当前绘制原理是:ViewPen是等比例缩放到画板上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到画板上.
+ 
+   举例:视频是1280x720的视频, 画板尺寸是480x480,则增加到画板上后, 会自动缩放视频的尺寸,
+      如果是横屏, 则视频的宽度被缩放成480, 高度被缩放成 480 x(视频的宽高比720/1280)=270; 则这里penSize的宽高是480x270,从而保证视频的宽高比一直.
+      如果是竖屏, 则视频的高度被缩放到480, 宽度被缩放成 270, ....
+ 
+ 注意:后期会增加一些类似ImageView中的contentMode;其他各种缩放模式.
  */
 @property CGSize penSize;
 
 
 /**
- *  当前定义的画板尺寸
+ *  定义的画板尺寸
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
 
-//当前图层在画板中的ID号,不一定等于画板的层数.inner used
+/**
+ 内部使用.
+ 当前图层在画板中的ID号,不一定等于画板的层数.inner used
+ */
 @property int  idInDrawPad;
 
 /**
@@ -91,16 +107,29 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @property(getter=isHidden) BOOL hidden;
 /**
- *  旋转角度 0--360度.
+ 角度值0--360度. 默认为0.0
+ 以视频的原视频角度为旋转对象,
+ 基本等同于CGAffineTransformRotate
  */
 @property(readwrite, nonatomic)  CGFloat rotateDegree;
 /**
- *  设置或读取当前坐标, 坐标以左上角为0,0
+ *  
+ 设置或读取当前画面的中心点的坐标像素值, 左上角为0,0.
+ 默认是中心点, 即:positionX=drawPadSize.width/2;
+               positionY=drawPadSize.height/2;
+ 
+ 注意:这里的XY是画面中心点的坐标, 不是画面左上角!.
+ 
  */
 @property(readwrite, nonatomic)  CGFloat positionX, positionY;
 
 /**
- *  缩放因子, 大于1.0为放大, 小于1.0为缩小.
+ *  
+ 缩放因子, 大于1.0为放大, 小于1.0为缩小. 默认是1.0f
+ 此缩放是以增加到DrawPad中的frameBufferSize来做为基数, 放大或缩小
+ 基本等同于.CGAffineTransformScale
+ 
+ 注意: 此缩放, 是针对正要渲染的Pen进行缩放, 不会更改frameBufferSize和penSize.
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidth,scaleHeight;
 

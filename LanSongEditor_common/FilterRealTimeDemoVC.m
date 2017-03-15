@@ -26,6 +26,8 @@
     FilterTpyeList *filterListVC;
     BOOL  isSelectFilter;
     
+    CGFloat  drawPadWidth;
+    CGFloat  drawPadHeight;
     NSTimer *testTimer;
 }
 @end
@@ -41,22 +43,32 @@
     
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-   
+     sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    
+    MediaInfo *info=[[MediaInfo alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL]];
+    
+    if ([info prepare] && [info hasVideo]) {
+        
+        drawPadWidth=info.vWidth;  //把画板还采用原来的尺寸.
+        drawPadHeight=info.vHeight;
+        
+    }else{
+        return ;
+    }
     /*
-     
      step1:第一步: 创建一个画板,(主要参数为:画板宽度高度,码率,保存路径,预览View)
-     
      */
-   int  drawPadWidth=480;
-   int  drawPadHeight=480;
-   int  drawPadBitRate=1000*1000;
+    int  drawPadBitRate=2000*1000;
    
     drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.01;
+  
     
-    //暂时采用宽度为屏幕宽度, 调整高度值,使它宽高比等于画板的宽高比
+    /*
+     这里采用宽度为屏幕宽度, 调整高度值,使它宽高比等于画板的宽高比, 实际您可以自由分配预览的View宽高, 
+     但为了画面不至于变形, 建议预览的宽高和设置的画板宽高成比例关系.比如画板的宽高比是16:9,则DrawPadView的宽高比也是16:9
+     */
     DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
@@ -68,21 +80,14 @@
      第二步:增加各种图层,这里先增加一个背景图片,然后再增加视频图层
      
      */
-    //先增加一个背景
+    //您可以增加个背景图片做为图层.
 //    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
 //    [drawpad addBitmapPen:imag];
     
     
     //增加主视频图层
      GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
-    sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     mVideoPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
-    
-//    
-//    NSURL *sampleURL2 = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
-//    NSURL *sampleURL3 = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
-//    [drawpad addMVPen:[SDKFileUtil urlToFileString:sampleURL2] maskPath:[SDKFileUtil urlToFileString:sampleURL3] filter:nil];
-//    
     
     /*
      第三步: 设置进度回调和完成回调,开始执行.
@@ -118,6 +123,7 @@
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
     
+      CGFloat padding=size.height*0.01;
     [self.view addSubview:_labProgress];
     
     [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
