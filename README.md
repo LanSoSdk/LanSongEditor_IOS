@@ -2,21 +2,21 @@
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
-###版本是1.7.0.
+### 版本是1.7.0.
 *  增加正方形分段录制和 全屏分段录制.
 *  增加ViewPen和CaLayerPen,DataPen.
 *  ViewPen可以实时增加 IOS中的动画效果.
 *  代码更加稳定运行.  
-* 增加MVPen, 可以用这个图层来增加一些透明的视频.
-###版本是1.5.0. 
+*  增加MVPen, 可以用这个图层来增加一些透明的视频.
+### 版本是1.5.0. 
 	MediaEditor和MediaInfo,支持预览功能.
 	当前已有的图层有: 视频图层, UI图层,图片图层, 摄像机图层.
 	
-###注意:因为视频编辑用到GPU, 真机和模拟器的GPU差异太大, 当前我们的SDK 暂时只能在真机上运行, 请您知悉.
+### 注意:因为视频编辑用到GPU, 真机和模拟器的GPU差异太大, 当前我们的SDK 暂时只能在真机上运行, 请您知悉.
 
-###此SDK采用为收费授权,公司性质的合作,为了您项目更好的进行,欢迎和我们联系.谢谢!
+### 此SDK采用为收费授权,公司性质的合作,为了您项目更好的进行,欢迎和我们联系.谢谢!
 
-###画板和图层架构
+### 画板和图层架构
 *   一个工程是由多个线程组成, 又由各种类对象组成. 
 *   我们把对视频处理的OpenGL技术处理后封装成 线程，命名为DrawPad(画板)
 *   对视频处理用到的各种素材，封装成类，命名为Pen(图层的单词是Layer, 但'Layer'单词被IOS的UI使用了, 为了您开发不至于混淆,我们使用Pen作为图层的表示,仅仅单词不同,一样是图层的意思.)
@@ -42,7 +42,7 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
 											
 
 
-###更仅一步说:
+### 更仅一步说:
 *	1，你用 【视频图层 VideoPen】在 画板 DrawPad上作画， 就得到 调整后的视频
 
 * 2，你用  【图片图层 BitmapPen】在画板上作画， 就得到 动态的照片影集。
@@ -57,14 +57,14 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
 
 
 
-###下载地址: 
+### 下载地址: 
 *  https://github.com/LanSoSdk/LanSongEditor_IOS
 
-###我们有android版本的SDK，欢迎你的评估使用：
+### 我们有android版本的SDK，欢迎你的评估使用：
 *	android系统SDK--基本版本：https://github.com/LanSoSdk/LanSoEditor_common
 *	android系统SDK--高级版本：https://github.com/LanSoSdk/LanSoEditor_advance
 
-###联系方式:
+### 联系方式:
 *   QQ 1852600324 
 *   Email:support@lansongtech.com
 *   网站: www.lansongtech.com
