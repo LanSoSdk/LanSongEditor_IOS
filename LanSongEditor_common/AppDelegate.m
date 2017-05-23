@@ -12,7 +12,6 @@
 #import "MainViewController.h"
 #import "UIColor+Util.h"
 
-#import "TestDemoVC.h"
 
 
 
@@ -33,13 +32,9 @@
 //    VideoPlayViewController *vl=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
   
     
-    [[UINavigationBar appearance] setBarTintColor:[UIColor navigationbarColor]];
+   // [[UINavigationBar appearance] setBarTintColor:[UIColor navigationbarColor]];
     
     MainViewController *rootVC=[[MainViewController alloc] init];
-    
-   // TestDemoVC *rootVC=[[TestDemoVC alloc] init];
-
-   // ViewPenRealTimeDemoVC *rootVC=[[ViewPenRealTimeDemoVC alloc] init];
     
     //_gWeekRetValue=0;
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:rootVC];

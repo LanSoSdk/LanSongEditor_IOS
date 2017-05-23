@@ -22,6 +22,12 @@
 #import "CameraPenDemoVC.h"
 #import "MVPenDemoRealTimeVC.h"
 #import "TestViewPen.h"
+#import "MVPenOnlyVC.h"
+#import "SegmentRecordSquareVC.h"
+#import "SegmentRecordFullVC.h"
+
+#import "LanSongUtils.h"
+
 
 
 #import <LanSongEditorFramework/LanSongEditor.h>
@@ -41,9 +47,15 @@
 #define kAnimationDemo 3
 #define kVideoUIDemo 4
 #define kMorePictureDemo 5
-#define kCameraPenDemo 6
+//#define kCameraPenDemo 6
 #define kCommonEditDemo 7
 #define kMVPenDemo 8
+#define kDirectPlay 9
+
+//分段录制正方形
+#define kSegmentRecordSquare 10
+//分段录制全屏
+#define kSegmentRecordFull 11
 
 @implementation MainViewController
 
@@ -91,14 +103,21 @@
  
     
     
-    UIView *view=[self newButton:container index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
+    UIView *view=[self newButton:container index:kSegmentRecordSquare hint:@"分段录制(正方形)"];
+    view=[self newButton:view index:kSegmentRecordFull hint:@"分段录制(全屏)"];
+    
+    view=[self newButton:view index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
     view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜(后台)"];
     view=[self newButton:view index:kAnimationDemo hint:@"移动缩放旋转(图层属性)"];
     view=[self newButton:view index:kVideoUIDemo hint:@"UI图层 (ViewPen)演示"];
     view=[self newButton:view index:kMVPenDemo hint:@"MV图层  (MVPen)演示"];
     view=[self newButton:view index:kMorePictureDemo hint:@"多张图片 (BitmapPen)演示"];
-    view=[self newButton:view index:kCameraPenDemo hint:@"摄像头 (CameraPen)图层"];
+//    view=[self newButton:view index:kCameraPenDemo hint:@"摄像头 (CameraPen)图层"];
+    
+    
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
+    view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
+
   
     [container addSubview:versionHint];
     
@@ -124,8 +143,17 @@
     
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"noplay" withExtension:@"mp4"];
+    NSString *dstPath=[SDKFileUtil urlToFileString:sampleURL];
+
     
     switch (sender.tag) {
+        case kSegmentRecordSquare:
+            pushVC=[[SegmentRecordSquareVC alloc] init];
+            break;
+        case kSegmentRecordFull:
+            pushVC=[[SegmentRecordFullVC alloc] init];
+            break;
         case kVideoFilterDemo:
             pushVC=[[FilterRealTimeDemoVC alloc] init];  //滤镜
           //  pushVC =[[TestDemoVC alloc] init];
@@ -143,15 +171,19 @@
         case kMorePictureDemo:
             pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
             break;
-        case kCameraPenDemo:
-           // pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
-            break;
+//        case kCameraPenDemo:
+//           // pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
+//            break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
             break;
         case kMVPenDemo:
             //pushVC=[[TestViewPen alloc] init];
-            pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
+       //     pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
+            pushVC=[[MVPenOnlyVC alloc] init];
+            break;
+        case kDirectPlay:
+               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             break;
         default:
             break;

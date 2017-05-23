@@ -88,6 +88,13 @@
  *  @param filepath 文件的完整路径
  */
 +(void)deleteFile:(NSString *)filepath;
+
+/**
+ 删除所有的文件.
+
+ @param fileArray <#fileArray description#>
+ */
++(void)deleteAllFiles:(NSMutableArray *)fileArray;
 /**
  *  删除文件夹(这里仅仅是删除文件夹里的所有文件,并不删除文件夹名字)
  *

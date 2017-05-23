@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 @property(nonatomic, copy) void(^onCompletionBlock)(void);
 
 /**
- *     DrawPad执行过程中的进度对调.
+ *     DrawPad执行过程中的进度对调, 返回的当前时间戳 单位是秒.
  
  注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
  dispatch_async(dispatch_get_main_queue(), ^{
@@ -83,6 +83,9 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *
  *   1.如果设置了主视频,则音频部分,自动用主视频的音频作为目标视频中的音频部分.
  *
+ 增加后, 视频画面如果宽度大于高度, 则会把宽度等于DrawPad的宽度, 然后调整高度.
+ 如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
+ 
  *  @param videoPath 文件的绝对路径
  *  @param filter    可以给视频增加一个GPUImageFilter的滤镜
  *
@@ -92,19 +95,18 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 /**
  *  增加视频图层
- *
+ *  增加后, 视频画面如果宽度大于高度, 则会把宽度等于DrawPad的宽度, 然后调整高度.
+             如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
  *  @param videoPath 文件的绝对路径
  *  @param filter    滤镜, 不增加设置为nil
  *
  *  @return
  */
 -(VideoPen *)addVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
-
-
-
 /**
  向画板中增加一个MV图层, 以用来显示MV效果.
-
+  增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 
  @param colorPath mv视频的彩色视频
  @param maskPath  mv视频中的黑白视频
  @param filter  可以给mv效果设置一个滤镜,如果不需要,设置为null
@@ -115,19 +117,19 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 
 /**
- *  增加图片图层
- *
+ *  增加图片图层, 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
+ * 
  *  @param inputImage
- *
  *  @return
  */
 -(BitmapPen *)addBitmapPen:(UIImage *)inputImage;
 
 /**
  *  增加 UI图层
- *
- *  @param view   大小,建议尽量等于画板的大小.
- *  @param fromUI 这个view是否属于UI界面的一部分, 如果是属于UI的一部分,则画板在渲染的时候, 不会再次渲染到预览画面上
+ *  增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 
+ *  @param view   大小,建议尽量等于画板的大小. 如果你增加文字, 可以把先创建一个透明的UIView 等比例于视频的宽高, 然后再这个UIView上增加别的控件.
+ *  @param fromUI 这个view是否属于UI界面的一部分, 如果您已经把这个View 增加到UI界面上,则这里应设置为NO,从而画板在渲染的时候, 不会再次渲染到预览画面上
  *
  *  @return
  */
@@ -135,11 +137,13 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 
 /**
- 向DrawPad中增加一个CALayer
+ 向DrawPad中增加一个CALayer 
+ 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 
  注意, 因IOS的UI是采用[点]的概念, 而我们的DrawPad里是[像素], 像素和点呈现在屏幕上是有偏差的, 
  因增加到DrawPad后的CALayer,也会显示到屏幕上, 作为预览使用. 建议您不要再增加到屏幕上,
 
- @param inputLayer 创建好的CALayer对象.
+ @param inputLayer 创建好的CALayer对象. ,建议先创建一个透明的CALayer,大小等于DrawPad的大小, 然后在这个CAlayer中增加别的控件.
  @param fromUI 是否来自UI, 建议设置为NO,即增加到DrawPad上的calayer不要再增加到其他UIView中.
  @return 图层对象
  */
@@ -149,7 +153,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 /**
  增加摄像头图层
- 
+  (当前请不要使用.)
  @param sessionPreset 预览分辨率, 建议是:AVCaptureSessionPreset640x480
  @param cameraPosition 如使用前置摄像头,则为AVCaptureDevicePositionFront; 后置则是: AVCaptureDevicePositionBack;
  

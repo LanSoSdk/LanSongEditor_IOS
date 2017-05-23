@@ -129,6 +129,10 @@
 +(int) executeConvertTsToMp4:(NSMutableArray *)tsArray dstFile:(NSString *)dstFile;
 
 
+
++(int)executeConcatMP4:(NSMutableArray *)mp4Array dstFile:(NSString *)dstFile;
+
+
 /**
  *  提取源音频部分, 增加到目标视频中.
  *
