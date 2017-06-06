@@ -61,12 +61,12 @@
 		8B20FA001DFBD54800E27A83 /* CommDemoListTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20F9FF1DFBD54800E27A83 /* CommDemoListTableVC.m */; };
 		8B20FA041DFBD59300E27A83 /* CommDemoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20FA031DFBD59300E27A83 /* CommDemoItem.m */; };
 		8B2AD48E1ED3D86C0017D6A3 /* SegmentRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */; };
-		8B2AD4911ED3DC260017D6A3 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2AD4901ED3DC260017D6A3 /* LanSongEditorFramework.framework */; };
 		8B2EF7BA1E238A1D0013C39C /* honor30s2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF7B91E238A010013C39C /* honor30s2.m4a */; };
 		8B3189CD1E1B3B2B00A0931C /* TestDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3189CC1E1B3B2B00A0931C /* TestDemoVC.m */; };
 		8B34BDED1E14C07B00DC3751 /* p640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEC1E14C07B00DC3751 /* p640x1136.png */; };
 		8B34BDEF1E14C08200DC3751 /* mm.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEE1E14C08200DC3751 /* mm.png */; };
 		8B53019B1E6AC140008F43C8 /* ping20s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B53019A1E6AC124008F43C8 /* ping20s.mp4 */; };
+		8B7B41541EE6336400BDB272 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */; };
 		8B8317D01EAAF11F00FC0EB5 /* noplay3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B8317CF1EAAF10F00FC0EB5 /* noplay3.mp4 */; };
 		8B8317D21EAAF16200FC0EB5 /* noplay.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B8317D11EAAF14400FC0EB5 /* noplay.mp4 */; };
 		8B8638141D51AB29007A353C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638131D51AB29007A353C /* main.m */; };
@@ -200,13 +200,13 @@
 		8B20FA031DFBD59300E27A83 /* CommDemoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommDemoItem.m; sourceTree = "<group>"; };
 		8B2AD48C1ED3D86C0017D6A3 /* SegmentRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecorder.h; sourceTree = "<group>"; };
 		8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecorder.m; sourceTree = "<group>"; };
-		8B2AD4901ED3DC260017D6A3 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8B2EF7B91E238A010013C39C /* honor30s2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = honor30s2.m4a; sourceTree = "<group>"; };
 		8B3189CB1E1B3B2B00A0931C /* TestDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDemoVC.h; sourceTree = "<group>"; };
 		8B3189CC1E1B3B2B00A0931C /* TestDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestDemoVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8B34BDEC1E14C07B00DC3751 /* p640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = p640x1136.png; sourceTree = "<group>"; };
 		8B34BDEE1E14C08200DC3751 /* mm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mm.png; sourceTree = "<group>"; };
 		8B53019A1E6AC124008F43C8 /* ping20s.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping20s.mp4; sourceTree = "<group>"; };
+		8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8B8317CF1EAAF10F00FC0EB5 /* noplay3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = noplay3.mp4; sourceTree = "<group>"; };
 		8B8317D11EAAF14400FC0EB5 /* noplay.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = noplay.mp4; sourceTree = "<group>"; };
 		8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -337,7 +337,7 @@
 				8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */,
 				8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */,
 				8B86383B1D51ABD4007A353C /* AVFoundation.framework in Frameworks */,
-				8B2AD4911ED3DC260017D6A3 /* LanSongEditorFramework.framework in Frameworks */,
+				8B7B41541EE6336400BDB272 /* LanSongEditorFramework.framework in Frameworks */,
 				8B8638371D51ABC2007A353C /* VideoToolbox.framework in Frameworks */,
 				8B8638351D51ABBA007A353C /* UIKit.framework in Frameworks */,
 				8B8638331D51ABB0007A353C /* AudioToolbox.framework in Frameworks */,
@@ -516,7 +516,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B2AD4901ED3DC260017D6A3 /* LanSongEditorFramework.framework */,
+				8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -662,7 +662,7 @@
 				TargetAttributes = {
 					8B86380E1D51AB29007A353C = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = WG2H9M8QDD;
+						DevelopmentTeam = RFZUY7LGAF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -927,7 +927,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = WG2H9M8QDD;
+				DEVELOPMENT_TEAM = RFZUY7LGAF;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -954,7 +954,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = WG2H9M8QDD;
+				DEVELOPMENT_TEAM = RFZUY7LGAF;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
