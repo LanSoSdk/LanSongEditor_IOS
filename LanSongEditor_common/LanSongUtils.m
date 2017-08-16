@@ -140,4 +140,29 @@
     
     return path;
 }
+
+
+//--------------------
++ (CGImageRef)imageRefFromBGRABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(imageBytes,
+                                                 imageSize.width,
+                                                 imageSize.height,
+                                                 8,
+                                                 imageSize.width * 4,
+                                                 colorSpace,
+                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    return imageRef;
+}
++ (UIImage *)imageFromBRGABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
+    CGImageRef imageRef = [LanSongUtils imageRefFromBGRABytes:imageBytes imageSize:imageSize];
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    return image;
+}
 @end

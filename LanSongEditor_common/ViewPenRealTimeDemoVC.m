@@ -14,7 +14,7 @@
 
 @interface ViewPenRealTimeDemoVC ()
 {
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
     
     NSString *dstPath;
     NSString *dstTmpPath;
@@ -59,7 +59,7 @@
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     
@@ -126,7 +126,10 @@
         });
     }];
     // 开始工作
-    [drawpad startDrawPad];
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
     
     [label startAnimation];
     

@@ -14,7 +14,7 @@
 @interface FilterRealTimeDemoVC ()
 {
     
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
     
     NSString *dstPath;
     NSString *dstTmpPath;
@@ -60,7 +60,7 @@
      */
     int  drawPadBitRate=2000*1000;
    
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     CGSize size=self.view.frame.size;
   
@@ -110,9 +110,10 @@
     }];
     
     //开始工作
-    [drawpad startDrawPad];
-   
-    
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
     //---------一下是ui操作.-------------------------------------------------
     testTimer=[NSTimer scheduledTimerWithTimeInterval: 1   /*10秒钟触发一次,可以有小数,比如0.1*/
                                                target: self

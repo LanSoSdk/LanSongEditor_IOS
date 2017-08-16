@@ -45,6 +45,20 @@
     if (_videoPath!=nil && [mInfo prepare]) {
         
         NSLog(@"获取到的视频信息是:%@",mInfo);  //用中文,让您看到你您处理后的视频信息.
+        
+      
+        
+        
+        NSString *str= [NSString stringWithFormat:@"宽度:%d"
+                "高度:%d"
+                "时长:%f"
+               "旋转角度:%f"
+                "音频采样率:%d"
+                "音频通道:%d"
+                ,mInfo.vWidth,mInfo.vHeight,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
+          
+        [self.libInfo setText:str];
+        
         [self playVideo];
         
     }else{
@@ -65,7 +79,7 @@
     layer = [AVPlayerLayer playerLayerWithPlayer:_player];
     
     
-    layer.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 300);
+    layer.frame = CGRectMake(0, 150, [UIScreen mainScreen].bounds.size.width, 300);
     layer.backgroundColor = [UIColor whiteColor].CGColor;
     
     layer.videoGravity = AVLayerVideoGravityResizeAspect;
@@ -164,48 +178,6 @@
     }];
 }
 
-/**
- 测试保存视频, 暂时不行.
- */
--(void)snapshot
-{
-    CGSize size = layer.frame.size;
-    if (context== NULL)
-    {
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        context = CGBitmapContextCreate (NULL,
-                                         size.width,
-                                         size.height,
-                                         8,//bits per component
-                                         size.width * 4,
-                                         colorSpace,
-                                         kCGImageAlphaNoneSkipFirst);
-        CGColorSpaceRelease(colorSpace);
-        CGContextSetAllowsAntialiasing(context,NO);
-        CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0,-1, 0, size.height);
-        CGContextConcatCTM(context, flipVertical);
-    }
-    
-    size_t width  = CGBitmapContextGetWidth(context);
-    size_t height = CGBitmapContextGetHeight(context);
-    @try {
-        CGContextClearRect(context, CGRectMake(0, 0,width , height));
-        [layer renderInContext:context];
-        
-        
-        layer.contents=nil;
-        CGImageRef cgImage = CGBitmapContextCreateImage(context);
-        
-        
-                    UIImage *viewImage=[[UIImage alloc] initWithCGImage:cgImage];
-                    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);//然后将该图片保存到图片图
-       
-        CGImageRelease(cgImage);
-    }
-    @catch (NSException *exception) {
-        
-    }
 
-}
 
 @end

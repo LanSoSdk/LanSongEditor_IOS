@@ -46,4 +46,50 @@
  */
 -(void)releaseDecoder;
 
+
+/**
+ 测试代码
+ -(void)testAVDecoder:(id)sender
+ {
+ 
+ NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+ 
+ NSString *filepath=[SDKFileUtil urlToFileString:sampleURL];
+ 
+ 
+ MediaInfo *info=[[MediaInfo alloc] initWithPath:filepath];
+ if ([info prepare] && [info hasVideo])
+ {
+ NSLog(@"开始自行.....");
+ AVDecoder *decoder=[[AVDecoder alloc] initWithPath:filepath];
+ 
+ int  *rgbOut=(int *)malloc(info.vWidth * info.vHeight*4);
+ 
+ while (YES) {
+ long pts=[decoder decodeOneFrame:-1 rgbOut:rgbOut];
+ 
+ CGSize size=CGSizeMake(info.vWidth, info.vHeight);
+ UIImage *imge=[self imageFromBRGABytes:(unsigned char *)rgbOut imageSize:size];
+ 
+ if (imge==nil) {
+ NSLog(@" imge  获取到的是null");
+ }
+ UIImageWriteToSavedPhotosAlbum(imge, nil, nil, nil);//然后将该图片保存到图片图
+ 
+ //  sleep(1);
+ 
+ NSLog(@"Test 发送到相册 AVdecoder current pts:%ld....",pts);
+ if ([decoder isEnd]) {
+ 
+ break;
+ }
+ }
+ NSLog(@"Test  AVdecoder is end....");
+ [decoder releaseDecoder];
+ free(rgbOut);
+ }
+ 
+ }
+
+ */
 @end

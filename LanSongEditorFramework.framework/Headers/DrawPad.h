@@ -184,7 +184,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 /**
  *  设置刷新模式
  *
- *  注意:一定需要在 startDrawPad之前使用.
+ *  注意:一定需要在 startDrawPad开始之前使用.
  *
  *  @param mode 模式
  *  @param fps  当是自动刷新时使用的帧率, 如是PenReady模式,则这里不起作用.
@@ -193,7 +193,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 /**
  *  开始执行.
  */
--(void)startDrawPad;
+-(BOOL)startDrawPad;
 /**
  *  停止工作
  */

@@ -13,7 +13,7 @@
 
 @interface MVPenDemoRealTimeVC ()
 {
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
     
     NSString *dstPath;
     NSString *dstTmpPath;
@@ -42,14 +42,14 @@
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
     int    drawPadBitRate=1000*1000;
-    //DrawPadDisplay是一个线程,用来
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    //DrawPadPreview是一个线程,
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
-    //DrawPadView是用来显示 DrawPadDisplay画面的一个载体.
+    //DrawPadView是用来显示 DrawPadPreview画面的一个载体.
     DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
     [self.view addSubview: filterView];
@@ -111,7 +111,10 @@
     }];
     
     // 开始工作
-    [drawpad startDrawPad];
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
     
     
     //把视频缩小一半,放在背景图上.

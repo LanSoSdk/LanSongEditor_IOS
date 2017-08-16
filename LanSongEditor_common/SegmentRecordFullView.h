@@ -6,16 +6,37 @@
 @interface SegmentRecordFullView : UIView
 {
     GPUImageVideoCamera *videoCamera;
-    GPUImageOutput<GPUImageInput> *filter;
     GPUImageMovieWriter *movieWriter;
-    NSString *pathToMovie;
-    GPUImageView *filteredVideoView;
-    CALayer *_focusLayer;
+    /*
+     录制的当前段
+     */
+    NSString *currentSegment;
+    
+    /*
+     画面显示
+     */
+    GPUImageView *previewView;
+    
+    /**
+     聚焦层.
+     */
+    CALayer *focusLayer;
+    /*
+     
+     */
     NSTimer *myTimer;
+    
+    //显示时间
     UILabel *timeLabel;
+    
+    
     NSDate *fromdate;
     CGRect mainScreenFrame;
-    UIButton *photoCaptureButton;
+    
+    /**
+     录制按钮
+     */
+    UIButton *btnRecord;
 }
 - (instancetype)initWithFrame:(CGRect)frame NS_DESIGNATED_INITIALIZER;
 -(void)setNav:(UINavigationController*)nav;

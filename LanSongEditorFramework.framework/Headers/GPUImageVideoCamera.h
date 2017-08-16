@@ -12,6 +12,10 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
 
 
 //Delegate Protocal for Face Detection.
+
+/**
+ 摄像头视频输出的回调, 拿到原画面后,可以把数据拉出去.
+ */
 @protocol GPUImageVideoCameraDelegate <NSObject>
 
 @optional
@@ -28,16 +32,19 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
     CGFloat totalFrameTimeDuringCapture;
     
     AVCaptureSession *_captureSession;
-    AVCaptureDevice *_inputCamera;
+    //采集的设备,有input和output.
+    AVCaptureDevice *_inputCamera;//
     AVCaptureDevice *_microphone;
+    
     AVCaptureDeviceInput *videoInput;
 	AVCaptureVideoDataOutput *videoOutput;
 
-    BOOL capturePaused;
+    BOOL capturePaused;  //停止画面输出, 就是在回调中,直接返回.
+    
     GPUImageRotationMode outputRotation, internalRotation;
     dispatch_semaphore_t frameRenderingSemaphore;
         
-    BOOL captureAsYUV;
+    BOOL captureAsYUV; ///是否以YUV, 是手动设置的?????
     GLuint luminanceTexture, chrominanceTexture;
 
     __unsafe_unretained id<GPUImageVideoCameraDelegate> _delegate;
@@ -138,7 +145,8 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
  */
 - (AVCaptureConnection *)videoCaptureConnection;
 
-/** This flips between the front and rear cameras
+/**
+ This flips between the front and rear cameras
  */
 - (void)rotateCamera;
 

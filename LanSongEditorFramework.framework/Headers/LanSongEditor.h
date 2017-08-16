@@ -24,7 +24,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/GPUImage.h>
 
-#import <LanSongEditorFramework/DrawPadDisplay.h>
+#import <LanSongEditorFramework/DrawPadPreview.h>
 
 #import <LanSongEditorFramework/DrawPadView.h>
 #import <LanSongEditorFramework/DrawPadExecute.h>
@@ -63,7 +63,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
  @return
  */
-+(void)initSDK:(NSString *)name;
++(BOOL)initSDK:(NSString *)name;
 
 /**
  使用完毕sdk后, 注销sdk, 

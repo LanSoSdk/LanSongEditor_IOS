@@ -17,38 +17,247 @@
         return nil;
     }
     mainScreenFrame = frame;
+    
+    
     videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
+    
     videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     [videoCamera addAudioInputsAndOutputs];
     
-    filter = [[GPUImageSaturationFilter alloc] init];
-    filteredVideoView = [[GPUImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [videoCamera addTarget:filter];
-    [filter addTarget:filteredVideoView];
+     [videoCamera startCameraCapture];
     
-    [videoCamera startCameraCapture];
+    
+    
+    previewView = [[GPUImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [videoCamera addTarget:previewView];
+ 
     
     [self addSomeView];
-    
-    UITapGestureRecognizer *singleFingerOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cameraViewTapAction:)];
-    singleFingerOne.numberOfTouchesRequired = 1; //手指数
-    singleFingerOne.numberOfTapsRequired = 1; //tap次数
-    [filteredVideoView addGestureRecognizer:singleFingerOne];
-    [self addSubview:filteredVideoView];
     
     segmentArray=[[NSMutableArray alloc] init];
     
     isRecording=NO;
+    
+    focusLayer=nil;
+    
+    //增加点击preview的点击事件
+    UITapGestureRecognizer *singleFingerOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cameraViewTapAction:)];
+    singleFingerOne.numberOfTouchesRequired = 1; //手指数
+    singleFingerOne.numberOfTapsRequired = 1; //tap次数
+    [previewView addGestureRecognizer:singleFingerOne];
+    [self addSubview:previewView];
+    
+    
     return self;
 }
+
+-(void)dealloc
+{
+    NSLog(@"de alloc ....");
+    previewView=nil;
+    movieWriter=nil;
+    if(myTimer!=nil)
+    {
+        [myTimer invalidate];
+        myTimer = nil;
+    }
+}
+
+
+/**
+ 录制完成的监听
+
+ @param sender <#sender description#>
+ */
+- (IBAction)concatRecording:(id)sender {
+    
+    if(isRecording)
+    {
+        [self segmentStop];
+    }
+    
+    if(segmentArray.count>0)
+    {
+        [self segmentFinish];
+    }
+}
+
+/**
+ 录制按钮 sender
+
+ @param sender <#sender description#>
+ */
+- (IBAction)startRecording:(id)sender {
+    
+    if(isRecording){
+        
+        [self segmentStop];
+        
+    }else{
+        [self segmentStart];
+    }
+}
+/**
+ 开始一段的录制
+ */
+-(void)segmentStart
+{
+    if(isRecording)
+        return ;
+    
+    currentSegment=[SDKFileUtil genTmpMp4Path];
+    
+    unlink([currentSegment UTF8String]);
+    NSURL *movieURL = [NSURL fileURLWithPath:currentSegment];
+    
+    movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(360.0, 640.0)];
+    movieWriter.encodingLiveVideo = YES;
+    movieWriter.shouldPassthroughAudio = NO;//录制Camera的时候, 要编码, 不能 -acodec copy
+    
+    
+    [videoCamera addTarget:movieWriter];
+    
+    videoCamera.audioEncodingTarget = movieWriter;
+    
+    [movieWriter startRecording];
+    [btnRecord setTitle:@"录制中....." forState:UIControlStateNormal];
+    
+    NSTimeInterval timeInterval =1.0;
+    fromdate = [NSDate date];
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                               target:self
+                                             selector:@selector(updateTimer:)
+                                             userInfo:nil
+                                              repeats:YES];
+    isRecording=YES;
+    
+}
+/**
+ 录制停止
+ */
+-(void)segmentStop
+{
+    [btnRecord setTitle:@"开始/暂停" forState:UIControlStateNormal];
+    videoCamera.audioEncodingTarget = nil;
+    
+    [movieWriter finishRecording];
+    
+    [segmentArray addObject:currentSegment];
+    
+    [videoCamera removeTarget:movieWriter];
+    
+    timeLabel.text = @"00:00:00";
+    if(myTimer!=nil)
+    {
+        [myTimer invalidate];
+        myTimer = nil;
+    }
+   
+    isRecording=NO;
+    movieWriter=nil;
+}
+
+/**
+ 录制完成, 
+ 合成和播放
+ */
+-(void)segmentFinish
+{
+    NSLog(@"文件是的个数是:%ld",segmentArray.count);
+    
+    //        NSString *dstPath=(NSString *)segmentArray[0];  //ok
+    //         [LanSongUtils startVideoPlayerVC:mUINavigationController dstPath:dstPath];
+    
+    
+    NSString *dstPath=[SDKFileUtil genTmpMp4Path];
+    
+    [VideoEditor executeConcatMP4:segmentArray dstFile:dstPath];
+    
+    if([SDKFileUtil fileExist:dstPath]){
+        [LanSongUtils startVideoPlayerVC:mUINavigationController dstPath:dstPath];
+    }else{
+        [LanSongUtils showHUDToast:@"抱歉,文件合成失败!,请联系我们"];
+    }
+
+}
+
+/**
+ 增加聚焦图片
+ */
+- (void)addfocusImage{
+    UIImage *focusImage = [UIImage imageNamed:@"focusimg"];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, focusImage.size.width, focusImage.size.height)];
+    imageView.image = focusImage;
+    CALayer *layer = imageView.layer;
+    layer.hidden = YES;
+    
+    //增加layer
+    [previewView.layer addSublayer:layer];
+    focusLayer = layer;
+}
+
+/**
+ 消失
+ */
+- (void)focusLayerNormal {
+    previewView.userInteractionEnabled = YES;
+    focusLayer.hidden = YES;
+}
+
+
+/**
+ 点击画面,开始聚集
+
+ @param tgr <#tgr description#>
+ */
+-(void)cameraViewTapAction:(UITapGestureRecognizer *)tgr
+{
+    if (tgr.state == UIGestureRecognizerStateRecognized && (focusLayer == nil || focusLayer.hidden)) {
+        CGPoint location = [tgr locationInView:previewView];
+        [self addfocusImage];
+        [self layerAnimationWithPoint:location];
+        
+        
+        
+        AVCaptureDevice *device = videoCamera.inputCamera;
+        CGPoint pointOfInterest = CGPointMake(0.5f, 0.5f);
+        CGSize frameSize = [previewView frame].size;
+        
+        //当前是前置的话, 宽度对调
+        if ([videoCamera cameraPosition] == AVCaptureDevicePositionFront) {
+            location.x = frameSize.width - location.x;
+        }
+        
+        pointOfInterest = CGPointMake(location.y / frameSize.height, 1.f - (location.x / frameSize.width));
+        if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus])
+        {
+            NSError *error;
+            if ([device lockForConfiguration:&error]) {
+                [device setFocusPointOfInterest:pointOfInterest];  //聚焦点
+                
+                [device setFocusMode:AVCaptureFocusModeAutoFocus];  //自动聚焦
+                
+                if([device isExposurePointOfInterestSupported] && [device isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure])
+                {
+                    [device setExposurePointOfInterest:pointOfInterest];
+                    [device setExposureMode:AVCaptureExposureModeContinuousAutoExposure];  //自动曝光
+                }
+                
+                [device unlockForConfiguration];
+                
+                NSLog(@"FOCUS OK");
+            } else {
+                NSLog(@"ERROR = %@", error);
+            }
+        }
+    }
+}
+
+/**
+ 其他的一些界面控件
+ */
 - (void) addSomeView{
-    UISlider *filterSettingsSlider = [[UISlider alloc] initWithFrame:CGRectMake(25.0, 30.0, mainScreenFrame.size.width - 50.0, 40.0)];
-    [filterSettingsSlider addTarget:self action:@selector(updateSliderValue:) forControlEvents:UIControlEventValueChanged];
-    filterSettingsSlider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    filterSettingsSlider.minimumValue = 0.0;
-    filterSettingsSlider.maximumValue = 2.0;
-    filterSettingsSlider.value = 1.0;
-    [filteredVideoView addSubview:filterSettingsSlider];
+   
     
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 60.0, 100, 30.0)];
     timeLabel.font = [UIFont systemFontOfSize:15.0f];
@@ -56,146 +265,41 @@
     timeLabel.textAlignment = NSTextAlignmentCenter;
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = [UIColor whiteColor];
-    [filteredVideoView addSubview:timeLabel];
+    [previewView addSubview:timeLabel];
     
     
-    photoCaptureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [photoCaptureButton.layer setCornerRadius:8];
-    photoCaptureButton.frame = CGRectMake(100,
-                                          mainScreenFrame.size.height - 70.0,
+    btnRecord = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btnRecord.layer setCornerRadius:8];
+    btnRecord.frame = CGRectMake(100,mainScreenFrame.size.height - 70.0,
                                           100.0, 40.0);
-    photoCaptureButton.backgroundColor = [UIColor whiteColor];
-    [photoCaptureButton setTitle:@"开始/暂停" forState:UIControlStateNormal];
-    photoCaptureButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [photoCaptureButton addTarget:self action:@selector(startRecording:) forControlEvents:UIControlEventTouchUpInside];
-    [photoCaptureButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    btnRecord.backgroundColor = [UIColor whiteColor];
+    [btnRecord setTitle:@"开始/暂停" forState:UIControlStateNormal];
+    btnRecord.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [btnRecord addTarget:self action:@selector(startRecording:) forControlEvents:UIControlEventTouchUpInside];
+    [btnRecord setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     
-    [filteredVideoView addSubview:photoCaptureButton];
+    [previewView addSubview:btnRecord];
     
-    UIButton *cameraChangeButton  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cameraChangeButton.layer setCornerRadius:8];
-    cameraChangeButton.frame = CGRectMake(mainScreenFrame.size.width - 150, mainScreenFrame.size.height - 70.0, 100.0, 40.0);
-    cameraChangeButton.backgroundColor = [UIColor whiteColor];
-    [cameraChangeButton setTitle:@"录制结束" forState:UIControlStateNormal];
-    cameraChangeButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [cameraChangeButton addTarget:self action:@selector(concatRecording:) forControlEvents:UIControlEventTouchUpInside];
-    [cameraChangeButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-    [filteredVideoView addSubview:cameraChangeButton];
-
-}
-
-- (IBAction)updateSliderValue:(id)sender
-{
-    [(GPUImageSaturationFilter *)filter setSaturation:[(UISlider *)sender value]];
-}
--(void)setNav:(UINavigationController*)nav
-{
-    mUINavigationController=nav;
-}
-- (IBAction)concatRecording:(id)sender {
-    if(isRecording)
-    {
-        isRecording=NO;
-        videoCamera.audioEncodingTarget = nil;
-       
-        [movieWriter finishRecording];
-        
-        [segmentArray addObject:pathToMovie];
-        
-        
-        [filter removeTarget:movieWriter];
-        timeLabel.text = @"00:00:00";
-        [myTimer invalidate];
-        myTimer = nil;
-    }
-    
-    if(segmentArray.count>0){
-        NSLog(@"文件是的个数是:%ld",segmentArray.count);
-        NSString *dstPath=[SDKFileUtil genTmpMp4Path];
-        
-        [VideoEditor executeConcatMP4:segmentArray dstFile:dstPath];
-        
-        if([SDKFileUtil fileExist:dstPath]){
-            [LanSongUtils startVideoPlayerVC:mUINavigationController dstPath:dstPath];
-        }
-        [SDKFileUtil deleteAllFiles:segmentArray];
-        
-    }
-}
-
-- (IBAction)startRecording:(id)sender {
-    //pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
-    
-    if(isRecording){
-        
-            [photoCaptureButton setTitle:@"开始/暂停" forState:UIControlStateNormal];
-            videoCamera.audioEncodingTarget = nil;
-            
-            [movieWriter finishRecording];
-            
-            [segmentArray addObject:pathToMovie];
-            
-            
-            [filter removeTarget:movieWriter];
-            timeLabel.text = @"00:00:00";
-            [myTimer invalidate];
-            myTimer = nil;
-            isRecording=NO;
-    }else{
-         [photoCaptureButton setTitle:@"录制中....." forState:UIControlStateNormal];
-        pathToMovie=[SDKFileUtil genTmpMp4Path];
-        
-        unlink([pathToMovie UTF8String]); // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
-        NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
-        
-        movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(360.0, 640.0)];
-        movieWriter.encodingLiveVideo = YES;
-        movieWriter.shouldPassthroughAudio = NO;//录制Camera的时候, 要编码, 不能 -acodec copy
-        [filter addTarget:movieWriter];
-        videoCamera.audioEncodingTarget = movieWriter;
-        
-        [movieWriter startRecording];
-        NSTimeInterval timeInterval =1.0;
-        fromdate = [NSDate date];
-        myTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                                   target:self
-                                                 selector:@selector(updateTimer:)
-                                                 userInfo:nil
-                                                  repeats:YES];
-        isRecording=YES;
-    }
-}
-- (void)updateTimer:(NSTimer *)sender{
-    NSDateFormatter *dateFormator = [[NSDateFormatter alloc] init];
-    dateFormator.dateFormat = @"HH:mm:ss";
-    NSDate *todate = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
-    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-    NSDateComponents *comps  = [calendar components:unitFlags fromDate:fromdate toDate:todate options:NSCalendarWrapComponents];
-    //NSInteger hour = [comps hour];
-    //NSInteger min = [comps minute];
-    //NSInteger sec = [comps second];
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDate *timer = [gregorian dateFromComponents:comps];
-    NSString *date = [dateFormator stringFromDate:timer];
-    timeLabel.text = date;
-}
-
-- (void)setfocusImage{
-    UIImage *focusImage = [UIImage imageNamed:@"focusimg"];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, focusImage.size.width, focusImage.size.height)];
-    imageView.image = focusImage;
-    CALayer *layer = imageView.layer;
-    layer.hidden = YES;
-    [filteredVideoView.layer addSublayer:layer];
-    _focusLayer = layer;
+    //完成按钮
+    UIButton *btnOk  = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btnOk.layer setCornerRadius:8];
+    btnOk.frame = CGRectMake(mainScreenFrame.size.width - 150, mainScreenFrame.size.height - 70.0, 100.0, 40.0);
+    btnOk.backgroundColor = [UIColor whiteColor];
+    [btnOk setTitle:@"录制结束" forState:UIControlStateNormal];
+    btnOk.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [btnOk addTarget:self action:@selector(concatRecording:) forControlEvents:UIControlEventTouchUpInside];
+    [btnOk setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [previewView addSubview:btnOk];
     
 }
 
+/**
+ 聚焦的UI动画
+
+ @param point 聚焦点
+ */
 - (void)layerAnimationWithPoint:(CGPoint)point {
-    if (_focusLayer) {
-        CALayer *focusLayer = _focusLayer;
+    if (focusLayer) {
         focusLayer.hidden = NO;
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
@@ -217,54 +321,30 @@
         [self performSelector:@selector(focusLayerNormal) withObject:self afterDelay:0.5f];
     }
 }
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+
+/**
+ 定时器相应 sender
+
+ @param sender <#sender description#>
+ */
+- (void)updateTimer:(NSTimer *)sender{
+    NSDateFormatter *dateFormator = [[NSDateFormatter alloc] init];
+    dateFormator.dateFormat = @"HH:mm:ss";
+    NSDate *todate = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSDateComponents *comps  = [calendar components:unitFlags fromDate:fromdate toDate:todate options:NSCalendarWrapComponents];
+    //NSInteger hour = [comps hour];
+    //NSInteger min = [comps minute];
+    //NSInteger sec = [comps second];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *timer = [gregorian dateFromComponents:comps];
+    NSString *date = [dateFormator stringFromDate:timer];
+    timeLabel.text = date;
 }
-
-
-- (void)focusLayerNormal {
-    filteredVideoView.userInteractionEnabled = YES;
-    _focusLayer.hidden = YES;
-}
-
-
--(void)cameraViewTapAction:(UITapGestureRecognizer *)tgr
+-(void)setNav:(UINavigationController*)nav
 {
-    if (tgr.state == UIGestureRecognizerStateRecognized && (_focusLayer == NO || _focusLayer.hidden)) {
-        CGPoint location = [tgr locationInView:filteredVideoView];
-        [self setfocusImage];
-        [self layerAnimationWithPoint:location];
-        AVCaptureDevice *device = videoCamera.inputCamera;
-        CGPoint pointOfInterest = CGPointMake(0.5f, 0.5f);
-//        NSLog(@"taplocation x = %f y = %f", location.x, location.y);
-        CGSize frameSize = [filteredVideoView frame].size;
-        
-        if ([videoCamera cameraPosition] == AVCaptureDevicePositionFront) {
-            location.x = frameSize.width - location.x;
-        }
-        
-        pointOfInterest = CGPointMake(location.y / frameSize.height, 1.f - (location.x / frameSize.width));
-        
-        
-        if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-            NSError *error;
-            if ([device lockForConfiguration:&error]) {
-                [device setFocusPointOfInterest:pointOfInterest];
-                
-                [device setFocusMode:AVCaptureFocusModeAutoFocus];
-                
-                if([device isExposurePointOfInterestSupported] && [device isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure])
-                {
-                    [device setExposurePointOfInterest:pointOfInterest];
-                    [device setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
-                }
-                
-                [device unlockForConfiguration];
-                
-                NSLog(@"FOCUS OK");
-            } else {
-                NSLog(@"ERROR = %@", error);
-            }
-        }
-    }
+    mUINavigationController=nav;
 }
 @end

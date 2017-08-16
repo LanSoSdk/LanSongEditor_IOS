@@ -11,13 +11,15 @@
 #import "Masonry.h"
 #import <LanSongEditorFramework/LanSongEditor.h>
 #import "LanSongUtils.h"
+#import "SlideEffect.h"
+
 
 
 @interface PictureSetsRealTimeVC ()
 {
     int frameCount;
     
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
     NSTimer * timer;
     NSString *dstPath;
     NSString *dstTmpPath;
@@ -29,9 +31,12 @@
     CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
     int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
     BOOL isadd;
+    NSMutableArray *slideArray;
     
 }
 @end
+
+#define  kUpdateFps 25
 
 @implementation PictureSetsRealTimeVC
 
@@ -44,49 +49,58 @@
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    //step1:第一步: 创建一个画板,并增加编码保存路径
+    /**
+     第一步: 创建一个画板,并增加编码保存路径
+     */
+    
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
-    //step2:第二步:  增加一个View用来预览显示.暂时采用宽度为固定值,来调整高度,如果您的视频是竖的, 则应该固定高度来调整宽度. 或者设置一个正方形
-    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    /**
+     step2:第二步:  增加一个View用来预览显示.
+     暂时采用宽度为固定值,来调整高度,如果您的视频是竖的, 则应该固定高度来调整宽度. 或者设置一个正方形
+     */
+    DrawPadView *drawpadView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     
-    [self.view addSubview: filterView];
-    [drawpad setDrawPadPreView:filterView];
+    [self.view addSubview: drawpadView];
+    [drawpad setDrawPadPreView:drawpadView];
     
     
-    //step3: 增加两个图层.一个大的做背景,一个小的用来调节.
+    /**
+     step3: 增加一些图层.
+     */
+    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];
     
-    UIImage *image=[UIImage imageNamed:@"mm"];
-    operationPen=[drawpad addBitmapPen:image];
+    slideArray=[[NSMutableArray alloc] init];
     
+    [self addBitmapPen:@"mm" start:0.0f end:5.0f];
+    [self addBitmapPen:@"tt3" start:5.0f end:10.0f];
+    [self addBitmapPen:@"pic3" start:10.0f end:15.0f];
+    [self addBitmapPen:@"pic4" start:15.0f end:20.0f];
+    [self addBitmapPen:@"pic5" start:20.0f end:25.0f];
     
     //设置进度回调.
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-              NSLog(@"当前处理的进度是:%f",currentPts);
+              //NSLog(@"当前处理的进度是:%f(秒)",currentPts);
             
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             //在15秒的时候结束.
-            if (currentPts>=8.0f) {
+            if (currentPts>=26.0f) {
                 [weakSelf stopDrawPad];
             }
-//            else if(currentPts>10.0f){  //可以用来演示在进度进行中,删除一个图层, 然后再增加一个图层.
-//                [weakSelf addBitmapPen];
-//            }else if(currentPts>5.0f){
-//                [weakSelf removeBitmapPen];
-//            }
-            
+            //把当前进度传递进去.
+            [weakSelf updatePen:currentPts];
         });
     }];
     
@@ -99,9 +113,16 @@
         });
     }];
     
-    //step4: 设置画板自动刷新,并开始工作
+    /**
+     第四步: 设置画板自动刷新,并开始工作
+     */
+    
     [drawpad setUpdateMode:kAutoTimerUpdate autoFps:25];
-    [drawpad startDrawPad];
+    
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
     
 
     //----一下是ui操作.
@@ -111,118 +132,77 @@
     [self.view addSubview:_labProgress];
     
     [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(filterView.mas_bottom).offset(padding);
-        make.centerX.mas_equalTo(filterView.mas_centerX);
+        make.top.mas_equalTo(drawpadView.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(drawpadView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"XY:"];
-    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:102 labText:@"缩放:"];
-                        [self createSlide:currslide min:0.0f max:360.0f value:0 tag:103 labText:@"旋转:"];
+    
+    UILabel *labHint=[[UILabel alloc] init];
+    [labHint setText:@"举例: 同时向DrawPad容器里增加多个图片图层,然后按照进度移动来形成进出的效果"];
+    labHint.numberOfLines=3;
+    [self.view addSubview:labHint];
+    [labHint mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_labProgress.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(_labProgress.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 120));
+    }];
+    
+}
+
+/**
+ 每一个帧都有回调, 
+ 返回到这里,根据时间戳来移动每个图层的位置.
+
+ @param currentPts <#currentPts description#>
+ */
+-(void)updatePen:(CGFloat)currentPts
+{
+    for (int i=0; i<slideArray.count; i++) {
+        SlideEffect *item=[slideArray objectAtIndex:i];
+        [item run:currentPts];
+    }
 }
 
 -(void)stopDrawPad
 {
     [drawpad stopDrawPad];
 }
--(void)addBitmapPen
+
+-(void)viewDidDisappear:(BOOL)animated
 {
-    if (drawpad!=nil && isadd==NO) {
-        isadd=YES;
-        UIImage *image=[UIImage imageNamed:@"mm"];
-        operationPen=[drawpad addBitmapPen:image];
-        [LanSongUtils showHUDToast:@"演示再次增加一个图层"];
+    if (drawpad!=nil) {
+        [drawpad stopDrawPad];
     }
 }
--(void)removeBitmapPen
+/**
+ 把图片图层增加到DrawPad容器中.
+
+ */
+-(void)addBitmapPen:(NSString *)picName start:(CGFloat)start end:(CGFloat)end
 {
-    if (drawpad!=nil && operationPen!=nil) {
-        [drawpad removePen:operationPen];
-        operationPen=nil;
-        [LanSongUtils showHUDToast:@"演示删除一个图层"];
-    }
-}
-- (void)slideChanged:(UISlider*)sender
-{
+    UIImage *imag=[UIImage imageNamed:picName];
+    Pen *item=[drawpad addBitmapPen:imag];
     
-    CGFloat val=[(UISlider *)sender value];
-    CGFloat pos2=drawpad.drawpadSize.width*val;
-    switch (sender.tag) {
-        case 101:  //weizhi
-            operationPen.positionX=pos2;
-            
-            //当宽度增加后, 也演示下高度的变化.
-            if (operationPen.positionX > drawpad.drawpadSize.width/2) {
-                
-                operationPen.positionY+=10;
-                if (operationPen.positionY>=drawpad.drawpadSize.height) {
-                    operationPen.positionY=0;
-                }
-            }
-            break;
-        case 102:  //scale
-            if (operationPen!=nil) {
-                operationPen.scaleHeight=val;
-                operationPen.scaleWidth=val;
-            }
-            break;
-            
-        case 103:  //rotate;
-            if (operationPen!=nil) {
-                operationPen.rotateDegree=val;
-            }
-            break;
-            
-        default:
-            break;
-    }
+    item.scaleWidth=0.5f;
+    item.scaleHeight=0.5f;
+    
+    SlideEffect *slide=[[SlideEffect alloc] initWithPen:item FPs:kUpdateFps startTime:start endTime:end release:true];
+    
+    [slideArray addObject:slide];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/**
-  初始化一个slide
- */
--(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
 
-{
-    UILabel *labPos=[[UILabel alloc] init];
-    labPos.text=text;
-    
-    UISlider *slidePos=[[UISlider alloc] init];
-    
-    slidePos.maximumValue=max;
-    slidePos.minimumValue=min;
-    slidePos.value=value;
-    slidePos.continuous = YES;
-    slidePos.tag=tag;
-    
-    [slidePos addTarget:self action:@selector(slideChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    
-    CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.01;
-    
-    [self.view addSubview:labPos];
-    [self.view addSubview:slidePos];
-    
-    
-    [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(parentView.mas_bottom).offset(padding);
-        make.left.mas_equalTo(self.view.mas_left);
-        make.size.mas_equalTo(CGSizeMake(40, 40));
-    }];
-    
-    [slidePos mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(labPos.mas_centerY);
-        make.left.mas_equalTo(labPos.mas_right);
-        make.size.mas_equalTo(CGSizeMake(size.width-50, 15));
-    }];
-    return labPos;
-}
+/**
+ 运行完后, 增加背景音乐
+ */
 -(void)addAudio
 {
     //因为影集是没有音频的, 这里增加一个别的作为背景音乐.
@@ -248,12 +228,7 @@
     }
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    if (drawpad!=nil) {
-        [drawpad stopDrawPad];
-    }
-}
+
 -(void)dealloc
 {
     if([SDKFileUtil fileExist:dstPath]){

@@ -18,7 +18,7 @@
 
 @interface CameraPenDemoVC ()
 {
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
     
     NSString *dstPath;
     
@@ -54,7 +54,7 @@
         CGFloat drawPadHeight=480;
         int drawPadBitRate=1000*1000;
     
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     
     
@@ -107,7 +107,10 @@
     }];
     
     // 开始工作
-    [drawpad startDrawPad];
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad 容器线程执行失败, 请联系我们!");
+    }
     
     
     //----一下是ui操作.

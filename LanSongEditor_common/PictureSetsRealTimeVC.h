@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ 照片影集.
+ */
 @interface PictureSetsRealTimeVC : UIViewController <UIAlertViewDelegate>
 
 @property UILabel *labProgress;

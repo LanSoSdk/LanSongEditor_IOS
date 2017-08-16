@@ -88,7 +88,10 @@
     [mainLayer addSublayer:layer];
     [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
     //step3: 开始执行
-    [drawPad startDrawPad];
+    if([drawPad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
 }
 -(void) showProgress:(CGFloat) sampleTime
 {

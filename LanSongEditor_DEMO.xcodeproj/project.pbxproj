@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B0048D61E153C9D0066E1A8 /* AnimationDemoRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0048D51E153C9D0066E1A8 /* AnimationDemoRealTimeVC.m */; };
+		8B0048D61E153C9D0066E1A8 /* Demo1PenMothedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0048D51E153C9D0066E1A8 /* Demo1PenMothedVC.m */; };
 		8B0265E61E20D1C6007D3A29 /* YXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0265E51E20D1C6007D3A29 /* YXLabel.m */; };
 		8B0265E91E20DABF007D3A29 /* CameraPenDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0265E81E20DABF007D3A29 /* CameraPenDemoVC.m */; };
 		8B0265EB1E20E6FD007D3A29 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B0265EA1E20E6FD007D3A29 /* mask.png */; };
@@ -62,13 +62,10 @@
 		8B20FA041DFBD59300E27A83 /* CommDemoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20FA031DFBD59300E27A83 /* CommDemoItem.m */; };
 		8B2AD48E1ED3D86C0017D6A3 /* SegmentRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */; };
 		8B2EF7BA1E238A1D0013C39C /* honor30s2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF7B91E238A010013C39C /* honor30s2.m4a */; };
-		8B3189CD1E1B3B2B00A0931C /* TestDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3189CC1E1B3B2B00A0931C /* TestDemoVC.m */; };
 		8B34BDED1E14C07B00DC3751 /* p640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEC1E14C07B00DC3751 /* p640x1136.png */; };
 		8B34BDEF1E14C08200DC3751 /* mm.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEE1E14C08200DC3751 /* mm.png */; };
+		8B4D3E461F44426D0085E27F /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4D3E451F44426D0085E27F /* LanSongEditorFramework.framework */; };
 		8B53019B1E6AC140008F43C8 /* ping20s.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B53019A1E6AC124008F43C8 /* ping20s.mp4 */; };
-		8B7B41541EE6336400BDB272 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */; };
-		8B8317D01EAAF11F00FC0EB5 /* noplay3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B8317CF1EAAF10F00FC0EB5 /* noplay3.mp4 */; };
-		8B8317D21EAAF16200FC0EB5 /* noplay.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B8317D11EAAF14400FC0EB5 /* noplay.mp4 */; };
 		8B8638141D51AB29007A353C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638131D51AB29007A353C /* main.m */; };
 		8B8638171D51AB29007A353C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8638161D51AB29007A353C /* AppDelegate.m */; };
 		8B86381D1D51AB29007A353C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B86381B1D51AB29007A353C /* Main.storyboard */; };
@@ -83,14 +80,21 @@
 		8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383C1D51ABDC007A353C /* CoreMedia.framework */; };
 		8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383E1D51ABE8007A353C /* OpenGLES.framework */; };
 		8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8638461D51AD0E007A353C /* QuartzCore.framework */; };
-		8B9167871E6FC5A600A7317A /* TestViewPen.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9167861E6FC5A600A7317A /* TestViewPen.m */; };
 		8B9F75371E14F0AF00B54FDB /* PictureSetsRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9F75361E14F0AF00B54FDB /* PictureSetsRealTimeVC.m */; };
 		8BAA944F1ED0160E00A5ED4E /* SegmentRecordFullView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA944C1ED0160E00A5ED4E /* SegmentRecordFullView.m */; };
 		8BAA94501ED0160E00A5ED4E /* SegmentRecordFullVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA944E1ED0160E00A5ED4E /* SegmentRecordFullVC.m */; };
+		8BB81DFF1F43E829006D0D22 /* pic1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DF81F43E829006D0D22 /* pic1.png */; };
+		8BB81E001F43E829006D0D22 /* pic2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DF91F43E829006D0D22 /* pic2.png */; };
+		8BB81E011F43E829006D0D22 /* pic3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFA1F43E829006D0D22 /* pic3.png */; };
+		8BB81E021F43E829006D0D22 /* pic4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFB1F43E829006D0D22 /* pic4.png */; };
+		8BB81E031F43E829006D0D22 /* pic5.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFC1F43E829006D0D22 /* pic5.png */; };
+		8BB81E051F43E829006D0D22 /* tt3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFE1F43E829006D0D22 /* tt3.png */; };
+		8BB81E071F43F752006D0D22 /* Demo2PenMothedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB81E061F43F752006D0D22 /* Demo2PenMothedVC.m */; };
 		8BC5C8E11E62B5090046135E /* MVPenDemoRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E01E62B5090046135E /* MVPenDemoRealTimeVC.m */; };
 		8BC5C8E91E62CD6A0046135E /* mei_b.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E71E62CD560046135E /* mei_b.mp4 */; };
 		8BC5C8EA1E62CD6A0046135E /* mei.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E81E62CD560046135E /* mei.mp4 */; };
 		8BC872EE1ED1133E009FA727 /* focusimg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC872ED1ED1133E009FA727 /* focusimg.png */; };
+		8BD3EA261F42F44100FC72E8 /* SlideEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD3EA251F42F44100FC72E8 /* SlideEffect.m */; };
 		8BDE898E1E836085003C4BA4 /* MVPenOnlyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE898D1E836085003C4BA4 /* MVPenOnlyVC.m */; };
 		8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */; };
 		8BEB086A1DFCFBF000675BCE /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB08691DFCFBF000675BCE /* MBProgressHUD.m */; };
@@ -134,8 +138,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8B0048D41E153C9D0066E1A8 /* AnimationDemoRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDemoRealTimeVC.h; sourceTree = "<group>"; };
-		8B0048D51E153C9D0066E1A8 /* AnimationDemoRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AnimationDemoRealTimeVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8B0048D41E153C9D0066E1A8 /* Demo1PenMothedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo1PenMothedVC.h; sourceTree = "<group>"; };
+		8B0048D51E153C9D0066E1A8 /* Demo1PenMothedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Demo1PenMothedVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8B0265E41E20D1C6007D3A29 /* YXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXLabel.h; sourceTree = "<group>"; };
 		8B0265E51E20D1C6007D3A29 /* YXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXLabel.m; sourceTree = "<group>"; };
 		8B0265E71E20DABF007D3A29 /* CameraPenDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraPenDemoVC.h; sourceTree = "<group>"; };
@@ -201,14 +205,10 @@
 		8B2AD48C1ED3D86C0017D6A3 /* SegmentRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecorder.h; sourceTree = "<group>"; };
 		8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecorder.m; sourceTree = "<group>"; };
 		8B2EF7B91E238A010013C39C /* honor30s2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = honor30s2.m4a; sourceTree = "<group>"; };
-		8B3189CB1E1B3B2B00A0931C /* TestDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDemoVC.h; sourceTree = "<group>"; };
-		8B3189CC1E1B3B2B00A0931C /* TestDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestDemoVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8B34BDEC1E14C07B00DC3751 /* p640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = p640x1136.png; sourceTree = "<group>"; };
 		8B34BDEE1E14C08200DC3751 /* mm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mm.png; sourceTree = "<group>"; };
+		8B4D3E451F44426D0085E27F /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8B53019A1E6AC124008F43C8 /* ping20s.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping20s.mp4; sourceTree = "<group>"; };
-		8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
-		8B8317CF1EAAF10F00FC0EB5 /* noplay3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = noplay3.mp4; sourceTree = "<group>"; };
-		8B8317D11EAAF14400FC0EB5 /* noplay.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = noplay.mp4; sourceTree = "<group>"; };
 		8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B8638131D51AB29007A353C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8B8638151D51AB29007A353C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -226,19 +226,27 @@
 		8B86383C1D51ABDC007A353C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		8B86383E1D51ABE8007A353C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		8B8638461D51AD0E007A353C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		8B9167851E6FC5A600A7317A /* TestViewPen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewPen.h; sourceTree = "<group>"; };
-		8B9167861E6FC5A600A7317A /* TestViewPen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewPen.m; sourceTree = "<group>"; };
 		8B9F75351E14F0AF00B54FDB /* PictureSetsRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureSetsRealTimeVC.h; sourceTree = "<group>"; };
 		8B9F75361E14F0AF00B54FDB /* PictureSetsRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureSetsRealTimeVC.m; sourceTree = "<group>"; };
 		8BAA944B1ED0160E00A5ED4E /* SegmentRecordFullView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecordFullView.h; sourceTree = "<group>"; };
 		8BAA944C1ED0160E00A5ED4E /* SegmentRecordFullView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecordFullView.m; sourceTree = "<group>"; };
 		8BAA944D1ED0160E00A5ED4E /* SegmentRecordFullVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecordFullVC.h; sourceTree = "<group>"; };
 		8BAA944E1ED0160E00A5ED4E /* SegmentRecordFullVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecordFullVC.m; sourceTree = "<group>"; };
+		8BB81DF81F43E829006D0D22 /* pic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic1.png; sourceTree = "<group>"; };
+		8BB81DF91F43E829006D0D22 /* pic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic2.png; sourceTree = "<group>"; };
+		8BB81DFA1F43E829006D0D22 /* pic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic3.png; sourceTree = "<group>"; };
+		8BB81DFB1F43E829006D0D22 /* pic4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic4.png; sourceTree = "<group>"; };
+		8BB81DFC1F43E829006D0D22 /* pic5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic5.png; sourceTree = "<group>"; };
+		8BB81DFE1F43E829006D0D22 /* tt3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tt3.png; sourceTree = "<group>"; };
+		8BB81E061F43F752006D0D22 /* Demo2PenMothedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2PenMothedVC.m; sourceTree = "<group>"; };
+		8BB81E081F43F757006D0D22 /* Demo2PenMothedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demo2PenMothedVC.h; sourceTree = "<group>"; };
 		8BC5C8DF1E62B5090046135E /* MVPenDemoRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVPenDemoRealTimeVC.h; sourceTree = "<group>"; };
 		8BC5C8E01E62B5090046135E /* MVPenDemoRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MVPenDemoRealTimeVC.m; sourceTree = "<group>"; };
 		8BC5C8E71E62CD560046135E /* mei_b.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = mei_b.mp4; sourceTree = "<group>"; };
 		8BC5C8E81E62CD560046135E /* mei.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = mei.mp4; sourceTree = "<group>"; };
 		8BC872ED1ED1133E009FA727 /* focusimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focusimg.png; sourceTree = "<group>"; };
+		8BD3EA241F42F44100FC72E8 /* SlideEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideEffect.h; sourceTree = "<group>"; };
+		8BD3EA251F42F44100FC72E8 /* SlideEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideEffect.m; sourceTree = "<group>"; };
 		8BDE898C1E836085003C4BA4 /* MVPenOnlyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVPenOnlyVC.h; sourceTree = "<group>"; };
 		8BDE898D1E836085003C4BA4 /* MVPenOnlyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MVPenOnlyVC.m; sourceTree = "<group>"; };
 		8BE3ADFE1E07DAC700EB26B8 /* LanSongUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanSongUtils.h; sourceTree = "<group>"; };
@@ -337,7 +345,7 @@
 				8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */,
 				8B86383D1D51ABDC007A353C /* CoreMedia.framework in Frameworks */,
 				8B86383B1D51ABD4007A353C /* AVFoundation.framework in Frameworks */,
-				8B7B41541EE6336400BDB272 /* LanSongEditorFramework.framework in Frameworks */,
+				8B4D3E461F44426D0085E27F /* LanSongEditorFramework.framework in Frameworks */,
 				8B8638371D51ABC2007A353C /* VideoToolbox.framework in Frameworks */,
 				8B8638351D51ABBA007A353C /* UIKit.framework in Frameworks */,
 				8B8638331D51ABB0007A353C /* AudioToolbox.framework in Frameworks */,
@@ -379,14 +387,10 @@
 				8BAA944E1ED0160E00A5ED4E /* SegmentRecordFullVC.m */,
 				8B2AD48C1ED3D86C0017D6A3 /* SegmentRecorder.h */,
 				8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */,
-				8B3189CB1E1B3B2B00A0931C /* TestDemoVC.h */,
-				8B3189CC1E1B3B2B00A0931C /* TestDemoVC.m */,
 				8BE3ADFE1E07DAC700EB26B8 /* LanSongUtils.h */,
 				8BE3ADFF1E07DAC700EB26B8 /* LanSongUtils.m */,
 				8BFC00D91DFE918A005D3BF2 /* MainViewController.h */,
 				8BFC00DA1DFE918A005D3BF2 /* MainViewController.m */,
-				8B0048D41E153C9D0066E1A8 /* AnimationDemoRealTimeVC.h */,
-				8B0048D51E153C9D0066E1A8 /* AnimationDemoRealTimeVC.m */,
 				8B0CE4531E188DBE00C5B3B1 /* FilterRealTimeDemoVC.h */,
 				8B0CE4541E188DBE00C5B3B1 /* FilterRealTimeDemoVC.m */,
 				8B0CE4501E188CBD00C5B3B1 /* FilterTpyeList.h */,
@@ -399,14 +403,20 @@
 				8B20F9FF1DFBD54800E27A83 /* CommDemoListTableVC.m */,
 				8B0ECF7F1E1BA2AC00E79384 /* ViewPenRealTimeDemoVC.h */,
 				8B0ECF801E1BA2AC00E79384 /* ViewPenRealTimeDemoVC.m */,
-				8B9167851E6FC5A600A7317A /* TestViewPen.h */,
-				8B9167861E6FC5A600A7317A /* TestViewPen.m */,
 				8B0265E71E20DABF007D3A29 /* CameraPenDemoVC.h */,
 				8B0265E81E20DABF007D3A29 /* CameraPenDemoVC.m */,
+				8B0048D41E153C9D0066E1A8 /* Demo1PenMothedVC.h */,
+				8B0048D51E153C9D0066E1A8 /* Demo1PenMothedVC.m */,
+				8BB81E061F43F752006D0D22 /* Demo2PenMothedVC.m */,
+				8BB81E081F43F757006D0D22 /* Demo2PenMothedVC.h */,
 				8B9F75351E14F0AF00B54FDB /* PictureSetsRealTimeVC.h */,
 				8B9F75361E14F0AF00B54FDB /* PictureSetsRealTimeVC.m */,
 				8BC5C8DF1E62B5090046135E /* MVPenDemoRealTimeVC.h */,
 				8BC5C8E01E62B5090046135E /* MVPenDemoRealTimeVC.m */,
+				8BDE898C1E836085003C4BA4 /* MVPenOnlyVC.h */,
+				8BDE898D1E836085003C4BA4 /* MVPenOnlyVC.m */,
+				8BD3EA241F42F44100FC72E8 /* SlideEffect.h */,
+				8BD3EA251F42F44100FC72E8 /* SlideEffect.m */,
 				8BF0E2A11D51D52100F52374 /* VideoPlayViewController.h */,
 				8BF0E2A21D51D52100F52374 /* VideoPlayViewController.m */,
 				8BF0E2A31D51D52100F52374 /* VideoPlayViewController.xib */,
@@ -416,8 +426,6 @@
 				8B8638261D51AB29007A353C /* Info.plist */,
 				8B86381E1D51AB29007A353C /* LanSongEditor_common.xcdatamodeld */,
 				8B8638121D51AB29007A353C /* Supporting Files */,
-				8BDE898C1E836085003C4BA4 /* MVPenOnlyVC.h */,
-				8BDE898D1E836085003C4BA4 /* MVPenOnlyVC.m */,
 			);
 			name = LanSongEditor_all;
 			path = LanSongEditor_common;
@@ -516,7 +524,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B7B41531EE6336400BDB272 /* LanSongEditorFramework.framework */,
+				8B4D3E451F44426D0085E27F /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -534,6 +542,12 @@
 		8BF0E2A71D51D53600F52374 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				8BB81DF81F43E829006D0D22 /* pic1.png */,
+				8BB81DF91F43E829006D0D22 /* pic2.png */,
+				8BB81DFA1F43E829006D0D22 /* pic3.png */,
+				8BB81DFB1F43E829006D0D22 /* pic4.png */,
+				8BB81DFC1F43E829006D0D22 /* pic5.png */,
+				8BB81DFE1F43E829006D0D22 /* tt3.png */,
 				8B1393DE1ED2F211009963C0 /* touch_focus_not.png */,
 				8B1393DF1ED2F211009963C0 /* touch_focus_not@2x.png */,
 				8B1393E01ED2F211009963C0 /* record_flashlight_normal.png */,
@@ -575,8 +589,6 @@
 				8BC5C8E71E62CD560046135E /* mei_b.mp4 */,
 				8BC5C8E81E62CD560046135E /* mei.mp4 */,
 				8B53019A1E6AC124008F43C8 /* ping20s.mp4 */,
-				8B8317D11EAAF14400FC0EB5 /* noplay.mp4 */,
-				8B8317CF1EAAF10F00FC0EB5 /* noplay3.mp4 */,
 				8B0265F21E20E75B007D3A29 /* WID-small.jpg */,
 				8B0265F01E20E724007D3A29 /* curvies.png */,
 				8B0265EC1E20E70F007D3A29 /* squares.png */,
@@ -690,16 +702,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BB81E011F43E829006D0D22 /* pic3.png in Resources */,
 				8B1394491ED2F211009963C0 /* record_icon_hook_highlighted_bg@2x.png in Resources */,
 				8B1394541ED2F211009963C0 /* record_lensflip_normal.png in Resources */,
 				8B13943B1ED2F211009963C0 /* record_delete_disable@2x.png in Resources */,
 				8B13942F1ED2F211009963C0 /* vedio_nav_btn_back_pre@2x.png in Resources */,
-				8B8317D21EAAF16200FC0EB5 /* noplay.mp4 in Resources */,
-				8B8317D01EAAF11F00FC0EB5 /* noplay3.mp4 in Resources */,
 				8B13941F1ED2F211009963C0 /* touch_focus_not@2x.png in Resources */,
 				8B1394361ED2F211009963C0 /* record_close_highlighted.png in Resources */,
 				8B1394611ED2F771009963C0 /* video_longvideo_btn_shoot.png in Resources */,
 				8B53019B1E6AC140008F43C8 /* ping20s.mp4 in Resources */,
+				8BB81E021F43E829006D0D22 /* pic4.png in Resources */,
 				8B13944E1ED2F211009963C0 /* record_icon_hook.png in Resources */,
 				8BC872EE1ED1133E009FA727 /* focusimg.png in Resources */,
 				8BC5C8E91E62CD6A0046135E /* mei_b.mp4 in Resources */,
@@ -708,6 +720,7 @@
 				8B13944D1ED2F211009963C0 /* record_icon_hook_normal@2x.png in Resources */,
 				8BC5C8EA1E62CD6A0046135E /* mei.mp4 in Resources */,
 				8B13944C1ED2F211009963C0 /* record_icon_hook_normal.png in Resources */,
+				8BB81E031F43E829006D0D22 /* pic5.png in Resources */,
 				8B2EF7BA1E238A1D0013C39C /* honor30s2.m4a in Resources */,
 				8B1394391ED2F211009963C0 /* record_close_normal@2x.png in Resources */,
 				8B1394351ED2F211009963C0 /* record_close_disable@2x.png in Resources */,
@@ -720,6 +733,7 @@
 				8BFC00CA1DFE912B005D3BF2 /* LICENSE in Resources */,
 				8B13943D1ED2F211009963C0 /* record_delete_normal@2x.png in Resources */,
 				8B1394241ED2F211009963C0 /* record_flashlight_highlighted.png in Resources */,
+				8BB81E051F43E829006D0D22 /* tt3.png in Resources */,
 				8B0265EB1E20E6FD007D3A29 /* mask.png in Resources */,
 				8B1394511ED2F211009963C0 /* record_lensflip_disable@2x.png in Resources */,
 				8B1394231ED2F211009963C0 /* record_flashlight_disable@2x.png in Resources */,
@@ -737,9 +751,11 @@
 				8B13943F1ED2F211009963C0 /* record_deletesure_normal@2x.png in Resources */,
 				8B8638221D51AB29007A353C /* Assets.xcassets in Resources */,
 				8B1394551ED2F211009963C0 /* record_lensflip_normal@2x.png in Resources */,
+				8BB81E001F43E829006D0D22 /* pic2.png in Resources */,
 				8B13943C1ED2F211009963C0 /* record_delete_normal.png in Resources */,
 				8B0265F31E20E75B007D3A29 /* WID-small.jpg in Resources */,
 				8B13944A1ED2F211009963C0 /* record_icon_hook_normal_bg.png in Resources */,
+				8BB81DFF1F43E829006D0D22 /* pic1.png in Resources */,
 				8B86381D1D51AB29007A353C /* Main.storyboard in Resources */,
 				8B13943E1ED2F211009963C0 /* record_deletesure_normal.png in Resources */,
 				8B1394531ED2F211009963C0 /* record_lensflip_highlighted@2x.png in Resources */,
@@ -782,11 +798,11 @@
 				8BFC00D31DFE912B005D3BF2 /* View+MASAdditions.m in Sources */,
 				8BDE898E1E836085003C4BA4 /* MVPenOnlyVC.m in Sources */,
 				8B0CE4521E188CBD00C5B3B1 /* FilterTpyeList.m in Sources */,
-				8B0048D61E153C9D0066E1A8 /* AnimationDemoRealTimeVC.m in Sources */,
-				8B3189CD1E1B3B2B00A0931C /* TestDemoVC.m in Sources */,
+				8B0048D61E153C9D0066E1A8 /* Demo1PenMothedVC.m in Sources */,
 				8BEF48551E1A0E5800EC1D05 /* UIView+UIImage.m in Sources */,
 				8BEF48561E1A0E5800EC1D05 /* UIView+ZXQuartz.m in Sources */,
 				8B0CE4551E188DBE00C5B3B1 /* FilterRealTimeDemoVC.m in Sources */,
+				8BB81E071F43F752006D0D22 /* Demo2PenMothedVC.m in Sources */,
 				8BFC00CE1DFE912B005D3BF2 /* MASLayoutConstraint.m in Sources */,
 				8BFC00D81DFE913D005D3BF2 /* UIColor+Util.m in Sources */,
 				8BFC00DB1DFE918A005D3BF2 /* MainViewController.m in Sources */,
@@ -800,6 +816,7 @@
 				8BFC00D41DFE912B005D3BF2 /* README.md in Sources */,
 				8BC5C8E11E62B5090046135E /* MVPenDemoRealTimeVC.m in Sources */,
 				8BFC00D11DFE912B005D3BF2 /* NSArray+MASAdditions.m in Sources */,
+				8BD3EA261F42F44100FC72E8 /* SlideEffect.m in Sources */,
 				8BFC00D21DFE912B005D3BF2 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				8B8638201D51AB29007A353C /* LanSongEditor_common.xcdatamodeld in Sources */,
 				8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */,
@@ -809,7 +826,6 @@
 				8B8638141D51AB29007A353C /* main.m in Sources */,
 				8B1393D71ED2F08D009963C0 /* ProgressBar.m in Sources */,
 				8BFC00D51DFE912B005D3BF2 /* UIColor+Util.m in Sources */,
-				8B9167871E6FC5A600A7317A /* TestViewPen.m in Sources */,
 				8BEF48621E1A0E5F00EC1D05 /* ACEDrawingView.m in Sources */,
 				8BEF48531E1A0E5800EC1D05 /* UIImage-Extensions.m in Sources */,
 				8BEF48491E1A0E5800EC1D05 /* BlazeiceCurledViewBase.m in Sources */,

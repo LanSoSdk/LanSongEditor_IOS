@@ -15,14 +15,15 @@
 #import "CommDemoListTableVC.h"
 #import "PictureSetsRealTimeVC.h"
 
-#import "AnimationDemoRealTimeVC.h"
+
 
 #import "ViewPenRealTimeDemoVC.h"
-#import "TestDemoVC.h"
 #import "CameraPenDemoVC.h"
 #import "MVPenDemoRealTimeVC.h"
-#import "TestViewPen.h"
 #import "MVPenOnlyVC.h"
+#import "Demo1PenMothedVC.h"
+#import "Demo2PenMothedVC.h"
+
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
 
@@ -44,18 +45,20 @@
 #define kVideoFilterDemo 1
 #define kVideoFilterBackGroudDemo 2
 //移动缩放旋转演示
-#define kAnimationDemo 3
+#define kDemo1PenMothed 3
 #define kVideoUIDemo 4
 #define kMorePictureDemo 5
-//#define kCameraPenDemo 6
-#define kCommonEditDemo 7
-#define kMVPenDemo 8
-#define kDirectPlay 9
+#define kCommonEditDemo 6
+#define kMVPenDemo 7
+#define kDirectPlay 8
 
 //分段录制正方形
-#define kSegmentRecordSquare 10
+#define kSegmentRecordSquare 9
 //分段录制全屏
-#define kSegmentRecordFull 11
+#define kSegmentRecordFull 10
+
+#define kDemo2PenMothed 11
+
 
 @implementation MainViewController
 
@@ -73,7 +76,9 @@
     /*
      初始化SDK
      */
-    [LanSongEditor initSDK:NULL];
+    if([LanSongEditor initSDK:NULL]==NO){
+        [self showSDKOutTimeWarnning];
+    }
     
     UIScrollView *scrollView = [UIScrollView new];
     [self.view  addSubview:scrollView];
@@ -92,7 +97,7 @@
     //自动折行设置
   //  notUse.lineBreakMode = UILineBreakModeWordWrap;
     versionHint.numberOfLines=0;
-    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月底之前.欢迎联系我们: QQ:1852600324; email:support@lansongtech.com",
+    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前.欢迎联系我们: QQ:1852600324; email:support@lansongtech.com",
                         [LanSongEditor getVersion],
                         [LanSongEditor getLimitedYear],
                          [LanSongEditor getLimitedMonth]];
@@ -108,11 +113,11 @@
     
     view=[self newButton:view index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
     view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜(后台)"];
-    view=[self newButton:view index:kAnimationDemo hint:@"移动缩放旋转(图层属性)"];
-    view=[self newButton:view index:kVideoUIDemo hint:@"UI图层 (ViewPen)演示"];
-    view=[self newButton:view index:kMVPenDemo hint:@"MV图层  (MVPen)演示"];
-    view=[self newButton:view index:kMorePictureDemo hint:@"多张图片 (BitmapPen)演示"];
-//    view=[self newButton:view index:kCameraPenDemo hint:@"摄像头 (CameraPen)图层"];
+    view=[self newButton:view index:kVideoUIDemo hint:@"UI图层"];
+    view=[self newButton:view index:kMVPenDemo hint:@"MV图层"];
+    view=[self newButton:view index:kMorePictureDemo hint:@"照片影集"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层属性1"];
+    view=[self newButton:view index:kDemo2PenMothed hint:@"图层属性2"];
     
     
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
@@ -136,34 +141,35 @@
         make.bottom.equalTo(versionHint.mas_bottom).with.offset(40);
     }];
     
-//    [self showVersionDialog];
+ 
 }
--(void)doButtonClicked:(UIView *)sender
+-(void)onClicked:(UIView *)sender
 {
     
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"noplay" withExtension:@"mp4"];
-    NSString *dstPath=[SDKFileUtil urlToFileString:sampleURL];
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    NSString *directPath=[SDKFileUtil urlToFileString:sampleURL];  //用在直接播放
 
-    
     switch (sender.tag) {
         case kSegmentRecordSquare:
             pushVC=[[SegmentRecordSquareVC alloc] init];
             break;
         case kSegmentRecordFull:
-            pushVC=[[SegmentRecordFullVC alloc] init];
+            pushVC=[[SegmentRecordFullVC alloc] init]; //全屏录制
             break;
         case kVideoFilterDemo:
             pushVC=[[FilterRealTimeDemoVC alloc] init];  //滤镜
-          //  pushVC =[[TestDemoVC alloc] init];
             break;
         case kVideoFilterBackGroudDemo:
             pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
             ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
             break;
-        case kAnimationDemo:
-            pushVC=[[AnimationDemoRealTimeVC alloc] init];  //移动缩放旋转.
+        case kDemo1PenMothed:
+            pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
+            break;
+        case kDemo2PenMothed:
+            pushVC=[[Demo2PenMothedVC alloc] init];  //移动缩放旋转2
             break;
         case kVideoUIDemo:
             pushVC=[[ViewPenRealTimeDemoVC alloc] init];  //视频+UI图层.
@@ -171,19 +177,15 @@
         case kMorePictureDemo:
             pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
             break;
-//        case kCameraPenDemo:
-//           // pushVC=[[CameraPenDemoVC alloc] init]; //摄像头图层演示
-//            break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
             break;
         case kMVPenDemo:
-            //pushVC=[[TestViewPen alloc] init];
-       //     pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
-            pushVC=[[MVPenOnlyVC alloc] init];
+            pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
+       //     pushVC=[[MVPenOnlyVC alloc] init];
             break;
         case kDirectPlay:
-               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:directPath];
             break;
         default:
             break;
@@ -202,7 +204,7 @@
     [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
      btn.backgroundColor=[UIColor whiteColor];
     
-    [btn addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
     
     [container addSubview:btn];
@@ -235,9 +237,9 @@
 }
 
 
--(void)showVersionDialog
+-(void)showSDKOutTimeWarnning
 {
-    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"欢迎您评估我们的sdk,当前版本是:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
 /*
@@ -249,69 +251,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-///------------------------------------------------------测试视频解码器.
-- (CGImageRef)imageRefFromBGRABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(imageBytes,
-                                                 imageSize.width,
-                                                 imageSize.height,
-                                                 8,
-                                                 imageSize.width * 4,
-                                                 colorSpace,
-                                                 kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-    CGImageRef imageRef = CGBitmapContextCreateImage(context);
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    return imageRef;
-}
-- (UIImage *)imageFromBRGABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
-    CGImageRef imageRef = [self imageRefFromBGRABytes:imageBytes imageSize:imageSize];
-    UIImage *image = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);
-    return image;
-}
--(void)testAVDecoder:(id)sender
-{
-    
-     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    
-    NSString *filepath=[SDKFileUtil urlToFileString:sampleURL];
-    
-    
-    MediaInfo *info=[[MediaInfo alloc] initWithPath:filepath];
-    if ([info prepare] && [info hasVideo])
-    {
-        NSLog(@"开始自行.....");
-        AVDecoder *decoder=[[AVDecoder alloc] initWithPath:filepath];
-        
-        int  *rgbOut=(int *)malloc(info.vWidth * info.vHeight*4);
-        
-        while (YES) {
-            long pts=[decoder decodeOneFrame:-1 rgbOut:rgbOut];
-            
-            CGSize size=CGSizeMake(info.vWidth, info.vHeight);
-            UIImage *imge=[self imageFromBRGABytes:(unsigned char *)rgbOut imageSize:size];
-            
-            if (imge==nil) {
-                NSLog(@" imge  获取到的是null");
-            }
-            UIImageWriteToSavedPhotosAlbum(imge, nil, nil, nil);//然后将该图片保存到图片图
-            
-          //  sleep(1);
-            
-            NSLog(@"Test 发送到相册 AVdecoder current pts:%ld....",pts);
-            if ([decoder isEnd]) {
-                
-                break;
-            }
-        }
-        NSLog(@"Test  AVdecoder is end....");
-        [decoder releaseDecoder];
-        free(rgbOut);
-    }
-   
-}
+
 
 @end

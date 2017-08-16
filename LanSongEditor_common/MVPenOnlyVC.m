@@ -13,7 +13,7 @@
 
 @interface MVPenOnlyVC ()
 {
-    DrawPadDisplay *drawpad;
+    DrawPadPreview *drawpad;
 }
 @end
 
@@ -41,7 +41,10 @@
     [self.view addSubview:view];
     
     // 开始工作
-    [drawpad startDrawPad];
+    if([drawpad startDrawPad]==NO)
+    {
+        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
 }
 -(void)stopDrawPad
 {
@@ -67,7 +70,7 @@
     mvView.backgroundColor=[UIColor clearColor]; //显示层也设置为透明
 
     //创建一个画板, 不设置路径,即不实时录制视频.
-    drawpad=[[DrawPadDisplay alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:0 dstPath:nil];
+    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:0 dstPath:nil];
     [drawpad setDrawPadPreView:mvView];
     
     [drawpad setBackgroundColorRed:0 green:0 blue:0 alpha:0];  //背景设置为透明
