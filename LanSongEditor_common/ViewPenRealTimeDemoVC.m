@@ -108,12 +108,12 @@
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+
+//            if (currentPts>6) {  //您可要在任意进度中停止DrawPad
+//                [weakSelf stopDrawpad];
+//            }
             
-           //  NSLog(@"当前处理进度是:%f\n",currentPts);
             
-            if (currentPts>6) {
-                [weakSelf stopDrawpad];
-            }
         });
     }];
     

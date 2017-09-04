@@ -10,6 +10,17 @@
 
 @interface SDKFileUtil : NSObject
 
+
+/**
+ 拷贝资源文件到默认文件夹, 返回拷贝后的绝对路径
+ 默认地址是当前ipa下的docement下的lansongBox文件夹中.
+
+ @param name  资源名字
+ @param fix 后缀名
+ @return 返回的绝对路径
+ */
++(NSString *) copyAssetFile:(NSString *)name withSubffix:(NSString *)fix;
+
 /**
  *  拷贝资源文件到目标文件夹
  *
@@ -145,6 +156,15 @@
  *  @return
  */
 +(NSString *)urlToFileString:(NSURL *)url;
+
+
+/**
+ 文件的绝对路径字符串, 转换为 URL
+
+ @param path 绝对路径字符串,
+ @return url对象
+ */
++(NSURL *)fileStringToUrl:(NSString *)path;
 
 /**
  *  把字符串绝对路径, 转换为 URL类型路径

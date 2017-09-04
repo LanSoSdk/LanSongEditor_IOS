@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
     //当所有的pen准备好时,刷新,默认采用这个刷新模式; 当有主视频图层时,自动设置为这种模式
     kPenReadyUpdate,
     
-    //自动定时器刷新; 适用于照片影集,摄像头等没有视频图层的场合.
+    //自动定时器刷新; 适用于照片影集等需要自动按照定时器来刷新的场合.
     kAutoTimerUpdate,
 };
 /**

@@ -46,16 +46,26 @@
     singleFingerOne.numberOfTapsRequired = 1; //tap次数
     [previewView addGestureRecognizer:singleFingerOne];
     [self addSubview:previewView];
-    
-    
     return self;
 }
-
+-(void)stopCameraCapture
+{
+    if(videoCamera!=nil){
+        [videoCamera stopCameraCapture];
+        videoCamera=nil;
+    }
+}
 -(void)dealloc
 {
-    NSLog(@"de alloc ....");
+    
+
+    NSLog(@"SegmentRecordFullView alloc ....");
     previewView=nil;
     movieWriter=nil;
+    if(videoCamera!=nil){
+        [videoCamera stopCameraCapture];
+        videoCamera=nil;
+    }
     if(myTimer!=nil)
     {
         [myTimer invalidate];

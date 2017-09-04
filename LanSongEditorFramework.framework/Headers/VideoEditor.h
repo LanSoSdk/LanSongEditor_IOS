@@ -51,6 +51,7 @@
 +(BOOL)drawPadAddAudio:(NSString *)oldMp4 newMp4:(NSString*)newMp4 dstFile:(NSString *)dstFile;
 
 /**
+  建议使用videoMergeAudio
  * 音频和视频合成为多媒体文件，等于给视频增加一个音频。
  * @param videoFile 输入的视频文件,需视频文件中不存储音频部分, 如有音频则会增加两个声音.
  * @param audioFile 输入的音频文件
@@ -80,7 +81,8 @@
  * @param audioFile  需要增加的音频文件
  * @param dstFile    处理后保存的路径 文件名的后缀需要.mp4格式
  * @param audiostartS  音频开始时间, 单位秒,可以有小数, 比如2.5秒
- * @param audiodurationS 音频增加的总时长.您可以只增加音频中一部分，比如增加音频的2.5秒到--180秒这段声音到视频文件中，则这里的参数是180
+ * @param audiodurationS 音频增加的总时长.您可以只增加音频中一部分，比如增加音频的2.5秒到--180秒这段声音到视频文件中，
+    则这里的参数是180
  * @return 执行成功,返回0, 失败返回错误码
  */
 +(int) executeVideoMergeAudio:(NSString*)videoFile audioFile:(NSString *)audioFile dstFile:(NSString *)dstFile audioStartS:(float)audiostartS audioDurationS:(float)audioDurationS;
@@ -98,7 +100,8 @@
 
 /**
  *
- * 剪切mp4文件.(包括视频文件中的音频部分和视频部分),即把mp4文件中的一段剪切成独立的一个视频文件, 比如把一个30分钟的视频,裁剪其中的10秒钟等.
+ * 剪切mp4文件.(包括视频文件中的音频部分和视频部分),即把mp4文件中的一段剪切成独立的一个视频文件, 
+    比如把一个30分钟的视频,裁剪其中的10秒钟等.
  * @param videoFile  原视频文件 文件格式是mp4
  * @param dstFile   裁剪后的视频路径， 路径的后缀名是.mp4
  * @param startS   开始裁剪位置，单位是秒，
@@ -131,8 +134,6 @@
 
 
 +(int)executeConcatMP4:(NSMutableArray *)mp4Array dstFile:(NSString *)dstFile;
-
-
 /**
  *  提取源音频部分, 增加到目标视频中.
  *
@@ -141,7 +142,6 @@
  *  @param dstPath       处理后的目标文件.
  */
 +(void)extractAudioToDestination:(NSString *)oldVideoPath onlyVideoPath:(NSString *)onlyVideoPath dstPath:(NSString *)dstPath;
-
 
 /**
  *  旋转视频任意高度,因为视频有可能不是正方形, 旋转过程中, 可能出现画面超出原视频的尺寸, 故需要设置视频的宽度和高度.
@@ -208,12 +208,24 @@
 + (void)executeCropCALayerWithPath:(NSString*)srcPath layer:(CALayer *)inputlayer startX:(CGFloat)startX startY:(CGFloat)startY cropW:(CGFloat)cropW cropH:(CGFloat)cropH dstPath:(NSString *)dstPath;
 
 /**
- *  视频压缩,(当前暂时不可用)
- *
- *  @param srcVideo 原视频
- *  @param percent  压缩百分百
- *  @param dstPath  压缩后的目标视频
+ [新增]
+ 视频和音频合成, 或理解为: 给视频增加一个背景音乐
+ 此函数, 在合成后, 会对视频和音频进行转码操作, 可能会改变视频的分辨率,
+ 等同于导出预设值为: AVAssetExportPresetMediumQuality
+ @param videoPath 输入视频的路径
+ @param audioPath 输入音频的路径, 音频可以是mp3格式 或AAC格式.
+ @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
  */
--(void)executeVideoCompress:(NSString *)srcVideo percent:(CGFloat)percent dstPath:(NSString *)dstPath;
++(void)videoMergeAudio:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
 
+/**
+ [新增]
+ 视频和音频合成, 或理解为: 给视频增加一个背景音乐
+ 
+ 此函数是直接把视频轨道和音频轨道合成, 中间不会转码, 故音频编码必须为AAC
+ @param videoPath 输入视频的路径
+ @param audioPath 输入音频的路径, 音频必须为AAC
+ @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
+ */
++(void)videoMergeAudio2:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
 @end

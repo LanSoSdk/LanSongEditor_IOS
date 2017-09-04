@@ -63,22 +63,21 @@
     
     //NSLog(@"增加一个Layer...");
     
+  
+
+    
+    
+    //增加一个CALayer, 是一个红色的矩形框(先放一个全局的CAlayer,然后增加矩形框).
+    
     CALayer *mainLayer=[CALayer layer];
     mainLayer.frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
     mainLayer.backgroundColor=[UIColor clearColor].CGColor;
-
-    
     
     CALayer *layer=[CALayer layer];
     layer.frame=CGRectMake(0, 20, 50, 50);
     layer.backgroundColor=[UIColor redColor].CGColor;
-    
     [mainLayer addSublayer:layer];
-    
-    
     [drawpad addCALayerPenWithLayer:mainLayer fromUI:NO];
-    
-    
     
     //增加一个视频图层.
     videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
@@ -134,11 +133,26 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
-    currslide=  [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
-    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
-    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
+    
+    UILabel *labHint=[[UILabel alloc] init];
+    labHint.numberOfLines=0;
+    
+    labHint.text=@"演示\n 视频图层+ CALayer图层 + MV图层  的叠加 \n\n (左上侧的红色四方块为CALayer的deom)";
+   
+    [self.view addSubview: labHint];
+    
+    [labHint mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_labProgress.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(filterView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 100));
+    }];
+
+    
 }
+
+/**
+ 处理完毕后, 增加音频
+ */
 -(void)addAudio
 {
     if ([SDKFileUtil fileExist:dstTmpPath]) {
@@ -147,83 +161,11 @@
         dstPath=dstTmpPath;
     }
 }
-- (void)slideChanged:(UISlider*)sender
-{
-    
-    CGFloat val=[(UISlider *)sender value];
-    CGFloat posX=drawpad.drawpadSize.width*val;
-    CGFloat posY=drawpad.drawpadSize.height*val;
-    switch (sender.tag) {
-        case 101:  //weizhi
-            operationPen.positionX=posX;
-            break;
-        case 102:  //Y坐标
-            operationPen.positionY=posY;
-            break;
-            
-        case 103:  //scale
-            if (operationPen!=nil) {
-                operationPen.scaleHeight=val;
-                operationPen.scaleWidth=val;
-            }
-            break;
-            
-        case 104:  //rotate;
-            if (operationPen!=nil) {
-                operationPen.rotateDegree=val;
-            }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/**
- 初始化一个slide
- */
--(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
-
-{
-    UILabel *labPos=[[UILabel alloc] init];
-    labPos.text=text;
-    
-    UISlider *slidePos=[[UISlider alloc] init];
-    
-    slidePos.maximumValue=max;
-    slidePos.minimumValue=min;
-    slidePos.value=value;
-    slidePos.continuous = YES;
-    slidePos.tag=tag;
-    
-    [slidePos addTarget:self action:@selector(slideChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    
-    CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.01;
-    
-    [self.view addSubview:labPos];
-    [self.view addSubview:slidePos];
-    
-    
-    [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(parentView.mas_bottom).offset(padding);
-        make.left.mas_equalTo(self.view.mas_left);
-        make.size.mas_equalTo(CGSizeMake(80, 40));
-    }];
-    
-    [slidePos mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(labPos.mas_centerY);
-        make.left.mas_equalTo(labPos.mas_right);
-        make.size.mas_equalTo(CGSizeMake(size.width-80, 15));
-    }];
-    return labPos;
-}
 -(void)showIsPlayDialog
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];

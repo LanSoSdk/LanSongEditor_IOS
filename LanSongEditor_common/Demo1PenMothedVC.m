@@ -85,7 +85,8 @@
     
     //增加一个视频图层.
     sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+    GPUImageSepiaFilter  *filter=[[GPUImageSepiaFilter alloc] init];
+    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
     
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
@@ -117,7 +118,7 @@
     operationPen.scaleWidth=0.5f;
     operationPen.scaleHeight=0.5f;
     
-    //一下是ui操作.
+    //-------------以下是ui操作-----------------------
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
     

@@ -2,10 +2,10 @@
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
-### 当前版本是1.8.0.
-   增加drawpad的开启检查.
-   优化视频图层前台显示.
-   增加<照片影集>演示.
+### 当前版本是1.9.0.
+* 优化视频图层的处理机制.
+* 增加各种基本功能的处理.
+* 增加mp3转AAC的处理类.
    
 	
 ### 注意:因为视频编辑用到GPU, 真机和模拟器的GPU差异太大, 当前我们的SDK 暂时只能在真机上运行, 请您知悉.

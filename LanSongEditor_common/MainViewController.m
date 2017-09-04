@@ -27,13 +27,6 @@
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
 
-#import "LanSongUtils.h"
-
-
-
-#import <LanSongEditorFramework/LanSongEditor.h>
-
-
 
 @interface MainViewController ()
 {
@@ -69,10 +62,7 @@
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
-    
-    //这里仅仅是用来测试
-//    [self performSelector:@selector(testAVDecoder:) withObject:nil afterDelay:1.0f];
-    
+
     /*
      初始化SDK
      */
@@ -111,14 +101,13 @@
     UIView *view=[self newButton:container index:kSegmentRecordSquare hint:@"分段录制(正方形)"];
     view=[self newButton:view index:kSegmentRecordFull hint:@"分段录制(全屏)"];
     
-    view=[self newButton:view index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
-    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜(后台)"];
     view=[self newButton:view index:kVideoUIDemo hint:@"UI图层"];
     view=[self newButton:view index:kMVPenDemo hint:@"MV图层"];
     view=[self newButton:view index:kMorePictureDemo hint:@"照片影集"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"图层属性1"];
-    view=[self newButton:view index:kDemo2PenMothed hint:@"图层属性2"];
-    
+    view=[self newButton:view index:kVideoFilterDemo hint:@"图层滤镜(前台)"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"父类图层功能1"];
+    view=[self newButton:view index:kDemo2PenMothed hint:@"父类图层功能2"];
+    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜[后台]"];
     
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
@@ -141,7 +130,8 @@
         make.bottom.equalTo(versionHint.mas_bottom).with.offset(40);
     }];
     
- 
+    [self testFile];
+    
 }
 -(void)onClicked:(UIView *)sender
 {
@@ -241,6 +231,12 @@
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
+}
+
+-(void)testFile
+{
+ 
+    
 }
 /*
 #pragma mark - Navigation

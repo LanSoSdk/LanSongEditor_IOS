@@ -46,7 +46,7 @@
 -(void)startExecute
 {
     videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    
+//     videoURL = [[NSBundle mainBundle] URLForResource:@"v3040x1520" withExtension:@"mp4"];
     dstTmpPath = [SDKFileUtil genTmpMp4Path];
     dstPath=[SDKFileUtil genTmpMp4Path];
     

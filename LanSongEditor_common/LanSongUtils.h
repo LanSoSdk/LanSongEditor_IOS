@@ -11,6 +11,7 @@
 
 #import "MBProgressHUD.h"
 #import "Masonry.h"
+#import <AVFoundation/AVFoundation.h>
 #import <LanSongEditorFramework/LanSongEditor.h>
 #import "UIColor+Util.h"
 

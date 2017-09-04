@@ -9,6 +9,9 @@
 #import "SegmentRecordFullVC.h"
 
 @interface SegmentRecordFullVC ()
+{
+    SegmentRecordFullView *fullView;
+}
     //@property (nonatomic, strong) UIButton *btn;
     //@property (nonatomic, strong) UILabel *label;
 @end
@@ -18,10 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     CGRect frame = [[UIScreen mainScreen] bounds];
-    SegmentRecordFullView *view = [[SegmentRecordFullView alloc] initWithFrame:frame];
-    [self.view addSubview:view];
+     fullView= [[SegmentRecordFullView alloc] initWithFrame:frame];
+    [self.view addSubview:fullView];
     
-    [view setNav:self.navigationController];
+    [fullView setNav:self.navigationController];
     
 }
 
@@ -30,5 +33,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void)dealloc
+{
+    [fullView stopCameraCapture];
+    NSLog(@"SegmentRecordFullVC  dealloc....");
+    
+}
 @end

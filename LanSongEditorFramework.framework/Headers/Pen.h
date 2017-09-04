@@ -44,22 +44,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @property(readwrite, nonatomic) PenTpye penType;
 
-@property BOOL isFrameAvailable;
 
-/**
- *  当前一帧处理完的frameBuffer.
- */
-@property GPUImageFramebuffer *frameBufferTarget;
-
-
-/**
- 当前正在处理的帧的画面的大小尺寸,默认等于画面原来的大小,比如等于视频的实际宽高,等于图片的实际宽高.
- 缩放是以这个尺寸进行操作的. 如果你要实时获取当前图层的尺寸,并调整他们的宽高,则可以用这个尺寸来调整.
- 很多场合基本等于画面原始的大小.
- 
- 注意:每次是在视频处理完一帧后得到当前帧的frameSize
- */
-@property CGSize frameBufferSize;
 
 /**
  *  在绘制到画板上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
@@ -94,11 +79,11 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  *  当前时间戳
  可通过这样换算成秒:CGFloat frameTimeDifference = CMTimeGetSeconds(currentPTS)
  */
-@property CMTime currentPTS;
+//@property CMTime currentPTS;
 /**
  *  内部使用
  */
-@property GPUImageRotationMode inputRotation;
+//@property GPUImageRotationMode inputRotation;
 
 
 /**
@@ -176,5 +161,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 - (void)startProcessing:(BOOL)isAutoMode;
 
 -(void)endProcessing;
+
+-(BOOL) isFrameAvailable;
+-(void)setDriveDraw:(BOOL)is;
+-(void)resetCurrentFrame;
 
 @end

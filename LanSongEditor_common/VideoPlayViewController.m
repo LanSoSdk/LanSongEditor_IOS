@@ -46,9 +46,6 @@
         
         NSLog(@"获取到的视频信息是:%@",mInfo);  //用中文,让您看到你您处理后的视频信息.
         
-      
-        
-        
         NSString *str= [NSString stringWithFormat:@"宽度:%d"
                 "高度:%d"
                 "时长:%f"

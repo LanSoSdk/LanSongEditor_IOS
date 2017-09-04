@@ -40,5 +40,6 @@
 }
 - (instancetype)initWithFrame:(CGRect)frame NS_DESIGNATED_INITIALIZER;
 -(void)setNav:(UINavigationController*)nav;
+-(void)stopCameraCapture;
 @end
 

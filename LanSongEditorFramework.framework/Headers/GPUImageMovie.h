@@ -10,23 +10,15 @@
 - (void)didCompletePlayingMovie;
 @end
 
-/**
- * Source object for filtering movies
- * 解码传递过来的文件路径. 解码
+/** Source object for filtering movies
  */
 @interface GPUImageMovie : GPUImageOutput
 
-// Add this
-@property(readwrite, nonatomic) BOOL playSound;
-
 @property (readwrite, retain) AVAsset *asset;
-
 @property (readwrite, retain) AVPlayerItem *playerItem;
 @property(readwrite, retain) NSURL *url;
 
-/** 
- * This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
- * 打印当前时间戳????
+/** This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
  */
 @property(readwrite, nonatomic) BOOL runBenchmark;
 
@@ -50,13 +42,6 @@
 @property (readonly, nonatomic) AVAssetReader *assetReader;
 @property (readonly, nonatomic) BOOL audioEncodingIsFinished;
 @property (readonly, nonatomic) BOOL videoEncodingIsFinished;
-
-//gzj++
-/**
- *  设置当前视频处理的回调.
- *  当前一帧视频:解码--filter--编码好后,调用这个progress回调,返回当前处理好视频的时间戳.
- */
-@property(nonatomic, copy) void(^onProgressBlock)(CGFloat);
 
 /// @name Initialization and teardown
 - (id)initWithAsset:(AVAsset *)asset;

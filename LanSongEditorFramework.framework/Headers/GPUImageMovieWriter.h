@@ -18,15 +18,16 @@ extern NSString *const kGPUImageColorSwizzlingFragmentShaderString;
     
     NSURL *movieURL;
     NSString *fileType;
-    AVAssetWriter *assetWriter;
-    AVAssetWriterInput *assetWriterAudioInput;
-    AVAssetWriterInput *assetWriterVideoInput;
+	AVAssetWriter *assetWriter;
+	AVAssetWriterInput *assetWriterAudioInput;  //音频写入对象.
+    
+	AVAssetWriterInput *assetWriterVideoInput;
     AVAssetWriterInputPixelBufferAdaptor *assetWriterPixelBufferInput;
     
     GPUImageContext *_movieWriterContext;
     CVPixelBufferRef renderTarget;
     CVOpenGLESTextureRef renderTexture;
-    
+
     CGSize videoSize;
     GPUImageRotationMode inputRotation;
 }
