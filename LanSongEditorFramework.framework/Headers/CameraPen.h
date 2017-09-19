@@ -1,126 +1,180 @@
+//
+//  CameraPen.h
+//  LanSongEditorFramework
+//
+//  Created by sno on 2017/9/6.
+//  Copyright © 2017年 sno. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
-#import "GPUImageContext.h"
-#import "GPUImageOutput.h"
-#import "GPUImageColorConversion.h"
 #import "Pen.h"
+#import "MyEncoder3.h"
 
+
+#import "LanSongContext.h"
+#import "LanSongOutput.h"
+#import "LanSongColorConversion.h"
+
+//Optionally override the YUV to RGB matrices
+void setColorConvert601_CameraPen( GLfloat conversionMatrix[9] );
+void setColorConvert601FullRange_CameraPen( GLfloat conversionMatrix[9] );
+void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
+
+
+//Delegate Protocal for Face Detection.
+
+///**
+// 摄像头视频输出的回调, 拿到原画面后,可以把数据拉出去.
+// */
+@protocol CameraPenDelegate <NSObject>
+
+@optional
+- (void)willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+@end
 
 
 /**
-摄像头图层, 可作为一个图层放到画板上.继承自Pen, 具有Pen的移动旋转缩放滤镜等特性.
- 
- 2017 3月11日, 当前不建议使用这个类.
+ A LanSongOutput that provides frames from either camera
  */
 @interface CameraPen : Pen <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
+{
+    NSUInteger numberOfFramesCaptured;
+    CGFloat totalFrameTimeDuringCapture;
+    
+    AVCaptureSession *_captureSession;
+    //采集的设备,有input和output.
+    AVCaptureDevice *_inputCamera;//
+    AVCaptureDevice *_microphone;
+    
+    AVCaptureDeviceInput *videoInput;
+    AVCaptureVideoDataOutput *videoOutput;
+    
+    BOOL capturePaused;  //停止画面输出, 就是在回调中,直接返回.
+    
+    LanSongRotationMode outputRotation, internalRotation;
+    dispatch_semaphore_t frameRenderingSemaphore;
+    
+    BOOL captureAsYUV; ///是否以YUV, 是手动设置的?????
+    GLuint luminanceTexture, chrominanceTexture;
+    
+    __unsafe_unretained id<CameraPenDelegate> _delegate;
+}
 
-
-
-/**
-  是否在工作
- */
+/// Whether or not the underlying AVCaptureSession is running
 @property(readonly, nonatomic) BOOL isRunning;
 
-
-/**
- 引出
- */
+/// The AVCaptureSession used to capture from the camera
 @property(readonly, retain, nonatomic) AVCaptureSession *captureSession;
 
-
-/**
- 设置或获取 初始化的分辨率.
- */
+/// This enables the capture session preset to be changed on the fly
 @property (readwrite, nonatomic, copy) NSString *captureSessionPreset;
 
+/// This sets the frame rate of the camera (iOS 5 and above only)
 /**
- 帧率,默认是为0; 即系统默认帧率.
+ Setting this to 0 or below will set the frame rate back to the default setting for a particular preset.
  */
 @property (readwrite) int32_t frameRate;
 
-
-/**
- 前后置摄像头是否可用.
- */
+/// Easy way to tell which cameras are present on device
 @property (readonly, getter = isFrontFacingCameraPresent) BOOL frontFacingCameraPresent;
 @property (readonly, getter = isBackFacingCameraPresent) BOOL backFacingCameraPresent;
 
-/**
- 引出 AVCaptureDevice对象.
- */
+/// This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
+@property(readwrite, nonatomic) BOOL runBenchmark;
+
+/// Use this property to manage camera settings. Focus point, exposure point, etc.
 @property(readonly) AVCaptureDevice *inputCamera;
 
-
-/**
- 当前手机屏幕是横屏还是竖屏
- 竖屏则设置为: UIInterfaceOrientationPortrait
- 横屏:UIInterfaceOrientationLandscapeLeft
- */
+/// This determines the rotation applied to the output image, based on the source material
 @property(readwrite, nonatomic) UIInterfaceOrientation outputImageOrientation;
 
+/// These properties determine whether or not the two camera orientations should be mirrored. By default, both are NO.
+@property(readwrite, nonatomic) BOOL horizontallyMirrorFrontFacingCamera, horizontallyMirrorRearFacingCamera;
 
-/**
- 前置摄像头是否镜像.
+@property(nonatomic, assign) id<CameraPenDelegate> delegate;
+
+/// @name Initialization and teardown
+
+/** Begin a capture session
+ 
+ See AVCaptureSession for acceptable values
+ 
+ @param sessionPreset Session preset to use
+ @param cameraPosition Camera to capture from
  */
-@property(readwrite, nonatomic) BOOL horizontallyMirrorFrontFacingCamera;
+//- (id)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition;
 
-/**
- 后置摄像头是否镜像
+- (id)init:(NSString *)sessionPreset position:(AVCaptureDevicePosition)pos drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+
+/** Add audio capture to the session. Adding inputs and outputs freezes the capture session momentarily, so you
+ can use this method to add the audio inputs and outputs early, if you're going to set the audioEncodingTarget
+ later. Returns YES is the audio inputs and outputs were added, or NO if they had already been added.
  */
-@property(readwrite, nonatomic) BOOL horizontallyMirrorRearFacingCamera;
-
-
-
-
-/**
- 内部使用.
- */
-- (id)init:(NSString *)sessionPreset position:(AVCaptureDevicePosition)pos drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
-
-
 - (BOOL)addAudioInputsAndOutputs;
 
-/*
- 
+/** Remove the audio capture inputs and outputs from this session. Returns YES if the audio inputs and outputs
+ were removed, or NO is they hadn't already been added.
  */
 - (BOOL)removeAudioInputsAndOutputs;
 
-/*
- 
+/** Tear down the capture session
  */
 - (void)removeInputsAndOutputs;
 
+/// @name Manage the camera video stream
 
-
-/** 
- 开始摄像头采集. 不建议外面调用
+/** Start camera capturing
  */
 - (void)startCameraCapture;
 
-/*
- 停止采集, 一般外面无需调用
+/** Stop camera capturing
  */
 - (void)stopCameraCapture;
 
+/** Pause camera capturing
+ */
+- (void)pauseCameraCapture;
 
-/*
- 得到当前Camera的是前置还是后置.
+/** Resume camera capturing
+ */
+- (void)resumeCameraCapture;
+
+/** Process a video sample
+ @param sampleBuffer Buffer to process
+ */
+//- (void)processVideoSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+/** Process an audio sample
+ @param sampleBuffer Buffer to process
+ */
+- (void)processAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+/** Get the position (front, rear) of the source camera
  */
 - (AVCaptureDevicePosition)cameraPosition;
 
-/*
- 得到 AVCaptureConnection 对象
+/** Get the AVCaptureConnection of the source camera
  */
 - (AVCaptureConnection *)videoCaptureConnection;
+
 /**
- 切换前后摄像头 调用后, 如果当前
+ This flips between the front and rear cameras
  */
 - (void)rotateCamera;
 
+/// @name Benchmarking
+
+/** When benchmarking is enabled, this will keep a running average of the time from uploading, processing, and final recording or display
+ */
+- (CGFloat)averageFrameDurationDuringCapture;
+
+- (void)resetBenchmarkAverage;
+
+- (void)setAudioEncoderTarget:(MyEncoder3 *)newValue;
 
 + (BOOL)isBackFacingCameraPresent;
-
 + (BOOL)isFrontFacingCameraPresent;
 
 @end

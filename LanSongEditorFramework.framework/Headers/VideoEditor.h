@@ -228,4 +228,47 @@
  @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
  */
 +(void)videoMergeAudio2:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
+
+
+/**
+ *  通过音乐地址，读取音乐数据，获得图片
+ *  @param url 音乐地址
+ *  @return音乐图片
+ */
++ (UIImage *)getAudioImageWithURL:(NSURL *)url;
+
+/**
+ 从视频中获取第一帧的缩略图.  同步获取
+ 最大拿到的图片尺寸是1920,1920, 如果小于则原图, 如果大于则等比例缩放.
+ @param url 视频的url
+ @return 图片对象.
+ */
++(UIImage *)getVideoImageimageWithURL:(NSURL *)url;
+
+
+/**
+ 从视频的指定位置获取一帧图片, 
+ [源代码是]:
+ 
+ 
+ NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
+ forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+ AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:opts];
+ AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+ generator.appliesPreferredTrackTransform = YES;
+ generator.maximumSize = CGSizeMake(1920,1920);
+ NSError *error = nil;
+ 
+ CGImageRef img = [generator copyCGImageAtTime:time actualTime:NULL error:&error];  //<----在这里获取图片,您可以多次调用这里,从而获取多张图片.
+ 
+ UIImage *image = [UIImage imageWithCGImage: img];
+ generator=nil;
+ return image;
+
+ @param url 视频路径
+ @param time 指定时间
+ @return 获取到的视频
+ */
++ (UIImage *)getVideoImageimageWithURL:(NSURL *)url time:(CMTime)time ;
+
 @end

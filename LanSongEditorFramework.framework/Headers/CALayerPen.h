@@ -22,6 +22,6 @@
 /**
  内部使用.
  */
-- (id)initWithLayer:(CALayer *)inputLayer drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithLayer:(CALayer *)inputLayer drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 @end

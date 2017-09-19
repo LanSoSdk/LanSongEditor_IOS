@@ -52,6 +52,6 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  *
  *  @return
  */
-- (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 @end

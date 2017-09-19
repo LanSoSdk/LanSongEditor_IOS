@@ -3,10 +3,10 @@
 
 @interface FilterTpyeList ()
 {
-    GPUImagePicture *sourcePicture;
-    GPUImageShowcaseFilterType filterType;
+    LanSongPicture *sourcePicture;
+    LanSongShowcaseFilterType filterType;
     
-    GPUImageFilterPipeline *pipeline;
+    LanSongFilterPipeline *pipeline;
     
     
     CIDetector *faceDetector;
@@ -58,13 +58,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Disable the last filter (Core Image face detection) if running on iOS 4.0
-    if ([GPUImageContext supportsFastTextureUpload])
+    if ([LanSongContext supportsFastTextureUpload])
     {
-        return GPUIMAGE_NUMFILTERS;
+        return LanSong_NUMFILTERS;
     }
     else
     {
-        return (GPUIMAGE_NUMFILTERS - 1);
+        return (LanSong_NUMFILTERS - 1);
     }
 }
 
@@ -82,112 +82,112 @@
     
     switch (index)
     {
-        case GPUIMAGE_SATURATION: cell.textLabel.text = @"Saturation"; break;
-        case GPUIMAGE_CONTRAST: cell.textLabel.text = @"Contrast"; break;
-        case GPUIMAGE_BRIGHTNESS: cell.textLabel.text = @"Brightness"; break;
-        case GPUIMAGE_LEVELS: cell.textLabel.text = @"Levels"; break;
-        case GPUIMAGE_EXPOSURE: cell.textLabel.text = @"Exposure"; break;
-        case GPUIMAGE_HUE: cell.textLabel.text = @"Hue"; break;
-        case GPUIMAGE_WHITEBALANCE: cell.textLabel.text = @"White balance"; break;
-        case GPUIMAGE_MONOCHROME: cell.textLabel.text = @"Monochrome"; break;
-        case GPUIMAGE_FALSECOLOR: cell.textLabel.text = @"False color"; break;
-        case GPUIMAGE_SHARPEN: cell.textLabel.text = @"Sharpen"; break;
-        case GPUIMAGE_UNSHARPMASK: cell.textLabel.text = @"Unsharp mask"; break;
-        case GPUIMAGE_GAMMA: cell.textLabel.text = @"Gamma"; break;
-        case GPUIMAGE_TONECURVE: cell.textLabel.text = @"Tone curve"; break;
-        case GPUIMAGE_HIGHLIGHTSHADOW: cell.textLabel.text = @"Highlights and shadows"; break;
-        case GPUIMAGE_HAZE: cell.textLabel.text = @"Haze"; break;
-        case GPUIMAGE_HISTOGRAM: cell.textLabel.text = @"Histogram"; break;
-        case GPUIMAGE_HISTOGRAM_EQUALIZATION: cell.textLabel.text = @"Histogram Equalization"; break;
-        case GPUIMAGE_THRESHOLD: cell.textLabel.text = @"Threshold"; break;
-        case GPUIMAGE_ADAPTIVETHRESHOLD: cell.textLabel.text = @"Adaptive threshold"; break;
-        case GPUIMAGE_AVERAGELUMINANCETHRESHOLD: cell.textLabel.text = @"Average luminance threshold"; break;
-        case GPUIMAGE_TRANSFORM3D: cell.textLabel.text = @"Transform (3-D)"; break;
+        case LanSong_SATURATION: cell.textLabel.text = @"Saturation"; break;
+        case LanSong_CONTRAST: cell.textLabel.text = @"Contrast"; break;
+        case LanSong_BRIGHTNESS: cell.textLabel.text = @"Brightness"; break;
+        case LanSong_LEVELS: cell.textLabel.text = @"Levels"; break;
+        case LanSong_EXPOSURE: cell.textLabel.text = @"Exposure"; break;
+        case LanSong_HUE: cell.textLabel.text = @"Hue"; break;
+        case LanSong_WHITEBALANCE: cell.textLabel.text = @"White balance"; break;
+        case LanSong_MONOCHROME: cell.textLabel.text = @"Monochrome"; break;
+        case LanSong_FALSECOLOR: cell.textLabel.text = @"False color"; break;
+        case LanSong_SHARPEN: cell.textLabel.text = @"Sharpen"; break;
+        case LanSong_UNSHARPMASK: cell.textLabel.text = @"Unsharp mask"; break;
+        case LanSong_GAMMA: cell.textLabel.text = @"Gamma"; break;
+        case LanSong_TONECURVE: cell.textLabel.text = @"Tone curve"; break;
+        case LanSong_HIGHLIGHTSHADOW: cell.textLabel.text = @"Highlights and shadows"; break;
+        case LanSong_HAZE: cell.textLabel.text = @"Haze"; break;
+        case LanSong_HISTOGRAM: cell.textLabel.text = @"Histogram"; break;
+        case LanSong_HISTOGRAM_EQUALIZATION: cell.textLabel.text = @"Histogram Equalization"; break;
+        case LanSong_THRESHOLD: cell.textLabel.text = @"Threshold"; break;
+        case LanSong_ADAPTIVETHRESHOLD: cell.textLabel.text = @"Adaptive threshold"; break;
+        case LanSong_AVERAGELUMINANCETHRESHOLD: cell.textLabel.text = @"Average luminance threshold"; break;
+        case LanSong_TRANSFORM3D: cell.textLabel.text = @"Transform (3-D)"; break;
        
-        case GPUIMAGE_COLORINVERT: cell.textLabel.text = @"Color invert"; break;
-        case GPUIMAGE_GRAYSCALE: cell.textLabel.text = @"Grayscale"; break;
-        case GPUIMAGE_SEPIA: cell.textLabel.text = @"Sepia tone"; break;
-        case GPUIMAGE_MISSETIKATE: cell.textLabel.text = @"Miss Etikate (Lookup)"; break;
-        case GPUIMAGE_SOFTELEGANCE: cell.textLabel.text = @"Soft elegance (Lookup)"; break;
-        case GPUIMAGE_AMATORKA: cell.textLabel.text = @"Amatorka (Lookup)"; break;
-        case GPUIMAGE_PIXELLATE: cell.textLabel.text = @"Pixellate"; break;
-        case GPUIMAGE_POLARPIXELLATE: cell.textLabel.text = @"Polar pixellate"; break;
-        case GPUIMAGE_PIXELLATE_POSITION: cell.textLabel.text = @"Pixellate (position)"; break;
-        case GPUIMAGE_POLKADOT: cell.textLabel.text = @"Polka dot"; break;
-        case GPUIMAGE_HALFTONE: cell.textLabel.text = @"Halftone"; break;
-        case GPUIMAGE_CROSSHATCH: cell.textLabel.text = @"Crosshatch"; break;
-        case GPUIMAGE_SOBELEDGEDETECTION: cell.textLabel.text = @"Sobel edge detection"; break;
-        case GPUIMAGE_PREWITTEDGEDETECTION: cell.textLabel.text = @"Prewitt edge detection"; break;
-        case GPUIMAGE_CANNYEDGEDETECTION: cell.textLabel.text = @"Canny edge detection"; break;
-        case GPUIMAGE_THRESHOLDEDGEDETECTION: cell.textLabel.text = @"Threshold edge detection"; break;
-        case GPUIMAGE_XYGRADIENT: cell.textLabel.text = @"XY derivative"; break;
-        case GPUIMAGE_LOWPASS: cell.textLabel.text = @"Low pass"; break;
-        case GPUIMAGE_HIGHPASS: cell.textLabel.text = @"High pass"; break;
-        case GPUIMAGE_SKETCH: cell.textLabel.text = @"Sketch"; break;
-        case GPUIMAGE_THRESHOLDSKETCH: cell.textLabel.text = @"Threshold Sketch"; break;
-        case GPUIMAGE_TOON: cell.textLabel.text = @"Toon"; break;
-        case GPUIMAGE_SMOOTHTOON: cell.textLabel.text = @"Smooth toon"; break;
-        case GPUIMAGE_TILTSHIFT: cell.textLabel.text = @"Tilt shift"; break;
-        case GPUIMAGE_CGA: cell.textLabel.text = @"CGA colorspace"; break;
-        case GPUIMAGE_CONVOLUTION: cell.textLabel.text = @"3x3 convolution"; break;
-        case GPUIMAGE_EMBOSS: cell.textLabel.text = @"Emboss"; break;
-        case GPUIMAGE_LAPLACIAN: cell.textLabel.text = @"Laplacian"; break;
-        case GPUIMAGE_POSTERIZE: cell.textLabel.text = @"Posterize"; break;
-        case GPUIMAGE_SWIRL: cell.textLabel.text = @"Swirl"; break;
-        case GPUIMAGE_BULGE: cell.textLabel.text = @"Bulge"; break;
-        case GPUIMAGE_PINCH: cell.textLabel.text = @"Pinch"; break;
-        case GPUIMAGE_STRETCH: cell.textLabel.text = @"Stretch"; break;
-        case GPUIMAGE_DILATION: cell.textLabel.text = @"Dilation"; break;
-        case GPUIMAGE_EROSION: cell.textLabel.text = @"Erosion"; break;
-        case GPUIMAGE_OPENING: cell.textLabel.text = @"Opening"; break;
-        case GPUIMAGE_CLOSING: cell.textLabel.text = @"Closing"; break;
-        case GPUIMAGE_PERLINNOISE: cell.textLabel.text = @"Perlin noise"; break;
-        case GPUIMAGE_VORONOI: cell.textLabel.text = @"Voronoi"; break;
-        case GPUIMAGE_MOSAIC: cell.textLabel.text = @"Mosaic"; break;
-        case GPUIMAGE_LOCALBINARYPATTERN: cell.textLabel.text = @"Local binary pattern"; break;
-        case GPUIMAGE_CHROMAKEY: cell.textLabel.text = @"Chroma key blend (green)"; break;
-        case GPUIMAGE_DISSOLVE: cell.textLabel.text = @"Dissolve blend"; break;
-        case GPUIMAGE_SCREENBLEND: cell.textLabel.text = @"Screen blend"; break;
-        case GPUIMAGE_COLORBURN: cell.textLabel.text = @"Color burn blend"; break;
-        case GPUIMAGE_COLORDODGE: cell.textLabel.text = @"Color dodge blend"; break;
-        case GPUIMAGE_LINEARBURN: cell.textLabel.text = @"Linear burn blend"; break;
-        case GPUIMAGE_ADD: cell.textLabel.text = @"Add blend"; break;
-        case GPUIMAGE_DIVIDE: cell.textLabel.text = @"Divide blend"; break;
-        case GPUIMAGE_MULTIPLY: cell.textLabel.text = @"Multiply blend"; break;
-        case GPUIMAGE_OVERLAY: cell.textLabel.text = @"Overlay blend"; break;
-        case GPUIMAGE_LIGHTEN: cell.textLabel.text = @"Lighten blend"; break;
-        case GPUIMAGE_DARKEN: cell.textLabel.text = @"Darken blend"; break;
-        case GPUIMAGE_EXCLUSIONBLEND: cell.textLabel.text = @"Exclusion blend"; break;
-        case GPUIMAGE_DIFFERENCEBLEND: cell.textLabel.text = @"Difference blend"; break;
-        case GPUIMAGE_SUBTRACTBLEND: cell.textLabel.text = @"Subtract blend"; break;
-        case GPUIMAGE_HARDLIGHTBLEND: cell.textLabel.text = @"Hard light blend"; break;
-        case GPUIMAGE_SOFTLIGHTBLEND: cell.textLabel.text = @"Soft light blend"; break;
-        case GPUIMAGE_COLORBLEND: cell.textLabel.text = @"Color blend"; break;
-        case GPUIMAGE_HUEBLEND: cell.textLabel.text = @"Hue blend"; break;
-        case GPUIMAGE_SATURATIONBLEND: cell.textLabel.text = @"Saturation blend"; break;
-        case GPUIMAGE_LUMINOSITYBLEND: cell.textLabel.text = @"Luminosity blend"; break;
-        case GPUIMAGE_NORMALBLEND: cell.textLabel.text = @"Normal blend"; break;
-        case GPUIMAGE_POISSONBLEND: cell.textLabel.text = @"Poisson blend"; break;
-        case GPUIMAGE_KUWAHARA: cell.textLabel.text = @"Kuwahara"; break;
-        case GPUIMAGE_KUWAHARARADIUS3: cell.textLabel.text = @"Kuwahara (fixed radius)"; break;
-        case GPUIMAGE_VIGNETTE: cell.textLabel.text = @"Vignette"; break;
-        case GPUIMAGE_GAUSSIAN: cell.textLabel.text = @"Gaussian blur"; break;
-        case GPUIMAGE_MEDIAN: cell.textLabel.text = @"Median (3x3)"; break;
-        case GPUIMAGE_BILATERAL: cell.textLabel.text = @"Bilateral blur"; break;
-        case GPUIMAGE_MOTIONBLUR: cell.textLabel.text = @"Motion blur"; break;
-        case GPUIMAGE_ZOOMBLUR: cell.textLabel.text = @"Zoom blur"; break;
-        case GPUIMAGE_BOXBLUR: cell.textLabel.text = @"Box blur"; break;
-        case GPUIMAGE_GAUSSIAN_SELECTIVE: cell.textLabel.text = @"Gaussian selective blur"; break;
-        case GPUIMAGE_GAUSSIAN_POSITION: cell.textLabel.text = @"Gaussian (centered)"; break;
-        case GPUIMAGE_FILTERGROUP: cell.textLabel.text = @"Filter Group"; break;
-        case GPUIMAGE_FACES: cell.textLabel.text = @"Face Detection"; break;
+        case LanSong_COLORINVERT: cell.textLabel.text = @"Color invert"; break;
+        case LanSong_GRAYSCALE: cell.textLabel.text = @"Grayscale"; break;
+        case LanSong_SEPIA: cell.textLabel.text = @"Sepia tone"; break;
+        case LanSong_MISSETIKATE: cell.textLabel.text = @"Miss Etikate (Lookup)"; break;
+        case LanSong_SOFTELEGANCE: cell.textLabel.text = @"Soft elegance (Lookup)"; break;
+        case LanSong_AMATORKA: cell.textLabel.text = @"Amatorka (Lookup)"; break;
+        case LanSong_PIXELLATE: cell.textLabel.text = @"Pixellate"; break;
+        case LanSong_POLARPIXELLATE: cell.textLabel.text = @"Polar pixellate"; break;
+        case LanSong_PIXELLATE_POSITION: cell.textLabel.text = @"Pixellate (position)"; break;
+        case LanSong_POLKADOT: cell.textLabel.text = @"Polka dot"; break;
+        case LanSong_HALFTONE: cell.textLabel.text = @"Halftone"; break;
+        case LanSong_CROSSHATCH: cell.textLabel.text = @"Crosshatch"; break;
+        case LanSong_SOBELEDGEDETECTION: cell.textLabel.text = @"Sobel edge detection"; break;
+        case LanSong_PREWITTEDGEDETECTION: cell.textLabel.text = @"Prewitt edge detection"; break;
+        case LanSong_CANNYEDGEDETECTION: cell.textLabel.text = @"Canny edge detection"; break;
+        case LanSong_THRESHOLDEDGEDETECTION: cell.textLabel.text = @"Threshold edge detection"; break;
+        case LanSong_XYGRADIENT: cell.textLabel.text = @"XY derivative"; break;
+        case LanSong_LOWPASS: cell.textLabel.text = @"Low pass"; break;
+        case LanSong_HIGHPASS: cell.textLabel.text = @"High pass"; break;
+        case LanSong_SKETCH: cell.textLabel.text = @"Sketch"; break;
+        case LanSong_THRESHOLDSKETCH: cell.textLabel.text = @"Threshold Sketch"; break;
+        case LanSong_TOON: cell.textLabel.text = @"Toon"; break;
+        case LanSong_SMOOTHTOON: cell.textLabel.text = @"Smooth toon"; break;
+        case LanSong_TILTSHIFT: cell.textLabel.text = @"Tilt shift"; break;
+        case LanSong_CGA: cell.textLabel.text = @"CGA colorspace"; break;
+        case LanSong_CONVOLUTION: cell.textLabel.text = @"3x3 convolution"; break;
+        case LanSong_EMBOSS: cell.textLabel.text = @"Emboss"; break;
+        case LanSong_LAPLACIAN: cell.textLabel.text = @"Laplacian"; break;
+        case LanSong_POSTERIZE: cell.textLabel.text = @"Posterize"; break;
+        case LanSong_SWIRL: cell.textLabel.text = @"Swirl"; break;
+        case LanSong_BULGE: cell.textLabel.text = @"Bulge"; break;
+        case LanSong_PINCH: cell.textLabel.text = @"Pinch"; break;
+        case LanSong_STRETCH: cell.textLabel.text = @"Stretch"; break;
+        case LanSong_DILATION: cell.textLabel.text = @"Dilation"; break;
+        case LanSong_EROSION: cell.textLabel.text = @"Erosion"; break;
+        case LanSong_OPENING: cell.textLabel.text = @"Opening"; break;
+        case LanSong_CLOSING: cell.textLabel.text = @"Closing"; break;
+        case LanSong_PERLINNOISE: cell.textLabel.text = @"Perlin noise"; break;
+        case LanSong_VORONOI: cell.textLabel.text = @"Voronoi"; break;
+        case LanSong_MOSAIC: cell.textLabel.text = @"Mosaic"; break;
+        case LanSong_LOCALBINARYPATTERN: cell.textLabel.text = @"Local binary pattern"; break;
+        case LanSong_CHROMAKEY: cell.textLabel.text = @"Chroma key blend (green)"; break;
+        case LanSong_DISSOLVE: cell.textLabel.text = @"Dissolve blend"; break;
+        case LanSong_SCREENBLEND: cell.textLabel.text = @"Screen blend"; break;
+        case LanSong_COLORBURN: cell.textLabel.text = @"Color burn blend"; break;
+        case LanSong_COLORDODGE: cell.textLabel.text = @"Color dodge blend"; break;
+        case LanSong_LINEARBURN: cell.textLabel.text = @"Linear burn blend"; break;
+        case LanSong_ADD: cell.textLabel.text = @"Add blend"; break;
+        case LanSong_DIVIDE: cell.textLabel.text = @"Divide blend"; break;
+        case LanSong_MULTIPLY: cell.textLabel.text = @"Multiply blend"; break;
+        case LanSong_OVERLAY: cell.textLabel.text = @"Overlay blend"; break;
+        case LanSong_LIGHTEN: cell.textLabel.text = @"Lighten blend"; break;
+        case LanSong_DARKEN: cell.textLabel.text = @"Darken blend"; break;
+        case LanSong_EXCLUSIONBLEND: cell.textLabel.text = @"Exclusion blend"; break;
+        case LanSong_DIFFERENCEBLEND: cell.textLabel.text = @"Difference blend"; break;
+        case LanSong_SUBTRACTBLEND: cell.textLabel.text = @"Subtract blend"; break;
+        case LanSong_HARDLIGHTBLEND: cell.textLabel.text = @"Hard light blend"; break;
+        case LanSong_SOFTLIGHTBLEND: cell.textLabel.text = @"Soft light blend"; break;
+        case LanSong_COLORBLEND: cell.textLabel.text = @"Color blend"; break;
+        case LanSong_HUEBLEND: cell.textLabel.text = @"Hue blend"; break;
+        case LanSong_SATURATIONBLEND: cell.textLabel.text = @"Saturation blend"; break;
+        case LanSong_LUMINOSITYBLEND: cell.textLabel.text = @"Luminosity blend"; break;
+        case LanSong_NORMALBLEND: cell.textLabel.text = @"Normal blend"; break;
+        case LanSong_POISSONBLEND: cell.textLabel.text = @"Poisson blend"; break;
+        case LanSong_KUWAHARA: cell.textLabel.text = @"Kuwahara"; break;
+        case LanSong_KUWAHARARADIUS3: cell.textLabel.text = @"Kuwahara (fixed radius)"; break;
+        case LanSong_VIGNETTE: cell.textLabel.text = @"Vignette"; break;
+        case LanSong_GAUSSIAN: cell.textLabel.text = @"Gaussian blur"; break;
+        case LanSong_MEDIAN: cell.textLabel.text = @"Median (3x3)"; break;
+        case LanSong_BILATERAL: cell.textLabel.text = @"Bilateral blur"; break;
+        case LanSong_MOTIONBLUR: cell.textLabel.text = @"Motion blur"; break;
+        case LanSong_ZOOMBLUR: cell.textLabel.text = @"Zoom blur"; break;
+        case LanSong_BOXBLUR: cell.textLabel.text = @"Box blur"; break;
+        case LanSong_GAUSSIAN_SELECTIVE: cell.textLabel.text = @"Gaussian selective blur"; break;
+        case LanSong_GAUSSIAN_POSITION: cell.textLabel.text = @"Gaussian (centered)"; break;
+        case LanSong_FILTERGROUP: cell.textLabel.text = @"Filter Group"; break;
+        case LanSong_FACES: cell.textLabel.text = @"Face Detection"; break;
     }
     
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    filterType=(GPUImageShowcaseFilterType)indexPath.row;
+    filterType=(LanSongShowcaseFilterType)indexPath.row;
     [self setupFilter]; //更新filter;
     /*
      当选中一个滤镜的时候, 在这里切换到该滤镜.
@@ -208,7 +208,7 @@
     
     switch (filterType)
     {
-        case GPUIMAGE_SEPIA:
+        case LanSong_SEPIA:
         {
             self.title = @"Sepia Tone";
             self.filterSlider.hidden = NO;
@@ -217,9 +217,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[GPUImageSepiaFilter alloc] init];
+            self.filter = [[LanSongSepiaFilter alloc] init];
         }; break;
-        case GPUIMAGE_PIXELLATE:
+        case LanSong_PIXELLATE:
         {
             self.title = @"Pixellate";
             self.filterSlider.hidden = NO;
@@ -228,9 +228,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[GPUImagePixellateFilter alloc] init];
+            self.filter = [[LanSongPixellateFilter alloc] init];
         }; break;
-        case GPUIMAGE_POLARPIXELLATE:
+        case LanSong_POLARPIXELLATE:
         {
             self.title = @"Polar Pixellate";
             self.filterSlider.hidden = NO;
@@ -239,9 +239,9 @@
             [self.filterSlider setMinimumValue:-0.1];
             [self.filterSlider setMaximumValue:0.1];
             
-            self.filter = [[GPUImagePolarPixellateFilter alloc] init];
+            self.filter = [[LanSongPolarPixellateFilter alloc] init];
         }; break;
-        case GPUIMAGE_PIXELLATE_POSITION:
+        case LanSong_PIXELLATE_POSITION:
         {
             self.title = @"Pixellate (position)";
             self.filterSlider.hidden = NO;
@@ -250,9 +250,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.5];
             
-            self.filter = [[GPUImagePixellatePositionFilter alloc] init];
+            self.filter = [[LanSongPixellatePositionFilter alloc] init];
         }; break;
-        case GPUIMAGE_POLKADOT:
+        case LanSong_POLKADOT:
         {
             self.title = @"Polka Dot";
             self.filterSlider.hidden = NO;
@@ -261,9 +261,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[GPUImagePolkaDotFilter alloc] init];
+            self.filter = [[LanSongPolkaDotFilter alloc] init];
         }; break;
-        case GPUIMAGE_HALFTONE:
+        case LanSong_HALFTONE:
         {
             self.title = @"Halftone";
             self.filterSlider.hidden = NO;
@@ -272,9 +272,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.05];
             
-            self.filter = [[GPUImageHalftoneFilter alloc] init];
+            self.filter = [[LanSongHalftoneFilter alloc] init];
         }; break;
-        case GPUIMAGE_CROSSHATCH:
+        case LanSong_CROSSHATCH:
         {
             self.title = @"Crosshatch";
             self.filterSlider.hidden = NO;
@@ -283,23 +283,23 @@
             [self.filterSlider setMinimumValue:0.01];
             [self.filterSlider setMaximumValue:0.06];
             
-            self.filter = [[GPUImageCrosshatchFilter alloc] init];
+            self.filter = [[LanSongCrosshatchFilter alloc] init];
         }; break;
-        case GPUIMAGE_COLORINVERT:
+        case LanSong_COLORINVERT:
         {
             self.title = @"Color Invert";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageColorInvertFilter alloc] init];
+            self.filter = [[LanSongColorInvertFilter alloc] init];
         }; break;
-        case GPUIMAGE_GRAYSCALE:
+        case LanSong_GRAYSCALE:
         {
             self.title = @"Grayscale";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageGrayscaleFilter alloc] init];
+            self.filter = [[LanSongGrayscaleFilter alloc] init];
         }; break;
-        case GPUIMAGE_MONOCHROME:
+        case LanSong_MONOCHROME:
         {
             self.title = @"Monochrome";
             self.filterSlider.hidden = NO;
@@ -308,39 +308,39 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[GPUImageMonochromeFilter alloc] init];
-            [(GPUImageMonochromeFilter *)self.filter setColor:(GPUVector4){0.0f, 0.0f, 1.0f, 1.f}];
+            self.filter = [[LanSongMonochromeFilter alloc] init];
+            [(LanSongMonochromeFilter *)self.filter setColor:(GPUVector4){0.0f, 0.0f, 1.0f, 1.f}];
         }; break;
-        case GPUIMAGE_FALSECOLOR:
+        case LanSong_FALSECOLOR:
         {
             self.title = @"False Color";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageFalseColorFilter alloc] init];
+            self.filter = [[LanSongFalseColorFilter alloc] init];
         }; break;
-        case GPUIMAGE_SOFTELEGANCE:
+        case LanSong_SOFTELEGANCE:
         {
             self.title = @"Soft Elegance (Lookup)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageSoftEleganceFilter alloc] init];
+            self.filter = [[LanSongSoftEleganceFilter alloc] init];
         }; break;
-//        case GPUIMAGE_MISSETIKATE:
+//        case LanSong_MISSETIKATE:
 //        {
 //            self.title = @"Miss Etikate (Lookup)";
 //            self.filterSlider.hidden = YES;
 //            
-//            self.filter = [[GPUImageMissEtikateFilter alloc] init];
+//            self.filter = [[LanSongMissEtikateFilter alloc] init];
 //        }; break;
-        case GPUIMAGE_AMATORKA:
+        case LanSong_AMATORKA:
         {
             self.title = @"Amatorka (Lookup)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageAmatorkaFilter alloc] init];
+            self.filter = [[LanSongAmatorkaFilter alloc] init];
         }; break;
             
-        case GPUIMAGE_SATURATION:
+        case LanSong_SATURATION:
         {
             self.title = @"Saturation";
             self.filterSlider.hidden = NO;
@@ -349,9 +349,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:2.0];
             
-            self.filter = [[GPUImageSaturationFilter alloc] init];
+            self.filter = [[LanSongSaturationFilter alloc] init];
         }; break;
-        case GPUIMAGE_CONTRAST:
+        case LanSong_CONTRAST:
         {
             self.title = @"Contrast";
             self.filterSlider.hidden = NO;
@@ -360,9 +360,9 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageContrastFilter alloc] init];
+            self.filter = [[LanSongContrastFilter alloc] init];
         }; break;
-        case GPUIMAGE_BRIGHTNESS:
+        case LanSong_BRIGHTNESS:
         {
             self.title = @"Brightness";
             self.filterSlider.hidden = NO;
@@ -371,9 +371,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[GPUImageBrightnessFilter alloc] init];
+            self.filter = [[LanSongBrightnessFilter alloc] init];
         }; break;
-        case GPUIMAGE_LEVELS:
+        case LanSong_LEVELS:
         {
             self.title = @"Levels";
             self.filterSlider.hidden = NO;
@@ -382,9 +382,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[GPUImageLevelsFilter alloc] init];
+            self.filter = [[LanSongLevelsFilter alloc] init];
         }; break;
-        case GPUIMAGE_HUE:
+        case LanSong_HUE:
         {
             self.title = @"Hue";
             self.filterSlider.hidden = NO;
@@ -393,9 +393,9 @@
             [self.filterSlider setMaximumValue:360.0];
             [self.filterSlider setValue:90.0];
             
-            self.filter = [[GPUImageHueFilter alloc] init];
+            self.filter = [[LanSongHueFilter alloc] init];
         }; break;
-        case GPUIMAGE_WHITEBALANCE:
+        case LanSong_WHITEBALANCE:
         {
             self.title = @"White Balance";
             self.filterSlider.hidden = NO;
@@ -404,9 +404,9 @@
             [self.filterSlider setMaximumValue:7500.0];
             [self.filterSlider setValue:5000.0];
             
-            self.filter = [[GPUImageWhiteBalanceFilter alloc] init];
+            self.filter = [[LanSongWhiteBalanceFilter alloc] init];
         }; break;
-        case GPUIMAGE_EXPOSURE:
+        case LanSong_EXPOSURE:
         {
             self.title = @"Exposure";
             self.filterSlider.hidden = NO;
@@ -415,9 +415,9 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[GPUImageExposureFilter alloc] init];
+            self.filter = [[LanSongExposureFilter alloc] init];
         }; break;
-        case GPUIMAGE_SHARPEN:
+        case LanSong_SHARPEN:
         {
             self.title = @"Sharpen";
             self.filterSlider.hidden = NO;
@@ -426,9 +426,9 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[GPUImageSharpenFilter alloc] init];
+            self.filter = [[LanSongSharpenFilter alloc] init];
         }; break;
-        case GPUIMAGE_UNSHARPMASK:
+        case LanSong_UNSHARPMASK:
         {
             self.title = @"Unsharp Mask";
             self.filterSlider.hidden = NO;
@@ -437,11 +437,11 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageUnsharpMaskFilter alloc] init];
+            self.filter = [[LanSongUnsharpMaskFilter alloc] init];
             
-            //            [(GPUImageUnsharpMaskFilter *)self.filter setIntensity:3.0];
+            //            [(LanSongUnsharpMaskFilter *)self.filter setIntensity:3.0];
         }; break;
-        case GPUIMAGE_GAMMA:
+        case LanSong_GAMMA:
         {
             self.title = @"Gamma";
             self.filterSlider.hidden = NO;
@@ -450,9 +450,9 @@
             [self.filterSlider setMaximumValue:3.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageGammaFilter alloc] init];
+            self.filter = [[LanSongGammaFilter alloc] init];
         }; break;
-        case GPUIMAGE_TONECURVE:
+        case LanSong_TONECURVE:
         {
             self.title = @"Tone curve";
             self.filterSlider.hidden = NO;
@@ -461,10 +461,10 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageToneCurveFilter alloc] init];
-            [(GPUImageToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]];
+            self.filter = [[LanSongToneCurveFilter alloc] init];
+            [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]];
         }; break;
-        case GPUIMAGE_HIGHLIGHTSHADOW:
+        case LanSong_HIGHLIGHTSHADOW:
         {
             self.title = @"Highlights and Shadows";
             self.filterSlider.hidden = NO;
@@ -473,9 +473,9 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[GPUImageHighlightShadowFilter alloc] init];
+            self.filter = [[LanSongHighlightShadowFilter alloc] init];
         }; break;
-        case GPUIMAGE_HAZE:
+        case LanSong_HAZE:
         {
             self.title = @"Haze / UV";
             self.filterSlider.hidden = NO;
@@ -484,10 +484,10 @@
             [self.filterSlider setMaximumValue:0.2];
             [self.filterSlider setValue:0.2];
             
-            self.filter = [[GPUImageHazeFilter alloc] init];
+            self.filter = [[LanSongHazeFilter alloc] init];
         }; break;
       
-        case GPUIMAGE_HISTOGRAM:
+        case LanSong_HISTOGRAM:
         {
             self.title = @"Histogram";
             self.filterSlider.hidden = NO;
@@ -496,9 +496,9 @@
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
             
-            self.filter = [[GPUImageHistogramFilter alloc] initWithHistogramType:kGPUImageHistogramRGB];
+            self.filter = [[LanSongHistogramFilter alloc] initWithHistogramType:kLanSongHistogramRGB];
         }; break;
-        case GPUIMAGE_HISTOGRAM_EQUALIZATION:
+        case LanSong_HISTOGRAM_EQUALIZATION:
         {
             self.title = @"Histogram Equalization";
             self.filterSlider.hidden = NO;
@@ -507,9 +507,9 @@
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
             
-            self.filter = [[GPUImageHistogramEqualizationFilter alloc] initWithHistogramType:kGPUImageHistogramLuminance];
+            self.filter = [[LanSongHistogramEqualizationFilter alloc] initWithHistogramType:kLanSongHistogramLuminance];
         }; break;
-        case GPUIMAGE_THRESHOLD:
+        case LanSong_THRESHOLD:
         {
             self.title = @"Luminance Threshold";
             self.filterSlider.hidden = NO;
@@ -518,9 +518,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageLuminanceThresholdFilter alloc] init];
+            self.filter = [[LanSongLuminanceThresholdFilter alloc] init];
         }; break;
-        case GPUIMAGE_ADAPTIVETHRESHOLD:
+        case LanSong_ADAPTIVETHRESHOLD:
         {
             self.title = @"Adaptive Threshold";
             self.filterSlider.hidden = NO;
@@ -529,9 +529,9 @@
             [self.filterSlider setMaximumValue:20.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageAdaptiveThresholdFilter alloc] init];
+            self.filter = [[LanSongAdaptiveThresholdFilter alloc] init];
         }; break;
-        case GPUIMAGE_AVERAGELUMINANCETHRESHOLD:
+        case LanSong_AVERAGELUMINANCETHRESHOLD:
         {
             self.title = @"Avg. Lum. Threshold";
             self.filterSlider.hidden = NO;
@@ -540,19 +540,19 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageAverageLuminanceThresholdFilter alloc] init];
+            self.filter = [[LanSongAverageLuminanceThresholdFilter alloc] init];
         }; break;
-//        case GPUIMAGE_MASK:  暂时不支持Mask
+//        case LanSong_MASK:  暂时不支持Mask
 //        {
 //            self.title = @"Mask";
 //            self.filterSlider.hidden = YES;
 //            needsSecondImage = YES;
 //            
-//            self.filter = [[GPUImageMaskFilter alloc] init];
+//            self.filter = [[LanSongMaskFilter alloc] init];
 //            
-//            [(GPUImageFilter*)self.filter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+//            [(LanSongFilter*)self.filter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
 //        }; break;
-        case GPUIMAGE_TRANSFORM3D:
+        case LanSong_TRANSFORM3D:
         {
             self.title = @"Transform (3-D)";
             self.filterSlider.hidden = NO;
@@ -561,16 +561,16 @@
             [self.filterSlider setMaximumValue:6.28];
             [self.filterSlider setValue:0.75];
             
-            self.filter = [[GPUImageTransformFilter alloc] init];
+            self.filter = [[LanSongTransformFilter alloc] init];
             CATransform3D perspectiveTransform = CATransform3DIdentity;
             perspectiveTransform.m34 = 0.4;
             perspectiveTransform.m33 = 0.4;
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
             perspectiveTransform = CATransform3DRotate(perspectiveTransform, 0.75, 0.0, 1.0, 0.0);
             
-            [(GPUImageTransformFilter *)self.filter setTransform3D:perspectiveTransform];
+            [(LanSongTransformFilter *)self.filter setTransform3D:perspectiveTransform];
         }; break;
-        case GPUIMAGE_SOBELEDGEDETECTION:
+        case LanSong_SOBELEDGEDETECTION:
         {
             self.title = @"Sobel Edge Detection";
             self.filterSlider.hidden = NO;
@@ -579,16 +579,16 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[GPUImageSobelEdgeDetectionFilter alloc] init];
+            self.filter = [[LanSongSobelEdgeDetectionFilter alloc] init];
         }; break;
-        case GPUIMAGE_XYGRADIENT:
+        case LanSong_XYGRADIENT:
         {
             self.title = @"XY Derivative";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageXYDerivativeFilter alloc] init];
+            self.filter = [[LanSongXYDerivativeFilter alloc] init];
         }; break;
-        case GPUIMAGE_PREWITTEDGEDETECTION:
+        case LanSong_PREWITTEDGEDETECTION:
         {
             self.title = @"Prewitt Edge Detection";
             self.filterSlider.hidden = NO;
@@ -597,9 +597,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImagePrewittEdgeDetectionFilter alloc] init];
+            self.filter = [[LanSongPrewittEdgeDetectionFilter alloc] init];
         }; break;
-        case GPUIMAGE_CANNYEDGEDETECTION:
+        case LanSong_CANNYEDGEDETECTION:
         {
             self.title = @"Canny Edge Detection";
             self.filterSlider.hidden = NO;
@@ -608,9 +608,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
+            self.filter = [[LanSongCannyEdgeDetectionFilter alloc] init];
         }; break;
-        case GPUIMAGE_THRESHOLDEDGEDETECTION:
+        case LanSong_THRESHOLDEDGEDETECTION:
         {
             self.title = @"Threshold Edge Detection";
             self.filterSlider.hidden = NO;
@@ -619,9 +619,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[GPUImageThresholdEdgeDetectionFilter alloc] init];
+            self.filter = [[LanSongThresholdEdgeDetectionFilter alloc] init];
         }; break;
-        case GPUIMAGE_LOCALBINARYPATTERN:
+        case LanSong_LOCALBINARYPATTERN:
         {
             self.title = @"Local Binary Pattern";
             self.filterSlider.hidden = NO;
@@ -630,9 +630,9 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageLocalBinaryPatternFilter alloc] init];
+            self.filter = [[LanSongLocalBinaryPatternFilter alloc] init];
         }; break;
-        case GPUIMAGE_LOWPASS:
+        case LanSong_LOWPASS:
         {
             self.title = @"Low Pass";
             self.filterSlider.hidden = NO;
@@ -641,9 +641,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageLowPassFilter alloc] init];
+            self.filter = [[LanSongLowPassFilter alloc] init];
         }; break;
-        case GPUIMAGE_HIGHPASS:
+        case LanSong_HIGHPASS:
         {
             self.title = @"High Pass";
             self.filterSlider.hidden = NO;
@@ -652,9 +652,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageHighPassFilter alloc] init];
+            self.filter = [[LanSongHighPassFilter alloc] init];
         }; break;
-        case GPUIMAGE_SKETCH:
+        case LanSong_SKETCH:
         {
             self.title = @"Sketch";
             self.filterSlider.hidden = NO;
@@ -664,9 +664,9 @@
             [_filterSlider setValue:0.25];
            
             
-            self.filter = [[GPUImageSketchFilter alloc] init];
+            self.filter = [[LanSongSketchFilter alloc] init];
         }; break;
-        case GPUIMAGE_THRESHOLDSKETCH:
+        case LanSong_THRESHOLDSKETCH:
         {
             self.title = @"Threshold Sketch";
             self.filterSlider.hidden = NO;
@@ -675,16 +675,16 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[GPUImageThresholdSketchFilter alloc] init];
+            self.filter = [[LanSongThresholdSketchFilter alloc] init];
         }; break;
-        case GPUIMAGE_TOON:
+        case LanSong_TOON:
         {
             self.title = @"Toon";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageToonFilter alloc] init];
+            self.filter = [[LanSongToonFilter alloc] init];
         }; break;
-        case GPUIMAGE_SMOOTHTOON:
+        case LanSong_SMOOTHTOON:
         {
             self.title = @"Smooth Toon";
             self.filterSlider.hidden = NO;
@@ -693,9 +693,9 @@
             [self.filterSlider setMaximumValue:6.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageSmoothToonFilter alloc] init];
+            self.filter = [[LanSongSmoothToonFilter alloc] init];
         }; break;
-        case GPUIMAGE_TILTSHIFT:
+        case LanSong_TILTSHIFT:
         {
             self.title = @"Tilt Shift";
             self.filterSlider.hidden = NO;
@@ -704,47 +704,47 @@
             [self.filterSlider setMaximumValue:0.8];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageTiltShiftFilter alloc] init];
-            [(GPUImageTiltShiftFilter *)self.filter setTopFocusLevel:0.4];
-            [(GPUImageTiltShiftFilter *)self.filter setBottomFocusLevel:0.6];
-            [(GPUImageTiltShiftFilter *)self.filter setFocusFallOffRate:0.2];
+            self.filter = [[LanSongTiltShiftFilter alloc] init];
+            [(LanSongTiltShiftFilter *)self.filter setTopFocusLevel:0.4];
+            [(LanSongTiltShiftFilter *)self.filter setBottomFocusLevel:0.6];
+            [(LanSongTiltShiftFilter *)self.filter setFocusFallOffRate:0.2];
         }; break;
-        case GPUIMAGE_CGA:
+        case LanSong_CGA:
         {
             self.title = @"CGA Colorspace";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageCGAColorspaceFilter alloc] init];
+            self.filter = [[LanSongCGAColorspaceFilter alloc] init];
         }; break;
-        case GPUIMAGE_CONVOLUTION:
+        case LanSong_CONVOLUTION:
         {
             self.title = @"3x3 Convolution";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImage3x3ConvolutionFilter alloc] init];
-            //            [(GPUImage3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            self.filter = [[LanSong3x3ConvolutionFilter alloc] init];
+            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
             //                {-2.0f, -1.0f, 0.0f},
             //                {-1.0f,  1.0f, 1.0f},
             //                { 0.0f,  1.0f, 2.0f}
             //            }];
-            [(GPUImage3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
                 {-1.0f,  0.0f, 1.0f},
                 {-2.0f, 0.0f, 2.0f},
                 {-1.0f,  0.0f, 1.0f}
             }];
             
-            //            [(GPUImage3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
             //                {1.0f,  1.0f, 1.0f},
             //                {1.0f, -8.0f, 1.0f},
             //                {1.0f,  1.0f, 1.0f}
             //            }];
-            //            [(GPUImage3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f}
             //            }];
         }; break;
-        case GPUIMAGE_EMBOSS:
+        case LanSong_EMBOSS:
         {
             self.title = @"Emboss";
             self.filterSlider.hidden = NO;
@@ -753,16 +753,16 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageEmbossFilter alloc] init];
+            self.filter = [[LanSongEmbossFilter alloc] init];
         }; break;
-        case GPUIMAGE_LAPLACIAN:
+        case LanSong_LAPLACIAN:
         {
             self.title = @"Laplacian";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageLaplacianFilter alloc] init];
+            self.filter = [[LanSongLaplacianFilter alloc] init];
         }; break;
-        case GPUIMAGE_POSTERIZE:
+        case LanSong_POSTERIZE:
         {
             self.title = @"Posterize";
             self.filterSlider.hidden = NO;
@@ -771,9 +771,9 @@
             [self.filterSlider setMaximumValue:20.0];
             [self.filterSlider setValue:10.0];
             
-            self.filter = [[GPUImagePosterizeFilter alloc] init];
+            self.filter = [[LanSongPosterizeFilter alloc] init];
         }; break;
-        case GPUIMAGE_SWIRL:
+        case LanSong_SWIRL:
         {
             self.title = @"Swirl";
             self.filterSlider.hidden = NO;
@@ -782,9 +782,9 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageSwirlFilter alloc] init];
+            self.filter = [[LanSongSwirlFilter alloc] init];
         }; break;
-        case GPUIMAGE_BULGE:
+        case LanSong_BULGE:
         {
             self.title = @"Bulge";
             self.filterSlider.hidden = NO;
@@ -793,9 +793,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageBulgeDistortionFilter alloc] init];
+            self.filter = [[LanSongBulgeDistortionFilter alloc] init];
         }; break;
-        case GPUIMAGE_PINCH:
+        case LanSong_PINCH:
         {
             self.title = @"Pinch";
             self.filterSlider.hidden = NO;
@@ -804,45 +804,45 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImagePinchDistortionFilter alloc] init];
+            self.filter = [[LanSongPinchDistortionFilter alloc] init];
         }; break;
-        case GPUIMAGE_STRETCH:
+        case LanSong_STRETCH:
         {
             self.title = @"Stretch";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageStretchDistortionFilter alloc] init];
+            self.filter = [[LanSongStretchDistortionFilter alloc] init];
         }; break;
-        case GPUIMAGE_DILATION:
+        case LanSong_DILATION:
         {
             self.title = @"Dilation";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageRGBDilationFilter alloc] initWithRadius:4];
+            self.filter = [[LanSongRGBDilationFilter alloc] initWithRadius:4];
         }; break;
-        case GPUIMAGE_EROSION:
+        case LanSong_EROSION:
         {
             self.title = @"Erosion";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageRGBErosionFilter alloc] initWithRadius:4];
+            self.filter = [[LanSongRGBErosionFilter alloc] initWithRadius:4];
         }; break;
-        case GPUIMAGE_OPENING:
+        case LanSong_OPENING:
         {
             self.title = @"Opening";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageRGBOpeningFilter alloc] initWithRadius:4];
+            self.filter = [[LanSongRGBOpeningFilter alloc] initWithRadius:4];
         }; break;
-        case GPUIMAGE_CLOSING:
+        case LanSong_CLOSING:
         {
             self.title = @"Closing";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageRGBClosingFilter alloc] initWithRadius:4];
+            self.filter = [[LanSongRGBClosingFilter alloc] initWithRadius:4];
         }; break;
             
-        case GPUIMAGE_PERLINNOISE:
+        case LanSong_PERLINNOISE:
         {
             self.title = @"Perlin Noise";
             self.filterSlider.hidden = NO;
@@ -851,9 +851,9 @@
             [self.filterSlider setMaximumValue:30.0];
             [self.filterSlider setValue:8.0];
             
-            self.filter = [[GPUImagePerlinNoiseFilter alloc] init];
+            self.filter = [[LanSongPerlinNoiseFilter alloc] init];
         }; break;
-        case GPUIMAGE_MOSAIC:
+        case LanSong_MOSAIC:
         {
             self.title = @"Mosaic";
             self.filterSlider.hidden = NO;
@@ -862,14 +862,14 @@
             [self.filterSlider setMaximumValue:0.05];
             [self.filterSlider setValue:0.025];
             
-            self.filter = [[GPUImageMosaicFilter alloc] init];
-            [(GPUImageMosaicFilter *)self.filter setTileSet:@"squares.png"];
-            [(GPUImageMosaicFilter *)self.filter setColorOn:NO];
-            //[(GPUImageMosaicFilter *)self.filter setTileSet:@"dotletterstiles.png"];
-            //[(GPUImageMosaicFilter *)self.filter setTileSet:@"curvies.png"];
+            self.filter = [[LanSongMosaicFilter alloc] init];
+            [(LanSongMosaicFilter *)self.filter setTileSet:@"squares.png"];
+            [(LanSongMosaicFilter *)self.filter setColorOn:NO];
+            //[(LanSongMosaicFilter *)self.filter setTileSet:@"dotletterstiles.png"];
+            //[(LanSongMosaicFilter *)self.filter setTileSet:@"curvies.png"];
             
         }; break;
-        case GPUIMAGE_CHROMAKEY:
+        case LanSong_CHROMAKEY:
         {
             self.title = @"Chroma Key (Green)";
             self.filterSlider.hidden = NO;
@@ -879,58 +879,58 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.4];
             
-            self.filter = [[GPUImageChromaKeyBlendFilter alloc] init];
-            [(GPUImageChromaKeyBlendFilter *)self.filter setColorToReplaceRed:0.0 green:1.0 blue:0.0];
+            self.filter = [[LanSongChromaKeyBlendFilter alloc] init];
+            [(LanSongChromaKeyBlendFilter *)self.filter setColorToReplaceRed:0.0 green:1.0 blue:0.0];
         }; break;
-        case GPUIMAGE_ADD:
+        case LanSong_ADD:
         {
             self.title = @"Add Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageAddBlendFilter alloc] init];
+            self.filter = [[LanSongAddBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_DIVIDE:
+        case LanSong_DIVIDE:
         {
             self.title = @"Divide Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageDivideBlendFilter alloc] init];
+            self.filter = [[LanSongDivideBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_MULTIPLY:
+        case LanSong_MULTIPLY:
         {
             self.title = @"Multiply Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageMultiplyBlendFilter alloc] init];
+            self.filter = [[LanSongMultiplyBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_OVERLAY:
+        case LanSong_OVERLAY:
         {
             self.title = @"Overlay Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageOverlayBlendFilter alloc] init];
+            self.filter = [[LanSongOverlayBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_LIGHTEN:
+        case LanSong_LIGHTEN:
         {
             self.title = @"Lighten Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageLightenBlendFilter alloc] init];
+            self.filter = [[LanSongLightenBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_DARKEN:
+        case LanSong_DARKEN:
         {
             self.title = @"Darken Blend";
             self.filterSlider.hidden = YES;
             
             needsSecondImage = YES;
-            self.filter = [[GPUImageDarkenBlendFilter alloc] init];
+            self.filter = [[LanSongDarkenBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_DISSOLVE:
+        case LanSong_DISSOLVE:
         {
             self.title = @"Dissolve Blend";
             self.filterSlider.hidden = NO;
@@ -940,121 +940,121 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImageDissolveBlendFilter alloc] init];
+            self.filter = [[LanSongDissolveBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_SCREENBLEND:
+        case LanSong_SCREENBLEND:
         {
             self.title = @"Screen Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageScreenBlendFilter alloc] init];
+            self.filter = [[LanSongScreenBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_COLORBURN:
+        case LanSong_COLORBURN:
         {
             self.title = @"Color Burn Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageColorBurnBlendFilter alloc] init];
+            self.filter = [[LanSongColorBurnBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_COLORDODGE:
+        case LanSong_COLORDODGE:
         {
             self.title = @"Color Dodge Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageColorDodgeBlendFilter alloc] init];
+            self.filter = [[LanSongColorDodgeBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_LINEARBURN:
+        case LanSong_LINEARBURN:
         {
             self.title = @"Linear Burn Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageLinearBurnBlendFilter alloc] init];
+            self.filter = [[LanSongLinearBurnBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_EXCLUSIONBLEND:
+        case LanSong_EXCLUSIONBLEND:
         {
             self.title = @"Exclusion Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageExclusionBlendFilter alloc] init];
+            self.filter = [[LanSongExclusionBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_DIFFERENCEBLEND:
+        case LanSong_DIFFERENCEBLEND:
         {
             self.title = @"Difference Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageDifferenceBlendFilter alloc] init];
+            self.filter = [[LanSongDifferenceBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_SUBTRACTBLEND:
+        case LanSong_SUBTRACTBLEND:
         {
             self.title = @"Subtract Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageSubtractBlendFilter alloc] init];
+            self.filter = [[LanSongSubtractBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_HARDLIGHTBLEND:
+        case LanSong_HARDLIGHTBLEND:
         {
             self.title = @"Hard Light Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageHardLightBlendFilter alloc] init];
+            self.filter = [[LanSongHardLightBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_SOFTLIGHTBLEND:
+        case LanSong_SOFTLIGHTBLEND:
         {
             self.title = @"Soft Light Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageSoftLightBlendFilter alloc] init];
+            self.filter = [[LanSongSoftLightBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_COLORBLEND:
+        case LanSong_COLORBLEND:
         {
             self.title = @"Color Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageColorBlendFilter alloc] init];
+            self.filter = [[LanSongColorBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_HUEBLEND:
+        case LanSong_HUEBLEND:
         {
             self.title = @"Hue Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageHueBlendFilter alloc] init];
+            self.filter = [[LanSongHueBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_SATURATIONBLEND:
+        case LanSong_SATURATIONBLEND:
         {
             self.title = @"Saturation Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageSaturationBlendFilter alloc] init];
+            self.filter = [[LanSongSaturationBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_LUMINOSITYBLEND:
+        case LanSong_LUMINOSITYBLEND:
         {
             self.title = @"Luminosity Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageLuminosityBlendFilter alloc] init];
+            self.filter = [[LanSongLuminosityBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_NORMALBLEND:
+        case LanSong_NORMALBLEND:
         {
             self.title = @"Normal Blend";
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[GPUImageNormalBlendFilter alloc] init];
+            self.filter = [[LanSongNormalBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_POISSONBLEND:
+        case LanSong_POISSONBLEND:
         {
             self.title = @"Poisson Blend";
             self.filterSlider.hidden = NO;
@@ -1064,9 +1064,9 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[GPUImagePoissonBlendFilter alloc] init];
+            self.filter = [[LanSongPoissonBlendFilter alloc] init];
         }; break;
-        case GPUIMAGE_KUWAHARA:
+        case LanSong_KUWAHARA:
         {
             self.title = @"Kuwahara";
             self.filterSlider.hidden = NO;
@@ -1075,16 +1075,16 @@
             [self.filterSlider setMaximumValue:8.0];
             [self.filterSlider setValue:3.0];
             
-            self.filter = [[GPUImageKuwaharaFilter alloc] init];
+            self.filter = [[LanSongKuwaharaFilter alloc] init];
         }; break;
-        case GPUIMAGE_KUWAHARARADIUS3:
+        case LanSong_KUWAHARARADIUS3:
         {
             self.title = @"Kuwahara (Radius 3)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageKuwaharaRadius3Filter alloc] init];
+            self.filter = [[LanSongKuwaharaRadius3Filter alloc] init];
         }; break;
-        case GPUIMAGE_VIGNETTE:
+        case LanSong_VIGNETTE:
         {
             self.title = @"Vignette";
             self.filterSlider.hidden = NO;
@@ -1093,9 +1093,9 @@
             [self.filterSlider setMaximumValue:0.9];
             [self.filterSlider setValue:0.75];
             
-            self.filter = [[GPUImageVignetteFilter alloc] init];
+            self.filter = [[LanSongVignetteFilter alloc] init];
         }; break;
-        case GPUIMAGE_GAUSSIAN:
+        case LanSong_GAUSSIAN:
         {
             self.title = @"Gaussian Blur";
             self.filterSlider.hidden = NO;
@@ -1104,9 +1104,9 @@
             [self.filterSlider setMaximumValue:24.0];
             [self.filterSlider setValue:2.0];
             
-            self.filter = [[GPUImageGaussianBlurFilter alloc] init];
+            self.filter = [[LanSongGaussianBlurFilter alloc] init];
         }; break;
-        case GPUIMAGE_BOXBLUR:
+        case LanSong_BOXBLUR:
         {
             self.title = @"Box Blur";
             self.filterSlider.hidden = NO;
@@ -1115,16 +1115,16 @@
             [self.filterSlider setMaximumValue:24.0];
             [self.filterSlider setValue:2.0];
             
-            self.filter = [[GPUImageBoxBlurFilter alloc] init];
+            self.filter = [[LanSongBoxBlurFilter alloc] init];
         }; break;
-        case GPUIMAGE_MEDIAN:
+        case LanSong_MEDIAN:
         {
             self.title = @"Median";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[GPUImageMedianFilter alloc] init];
+            self.filter = [[LanSongMedianFilter alloc] init];
         }; break;
-        case GPUIMAGE_MOTIONBLUR:
+        case LanSong_MOTIONBLUR:
         {
             self.title = @"Motion Blur";
             self.filterSlider.hidden = NO;
@@ -1133,9 +1133,9 @@
             [self.filterSlider setMaximumValue:180.0f];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[GPUImageMotionBlurFilter alloc] init];
+            self.filter = [[LanSongMotionBlurFilter alloc] init];
         }; break;
-        case GPUIMAGE_ZOOMBLUR:
+        case LanSong_ZOOMBLUR:
         {
             self.title = @"Zoom Blur";
             self.filterSlider.hidden = NO;
@@ -1144,9 +1144,9 @@
             [self.filterSlider setMaximumValue:2.5f];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageZoomBlurFilter alloc] init];
+            self.filter = [[LanSongZoomBlurFilter alloc] init];
         }; break;
-       case GPUIMAGE_GAUSSIAN_SELECTIVE:
+       case LanSong_GAUSSIAN_SELECTIVE:
         {
             self.title = @"Selective Blur";
             self.filterSlider.hidden = NO;
@@ -1155,10 +1155,10 @@
             [self.filterSlider setMaximumValue:.75f];
             [self.filterSlider setValue:40.0/320.0];
             
-            self.filter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
-            [(GPUImageGaussianSelectiveBlurFilter*)self.filter setExcludeCircleRadius:40.0/320.0];
+            self.filter = [[LanSongGaussianSelectiveBlurFilter alloc] init];
+            [(LanSongGaussianSelectiveBlurFilter*)self.filter setExcludeCircleRadius:40.0/320.0];
         }; break;
-        case GPUIMAGE_GAUSSIAN_POSITION:
+        case LanSong_GAUSSIAN_POSITION:
         {
             self.title = @"Selective Blur";
             self.filterSlider.hidden = NO;
@@ -1167,10 +1167,10 @@
             [self.filterSlider setMaximumValue:.75f];
             [self.filterSlider setValue:40.0/320.0];
             
-            self.filter = [[GPUImageGaussianBlurPositionFilter alloc] init];
-            [(GPUImageGaussianBlurPositionFilter*)self.filter setBlurRadius:40.0/320.0];
+            self.filter = [[LanSongGaussianBlurPositionFilter alloc] init];
+            [(LanSongGaussianBlurPositionFilter*)self.filter setBlurRadius:40.0/320.0];
         }; break;
-        case GPUIMAGE_BILATERAL:
+        case LanSong_BILATERAL:
         {
             self.title = @"Bilateral Blur";
             self.filterSlider.hidden = NO;
@@ -1179,9 +1179,9 @@
             [self.filterSlider setMaximumValue:10.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[GPUImageBilateralFilter alloc] init];
+            self.filter = [[LanSongBilateralFilter alloc] init];
         }; break;
-        case GPUIMAGE_FILTERGROUP:
+        case LanSong_FILTERGROUP:
         {
             self.title = @"Filter Group";
             self.filterSlider.hidden = NO;
@@ -1190,26 +1190,26 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[GPUImageFilterGroup alloc] init];
+            self.filter = [[LanSongFilterGroup alloc] init];
             
-            GPUImageSepiaFilter *sepiaFilter = [[GPUImageSepiaFilter alloc] init];
-            [(GPUImageFilterGroup *)self.filter addFilter:sepiaFilter];
+            LanSongSepiaFilter *sepiaFilter = [[LanSongSepiaFilter alloc] init];
+            [(LanSongFilterGroup *)self.filter addFilter:sepiaFilter];
             
-            GPUImagePixellateFilter *pixellateFilter = [[GPUImagePixellateFilter alloc] init];
-            [(GPUImageFilterGroup *)self.filter addFilter:pixellateFilter];
+            LanSongPixellateFilter *pixellateFilter = [[LanSongPixellateFilter alloc] init];
+            [(LanSongFilterGroup *)self.filter addFilter:pixellateFilter];
             
             [sepiaFilter addTarget:pixellateFilter];
-            [(GPUImageFilterGroup *)self.filter setInitialFilters:[NSArray arrayWithObject:sepiaFilter]];
-            [(GPUImageFilterGroup *)self.filter setTerminalFilter:pixellateFilter];
+            [(LanSongFilterGroup *)self.filter setInitialFilters:[NSArray arrayWithObject:sepiaFilter]];
+            [(LanSongFilterGroup *)self.filter setTerminalFilter:pixellateFilter];
         }; break;
-        default: self.filter = [[GPUImageSepiaFilter alloc] init]; break;
+        default: self.filter = [[LanSongSepiaFilter alloc] init]; break;
     }
         //对上面的的补充.
         if (needsSecondImage)
         {
             UIImage *inputImage;
             
-//            if (filterType == GPUIMAGE_MASK)
+//            if (filterType == LanSong_MASK)
 //            {
 //                inputImage = [UIImage imageNamed:@"mask"];
 //            }
@@ -1217,7 +1217,7 @@
                 inputImage = [UIImage imageNamed:@"WID-small.jpg"];
 //            }
             
-            sourcePicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+            sourcePicture = [[LanSongPicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
             [sourcePicture processImage];  //图片在这里得到处理.
             
             [sourcePicture addTarget:self.filter];  //把这个图片放到了 TWOInputFilter中的了, 怎样起到glblendFunc的作用呢????
@@ -1233,69 +1233,69 @@
 {
     switch(filterType)
     {
-        case GPUIMAGE_SEPIA: [(GPUImageSepiaFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_PIXELLATE: [(GPUImagePixellateFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_POLARPIXELLATE: [(GPUImagePolarPixellateFilter *)self.filter setPixelSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
-        case GPUIMAGE_PIXELLATE_POSITION: [(GPUImagePixellatePositionFilter *)self.filter setRadius:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_POLKADOT: [(GPUImagePolkaDotFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_HALFTONE: [(GPUImageHalftoneFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_SATURATION: [(GPUImageSaturationFilter *)self.filter setSaturation:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_CONTRAST: [(GPUImageContrastFilter *)self.filter setContrast:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_BRIGHTNESS: [(GPUImageBrightnessFilter *)self.filter setBrightness:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_LEVELS: {
+        case LanSong_SEPIA: [(LanSongSepiaFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
+        case LanSong_PIXELLATE: [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
+        case LanSong_POLARPIXELLATE: [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
+        case LanSong_PIXELLATE_POSITION: [(LanSongPixellatePositionFilter *)self.filter setRadius:[(UISlider *)sender value]]; break;
+        case LanSong_POLKADOT: [(LanSongPolkaDotFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
+        case LanSong_HALFTONE: [(LanSongHalftoneFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
+        case LanSong_SATURATION: [(LanSongSaturationFilter *)self.filter setSaturation:[(UISlider *)sender value]]; break;
+        case LanSong_CONTRAST: [(LanSongContrastFilter *)self.filter setContrast:[(UISlider *)sender value]]; break;
+        case LanSong_BRIGHTNESS: [(LanSongBrightnessFilter *)self.filter setBrightness:[(UISlider *)sender value]]; break;
+        case LanSong_LEVELS: {
             float value = [(UISlider *)sender value];
-            [(GPUImageLevelsFilter *)self.filter setRedMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
-            [(GPUImageLevelsFilter *)self.filter setGreenMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
-            [(GPUImageLevelsFilter *)self.filter setBlueMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.filter setRedMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.filter setGreenMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.filter setBlueMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
         }; break;
-        case GPUIMAGE_EXPOSURE: [(GPUImageExposureFilter *)self.filter setExposure:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_MONOCHROME: [(GPUImageMonochromeFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_HUE: [(GPUImageHueFilter *)self.filter setHue:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_WHITEBALANCE: [(GPUImageWhiteBalanceFilter *)self.filter setTemperature:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_SHARPEN: [(GPUImageSharpenFilter *)self.filter setSharpness:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_HISTOGRAM: [(GPUImageHistogramFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
-        case GPUIMAGE_HISTOGRAM_EQUALIZATION: [(GPUImageHistogramEqualizationFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
-        case GPUIMAGE_UNSHARPMASK: [(GPUImageUnsharpMaskFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_GAMMA: [(GPUImageGammaFilter *)self.filter setGamma:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_CROSSHATCH: [(GPUImageCrosshatchFilter *)self.filter setCrossHatchSpacing:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_POSTERIZE: [(GPUImagePosterizeFilter *)self.filter setColorLevels:round([(UISlider*)sender value])]; break;
-        case GPUIMAGE_HAZE: [(GPUImageHazeFilter *)self.filter setDistance:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_SOBELEDGEDETECTION: [(GPUImageSobelEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_PREWITTEDGEDETECTION: [(GPUImagePrewittEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_SKETCH: [(GPUImageSketchFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_THRESHOLD: [(GPUImageLuminanceThresholdFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_ADAPTIVETHRESHOLD: [(GPUImageAdaptiveThresholdFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_AVERAGELUMINANCETHRESHOLD: [(GPUImageAverageLuminanceThresholdFilter *)self.filter setThresholdMultiplier:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_DISSOLVE: [(GPUImageDissolveBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_POISSONBLEND: [(GPUImagePoissonBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_LOWPASS: [(GPUImageLowPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_HIGHPASS: [(GPUImageHighPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_CHROMAKEY: [(GPUImageChromaKeyBlendFilter *)self.filter setThresholdSensitivity:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_KUWAHARA: [(GPUImageKuwaharaFilter *)self.filter setRadius:round([(UISlider *)sender value])]; break;
-        case GPUIMAGE_SWIRL: [(GPUImageSwirlFilter *)self.filter setAngle:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_EMBOSS: [(GPUImageEmbossFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_CANNYEDGEDETECTION: [(GPUImageCannyEdgeDetectionFilter *)self.filter setBlurTexelSpacingMultiplier:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_THRESHOLDEDGEDETECTION: [(GPUImageThresholdEdgeDetectionFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_SMOOTHTOON: [(GPUImageSmoothToonFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_THRESHOLDSKETCH: [(GPUImageThresholdSketchFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_BULGE: [(GPUImageBulgeDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_TONECURVE: [(GPUImageToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, [(UISlider *)sender value])], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]]; break;
-        case GPUIMAGE_HIGHLIGHTSHADOW: [(GPUImageHighlightShadowFilter *)self.filter setHighlights:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_PINCH: [(GPUImagePinchDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_PERLINNOISE:  [(GPUImagePerlinNoiseFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_MOSAIC:  [(GPUImageMosaicFilter *)self.filter setDisplayTileSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
-        case GPUIMAGE_VIGNETTE: [(GPUImageVignetteFilter *)self.filter setVignetteEnd:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_BOXBLUR: [(GPUImageBoxBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_GAUSSIAN: [(GPUImageGaussianBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-            //        case GPUIMAGE_GAUSSIAN: [(GPUImageGaussianBlurFilter *)self.filter setBlurPasses:round([(UISlider*)sender value])]; break;
-            //        case GPUIMAGE_BILATERAL: [(GPUImageBilateralFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_BILATERAL: [(GPUImageBilateralFilter *)self.filter setDistanceNormalizationFactor:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_MOTIONBLUR: [(GPUImageMotionBlurFilter *)self.filter setBlurAngle:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_ZOOMBLUR: [(GPUImageZoomBlurFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_GAUSSIAN_SELECTIVE: [(GPUImageGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:[(UISlider*)sender value]]; break;
-        case GPUIMAGE_GAUSSIAN_POSITION: [(GPUImageGaussianBlurPositionFilter *)self.filter setBlurRadius:[(UISlider *)sender value]]; break;
-        case GPUIMAGE_FILTERGROUP: [(GPUImagePixellateFilter *)[(GPUImageFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-      case GPUIMAGE_TRANSFORM3D:
+        case LanSong_EXPOSURE: [(LanSongExposureFilter *)self.filter setExposure:[(UISlider *)sender value]]; break;
+        case LanSong_MONOCHROME: [(LanSongMonochromeFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
+        case LanSong_HUE: [(LanSongHueFilter *)self.filter setHue:[(UISlider *)sender value]]; break;
+        case LanSong_WHITEBALANCE: [(LanSongWhiteBalanceFilter *)self.filter setTemperature:[(UISlider *)sender value]]; break;
+        case LanSong_SHARPEN: [(LanSongSharpenFilter *)self.filter setSharpness:[(UISlider *)sender value]]; break;
+        case LanSong_HISTOGRAM: [(LanSongHistogramFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
+        case LanSong_HISTOGRAM_EQUALIZATION: [(LanSongHistogramEqualizationFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
+        case LanSong_UNSHARPMASK: [(LanSongUnsharpMaskFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
+        case LanSong_GAMMA: [(LanSongGammaFilter *)self.filter setGamma:[(UISlider *)sender value]]; break;
+        case LanSong_CROSSHATCH: [(LanSongCrosshatchFilter *)self.filter setCrossHatchSpacing:[(UISlider *)sender value]]; break;
+        case LanSong_POSTERIZE: [(LanSongPosterizeFilter *)self.filter setColorLevels:round([(UISlider*)sender value])]; break;
+        case LanSong_HAZE: [(LanSongHazeFilter *)self.filter setDistance:[(UISlider *)sender value]]; break;
+        case LanSong_SOBELEDGEDETECTION: [(LanSongSobelEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
+        case LanSong_PREWITTEDGEDETECTION: [(LanSongPrewittEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
+        case LanSong_SKETCH: [(LanSongSketchFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
+        case LanSong_THRESHOLD: [(LanSongLuminanceThresholdFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
+        case LanSong_ADAPTIVETHRESHOLD: [(LanSongAdaptiveThresholdFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
+        case LanSong_AVERAGELUMINANCETHRESHOLD: [(LanSongAverageLuminanceThresholdFilter *)self.filter setThresholdMultiplier:[(UISlider *)sender value]]; break;
+        case LanSong_DISSOLVE: [(LanSongDissolveBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
+        case LanSong_POISSONBLEND: [(LanSongPoissonBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
+        case LanSong_LOWPASS: [(LanSongLowPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
+        case LanSong_HIGHPASS: [(LanSongHighPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
+        case LanSong_CHROMAKEY: [(LanSongChromaKeyBlendFilter *)self.filter setThresholdSensitivity:[(UISlider *)sender value]]; break;
+        case LanSong_KUWAHARA: [(LanSongKuwaharaFilter *)self.filter setRadius:round([(UISlider *)sender value])]; break;
+        case LanSong_SWIRL: [(LanSongSwirlFilter *)self.filter setAngle:[(UISlider *)sender value]]; break;
+        case LanSong_EMBOSS: [(LanSongEmbossFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
+        case LanSong_CANNYEDGEDETECTION: [(LanSongCannyEdgeDetectionFilter *)self.filter setBlurTexelSpacingMultiplier:[(UISlider*)sender value]]; break;
+        case LanSong_THRESHOLDEDGEDETECTION: [(LanSongThresholdEdgeDetectionFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
+        case LanSong_SMOOTHTOON: [(LanSongSmoothToonFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
+        case LanSong_THRESHOLDSKETCH: [(LanSongThresholdSketchFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
+        case LanSong_BULGE: [(LanSongBulgeDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
+        case LanSong_TONECURVE: [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, [(UISlider *)sender value])], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]]; break;
+        case LanSong_HIGHLIGHTSHADOW: [(LanSongHighlightShadowFilter *)self.filter setHighlights:[(UISlider *)sender value]]; break;
+        case LanSong_PINCH: [(LanSongPinchDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
+        case LanSong_PERLINNOISE:  [(LanSongPerlinNoiseFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
+        case LanSong_MOSAIC:  [(LanSongMosaicFilter *)self.filter setDisplayTileSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
+        case LanSong_VIGNETTE: [(LanSongVignetteFilter *)self.filter setVignetteEnd:[(UISlider *)sender value]]; break;
+        case LanSong_BOXBLUR: [(LanSongBoxBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
+        case LanSong_GAUSSIAN: [(LanSongGaussianBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
+            //        case LanSong_GAUSSIAN: [(LanSongGaussianBlurFilter *)self.filter setBlurPasses:round([(UISlider*)sender value])]; break;
+            //        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
+        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setDistanceNormalizationFactor:[(UISlider*)sender value]]; break;
+        case LanSong_MOTIONBLUR: [(LanSongMotionBlurFilter *)self.filter setBlurAngle:[(UISlider*)sender value]]; break;
+        case LanSong_ZOOMBLUR: [(LanSongZoomBlurFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
+        case LanSong_GAUSSIAN_SELECTIVE: [(LanSongGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:[(UISlider*)sender value]]; break;
+        case LanSong_GAUSSIAN_POSITION: [(LanSongGaussianBlurPositionFilter *)self.filter setBlurRadius:[(UISlider *)sender value]]; break;
+        case LanSong_FILTERGROUP: [(LanSongPixellateFilter *)[(LanSongFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
+      case LanSong_TRANSFORM3D:
         {
             CATransform3D perspectiveTransform = CATransform3DIdentity;
             perspectiveTransform.m34 = 0.4;
@@ -1303,19 +1303,19 @@
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
             perspectiveTransform = CATransform3DRotate(perspectiveTransform, [(UISlider*)sender value], 0.0, 1.0, 0.0);
             
-            [(GPUImageTransformFilter *)self.filter setTransform3D:perspectiveTransform];
+            [(LanSongTransformFilter *)self.filter setTransform3D:perspectiveTransform];
         }; break;
-        case GPUIMAGE_TILTSHIFT:
+        case LanSong_TILTSHIFT:
         {
             CGFloat midpoint = [(UISlider *)sender value];
-            [(GPUImageTiltShiftFilter *)self.filter setTopFocusLevel:midpoint - 0.1];
-            [(GPUImageTiltShiftFilter *)self.filter setBottomFocusLevel:midpoint + 0.1];
+            [(LanSongTiltShiftFilter *)self.filter setTopFocusLevel:midpoint - 0.1];
+            [(LanSongTiltShiftFilter *)self.filter setBottomFocusLevel:midpoint + 0.1];
         }; break;
-        case GPUIMAGE_LOCALBINARYPATTERN:
+        case LanSong_LOCALBINARYPATTERN:
         {
             CGFloat multiplier = [(UISlider *)sender value];
-            [(GPUImageLocalBinaryPatternFilter *)self.filter setTexelWidth:(multiplier / self.view.bounds.size.width)];
-            [(GPUImageLocalBinaryPatternFilter *)self.filter setTexelHeight:(multiplier / self.view.bounds.size.height)];
+            [(LanSongLocalBinaryPatternFilter *)self.filter setTexelWidth:(multiplier / self.view.bounds.size.width)];
+            [(LanSongLocalBinaryPatternFilter *)self.filter setTexelHeight:(multiplier / self.view.bounds.size.height)];
         }; break;
         default: break;
     }

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "LanSongUtils.h"
 
-@interface MainViewController : UIViewController <Mp3ToAacDelegate>
+@interface MainViewController : UIViewController
 
 @end

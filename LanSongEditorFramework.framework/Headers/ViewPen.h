@@ -22,7 +22,7 @@
 /**
  内部使用 inner use
  */
-- (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 
 

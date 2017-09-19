@@ -90,6 +90,7 @@
         });
     }];
     
+    
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{

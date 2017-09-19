@@ -22,7 +22,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/SDKFileUtil.h>
 
-#import <LanSongEditorFramework/GPUImage.h>
+#import <LanSongEditorFramework/LanSong.h>
 
 #import <LanSongEditorFramework/DrawPadPreview.h>
 
@@ -34,8 +34,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/ViewPen.h>
 #import <LanSongEditorFramework/BitmapPen.h>
 #import <LanSongEditorFramework/CameraPen.h>
-#import <LanSongEditorFramework/AVDecoder.h>
 #import <LanSongEditorFramework/Mp3ToAAC.h>
+#import <LanSongEditorFramework/ExtractVideoFrame.h>
 
 @interface LanSongEditor : NSObject
 

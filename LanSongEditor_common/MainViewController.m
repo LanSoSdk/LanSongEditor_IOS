@@ -28,6 +28,8 @@
 #import "SegmentRecordFullVC.h"
 
 
+#import "SimpleVideoFileFilterViewController.h"
+
 @interface MainViewController ()
 {
     UIView  *container;
@@ -54,7 +56,9 @@
 
 
 @implementation MainViewController
-
+{
+    ExtractVideoFrame *extractFrame;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -69,6 +73,8 @@
     if([LanSongEditor initSDK:NULL]==NO){
         [self showSDKOutTimeWarnning];
     }
+    
+    [SDKFileUtil deleteAllTempFiles];
     
     UIScrollView *scrollView = [UIScrollView new];
     [self.view  addSubview:scrollView];
@@ -135,7 +141,6 @@
 }
 -(void)onClicked:(UIView *)sender
 {
-    
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
@@ -143,7 +148,8 @@
 
     switch (sender.tag) {
         case kSegmentRecordSquare:
-            pushVC=[[SegmentRecordSquareVC alloc] init];
+             pushVC=[[CameraPenDemoVC alloc] init];
+           // pushVC=[[SegmentRecordSquareVC alloc] init];
             break;
         case kSegmentRecordFull:
             pushVC=[[SegmentRecordFullVC alloc] init]; //全屏录制
@@ -232,10 +238,11 @@
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
-
+int  frameCount=0;
 -(void)testFile
 {
- 
+    
+   // NSString *assetPath = [[NSBundle mainBundle] pathForResource:@"ping20s" ofType:@"mp4"];
     
 }
 /*

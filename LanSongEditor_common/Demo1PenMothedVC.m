@@ -85,7 +85,7 @@
     
     //增加一个视频图层.
     sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    GPUImageSepiaFilter  *filter=[[GPUImageSepiaFilter alloc] init];
+    LanSongSepiaFilter  *filter=[[LanSongSepiaFilter alloc] init];
     operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
     
     

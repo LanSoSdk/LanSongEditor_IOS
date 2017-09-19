@@ -7,18 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GPUImageContext.h"
-#import "GPUImageView.h"
+#import "LanSongContext.h"
+#import "LanSongView.h"
 
 
 @interface DrawPadView : UIView
 {
-    GPUImageRotationMode inputRotation;
+    LanSongRotationMode inputRotation;
 }
 
-/** The fill mode dictates how images are fit in the view, with the default being kGPUImageFillModePreserveAspectRatio
+/** The fill mode dictates how images are fit in the view, with the default being kLanSongFillModePreserveAspectRatio
  */
-@property(readwrite, nonatomic) GPUImageFillModeType fillMode;
+@property(readwrite, nonatomic) LanSongFillModeType fillMode;
 
 /** This calculates the current display size, in pixels, taking into account Retina scaling factors
  */
@@ -27,12 +27,25 @@
 @property(nonatomic) BOOL enabled;
 
 
+/**
+ 内部使用
+
+ @param newValue <#newValue description#>
+ */
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 
-+ (const GLfloat *)textureCoordinatesForRotation:(GPUImageRotationMode)rotationMode;
++ (const GLfloat *)textureCoordinatesForRotation:(LanSongRotationMode)rotationMode;
 
+
+/**
+ 内部使用
+ */
 -(void)makeCurrent;
 
+
+/**
+ 内部使用
+ */
 -(void)pushToDisplay;
 
 @end

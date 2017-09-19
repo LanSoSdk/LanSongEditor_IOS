@@ -5,8 +5,8 @@
 
 @interface SegmentRecordFullView : UIView
 {
-    GPUImageVideoCamera *videoCamera;
-    GPUImageMovieWriter *movieWriter;
+    LanSongVideoCamera *videoCamera;
+    LanSongMovieWriter *movieWriter;
     /*
      录制的当前段
      */
@@ -15,7 +15,7 @@
     /*
      画面显示
      */
-    GPUImageView *previewView;
+    LanSongView *previewView;
     
     /**
      聚焦层.

@@ -56,7 +56,7 @@
     
     
     //step2: 增加一个视频图层,并给图层增加滤镜.
-    GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
+    LanSongFilter *filter= (LanSongFilter *)[[LanSongSepiaFilter alloc] init];
     [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:filter];
     
     //设置进度

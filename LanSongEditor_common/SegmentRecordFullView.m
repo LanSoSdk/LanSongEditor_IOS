@@ -19,18 +19,18 @@
     mainScreenFrame = frame;
     
     
-    videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
+    videoCamera = [[LanSongVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
     
     videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     [videoCamera addAudioInputsAndOutputs];
     
-     [videoCamera startCameraCapture];
+    [videoCamera startCameraCapture];
     
     
     
-    previewView = [[GPUImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    previewView = [[LanSongView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [videoCamera addTarget:previewView];
- 
+    
     
     [self addSomeView];
     
@@ -57,8 +57,6 @@
 }
 -(void)dealloc
 {
-    
-
     NSLog(@"SegmentRecordFullView alloc ....");
     previewView=nil;
     movieWriter=nil;
@@ -76,7 +74,7 @@
 
 /**
  录制完成的监听
-
+ 
  @param sender <#sender description#>
  */
 - (IBAction)concatRecording:(id)sender {
@@ -94,7 +92,7 @@
 
 /**
  录制按钮 sender
-
+ 
  @param sender <#sender description#>
  */
 - (IBAction)startRecording:(id)sender {
@@ -120,7 +118,7 @@
     unlink([currentSegment UTF8String]);
     NSURL *movieURL = [NSURL fileURLWithPath:currentSegment];
     
-    movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(360.0, 640.0)];
+    movieWriter = [[LanSongMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(360.0, 640.0)];
     movieWriter.encodingLiveVideo = YES;
     movieWriter.shouldPassthroughAudio = NO;//录制Camera的时候, 要编码, 不能 -acodec copy
     
@@ -162,13 +160,13 @@
         [myTimer invalidate];
         myTimer = nil;
     }
-   
+    
     isRecording=NO;
     movieWriter=nil;
 }
 
 /**
- 录制完成, 
+ 录制完成,
  合成和播放
  */
 -(void)segmentFinish
@@ -188,7 +186,7 @@
     }else{
         [LanSongUtils showHUDToast:@"抱歉,文件合成失败!,请联系我们"];
     }
-
+    
 }
 
 /**
@@ -217,7 +215,7 @@
 
 /**
  点击画面,开始聚集
-
+ 
  @param tgr <#tgr description#>
  */
 -(void)cameraViewTapAction:(UITapGestureRecognizer *)tgr
@@ -267,7 +265,7 @@
  其他的一些界面控件
  */
 - (void) addSomeView{
-   
+    
     
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 60.0, 100, 30.0)];
     timeLabel.font = [UIFont systemFontOfSize:15.0f];
@@ -281,7 +279,7 @@
     btnRecord = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btnRecord.layer setCornerRadius:8];
     btnRecord.frame = CGRectMake(100,mainScreenFrame.size.height - 70.0,
-                                          100.0, 40.0);
+                                 100.0, 40.0);
     btnRecord.backgroundColor = [UIColor whiteColor];
     [btnRecord setTitle:@"开始/暂停" forState:UIControlStateNormal];
     btnRecord.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
@@ -305,7 +303,7 @@
 
 /**
  聚焦的UI动画
-
+ 
  @param point 聚焦点
  */
 - (void)layerAnimationWithPoint:(CGPoint)point {
@@ -334,7 +332,7 @@
 
 /**
  定时器相应 sender
-
+ 
  @param sender <#sender description#>
  */
 - (void)updateTimer:(NSTimer *)sender{

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GPUImage.h"
+#import "LanSong.h"
 #import "VideoPen.h"
 #import "BitmapPen.h"
 #import "ViewPen.h"
@@ -87,11 +87,11 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
  
  *  @param videoPath 文件的绝对路径
- *  @param filter    可以给视频增加一个GPUImageFilter的滤镜
+ *  @param filter    可以给视频增加一个LanSongFilter的滤镜
  *
  *  @return
  */
--(VideoPen *)addMainVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
+-(VideoPen *)addMainVideoPen:(NSString *)videoPath filter:(LanSongFilter *)filter;
 
 /**
  *  增加视频图层
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *
  *  @return
  */
--(VideoPen *)addVideoPen:(NSString *)videoPath filter:(GPUImageFilter *)filter;
+-(VideoPen *)addVideoPen:(NSString *)videoPath filter:(LanSongFilter *)filter;
 /**
  向画板中增加一个MV图层, 以用来显示MV效果.
   增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
@@ -112,9 +112,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  @param filter  可以给mv效果设置一个滤镜,如果不需要,设置为null
  @return  返回MV图层对象.
  */
--(MVPen *)addMVPen:(NSString *)colorPath  maskPath:(NSString *)maskPath filter:(GPUImageFilter *)filter;
-
-
+-(MVPen *)addMVPen:(NSString *)colorPath  maskPath:(NSString *)maskPath filter:(LanSongFilter *)filter;
 
 /**
  *  增加图片图层, 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
@@ -148,18 +146,6 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  @return 图层对象
  */
 -(CALayerPen *)addCALayerPenWithLayer:(CALayer *)inputLayer fromUI:(BOOL)fromUI;
-
-
-
-/**
- 增加摄像头图层
-  (当前请不要使用.)
- @param sessionPreset 预览分辨率, 建议是:AVCaptureSessionPreset640x480
- @param cameraPosition 如使用前置摄像头,则为AVCaptureDevicePositionFront; 后置则是: AVCaptureDevicePositionBack;
- 
- @return
- */
--(CameraPen *)addCameraPen:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition;
 /**
  *  删除一个图层
  */

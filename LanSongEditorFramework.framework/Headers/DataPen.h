@@ -18,6 +18,6 @@
 /**
  内部使用.
  */
-- (id)initWithWidth:(CGFloat )dataWidth height:(CGFloat)dataHeight drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithWidth:(CGFloat )dataWidth height:(CGFloat)dataHeight drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 @end

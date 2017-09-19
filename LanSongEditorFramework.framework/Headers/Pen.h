@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GPUImageContext.h"
-#import "GPUImageOutput.h"
-#import "GPUImageFilter.h"
+#import "LanSongContext.h"
+#import "LanSongOutput.h"
+#import "LanSongFilter.h"
 
 
 
@@ -26,15 +26,15 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- 提示1:   ios版本的GPUImage功能很强大, 为了滤镜部分和它兼容, 我们的图层继承自GPUImage中的GPUImageOutput,
-         您可以直接使用GPUImage的滤镜效果,并支持GPUImage的各种扩展效果.
-         与GPUImageOutput的区别是: GPUImageOutput只能做滤镜功能, 而我们是整个视频编辑SDK.
+ 提示1:   ios版本的LanSong功能很强大, 为了滤镜部分和它兼容, 我们的图层继承自LanSong中的LanSongOutput,
+         您可以直接使用LanSong的滤镜效果,并支持LanSong的各种扩展效果.
+         与LanSongOutput的区别是: LanSongOutput只能做滤镜功能, 而我们是整个视频编辑SDK.
  
  提示2:  因为图层的的单词是Layer, 而'Layer'单词被IOS的UI使用了, 为了不使您代码中的对象命名混乱,
         我们用Pen这个单词作为图层的父类, 只是单词变化了,和Android版本的一样是图层的意思, 一样每个图层均支持移动缩放旋转滤镜等特性
  
  */
-@interface Pen : GPUImageOutput
+@interface Pen : LanSongOutput
 {
       NSObject *framebufferLock;  //数据的同步锁.
 }
@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 /**
  *  内部使用
  */
-//@property GPUImageRotationMode inputRotation;
+//@property LanSongRotationMode inputRotation;
 
 
 /**
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 /**
  *  内部使用
  */
-- (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target penType:(PenTpye) type;
+- (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
 
 
 /**
@@ -136,7 +136,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 /**
  *  内部使用
  */
--(void)loadParam:(GPUImageContext*)context;
+-(void)loadParam:(LanSongContext*)context;
 /**
  *  内部使用
  */
@@ -152,11 +152,11 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 /**
  *  切换滤镜, 默认是没有滤镜. 
-    因为IOS端的GPUImage开源库很强大, 这里完全兼容GPUImage的库,您也可以根据自己的情况扩展GPUImage相关的效果.
+    因为IOS端的LanSong开源库很强大, 这里完全兼容LanSong的库,您也可以根据自己的情况扩展LanSong相关的效果.
  *
  *  @param filter 滤镜对象.
  */
--(void)switchFilter:(GPUImageOutput<GPUImageInput> *)filter;
+-(void)switchFilter:(LanSongOutput<LanSongInput> *)filter;
 
 - (void)startProcessing:(BOOL)isAutoMode;
 

@@ -21,13 +21,13 @@
     dispatch_semaphore_t imageUpdateSemaphore;
 }
 
--  (id)initWithURL:(NSURL *)url drawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+-  (id)initWithURL:(NSURL *)url drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
-- (id)initWithData:(NSData *)imageData drawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithData:(NSData *)imageData drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
-- (id)initWithImage:(UIImage *)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithImage:(UIImage *)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
-- (id)initWithCGImage:(CGImageRef)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithCGImage:(CGImageRef)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 
 
@@ -35,13 +35,13 @@
 
 - (CGSize)outputImageSize;
 
--(GPUImageFramebuffer *)getFrameBuffer;
+-(LanSongFramebuffer *)getFrameBuffer;
 
--(void)loadParam:(GPUImageContext*)context;
+-(void)loadParam:(LanSongContext*)context;
 
 
 - (BOOL)processImageWithCompletionHandler:(void (^)(void))completion;
 
-- (void)processImageUpToFilter:(GPUImageOutput<GPUImageInput> *)finalFilterInChain withCompletionHandler:(void (^)(UIImage *processedImage))block;
+- (void)processImageUpToFilter:(LanSongOutput<LanSongInput> *)finalFilterInChain withCompletionHandler:(void (^)(UIImage *processedImage))block;
 
 @end

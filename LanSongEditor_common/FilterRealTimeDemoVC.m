@@ -86,7 +86,7 @@
     
     
     //增加主视频图层
-     GPUImageFilter *filter= (GPUImageFilter *)[[GPUImageSepiaFilter alloc] init];
+     LanSongFilter *filter= (LanSongFilter *)[[LanSongSepiaFilter alloc] init];
     mVideoPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
     
     /*

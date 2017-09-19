@@ -39,6 +39,6 @@
  *
  *  @return
  */
-- (id)initWithURL:(NSURL *)url drawpadSize:(CGSize)size drawpadTarget:(id<GPUImageInput>)target;
+- (id)initWithURL:(NSURL *)url drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 @end
