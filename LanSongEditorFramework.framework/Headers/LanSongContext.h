@@ -2,6 +2,26 @@
 #import "LanSongFramebuffer.h"
 #import "LanSongFramebufferCache.h"
 
+//----LANSO++
+//#define LANSONGSDK_DEBUG 1
+
+#define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
+
+
+// 设置Dlog可以打印出类名,方法名,行数.
+#ifdef LANSONGSDK_DEBUG
+    #define LSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
+#else
+    #define LSLog(...)
+    #define LANSOSDKLine ;
+#endif
+
+//-------LANSO++  END
+
+/**
+ 如果有向左旋转, 向右旋转的角度,则返回YES, 交换宽高;
+ */
 #define LanSongRotationSwapsWidthAndHeight(rotation) ((rotation) == kLanSongRotateLeft || (rotation) == kLanSongRotateRight || (rotation) == kLanSongRotateRightFlipVertical || (rotation) == kLanSongRotateRightFlipHorizontal)
 
 typedef NS_ENUM(NSUInteger, LanSongRotationMode) {

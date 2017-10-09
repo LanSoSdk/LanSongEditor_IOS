@@ -165,4 +165,45 @@
     CGImageRelease(imageRef);
     return image;
 }
+
+
+/**
+ 设置当前viewController竖屏
+ */
++(void)setViewControllerPortrait
+{
+    [LanSongUtils interfaceOrientation:UIInterfaceOrientationPortrait];
+}
+
+/**
+ 设置当前viewController横屏
+ */
++(void)setViewControllerLandscape
+{
+    [LanSongUtils interfaceOrientation:UIInterfaceOrientationLandscapeRight];
+}
+
+/**
+ 在ViewController中调用, 设置当前屏幕的旋转角度.
+ */
++ (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
+    
+    //[self interfaceOrientation:UIInterfaceOrientationLandscapeLeft];  //横屏 home键在左边, 一般不用;
+    //    [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];  //横屏, home键在右侧, 常见横屏
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)])
+    {
+        
+        SEL selector             = NSSelectorFromString(@"setOrientation:");
+        
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val                  = orientation;
+        
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+}
+
 @end

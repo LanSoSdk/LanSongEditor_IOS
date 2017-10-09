@@ -3,7 +3,8 @@
 
 #import "SegmentRecordSquareVC.h"
 #import <QuartzCore/QuartzCore.h>
-#import "ProgressBar.h"
+//#import "ProgressBar.h"
+#import "SegmentRecordProgressView.h"
 #import "LanSongUtils.h"
 #import "SegmentRecorder.h"
 #import "DeleteButton.h"
@@ -22,7 +23,10 @@
 }
 @property (strong, nonatomic) SegmentRecorder *recorder;
 
-@property (strong, nonatomic) ProgressBar *progressBar;
+//@property (strong, nonatomic) ProgressBar *progressBar;
+
+@property (strong, nonatomic) SegmentRecordProgressView *progressBar;
+
 
 @property (strong, nonatomic) DeleteButton *deleteButton;
 @property (strong, nonatomic) UIButton *okButton;
@@ -78,6 +82,8 @@
     
     [self initPreview];
     [LanSongUtils createVideoFolderIfNotExist];
+    
+    
     [self initProgressBar];
     [self initRecordButton];
     [self initDeleteButton];
@@ -106,11 +112,13 @@
 
 - (void)initProgressBar
 {
-    self.progressBar = [ProgressBar getInstance];
+    self.progressBar = [SegmentRecordProgressView getInstance];
+    self.progressBar.maxDuration=MAX_VIDEO_DURATION;
+    
     [LanSongUtils setView:_progressBar toOriginY:(DEVICE_SIZE.width+nvheight)];
 
     [self.view addSubview:_progressBar ];
-    [_progressBar startShining];
+    [_progressBar start];
 }
 
 - (void)initDeleteButton
@@ -237,11 +245,11 @@
 - (void)pressDeleteButton
 {
     if (_deleteButton.style == DeleteButtonStyleNormal) {//第一次按下删除按钮
-        [_progressBar setLastProgressToStyle:ProgressBarProgressStyleDelete];
+        [_progressBar setWillDeleteMode];
         [_deleteButton setButtonStyle:DeleteButtonStyleDelete];
     } else if (_deleteButton.style == DeleteButtonStyleDelete) {//第二次按下删除按钮
         [self deleteLastVideo];
-        [_progressBar deleteLastProgress];
+        [_progressBar deleteLastSegment];
         
         if ([_recorder getVideoCount] > 0) {
             [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
@@ -267,7 +275,6 @@
     [_recorder mergeVideoFiles];
     self.isProcessingData = YES;
 }
-
 
 /**
  关闭
@@ -324,15 +331,15 @@
 #pragma mark - SegmentRecorderDelegate
 - (void)videoRecorder:(SegmentRecorder *)videoRecorder didStartRecordingToOutPutFileAtURL:(NSURL *)fileURL
 {
-    [self.progressBar addProgressView];
-    [_progressBar stopShining];
+    [self.progressBar addNewSegment];
+    [_progressBar stop];
     
     [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
 }
 
 - (void)videoRecorder:(SegmentRecorder *)videoRecorder didFinishRecordingToOutPutFileAtURL:(NSURL *)outputFileURL duration:(CGFloat)videoDuration totalDur:(CGFloat)totalDur error:(NSError *)error
 {
-    [_progressBar startShining];
+    [_progressBar start];
     
     if (totalDur >= MAX_VIDEO_DURATION) {
         [self pressOKButton];
@@ -352,7 +359,10 @@
 
 - (void)videoRecorder:(SegmentRecorder *)videoRecorder didRecordingToOutPutFileAtURL:(NSURL *)outputFileURL duration:(CGFloat)videoDuration recordedVideosTotalDur:(CGFloat)totalDur
 {
-    [_progressBar setLastProgressToWidth:videoDuration / MAX_VIDEO_DURATION * _progressBar.frame.size.width];
+    
+    [_progressBar setLastSegmentPts:videoDuration];
+    
+//    [_progressBar setLastProgressToWidth:videoDuration / MAX_VIDEO_DURATION * _progressBar.frame.size.width];
     
     _okButton.enabled = (videoDuration + totalDur >= MIN_VIDEO_DURATION);
 }
@@ -391,7 +401,7 @@
     
     if (_deleteButton.style == DeleteButtonStyleDelete) {//取消删除
         [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
-        [_progressBar setLastProgressToStyle:ProgressBarProgressStyleNormal];
+        [_progressBar setNormalMode];
         return;
     }
     

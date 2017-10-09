@@ -111,8 +111,8 @@
     self.movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
     [_captureSession addOutput:_movieFileOutput];
     
-    //preset  设置的分辨率是高分辨率????
-    _captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+    //最接近正方形的, 就是640x480的分辨率.
+    _captureSession.sessionPreset = AVCaptureSessionPreset640x480;
     
     //preview layer------------------
     self.preViewLayer = [AVCaptureVideoPreviewLayer layerWithSession:_captureSession];
@@ -399,9 +399,6 @@
     CGPoint devicePoint = [self convertToPointOfInterestFromViewCoordinates:touchPoint];
     [self focusWithMode:AVCaptureFocusModeAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
 }
-
-
-
 - (void)openTorch:(BOOL)open
 {
     self.isTorchOn = open;

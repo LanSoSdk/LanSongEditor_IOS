@@ -36,6 +36,7 @@
 + (DeleteButton *)getInstance
 {
     DeleteButton *deleteButton = [[DeleteButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    
     return deleteButton;
 }
 

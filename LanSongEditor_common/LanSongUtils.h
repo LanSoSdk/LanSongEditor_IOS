@@ -18,6 +18,18 @@
 #define DEBUG 1
 #define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
 
+
+// 设置Dlog可以打印出类名,方法名,行数.
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define SDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
+#else
+#define DLog(...)
+#endif
+
+
+
+
 #define DEVICE_BOUNDS [[UIScreen mainScreen] applicationFrame]
 #define DEVICE_SIZE [[UIScreen mainScreen] applicationFrame].size
 #define DEVICE_OS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
@@ -47,4 +59,23 @@
 + (NSString *)getVideoMergeFilePathString;
 + (NSString *)getVideoSaveFolderPathString;
 
+
+
+
+
+
+/**
+设置当前viewController竖屏
+ */
++(void)setViewControllerPortrait;
+
+/**
+ 设置当前viewController横屏
+ */
++(void)setViewControllerLandscape;
+/**
+ 在ViewController中调用, 设置当前屏幕的旋转角度.
+ */
++ (void)interfaceOrientation:(UIInterfaceOrientation)orientation;
+    
 @end

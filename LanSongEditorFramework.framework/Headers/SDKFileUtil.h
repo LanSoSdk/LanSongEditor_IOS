@@ -90,11 +90,16 @@
 +(void)deleteFile:(NSString *)filepath;
 
 /**
- 删除所有的文件.
+ 删除文件字符串数组中的所有文件.
 
  @param fileArray <#fileArray description#>
  */
 +(void)deleteAllFiles:(NSMutableArray *)fileArray;
+
+/**
+ 删除SDK默认文件夹中的所有文件
+ */
++(void)deleteAllSDKFiles;
 /**
  *  删除文件夹(这里仅仅是删除文件夹里的所有文件,并不删除文件夹名字)
  *
@@ -104,10 +109,6 @@
 
 
 /**
- 删除所有在[SDKFileUtil path]中的临时文件;
- */
-+(void)deleteAllTempFiles;
-/**
  *  返回SDK默认的文件夹, 默认是当前APP的NSDocumentDirectory下创建一个lansongBox文件夹,然后返回.
  *
  *  @return 文件夹路径,
@@ -115,7 +116,7 @@
 +(NSString *)Path;
 /**
  *  在默认的路径中,创建一个mp4路径(只是路径字符串, 没有文件生成)
- *  generate
+ *
  *  @return 路径的字符串
  */
 +(NSString *)genTmpMp4Path;

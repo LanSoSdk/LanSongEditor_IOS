@@ -42,7 +42,6 @@ void reportAvailableMemoryForLanSong(NSString *tag);
 @class LanSongMovieWriter;
 
 /** LanSong's base source object
- 基础代码类, 用LanSongOutput来表示???
  Images or frames of video are uploaded from source objects, which are subclasses of LanSongOutput. These include:
  
  - LanSongVideoCamera (for live video from an iOS camera) 
@@ -54,17 +53,12 @@ void reportAvailableMemoryForLanSong(NSString *tag);
  */
 @interface LanSongOutput : NSObject
 {
-    //作为输出的的纹理传递到下一个TargetXXXXX
     LanSongFramebuffer *outputFramebuffer;
-    /**
-     *       目标列表
-     */
     NSMutableArray *targets;
-    /**
-     * targetTextureIndices: 在addTarget的时候, Target会分配一个id号给这个输入, 这里保存起来, 当要传递纹理的时候, 把id号一并传递下去.
-
-     */
+    
+    
     NSMutableArray *targetTextureIndices;
+    
     
     CGSize inputTextureSize, cachedMaximumOutputSize, forcedMaximumSize;
     

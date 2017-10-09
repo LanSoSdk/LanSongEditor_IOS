@@ -42,30 +42,33 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     
-    
-    
+//    [LanSongUtils setViewControllerLandscape];
     
     /*
      step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
      */
-        CGFloat drawPadWidth=480;
-        CGFloat drawPadHeight=480;
+        CGFloat padWidth=480;
+        CGFloat padHeight=480;
     
     
     
-    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(480, 480)];
+    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight)];
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
-    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
+    
+    
+    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(padWidth/padHeight))];
+    
+    
     [self.view addSubview: filterView];
 
     
     [camDrawPad setDrawPadDisplay:filterView];
     
     
-    UIImage *imag=[UIImage imageNamed:@"mm"];
-    [camDrawPad addBitmapPen:imag];
+//    UIImage *imag=[UIImage imageNamed:@"mm"];
+//    [camDrawPad addBitmapPen:imag];
     
     
     [camDrawPad startPreview];

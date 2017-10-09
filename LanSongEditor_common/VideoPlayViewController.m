@@ -40,7 +40,7 @@
     // Do any additional setup after loading the view from its nib.
     [super viewDidLoad];
     
-  
+  [LanSongUtils setViewControllerPortrait];
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         
@@ -53,15 +53,16 @@
                 "音频采样率:%d"
                 "音频通道:%d"
                 ,mInfo.vWidth,mInfo.vHeight,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
-          
         [self.libInfo setText:str];
-        
         [self playVideo];
-        
     }else{
         [LanSongUtils showHUDToast:@"当前视频错误, 退出"];
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    
 }
 -(void)playVideo
 {

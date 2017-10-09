@@ -35,6 +35,8 @@
 @property CGSize  drawpadSize;
 
 
+@property    BOOL  isRecording;
+@property    BOOL  isRunning;
 /**
  *     DrawPad执行过程中的进度对调, 返回的当前时间戳 单位是秒.
  
@@ -58,15 +60,22 @@
 
 
 /**
- 开始预览
+ 开始预览, 在开始录制前一定要开始预览.
  */
 -(void)startPreview;
 
 /**
- 停止预览
+ 停止预览,如果已经开始录制了, 则会停止录制.
+ 
  */
 -(void)stopPreview;
 
+
+/**
+ 等同于 stopPreview; 
+ 只是为了思路上一致.
+ */
+-(void)stopDrawPad;
 
 /**
  设置录制路径,并开始录制

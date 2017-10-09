@@ -193,6 +193,7 @@
      当选中一个滤镜的时候, 在这里切换到该滤镜.
      */
     if (_filterPen!=nil) {
+            NSLog(@"在这里切换滤镜");
          [_filterPen switchFilter:_filter];
     }
    
@@ -1218,9 +1219,9 @@
 //            }
             
             sourcePicture = [[LanSongPicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
-            [sourcePicture processImage];  //图片在这里得到处理.
+            [sourcePicture processImage];
             
-            [sourcePicture addTarget:self.filter];  //把这个图片放到了 TWOInputFilter中的了, 怎样起到glblendFunc的作用呢????
+            [sourcePicture addTarget:self.filter];
         }
 }
      
@@ -1234,9 +1235,17 @@
     switch(filterType)
     {
         case LanSong_SEPIA: [(LanSongSepiaFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case LanSong_PIXELLATE: [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case LanSong_POLARPIXELLATE: [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
-        case LanSong_PIXELLATE_POSITION: [(LanSongPixellatePositionFilter *)self.filter setRadius:[(UISlider *)sender value]]; break;
+        case LanSong_PIXELLATE:
+            [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]];
+            break;
+        case LanSong_POLARPIXELLATE:
+            
+            [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])];
+            
+            break;
+        case LanSong_PIXELLATE_POSITION:
+            [(LanSongPixellatePositionFilter *)self.filter setRadius:[(UISlider *)sender value]];
+            break;
         case LanSong_POLKADOT: [(LanSongPolkaDotFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
         case LanSong_HALFTONE: [(LanSongHalftoneFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
         case LanSong_SATURATION: [(LanSongSaturationFilter *)self.filter setSaturation:[(UISlider *)sender value]]; break;
