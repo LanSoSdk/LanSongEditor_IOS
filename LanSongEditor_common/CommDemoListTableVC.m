@@ -13,7 +13,6 @@
 #import "LanSongUtils.h"
 #import <LanSongEditorFramework/LanSongEditor.h>
 enum {
-    ID_SHOW_MEDIAINFO,
     ID_DELETE_AUDIO,
     ID_DELETE_VIDEO,
     ID_MERGE_VIDEO_AUDIO,
@@ -24,7 +23,6 @@ enum {
     ID_ADD_PICTURE_WORD,
     ID_VIDEO_FRAME_CROP,
     ID_VIDEO_CROP_ADDWORD,
-    ID_DIRECT_PLAY,
 };
 @interface CommDemoListTableVC ()
 {
@@ -51,7 +49,6 @@ enum {
     
     NSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:
-                   [[CommDemoItem alloc] initWithID:ID_SHOW_MEDIAINFO hint:@"获取视频信息"],
                   [[CommDemoItem alloc] initWithID:ID_DELETE_AUDIO hint:@"删除多媒体中的音频"],
                   [[CommDemoItem alloc] initWithID:ID_DELETE_VIDEO hint:@"删除多媒体中的视频"],
                   [[CommDemoItem alloc] initWithID:ID_MERGE_VIDEO_AUDIO hint:@"合并音视频/增加背景音乐/替换音乐"],
@@ -63,7 +60,6 @@ enum {
                   [[CommDemoItem alloc] initWithID:ID_ADD_PICTURE_WORD hint:@"增加图片或文字"],
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_FRAME_CROP hint:@"视频画面裁剪"],
                   [[CommDemoItem alloc] initWithID:ID_VIDEO_CROP_ADDWORD hint:@"视频画面裁剪增加文字"],
-                  [[CommDemoItem alloc] initWithID:ID_DIRECT_PLAY hint:@"直接视频播放"],
                  nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -194,9 +190,6 @@ enum {
     
     [self showProgressHUD];
     switch (item.demoID) {
-        case ID_SHOW_MEDIAINFO:
-                [self hideProgressHUD];
-                break;
             case ID_DELETE_AUDIO:
                 [CommDemoItem demoDeleteAudio:srcVideo dstMp4:dstMp4];
                 [self hideProgressHUD];
@@ -221,8 +214,6 @@ enum {
                 [CommDemoItem demoVideoConcat:srcVideo dstVideo:dstMp4];
                 [self hideProgressHUD];
                 break;
-            
-            
             case ID_SCALE_VIDEO:
                 [CommDemoItem demoScaleWithPath:srcVideo dstPash:dstMp4];
                 break;
@@ -234,10 +225,6 @@ enum {
                 break;
             case ID_VIDEO_CROP_ADDWORD:
                 [CommDemoItem demoCropCALayerWithPath:srcVideo dstPash:dstMp4];
-                break;
-            case ID_DIRECT_PLAY:
-                dstMp4=srcVideo;
-                [self hideProgressHUD];
                 break;
         default:
             break;

@@ -168,3 +168,8 @@
 #import "LanSongColourFASTFeatureDetector.h"
 #import "LanSongColourFASTSamplingOperation.h"
 
+//2017年10月19日15:48:35新增:
+
+#import "LanSongBeautyFilter.h"
+
+

@@ -11,6 +11,7 @@
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
 #import "LanSongFilter.h"
+#import "LanSongTwoInputFilter.h"
 
 
 
@@ -36,7 +37,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @interface Pen : LanSongOutput
 {
-      NSObject *framebufferLock;  //数据的同步锁.
+      NSObject *framebufferLock;  //数据的同步锁. 内部使用.
 }
 
 /**
@@ -47,15 +48,19 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- *  在绘制到画板上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
+ 内部使用.
+ */
+@property BOOL isCamFrontMirror;
+/**
+ *  在绘制到容器上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
     如果你要获取当前画面的实时尺寸,则可以通过上面的frameBufferSize这个属性来获取. 缩放也是基于frameBufferSize进行的.
     
     此尺寸可以作为移动的参考.
  
  
-  当前绘制原理是:ViewPen是等比例缩放到画板上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到画板上.
+  当前绘制原理是:ViewPen是等比例缩放到容器上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到容器上.
  
-   举例:视频是1280x720的视频, 画板尺寸是480x480,则增加到画板上后, 会自动缩放视频的尺寸,
+   举例:视频是1280x720的视频, 容器尺寸是480x480,则增加到容器上后, 会自动缩放视频的尺寸,
       如果是横屏, 则视频的宽度被缩放成480, 高度被缩放成 480 x(视频的宽高比720/1280)=270; 则这里penSize的宽高是480x270,从而保证视频的宽高比一直.
       如果是竖屏, 则视频的高度被缩放到480, 宽度被缩放成 270, ....
  
@@ -65,13 +70,13 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- *  定义的画板尺寸
+ *  定义的容器尺寸
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
 
 /**
  内部使用.
- 当前图层在画板中的ID号,不一定等于画板的层数.inner used
+ 当前图层在容器中的ID号,不一定等于容器的层数.inner used
  */
 @property int  idInDrawPad;
 
@@ -158,6 +163,46 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 -(void)switchFilter:(LanSongOutput<LanSongInput> *)filter;
 
+
+/**
+  切换滤镜, 切换到的滤镜, 可以有第二个输入源.
+
+ @param filter 切换到的滤镜
+ @param secondInput filter的第二个输入源, 一般用在各种Blend类型的滤镜中
+ */
+-(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
+
+
+/**
+  切换滤镜, 这里是滤镜级联(滤镜叠加)
+
+ 举例1:
+  3个滤镜级联:视频图层--经过 A滤镜 --->B滤镜--->C滤镜--->DrawPad编码
+ 则这里应该填写的是 startFilter=A滤镜;
+  endFilter=C滤镜;
+ B滤镜的使用代码是: [A滤镜 addTarget B滤镜];  [B滤镜 addTarget C滤镜];  C滤镜才是填入到我们endFilter中的值.
+ 
+ 举例2: 
+    2个滤镜级联:视频图层-->A滤镜-->B滤镜-->DrawPad编码
+ 则这里 startFilter=A滤镜;
+    endFilter=B滤镜;
+ 您代码中应该有 [A addTarget B]; 这样的代码.
+ 比如代码如下:
+    LanSongSepiaFilter *sepiaFilter=[[LanSongSepiaFilter alloc] init];
+    LanSongSwirlFilter *swirlFilter=[[LanSongSwirlFilter alloc] init];
+    [sepiaFilter addTarget:swirlFilter];
+ 
+    [camDrawPad.cameraPen switchFilterWithStartFilter:sepiaFilter endFilter:swirlFilter];
+ 
+ @param startFilter 切换的第一个滤镜
+ @param endFilter  切换的最后一个滤镜.
+ */
+-(void)switchFilterWithStartFilter:(LanSongOutput<LanSongInput> *)startFilter endFilter:(LanSongOutput<LanSongInput> *)endFilter;
+
+
+/**
+ 内部使用
+ */
 - (void)startProcessing:(BOOL)isAutoMode;
 
 -(void)endProcessing;

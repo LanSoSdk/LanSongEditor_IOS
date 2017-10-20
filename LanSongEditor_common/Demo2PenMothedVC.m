@@ -25,9 +25,9 @@
     Pen *operationPen;  //当前操作的图层
     
     
-    CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
-    CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
-    int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
+    CGFloat drawPadWidth;   //容器的宽度, 在容器运行前设置的固定值
+    CGFloat drawPadHeight; //容器的高度,在容器运行前设置的固定值
+    int     drawPadBitRate;  //容器的码率, 在容器运行前设置的固定值
     BOOL isadd;
     
 }
@@ -44,7 +44,7 @@
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    //step1:第一步: 创建一个画板,并增加编码保存路径
+    //step1:第一步: 创建一个容器,并增加编码保存路径
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
@@ -100,7 +100,7 @@
         });
     }];
     
-    //step4: 设置画板自动刷新,并开始工作
+    //step4: 设置容器自动刷新,并开始工作
     [drawpad setUpdateMode:kAutoTimerUpdate autoFps:25];
     
     //开始执行

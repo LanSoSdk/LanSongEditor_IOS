@@ -22,9 +22,9 @@
     Pen *operationPen;  //当前操作的图层
     
     
-    CGFloat drawPadWidth;   //画板的宽度, 在画板运行前设置的固定值
-    CGFloat drawPadHeight; //画板的高度,在画板运行前设置的固定值
-    int     drawPadBitRate;  //画板的码率, 在画板运行前设置的固定值
+    CGFloat drawPadWidth;   //容器的宽度, 在容器运行前设置的固定值
+    CGFloat drawPadHeight; //容器的高度,在容器运行前设置的固定值
+    int     drawPadBitRate;  //容器的码率, 在容器运行前设置的固定值
     BOOL isadd;
     
     BlazeiceDooleView *doodleView;
@@ -55,7 +55,7 @@
     dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
 
     
-    //step1:第一步: 创建一个画板(尺寸,码率,保存路径,预览界面)
+    //step1:第一步: 创建一个容器(尺寸,码率,保存路径,预览界面)
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
@@ -72,7 +72,7 @@
     [drawpad setDrawPadPreView:filterView];  //增加一个预览界面
     
     
-    //step2第二步:增加图层(当然也可以在画板进行中增加)
+    //step2第二步:增加图层(当然也可以在容器进行中增加)
             UIImage *imag=[UIImage imageNamed:@"p640x1136"];
             [drawpad addBitmapPen:imag];
             
@@ -82,7 +82,7 @@
             operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
     
     
-            // 增加一个UI图层, 把这个UI画板的位置和大小和画板对齐.
+            // 增加一个UI图层, 把这个UI容器的位置和大小和容器对齐.
 //            CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
 //            doodleView = [[BlazeiceDooleView alloc] initWithFrame:frame];
 //            doodleView.drawView.formPush = YES;//
@@ -103,7 +103,7 @@
         [drawpad addViewPen:label fromUI:YES];
     
    
-    //step3: 第三步: 设置回调,开始运行画板.
+    //step3: 第三步: 设置回调,开始运行容器.
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -153,7 +153,7 @@
     
     UILabel *labHint=[[UILabel alloc] init];
     labHint.numberOfLines=0;
-    labHint.text=@"演示 ViewPen[UI图层]  \n\n  把[视频图层] 和 [UI图层] 同时放到画板上.\n\n  这里用一个文字动画举例,实际可以是文字,线条,动画等您的UI界面.";
+    labHint.text=@"演示 ViewPen[UI图层]  \n\n  把[视频图层] 和 [UI图层] 同时放到容器上.\n\n  这里用一个文字动画举例,实际可以是文字,线条,动画等您的UI界面.";
     [self.view addSubview: labHint];
     
     [labHint mas_makeConstraints:^(MASConstraintMaker *make) {

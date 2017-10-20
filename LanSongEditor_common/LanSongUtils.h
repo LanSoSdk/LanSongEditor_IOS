@@ -25,6 +25,7 @@
 #define SDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 #else
 #define DLog(...)
+#define SDKLine ;
 #endif
 
 

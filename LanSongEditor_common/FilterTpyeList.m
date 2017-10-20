@@ -39,8 +39,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -82,6 +80,9 @@
     
     switch (index)
     {
+        case LanSong_NULL: cell.textLabel.text = @"无"; break;
+        case LanSong_BEAUTY: cell.textLabel.text = @"美颜"; break;
+            
         case LanSong_SATURATION: cell.textLabel.text = @"Saturation"; break;
         case LanSong_CONTRAST: cell.textLabel.text = @"Contrast"; break;
         case LanSong_BRIGHTNESS: cell.textLabel.text = @"Brightness"; break;
@@ -185,19 +186,26 @@
     
     return cell;
 }
+/*
+ 选中后的动作.
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     filterType=(LanSongShowcaseFilterType)indexPath.row;
+    
+    sourcePicture=nil;
+    
     [self setupFilter]; //更新filter;
     /*
      当选中一个滤镜的时候, 在这里切换到该滤镜.
      */
-    if (_filterPen!=nil) {
-            NSLog(@"在这里切换滤镜");
-         [_filterPen switchFilter:_filter];
-    }
-   
     
+    if(sourcePicture!=nil){  //如果不是为nil,则认为是两个输入的滤镜.
+        [_filterPen switchFilter:(LanSongTwoInputFilter *)_filter secondInput:sourcePicture];
+        [sourcePicture processImage];
+    }else{
+        [_filterPen switchFilter:_filter];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 /**
@@ -209,6 +217,25 @@
     
     switch (filterType)
     {
+        case LanSong_NULL:
+        {
+            self.title = @"无";
+            self.filterSlider.hidden = YES;
+            self.filter = nil;
+        }; break;
+            
+        case LanSong_BEAUTY:
+        {
+            self.title = @"美颜";
+            self.filterSlider.hidden = NO;
+            
+            [self.filterSlider setValue:0.6];
+            [self.filterSlider setMinimumValue:0.0];
+            [self.filterSlider setMaximumValue:1.0];
+            
+            self.filter = [[LanSongBeautyFilter alloc] init];
+        }; break;
+            
         case LanSong_SEPIA:
         {
             self.title = @"Sepia Tone";
@@ -1217,117 +1244,225 @@
 //            else {
                 inputImage = [UIImage imageNamed:@"WID-small.jpg"];
 //            }
-            
             sourcePicture = [[LanSongPicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
-            [sourcePicture processImage];
-            
-            [sourcePicture addTarget:self.filter];
         }
 }
      
 /**
 
  当slider滑动时调用这里,更改相关效果.
-
  */
 - (void)updateFilterFromSlider:(UISlider *)sender;
 {
+    float value=[sender value];
     switch(filterType)
     {
-        case LanSong_SEPIA: [(LanSongSepiaFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
+        case LanSong_SEPIA:
+            [(LanSongSepiaFilter *)self.filter setIntensity:value];
+            break;
         case LanSong_PIXELLATE:
-            [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]];
+            [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:value];
             break;
         case LanSong_POLARPIXELLATE:
-            
-            [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])];
-            
+            [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake(value,value)];
             break;
         case LanSong_PIXELLATE_POSITION:
-            [(LanSongPixellatePositionFilter *)self.filter setRadius:[(UISlider *)sender value]];
+            [(LanSongPixellatePositionFilter *)self.filter setRadius:value];
             break;
-        case LanSong_POLKADOT: [(LanSongPolkaDotFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case LanSong_HALFTONE: [(LanSongHalftoneFilter *)self.filter setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-        case LanSong_SATURATION: [(LanSongSaturationFilter *)self.filter setSaturation:[(UISlider *)sender value]]; break;
-        case LanSong_CONTRAST: [(LanSongContrastFilter *)self.filter setContrast:[(UISlider *)sender value]]; break;
-        case LanSong_BRIGHTNESS: [(LanSongBrightnessFilter *)self.filter setBrightness:[(UISlider *)sender value]]; break;
+        case LanSong_POLKADOT:
+            [(LanSongPolkaDotFilter *)self.filter setFractionalWidthOfAPixel:value];
+            break;
+        case LanSong_HALFTONE:
+            [(LanSongHalftoneFilter *)self.filter setFractionalWidthOfAPixel:value];
+            break;
+        case LanSong_SATURATION:
+            [(LanSongSaturationFilter *)self.filter setSaturation:value];
+            break;
+        case LanSong_CONTRAST:
+            [(LanSongContrastFilter *)self.filter setContrast:value];
+            break;
+        case LanSong_BRIGHTNESS:
+            [(LanSongBrightnessFilter *)self.filter setBrightness:value];
+            break;
         case LanSong_LEVELS: {
-            float value = [(UISlider *)sender value];
             [(LanSongLevelsFilter *)self.filter setRedMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
             [(LanSongLevelsFilter *)self.filter setGreenMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
             [(LanSongLevelsFilter *)self.filter setBlueMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
         }; break;
-        case LanSong_EXPOSURE: [(LanSongExposureFilter *)self.filter setExposure:[(UISlider *)sender value]]; break;
-        case LanSong_MONOCHROME: [(LanSongMonochromeFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case LanSong_HUE: [(LanSongHueFilter *)self.filter setHue:[(UISlider *)sender value]]; break;
-        case LanSong_WHITEBALANCE: [(LanSongWhiteBalanceFilter *)self.filter setTemperature:[(UISlider *)sender value]]; break;
-        case LanSong_SHARPEN: [(LanSongSharpenFilter *)self.filter setSharpness:[(UISlider *)sender value]]; break;
-        case LanSong_HISTOGRAM: [(LanSongHistogramFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
-        case LanSong_HISTOGRAM_EQUALIZATION: [(LanSongHistogramEqualizationFilter *)self.filter setDownsamplingFactor:round([(UISlider *)sender value])]; break;
-        case LanSong_UNSHARPMASK: [(LanSongUnsharpMaskFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case LanSong_GAMMA: [(LanSongGammaFilter *)self.filter setGamma:[(UISlider *)sender value]]; break;
-        case LanSong_CROSSHATCH: [(LanSongCrosshatchFilter *)self.filter setCrossHatchSpacing:[(UISlider *)sender value]]; break;
-        case LanSong_POSTERIZE: [(LanSongPosterizeFilter *)self.filter setColorLevels:round([(UISlider*)sender value])]; break;
-        case LanSong_HAZE: [(LanSongHazeFilter *)self.filter setDistance:[(UISlider *)sender value]]; break;
-        case LanSong_SOBELEDGEDETECTION: [(LanSongSobelEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case LanSong_PREWITTEDGEDETECTION: [(LanSongPrewittEdgeDetectionFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case LanSong_SKETCH: [(LanSongSketchFilter *)self.filter setEdgeStrength:[(UISlider *)sender value]]; break;
-        case LanSong_THRESHOLD: [(LanSongLuminanceThresholdFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case LanSong_ADAPTIVETHRESHOLD: [(LanSongAdaptiveThresholdFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case LanSong_AVERAGELUMINANCETHRESHOLD: [(LanSongAverageLuminanceThresholdFilter *)self.filter setThresholdMultiplier:[(UISlider *)sender value]]; break;
-        case LanSong_DISSOLVE: [(LanSongDissolveBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
-        case LanSong_POISSONBLEND: [(LanSongPoissonBlendFilter *)self.filter setMix:[(UISlider *)sender value]]; break;
-        case LanSong_LOWPASS: [(LanSongLowPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
-        case LanSong_HIGHPASS: [(LanSongHighPassFilter *)self.filter setFilterStrength:[(UISlider *)sender value]]; break;
-        case LanSong_CHROMAKEY: [(LanSongChromaKeyBlendFilter *)self.filter setThresholdSensitivity:[(UISlider *)sender value]]; break;
-        case LanSong_KUWAHARA: [(LanSongKuwaharaFilter *)self.filter setRadius:round([(UISlider *)sender value])]; break;
-        case LanSong_SWIRL: [(LanSongSwirlFilter *)self.filter setAngle:[(UISlider *)sender value]]; break;
-        case LanSong_EMBOSS: [(LanSongEmbossFilter *)self.filter setIntensity:[(UISlider *)sender value]]; break;
-        case LanSong_CANNYEDGEDETECTION: [(LanSongCannyEdgeDetectionFilter *)self.filter setBlurTexelSpacingMultiplier:[(UISlider*)sender value]]; break;
-        case LanSong_THRESHOLDEDGEDETECTION: [(LanSongThresholdEdgeDetectionFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case LanSong_SMOOTHTOON: [(LanSongSmoothToonFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case LanSong_THRESHOLDSKETCH: [(LanSongThresholdSketchFilter *)self.filter setThreshold:[(UISlider *)sender value]]; break;
-        case LanSong_BULGE: [(LanSongBulgeDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case LanSong_TONECURVE: [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, [(UISlider *)sender value])], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]]; break;
-        case LanSong_HIGHLIGHTSHADOW: [(LanSongHighlightShadowFilter *)self.filter setHighlights:[(UISlider *)sender value]]; break;
-        case LanSong_PINCH: [(LanSongPinchDistortionFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case LanSong_PERLINNOISE:  [(LanSongPerlinNoiseFilter *)self.filter setScale:[(UISlider *)sender value]]; break;
-        case LanSong_MOSAIC:  [(LanSongMosaicFilter *)self.filter setDisplayTileSize:CGSizeMake([(UISlider *)sender value], [(UISlider *)sender value])]; break;
-        case LanSong_VIGNETTE: [(LanSongVignetteFilter *)self.filter setVignetteEnd:[(UISlider *)sender value]]; break;
-        case LanSong_BOXBLUR: [(LanSongBoxBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-        case LanSong_GAUSSIAN: [(LanSongGaussianBlurFilter *)self.filter setBlurRadiusInPixels:[(UISlider*)sender value]]; break;
-            //        case LanSong_GAUSSIAN: [(LanSongGaussianBlurFilter *)self.filter setBlurPasses:round([(UISlider*)sender value])]; break;
-            //        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
-        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setDistanceNormalizationFactor:[(UISlider*)sender value]]; break;
-        case LanSong_MOTIONBLUR: [(LanSongMotionBlurFilter *)self.filter setBlurAngle:[(UISlider*)sender value]]; break;
-        case LanSong_ZOOMBLUR: [(LanSongZoomBlurFilter *)self.filter setBlurSize:[(UISlider*)sender value]]; break;
-        case LanSong_GAUSSIAN_SELECTIVE: [(LanSongGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:[(UISlider*)sender value]]; break;
-        case LanSong_GAUSSIAN_POSITION: [(LanSongGaussianBlurPositionFilter *)self.filter setBlurRadius:[(UISlider *)sender value]]; break;
-        case LanSong_FILTERGROUP: [(LanSongPixellateFilter *)[(LanSongFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:[(UISlider *)sender value]]; break;
-      case LanSong_TRANSFORM3D:
+        case LanSong_EXPOSURE:
+            [(LanSongExposureFilter *)self.filter setExposure:value];
+            break;
+        case LanSong_MONOCHROME:
+            [(LanSongMonochromeFilter *)self.filter setIntensity:value];
+            break;
+        case LanSong_HUE:
+            [(LanSongHueFilter *)self.filter setHue:value];
+            break;
+        case LanSong_WHITEBALANCE:
+            [(LanSongWhiteBalanceFilter *)self.filter setTemperature:value];
+            break;
+        case LanSong_SHARPEN:
+            [(LanSongSharpenFilter *)self.filter setSharpness:value];
+            break;
+        case LanSong_HISTOGRAM:
+            [(LanSongHistogramFilter *)self.filter setDownsamplingFactor:round(value)];
+            break;
+        case LanSong_HISTOGRAM_EQUALIZATION:
+            [(LanSongHistogramEqualizationFilter *)self.filter setDownsamplingFactor:round(value)];
+            break;
+        case LanSong_UNSHARPMASK:
+            [(LanSongUnsharpMaskFilter *)self.filter setIntensity:value];
+            break;
+        case LanSong_GAMMA:
+            [(LanSongGammaFilter *)self.filter setGamma:value];
+            break;
+        case LanSong_CROSSHATCH:
+            [(LanSongCrosshatchFilter *)self.filter setCrossHatchSpacing:value];
+            break;
+        case LanSong_POSTERIZE:
+            [(LanSongPosterizeFilter *)self.filter setColorLevels:round(value)];
+            break;
+        case LanSong_HAZE:
+            [(LanSongHazeFilter *)self.filter setDistance:value];
+            break;
+        case LanSong_SOBELEDGEDETECTION:
+            [(LanSongSobelEdgeDetectionFilter *)self.filter setEdgeStrength:value];
+            break;
+        case LanSong_PREWITTEDGEDETECTION:
+            [(LanSongPrewittEdgeDetectionFilter *)self.filter setEdgeStrength:value];
+            break;
+        case LanSong_SKETCH:
+            [(LanSongSketchFilter *)self.filter setEdgeStrength:value];
+            break;
+        case LanSong_THRESHOLD:
+            [(LanSongLuminanceThresholdFilter *)self.filter setThreshold:value];
+            break;
+        case LanSong_ADAPTIVETHRESHOLD:
+            [(LanSongAdaptiveThresholdFilter *)self.filter setBlurRadiusInPixels:value];
+            break;
+        case LanSong_AVERAGELUMINANCETHRESHOLD:
+            [(LanSongAverageLuminanceThresholdFilter *)self.filter setThresholdMultiplier:value];
+            break;
+        case LanSong_DISSOLVE:
+            [(LanSongDissolveBlendFilter *)self.filter setMix:value];
+            break;
+        case LanSong_POISSONBLEND:
+            [(LanSongPoissonBlendFilter *)self.filter setMix:value];
+            break;
+        case LanSong_LOWPASS:
+            [(LanSongLowPassFilter *)self.filter setFilterStrength:value];
+            break;
+        case LanSong_HIGHPASS:
+            [(LanSongHighPassFilter *)self.filter setFilterStrength:value];
+            break;
+        case LanSong_CHROMAKEY:
+            [(LanSongChromaKeyBlendFilter *)self.filter setThresholdSensitivity:value];
+            break;
+        case LanSong_KUWAHARA:
+            [(LanSongKuwaharaFilter *)self.filter setRadius:round(value)];
+            break;
+        case LanSong_SWIRL:
+            [(LanSongSwirlFilter *)self.filter setAngle:value];
+            break;
+        case LanSong_EMBOSS:
+            [(LanSongEmbossFilter *)self.filter setIntensity:value];
+            break;
+        case LanSong_CANNYEDGEDETECTION:
+            [(LanSongCannyEdgeDetectionFilter *)self.filter setBlurTexelSpacingMultiplier:value];
+            break;
+        case LanSong_THRESHOLDEDGEDETECTION:
+            [(LanSongThresholdEdgeDetectionFilter *)self.filter setThreshold:value];
+            break;
+        case LanSong_SMOOTHTOON:
+            [(LanSongSmoothToonFilter *)self.filter setBlurRadiusInPixels:value];
+            break;
+        case LanSong_THRESHOLDSKETCH:
+            [(LanSongThresholdSketchFilter *)self.filter setThreshold:value];
+            break;
+        case LanSong_BULGE:
+            [(LanSongBulgeDistortionFilter *)self.filter setScale:value];
+            break;
+        case LanSong_TONECURVE:
+            [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:
+             [NSArray arrayWithObjects:
+              [NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)],
+              [NSValue valueWithCGPoint:CGPointMake(0.5, value)],
+              [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)],
+              nil]
+             ];
+            break;
+        case LanSong_HIGHLIGHTSHADOW:
+            [(LanSongHighlightShadowFilter *)self.filter setHighlights:value];
+            break;
+        case LanSong_PINCH:
+            [(LanSongPinchDistortionFilter *)self.filter setScale:value];
+            break;
+        case LanSong_PERLINNOISE:
+            [(LanSongPerlinNoiseFilter *)self.filter setScale:value];
+            break;
+        case LanSong_MOSAIC:
+            [(LanSongMosaicFilter *)self.filter setDisplayTileSize:CGSizeMake(value,value)];
+            break;
+        case LanSong_VIGNETTE:
+            [(LanSongVignetteFilter *)self.filter setVignetteEnd:value];
+            break;
+        case LanSong_BOXBLUR:
+            [(LanSongBoxBlurFilter *)self.filter setBlurRadiusInPixels:value];
+            break;
+        case LanSong_GAUSSIAN:
+            [(LanSongGaussianBlurFilter *)self.filter setBlurRadiusInPixels:value];
+            break;
+            
+            //        case LanSong_GAUSSIAN:
+            //            [(LanSongGaussianBlurFilter *)self.filter setBlurPasses:round(value)];
+            //            break;
+            //        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setBlurSize:value];
+            //            break;
+            //        case LanSong_BILATERAL:
+            //            [(LanSongBilateralFilter *)self.filter setDistanceNormalizationFactor:[(UISlider*)sender value]];
+            //            break;
+        case LanSong_MOTIONBLUR:
+            [(LanSongMotionBlurFilter *)self.filter setBlurAngle:value];
+            break;
+        case LanSong_ZOOMBLUR:
+            [(LanSongZoomBlurFilter *)self.filter setBlurSize:value];
+            break;
+        case LanSong_GAUSSIAN_SELECTIVE:
+            [(LanSongGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:value];
+            break;
+        case LanSong_GAUSSIAN_POSITION:
+            [(LanSongGaussianBlurPositionFilter *)self.filter setBlurRadius:value];
+            break;
+        case LanSong_FILTERGROUP:
+            [(LanSongPixellateFilter *)[(LanSongFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:value];
+            break;
+        case LanSong_TRANSFORM3D:
         {
             CATransform3D perspectiveTransform = CATransform3DIdentity;
             perspectiveTransform.m34 = 0.4;
             perspectiveTransform.m33 = 0.4;
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
-            perspectiveTransform = CATransform3DRotate(perspectiveTransform, [(UISlider*)sender value], 0.0, 1.0, 0.0);
+            perspectiveTransform = CATransform3DRotate(perspectiveTransform, value, 0.0, 1.0, 0.0);
             
             [(LanSongTransformFilter *)self.filter setTransform3D:perspectiveTransform];
         }; break;
         case LanSong_TILTSHIFT:
         {
-            CGFloat midpoint = [(UISlider *)sender value];
+            CGFloat midpoint = value;
             [(LanSongTiltShiftFilter *)self.filter setTopFocusLevel:midpoint - 0.1];
             [(LanSongTiltShiftFilter *)self.filter setBottomFocusLevel:midpoint + 0.1];
-        }; break;
+        };
+            break;
         case LanSong_LOCALBINARYPATTERN:
         {
-            CGFloat multiplier = [(UISlider *)sender value];
+            CGFloat multiplier = value;
             [(LanSongLocalBinaryPatternFilter *)self.filter setTexelWidth:(multiplier / self.view.bounds.size.width)];
             [(LanSongLocalBinaryPatternFilter *)self.filter setTexelHeight:(multiplier / self.view.bounds.size.height)];
-        }; break;
+        };
+            break;
         default: break;
     }
+
 }
 -(void)dealloc
 {

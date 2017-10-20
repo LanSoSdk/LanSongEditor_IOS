@@ -27,8 +27,9 @@
     FilterTpyeList *filterListVC;
     BOOL  isSelectFilter;
     
-    
+    UISlider *filterSlider;
     DrawPadCamera *camDrawPad;
+    DrawPadView *filterView;
     BOOL isPaused;
 }
 @end
@@ -40,33 +41,30 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     /*
-     step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+     step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
      */
     CGFloat padWidth=540;
     CGFloat padHeight=960;
-    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight)];
-    
-    CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.01;
-    
+    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:YES];
     /*
      step2:增加一个view,用来显示
      */
-    DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:self.view.frame];
+    filterView=[[DrawPadView alloc] initWithFrame:self.view.frame];
     [self.view addSubview: filterView];
     [camDrawPad setDrawPadDisplay:filterView];
     
 
-    //增加一个图片,放到中间靠右侧.
-    UIImage *image=[UIImage imageNamed:@"small"];
-    BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
-    bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
+    //增加一个图片图层,放到中间靠右侧.
+//    UIImage *image=[UIImage imageNamed:@"small"];
+//    BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
+//    bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     
     /*
      step3:第三步: 开始预览
      */
     [camDrawPad startPreview];
     
+   //进度显示.
     __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -75,76 +73,11 @@
         });
     }];
     
-    //----------------------------一下是ui操作------------------------
-    CGFloat  layHeight=self.view.frame.size.height*3/4;
-    
-    _labProgress=[[UILabel alloc] init];
-    _labProgress.textColor=[UIColor redColor];
-    
-    [self.view addSubview:_labProgress];
-    
-    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_top).offset(layHeight);
-        make.centerX.mas_equalTo(filterView.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(size.width, 40));
-    }];
-    
-    UISlider *slide=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节 "];
-    
-    UIButton *btnFilter=[[UIButton alloc] init];
-    [btnFilter setTitle:@"滤镜" forState:UIControlStateNormal];
-    [btnFilter setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnFilter.backgroundColor=[UIColor whiteColor];
-    btnFilter.tag=101;
-    
-    
-    UIButton *btnStart=[[UIButton alloc] init];
-    [btnStart setTitle:@"开始" forState:UIControlStateNormal];
-    [btnStart setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnStart.backgroundColor=[UIColor whiteColor];
-    btnStart.tag=102;
-    
-    
-    UIButton *btnOK=[[UIButton alloc] init];
-    [btnOK setTitle:@"停止" forState:UIControlStateNormal];
-    [btnOK setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnOK.backgroundColor=[UIColor whiteColor];
-    btnOK.tag=103;
-    
-    
-    [btnStart addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [btnOK addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [btnFilter addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-    [self.view addSubview:btnFilter];
-    [self.view addSubview:btnStart];
-    [self.view addSubview:btnOK];
-    
-    
-    
-    [btnStart mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
-        make.left.mas_equalTo(filterView.mas_left).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
-    }];
-    [btnOK mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
-        make.left.mas_equalTo(btnStart.mas_right).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
-    }];
-    
-    [btnFilter mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
-        make.left.mas_equalTo(btnOK.mas_right).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
-    }];
-    
-    
+    //初始化其他UI界面.
+    [self initView];
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
-    filterListVC.filterSlider=slide;
+    filterListVC.filterSlider=filterSlider;
     filterListVC.filterPen=camDrawPad.cameraPen;
     
 }
@@ -217,6 +150,76 @@
         default:
             break;
     }
+}
+-(void)initView
+{
+    CGSize size=self.view.frame.size;
+    CGFloat padding=size.height*0.01;
+    
+    CGFloat  layHeight=self.view.frame.size.height*3/4;
+    
+    _labProgress=[[UILabel alloc] init];
+    _labProgress.textColor=[UIColor redColor];
+    
+    [self.view addSubview:_labProgress];
+    
+    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view.mas_top).offset(layHeight);
+        make.centerX.mas_equalTo(filterView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 40));
+    }];
+    
+    UISlider *slide=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节 "];
+    
+    UIButton *btnFilter=[[UIButton alloc] init];
+    [btnFilter setTitle:@"滤镜" forState:UIControlStateNormal];
+    [btnFilter setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnFilter.backgroundColor=[UIColor whiteColor];
+    btnFilter.tag=101;
+    
+    
+    UIButton *btnStart=[[UIButton alloc] init];
+    [btnStart setTitle:@"开始" forState:UIControlStateNormal];
+    [btnStart setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnStart.backgroundColor=[UIColor whiteColor];
+    btnStart.tag=102;
+    
+    
+    UIButton *btnOK=[[UIButton alloc] init];
+    [btnOK setTitle:@"停止" forState:UIControlStateNormal];
+    [btnOK setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnOK.backgroundColor=[UIColor whiteColor];
+    btnOK.tag=103;
+    
+    
+    [btnStart addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btnOK addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btnFilter addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    [self.view addSubview:btnFilter];
+    [self.view addSubview:btnStart];
+    [self.view addSubview:btnOK];
+    
+    
+    
+    [btnStart mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.left.mas_equalTo(filterView.mas_left).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+    }];
+    [btnOK mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.left.mas_equalTo(btnStart.mas_right).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+    }];
+    
+    [btnFilter mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.left.mas_equalTo(btnOK.mas_right).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+    }];
 }
 /**
  初始化一个slide 返回这个UISlider对象

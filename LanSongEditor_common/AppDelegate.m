@@ -44,7 +44,7 @@
 #if TARGET_IPHONE_SIMULATOR
 
 #error 因Mac模拟器上的GPU和真机差别太大, 我们SDK暂不支持MAC系统的模拟器,请在真机上测试试用,谢谢.
-#error current version sdk  cannot support mac os simulator
+#error current version sdk  cannot support iphone simulator
 
 #endif
     //    navigationController = [[UINavigationController alloc] init];
@@ -162,4 +162,10 @@
     }
 }
 
+//---------lansong++
++(AppDelegate *)getInstance
+{
+    AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    return appDelegate;
+}
 @end

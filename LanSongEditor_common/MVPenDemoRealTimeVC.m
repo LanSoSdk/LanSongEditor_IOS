@@ -38,7 +38,7 @@
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
   
     
-    //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+    //step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
     int    drawPadBitRate=1000*1000;
@@ -56,7 +56,7 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-    //第二步: 增加一些图层,当然您也可以在画板开始后增加
+    //第二步: 增加一些图层,当然您也可以在容器开始后增加
 //    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
@@ -137,7 +137,7 @@
     UILabel *labHint=[[UILabel alloc] init];
     labHint.numberOfLines=0;
     
-    labHint.text=@"演示\n 视频图层+ CALayer图层 + MV图层  的叠加 \n\n (左上侧的红色四方块为CALayer的deom)";
+    labHint.text=@"演示\n 视频图层+ CALayer图层 + MV图层  的叠加 \n\n (左上侧的红色四方块为CALayer的演示)";
    
     [self.view addSubview: labHint];
     
@@ -146,8 +146,6 @@
         make.centerX.mas_equalTo(filterView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(size.width, 100));
     }];
-
-    
 }
 
 /**

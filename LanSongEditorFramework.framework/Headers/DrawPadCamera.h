@@ -47,11 +47,12 @@
  */
 @property(nonatomic, copy) void(^onProgressBlock)(CGFloat);
 /**
- 
  构造函数
+
  @param size DrawPad容器的宽度和高度
+ @param isFront 相机是否前置
  */
-- (id)initWithPadSize:(CGSize)size;
+- (id)initWithPadSize:(CGSize)size isFront:(BOOL)isFront;
 
 /**
  设置要显示到的窗口, 务必宽高比 和设置的PadSize的相等.
@@ -109,8 +110,8 @@
  */
 -(VideoPen *)addVideoPen:(NSString *)videoPath filter:(LanSongFilter *)filter;
 /**
- 向画板中增加一个MV图层, 以用来显示MV效果.
- 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 向容器中增加一个MV图层, 以用来显示MV效果.
+ 增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
  @param colorPath mv视频的彩色视频
  @param maskPath  mv视频中的黑白视频
@@ -120,7 +121,7 @@
 -(MVPen *)addMVPen:(NSString *)colorPath  maskPath:(NSString *)maskPath filter:(LanSongFilter *)filter;
 
 /**
- *  增加图片图层, 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
+ *  增加图片图层, 增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
  *
  *  @param inputImage
  *  @return
@@ -129,10 +130,10 @@
 
 /**
  *  增加 UI图层
- *  增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ *  增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
- *  @param view   大小,建议尽量等于画板的大小. 如果你增加文字, 可以把先创建一个透明的UIView 等比例于视频的宽高, 然后再这个UIView上增加别的控件.
- *  @param fromUI 这个view是否属于UI界面的一部分, 如果您已经把这个View 增加到UI界面上,则这里应设置为NO,从而画板在渲染的时候, 不会再次渲染到预览画面上
+ *  @param view   大小,建议尽量等于容器的大小. 如果你增加文字, 可以把先创建一个透明的UIView 等比例于视频的宽高, 然后再这个UIView上增加别的控件.
+ *  @param fromUI 这个view是否属于UI界面的一部分, 如果您已经把这个View 增加到UI界面上,则这里应设置为NO,从而容器在渲染的时候, 不会再次渲染到预览画面上
  *
  *  @return
  */
@@ -141,7 +142,7 @@
 
 /**
  向DrawPad中增加一个CALayer
- 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
  注意, 因IOS的UI是采用[点]的概念, 而我们的DrawPad里是[像素], 像素和点呈现在屏幕上是有偏差的,
  因增加到DrawPad后的CALayer,也会显示到屏幕上, 作为预览使用. 建议您不要再增加到屏幕上,

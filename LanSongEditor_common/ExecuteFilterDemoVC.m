@@ -20,7 +20,7 @@
     UILabel *labProgresse;
     UIButton *btnPlay;
     
-    DrawPadExecute *drawPad; //后台录制的画板.
+    DrawPadExecute *drawPad; //后台录制的容器.
     NSString *dstTmpPath;
      NSString *dstPath;
     NSURL *videoURL;
@@ -36,10 +36,7 @@
     
     
     self.view.backgroundColor=[UIColor lightGrayColor];
-    
-    
     [self initUI];
-    
 }
 
 
@@ -51,8 +48,9 @@
     dstPath=[SDKFileUtil genTmpMp4Path];
     
     
-    //step1: 设置画板
-    drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 bitrate:1000*1000 dstPath:dstTmpPath];
+    //step1: 设置容器
+    drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 dstPath:dstTmpPath];
+//    drawPad=[[ DrawPadExecute alloc] initwi]
     
     
     //step2: 增加一个视频图层,并给图层增加滤镜.
@@ -195,11 +193,7 @@
 }
 -(void)dealloc
 {
-    if([SDKFileUtil fileExist:dstTmpPath]){
-        [SDKFileUtil deleteFile:dstTmpPath];
-    }
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
+    [SDKFileUtil deleteFile:dstTmpPath];
+    [SDKFileUtil deleteFile:dstPath];
 }
 @end

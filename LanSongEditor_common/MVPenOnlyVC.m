@@ -56,8 +56,8 @@
 }
 
 /**
- 创建一个画板.
- 原理是: 在画板里只放 mv图层, 把画板设置为透明即可.
+ 创建一个容器.
+ 原理是: 在容器里只放 mv图层, 把容器设置为透明即可.
  @return
  */
 -(DrawPadView *)createMVView
@@ -69,7 +69,7 @@
     DrawPadView *mvView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     mvView.backgroundColor=[UIColor clearColor]; //显示层也设置为透明
 
-    //创建一个画板, 不设置路径,即不实时录制视频.
+    //创建一个容器, 不设置路径,即不实时录制视频.
     drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:0 dstPath:nil];
     [drawpad setDrawPadPreView:mvView];
     

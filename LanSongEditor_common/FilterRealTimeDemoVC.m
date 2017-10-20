@@ -49,14 +49,14 @@
     
     if ([info prepare] && [info hasVideo]) {
         
-        drawPadWidth=info.vWidth;  //把画板还采用原来的尺寸.
+        drawPadWidth=info.vWidth;  //把容器还采用原来的尺寸.
         drawPadHeight=info.vHeight;
         
     }else{
         return ;
     }
     /*
-     step1:第一步: 创建一个画板,(主要参数为:画板宽度高度,码率,保存路径,预览View)
+     step1:第一步: 创建一个容器,(主要参数为:容器宽度高度,码率,保存路径,预览View)
      */
     int  drawPadBitRate=2000*1000;
    
@@ -66,8 +66,8 @@
   
     
     /*
-     这里采用宽度为屏幕宽度, 调整高度值,使它宽高比等于画板的宽高比, 实际您可以自由分配预览的View宽高, 
-     但为了画面不至于变形, 建议预览的宽高和设置的画板宽高成比例关系.比如画板的宽高比是16:9,则DrawPadView的宽高比也是16:9
+     这里采用宽度为屏幕宽度, 调整高度值,使它宽高比等于容器的宽高比, 实际您可以自由分配预览的View宽高, 
+     但为了画面不至于变形, 建议预览的宽高和设置的容器宽高成比例关系.比如容器的宽高比是16:9,则DrawPadView的宽高比也是16:9
      */
     DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
     

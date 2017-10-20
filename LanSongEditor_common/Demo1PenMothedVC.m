@@ -35,7 +35,7 @@
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
-    //step1:第一步: 创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+    //step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
     
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
@@ -79,7 +79,7 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-   //第二步: 增加一些图层,当然您也可以在画板开始后增加
+   //第二步: 增加一些图层,当然您也可以在容器开始后增加
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     

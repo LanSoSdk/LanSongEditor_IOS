@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  *  初始化
  *
  *  @param url    url路径
- *  @param size   画板的尺寸
+ *  @param size   容器的尺寸
  *  @param target 目标
  *
  *  @return

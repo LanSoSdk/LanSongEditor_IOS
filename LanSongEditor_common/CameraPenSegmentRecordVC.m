@@ -82,11 +82,11 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     /*
-     创建画板(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+     创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
      */
     CGFloat padWidth=540;
     CGFloat padHeight=960;
-    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight)];
+    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:NO];
     
     /*
      增加一个显示view

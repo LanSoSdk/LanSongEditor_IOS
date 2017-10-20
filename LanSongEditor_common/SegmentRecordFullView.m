@@ -19,7 +19,8 @@
     mainScreenFrame = frame;
     
     
-    videoCamera = [[LanSongVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
+   // videoCamera = [[LanSongVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionFront];
+    videoCamera=[[CameraPen alloc] init:AVCaptureSessionPreset1280x720 position:AVCaptureDevicePositionFront drawpadSize:CGSizeMake(720, 1280) drawpadTarget:nil];
     
     videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     [videoCamera addAudioInputsAndOutputs];

@@ -24,5 +24,13 @@
 @property BOOL gDeviceListFirstShow;
 
 
+
+/**
+ 默认的输入源的路径.
+ 在第一个界面,用户选择或默认.在其他界面处理.
+ */
+@property NSString *srcVideoPath;
+
++(AppDelegate *)getInstance;
 @end
 

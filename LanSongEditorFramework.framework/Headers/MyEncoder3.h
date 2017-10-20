@@ -30,6 +30,13 @@
 
 extern NSString *const kMyEncoder3LanSongColorSwizzlingFragmentShaderString;
 
+
+/**
+ 此头文件为SDK内部使用, 其他地方请勿使用.
+ 此头文件为SDK内部使用, 其他地方请勿使用.
+ 此头文件为SDK内部使用, 其他地方请勿使用.
+ 此头文件为SDK内部使用, 其他地方请勿使用.
+ */
 @protocol MyEncoder3Delegate <NSObject>
 
 @optional
@@ -76,9 +83,8 @@ extern NSString *const kMyEncoder3LanSongColorSwizzlingFragmentShaderString;
 @property(nonatomic, assign, getter = isPaused) BOOL paused;
 @property(nonatomic, retain) LanSongContext *movieWriterContext;
 
-// Initialization and teardown
-- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;
-- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize fileType:(NSString *)newFileType outputSettings:(NSDictionary *)outputSettings;
+//- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;
+//- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize fileType:(NSString *)newFileType outputSettings:(NSDictionary *)outputSettings;
 
 - (void)setHasAudioTrack:(BOOL)hasAudioTrack audioSettings:(NSDictionary *)audioOutputSettings;
 
@@ -92,15 +98,6 @@ extern NSString *const kMyEncoder3LanSongColorSwizzlingFragmentShaderString;
 - (void)enableSynchronizationCallbacks;
 
 
-//------------------新增加的函数
-
-
-/**
- 初始化.
-
- @param newSize 编码大小
- @return <#return value description#>
- */
 - (id)initWithPadSize:(CGSize)newSize;
 
 

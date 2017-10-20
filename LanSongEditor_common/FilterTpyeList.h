@@ -1,7 +1,11 @@
 #import <UIKit/UIKit.h>
 #import <LanSongEditorFramework/LanSongEditor.h>
-
+/**
+ 增加美颜,无等滤镜
+ */
 typedef enum {
+    LanSong_NULL,
+    LanSong_BEAUTY,
     LanSong_SATURATION,
     LanSong_CONTRAST,
     LanSong_BRIGHTNESS,
@@ -102,6 +106,7 @@ typedef enum {
     LanSong_FACES,
     LanSong_NUMFILTERS
 } LanSongShowcaseFilterType;
+
 @interface FilterTpyeList : UITableViewController
 
 @property UISlider *filterSlider;

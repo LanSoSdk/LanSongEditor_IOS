@@ -5,7 +5,8 @@
 
 @interface SegmentRecordFullView : UIView
 {
-    LanSongVideoCamera *videoCamera;
+//    LanSongVideoCamera *videoCamera;
+    CameraPen  *videoCamera;
     LanSongMovieWriter *movieWriter;
     /*
      录制的当前段

@@ -65,18 +65,20 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 @property BOOL isForeGround;
 
-//当前画板 DrawPad是否在工作.
+//当前容器 DrawPad是否在工作.
 @property  BOOL isWorking;
+
+
 /**
- *   初始化画板
- *
- *  @param padWidth  画板宽度
- *  @param padHeight 画板高度
- *  @param bitrate   画板在编码时的码率
- *  @param dstPath   画板编码后保持的绝对路径
- *
- *  @return
+ 初始化容器容器,
+
+ @param padWidth 这个容器的宽度, 也即是视频录制后的宽度
+ @param padHeight 容器的高度, 即视频录制后的高度
+ @param dstPath 保存的路径
+ @return
  */
+- (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight dstPath:(NSString *)dstPath;
+
 - (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight bitrate:(int)bitrate dstPath:(NSString *)dstPath;
 /**
  *  增加主视频, 如果有主视频,则以主视频的时间为准,
@@ -104,8 +106,8 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 -(VideoPen *)addVideoPen:(NSString *)videoPath filter:(LanSongFilter *)filter;
 /**
- 向画板中增加一个MV图层, 以用来显示MV效果.
-  增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 向容器中增加一个MV图层, 以用来显示MV效果.
+  增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
  @param colorPath mv视频的彩色视频
  @param maskPath  mv视频中的黑白视频
@@ -115,7 +117,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(MVPen *)addMVPen:(NSString *)colorPath  maskPath:(NSString *)maskPath filter:(LanSongFilter *)filter;
 
 /**
- *  增加图片图层, 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
+ *  增加图片图层, 增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整图片的显示大小.
  * 
  *  @param inputImage
  *  @return
@@ -124,10 +126,10 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 /**
  *  增加 UI图层
- *  增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ *  增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
- *  @param view   大小,建议尽量等于画板的大小. 如果你增加文字, 可以把先创建一个透明的UIView 等比例于视频的宽高, 然后再这个UIView上增加别的控件.
- *  @param fromUI 这个view是否属于UI界面的一部分, 如果您已经把这个View 增加到UI界面上,则这里应设置为NO,从而画板在渲染的时候, 不会再次渲染到预览画面上
+ *  @param view   大小,建议尽量等于容器的大小. 如果你增加文字, 可以把先创建一个透明的UIView 等比例于视频的宽高, 然后再这个UIView上增加别的控件.
+ *  @param fromUI 这个view是否属于UI界面的一部分, 如果您已经把这个View 增加到UI界面上,则这里应设置为NO,从而容器在渲染的时候, 不会再次渲染到预览画面上
  *
  *  @return
  */
@@ -136,7 +138,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 /**
  向DrawPad中增加一个CALayer 
- 增加后, 会1:1的放置到画板DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
+ 增加后, 会1:1的放置到容器DrawPad中, 您可以用缩放宽高来调整画面的显示大小.
  
  注意, 因IOS的UI是采用[点]的概念, 而我们的DrawPad里是[像素], 像素和点呈现在屏幕上是有偏差的, 
  因增加到DrawPad后的CALayer,也会显示到屏幕上, 作为预览使用. 建议您不要再增加到屏幕上,
@@ -151,19 +153,19 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 -(void)removePen:(Pen *)pen;
 /**
- *  为前台画板增加一个预览view界面
+ *  为前台容器增加一个预览view界面
  *
  *  @param preview
  */
 -(void) setDrawPadPreView:(UIView *)preview;
 
 /**
- *  获取画板的宽度
+ *  获取容器的宽度
  */
 -(CGFloat)getDrawPadWidth;
 
 /**
- *  获取画板的高度.
+ *  获取容器的高度.
  */
 -(CGFloat)getDrawPadHeight;
 

@@ -45,12 +45,12 @@
      [LanSongUtils setViewControllerLandscape];
     
     /*
-     step1:第一步: 创建画板(尺寸,编码后的目标文件路径,增加一个预览view)
+     step1:第一步: 创建容器(尺寸,编码后的目标文件路径,增加一个预览view)
      */
     CGFloat padWidth=960;
     CGFloat padHeight=540;
     
-    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight)];
+    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:NO];
     
     //因为是横屏, 宽高调换.
     screenWidth=self.view.bounds.size.height;
@@ -64,6 +64,8 @@
     [camDrawPad setDrawPadDisplay:filterView];
     
     
+    
+    
     //增加一个图片, 默认xy居中, 这里设置x在最右边.
     UIImage *image=[UIImage imageNamed:@"small"];
     BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
@@ -74,6 +76,9 @@
      step3:  开始预览
      */
     [camDrawPad startPreview];
+    
+    operationPen=camDrawPad.cameraPen;
+    
     
     __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
@@ -106,7 +111,6 @@
             
             break;
         case  103:  //btnOK;
-//            [camDrawPad stopPreview];
             [camDrawPad stopRecord];
             [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             break;
