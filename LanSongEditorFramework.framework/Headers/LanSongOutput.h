@@ -62,7 +62,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
     
     CGSize inputTextureSize, cachedMaximumOutputSize, forcedMaximumSize;
     
-    BOOL overrideInputSize;
+    BOOL overrideInputSize;		
     
     BOOL allTargetsWantMonochromeData;
     BOOL usingNextFrameForImageCapture;

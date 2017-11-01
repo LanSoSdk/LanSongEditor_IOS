@@ -15,6 +15,12 @@
 #import "YXLabel.h"
 
 
+/**
+ 后台滤镜,
+ 此演示在容器里增加: 一个视频图层, 一个CALayer图层; 运行容器,得到结果.
+ 
+ 如果您只想给视频增加滤镜, 我们有另一个类ScaleExecute, 可以指定缩放,并设置滤镜,用ScaleExecute.h即可.
+ */
 @interface ExecuteFilterDemoVC ()
 {
     UILabel *labProgresse;
@@ -22,7 +28,7 @@
     
     DrawPadExecute *drawPad; //后台录制的容器.
     NSString *dstTmpPath;
-     NSString *dstPath;
+    NSString *dstPath;
     NSURL *videoURL;
     YXLabel *label;
 }
@@ -42,19 +48,17 @@
 
 -(void)startExecute
 {
-    videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-//     videoURL = [[NSBundle mainBundle] URLForResource:@"v3040x1520" withExtension:@"mp4"];
     dstTmpPath = [SDKFileUtil genTmpMp4Path];
     dstPath=[SDKFileUtil genTmpMp4Path];
     
     
     //step1: 设置容器
     drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 dstPath:dstTmpPath];
-//    drawPad=[[ DrawPadExecute alloc] initwi]
     
     
     //step2: 增加一个视频图层,并给图层增加滤镜.
     LanSongFilter *filter= (LanSongFilter *)[[LanSongSepiaFilter alloc] init];
+    
     [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:filter];
     
     //设置进度
@@ -84,7 +88,11 @@
     layer.frame=CGRectMake(0, 80, 50, 50);
     layer.backgroundColor=[UIColor blueColor].CGColor;
     [mainLayer addSublayer:layer];
+    
+    //增加一个CALayer;
     [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
+    
+    
     //step3: 开始执行
     if([drawPad startDrawPad]==NO)
     {
@@ -118,7 +126,14 @@
     switch (sender.tag) {
             
         case 100 :
-            [self startExecute];
+            videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+            
+            if([SDKFileUtil fileExist:[SDKFileUtil urlToFileString:videoURL]])
+            {
+                [self startExecute];
+            }else{
+                [LanSongUtils showHUDToast:@"当前文件不存在"];
+            }
             break;
         case  101:
             [self startVideoPlayerVC];
@@ -151,13 +166,19 @@
     [btnPlay addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
+    UILabel *labHint=[[UILabel alloc] init];
+    labHint.numberOfLines=0;
+    labHint.text=@"演示在容器里增加: 一个视频图层, 一个CALayer图层; 运行容器,得到结果.";
+    
     [self.view addSubview:btn];
     [self.view addSubview:btnPlay];
     [self.view addSubview:labProgresse];
+    [self.view addSubview: labHint];
+    
     
     
     CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.03;
+    CGFloat padding=size.height*0.01;
     
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self.view);
@@ -177,6 +198,12 @@
     }];
     
     btnPlay.enabled=NO;
+    
+    [labHint mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnPlay.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(btnPlay.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 200));
+    }];
 }
 //--------------------------
 

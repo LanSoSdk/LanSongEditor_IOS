@@ -83,6 +83,30 @@
         case LanSong_NULL: cell.textLabel.text = @"无"; break;
         case LanSong_BEAUTY: cell.textLabel.text = @"美颜"; break;
             
+            
+            
+            //2017年10月29日11:18:14新增.
+        case LanSong_IF1977: cell.textLabel.text = @"IF1977"; break;
+        case LanSong_IFAmaro: cell.textLabel.text = @"IFAmaro"; break;
+        case LanSong_IFBrannan: cell.textLabel.text = @"IFBrannan"; break;
+        case LanSong_IFEarlybird: cell.textLabel.text = @"IFEarlybird"; break;
+        case LanSong_IFHefe: cell.textLabel.text = @"IFHefe"; break;
+        case LanSong_IFHudson: cell.textLabel.text = @"IFHudson"; break;
+        case LanSong_IFInkwell: cell.textLabel.text = @"IFInkwell"; break;
+        case LanSong_IFLomofi: cell.textLabel.text = @"IFLomofi"; break;
+        case LanSong_IFNashville: cell.textLabel.text = @"IFNashville"; break;
+        case LanSong_IFRise: cell.textLabel.text = @"IFRise"; break;
+        case LanSong_IFSierra: cell.textLabel.text = @"IFSierra"; break;
+        case LanSong_IFSutro: cell.textLabel.text = @"IFSutro"; break;
+        case LanSong_IFToaster: cell.textLabel.text = @"IFToaster"; break;
+        case LanSong_IFValencia: cell.textLabel.text = @"IFValencia"; break;
+        case LanSong_IFWalden: cell.textLabel.text = @"IFWalden"; break;
+        case LanSong_IFXproII: cell.textLabel.text = @"IFXproII"; break;
+        case LanSong_IFLordKelvin: cell.textLabel.text = @"IFLordKelvin"; break;
+            
+            
+            
+            
         case LanSong_SATURATION: cell.textLabel.text = @"Saturation"; break;
         case LanSong_CONTRAST: cell.textLabel.text = @"Contrast"; break;
         case LanSong_BRIGHTNESS: cell.textLabel.text = @"Brightness"; break;
@@ -235,6 +259,112 @@
             
             self.filter = [[LanSongBeautyFilter alloc] init];
         }; break;
+            
+        //sno++
+        case LanSong_IF1977:
+        {
+            self.title = @"IF1977";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IF1977Filter alloc] init];
+        }; break;
+            
+        case LanSong_IFAmaro:
+        {
+            self.title = @"IFAmaro";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFAmaroFilter alloc] init];
+        }; break;
+        case LanSong_IFBrannan:
+        {
+            self.title = @"IFBrannan";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFBrannanFilter alloc] init];
+        }; break;
+        case LanSong_IFEarlybird:
+        {
+            self.title = @"IFEarlybird";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFEarlybirdFilter alloc] init];
+        }; break;
+        case LanSong_IFHefe:
+        {
+            self.title = @"IFHefe";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFHefeFilter alloc] init];
+        }; break;
+        case LanSong_IFHudson:
+        {
+            self.title = @"IFHudson";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFHudsonFilter alloc] init];
+        }; break;
+        case LanSong_IFInkwell:
+        {
+            self.title = @"IFInkwell";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFInkwellFilter alloc] init];
+        }; break;
+        case LanSong_IFLomofi:
+        {
+            self.title = @"IFLomofi";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFLomofiFilter alloc] init];
+        }; break;
+        case LanSong_IFNashville:
+        {
+            self.title = @"IFNashville";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFNashvilleFilter alloc] init];
+        }; break;
+        case LanSong_IFRise:
+        {
+            self.title = @"IFRise";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFRiseFilter alloc] init];
+        }; break;
+        case LanSong_IFSierra:
+        {
+            self.title = @"IFSierra";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFSierraFilter alloc] init];
+        }; break;
+        case LanSong_IFSutro:
+        {
+            self.title = @"IFSutro";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFSutroFilter alloc] init];
+        }; break;
+        case LanSong_IFToaster:
+        {
+            self.title = @"IFToaster";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFToasterFilter alloc] init];
+        }; break;
+        case LanSong_IFValencia:
+        {
+            self.title = @"IFValencia";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFValenciaFilter alloc] init];
+        }; break;
+        case LanSong_IFWalden:
+        {
+            self.title = @"IFWalden";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFWaldenFilter alloc] init];
+        }; break;
+        case LanSong_IFXproII:
+        {
+            self.title = @"IFXproII";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFXproIIFilter alloc] init];
+        }; break;
+        case LanSong_IFLordKelvin:
+        {
+            self.title = @"IFLordKelvin";
+            self.filterSlider.hidden = YES;
+            self.filter = [[IFLordKelvinFilter alloc] init];
+        }; break;
+    //sno++  end
             
         case LanSong_SEPIA:
         {
@@ -1257,6 +1387,9 @@
     float value=[sender value];
     switch(filterType)
     {
+        case LanSong_BEAUTY:
+              [(LanSongBeautyFilter *)self.filter setBeautyLevel:value];
+            break;
         case LanSong_SEPIA:
             [(LanSongSepiaFilter *)self.filter setIntensity:value];
             break;
@@ -1468,7 +1601,7 @@
 {
     _filterPen=nil;
     _filter=nil;
-    
+//    NSLog(@"Filter TypeList dealloc");
 }
 
 @end

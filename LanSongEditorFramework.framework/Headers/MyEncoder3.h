@@ -113,8 +113,17 @@ extern NSString *const kMyEncoder3LanSongColorSwizzlingFragmentShaderString;
 
 -(void)removePen:(Pen *)pen;
 
+
+/**
+ 内部使用.
+ */
 -(void)setDrawPadDisplay:(DrawPadView *)display;
 
+
+/**
+ 内部使用.
+ */
+-(void)releaseEncoder;
 @property(nonatomic, copy) void(^onProgressBlock)(CGFloat currentPts);  //这个只是回调, 直接执行.
 
 

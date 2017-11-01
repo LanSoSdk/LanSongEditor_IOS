@@ -8,12 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
+
+//包含我们所有的库头文件
+#import <LanSongEditorFramework/LanSongEditor.h>
+
+
+//接下来3个demo UI部分使用, 您可以直接删除.
 #import "MBProgressHUD.h"
 #import "Masonry.h"
-#import <AVFoundation/AVFoundation.h>
-#import <LanSongEditorFramework/LanSongEditor.h>
 #import "UIColor+Util.h"
+
+
+
+
 
 #define DEBUG 1
 #define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)

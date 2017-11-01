@@ -75,6 +75,7 @@
     
     // 增加一个UI图层, 把这个UI容器的位置和大小和容器对齐.
     CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
+    
     label   = [[YXLabel alloc] initWithFrame:frame];
     label.text       = @"蓝松科技, 短视频处理";
     label.startScale = 0.3f;
@@ -82,6 +83,13 @@
     label.backedLabelColor = [UIColor redColor];
     label.colorLabelColor  = [UIColor cyanColor];
     label.font=[UIFont systemFontOfSize:30];
+    
+    
+    UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 50)];
+    [btn setTitle:@"add" forState:UIControlStateNormal];
+    btn.backgroundColor=[UIColor redColor];
+    
+    [label addSubview:btn];
     [self.view addSubview:label];
     
     [drawpad addViewPen:label fromUI:YES];

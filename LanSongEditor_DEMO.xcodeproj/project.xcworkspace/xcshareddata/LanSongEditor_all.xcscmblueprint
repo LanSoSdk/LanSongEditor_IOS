@@ -4,11 +4,13 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E90727F7C26195F206C50104D75C5006B63B1BD4" : 9223372036854775807,
     "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : 0,
     "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3F224230-F225-49DA-AF9A-E83204E03685",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E90727F7C26195F206C50104D75C5006B63B1BD4" : "",
     "40E04DCACC45F115DC9DDC4963F70448C55C4C6F" : "LanSongEditor_all\/",
     "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC" : "..\/..\/bilibili\/ijkplayer-ios"
   },
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Bilibili\/ijkplayer.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E1679FC111225C1A98EA0394D0D0D5A7DEF963BC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/sno\/snowwolf\/LanSoGit",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E90727F7C26195F206C50104D75C5006B63B1BD4"
     }
   ]
 }

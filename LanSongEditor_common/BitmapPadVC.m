@@ -29,8 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     
     
     // 图片输入源
@@ -50,7 +48,6 @@
     NSMutableArray *arrayTemp = [NSMutableArray array];
     [arrayTemp addObject:filter2];
     [arrayTemp addObject:filter1];
-    
   
     pipeline = [[LanSongFilterPipeline alloc] initWithOrderedFilters:arrayTemp input:picture output:imageView];
     
@@ -65,10 +62,13 @@
     UIImageWriteToSavedPhotosAlbum(outputImage, self, nil, nil);
     
 }
+//-(UIImage *)getFilterImage:(UIImage *)srcImage filters:(LanSongFilter *)filter
+//{
+//    //TODO 暂时没有整理上面的.
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

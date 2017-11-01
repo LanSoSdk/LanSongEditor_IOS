@@ -2,10 +2,33 @@
 #import <LanSongEditorFramework/LanSongEditor.h>
 /**
  增加美颜,无等滤镜
+  增加InstaFilter, 17个.
  */
 typedef enum {
     LanSong_NULL,
     LanSong_BEAUTY,
+    
+    LanSong_IF1977,
+    LanSong_IFAmaro,
+    LanSong_IFBrannan,
+    LanSong_IFEarlybird,
+    LanSong_IFHefe,
+    LanSong_IFHudson,
+    LanSong_IFInkwell,
+    LanSong_IFLomofi,
+    LanSong_IFNashville,
+    LanSong_IFRise,
+    LanSong_IFSierra,
+    LanSong_IFSutro,
+    LanSong_IFToaster,
+    LanSong_IFValencia,
+    LanSong_IFWalden,
+    LanSong_IFXproII,
+    LanSong_IFLordKelvin,
+    
+    
+    
+    
     LanSong_SATURATION,
     LanSong_CONTRAST,
     LanSong_BRIGHTNESS,

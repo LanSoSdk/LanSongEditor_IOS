@@ -28,8 +28,8 @@
 #import "CameraPenFullLandscapeVC.h"
 #import "CameraPenSegmentRecordVC.h"
 
-#import "ExtractVideoFrameVC.h"
 
+#import "ExtractVideoFrameVC.h"
 
 
 #import "ViewPenRealTimeDemoVC.h"
@@ -43,8 +43,6 @@
 
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
-
-
 #import "SimpleVideoFileFilterViewController.h"
 
 
@@ -118,7 +116,7 @@
 
     switch (sender.tag) {
         case kSegmentRecordSquare:
-           // pushVC=[[ViewPenOnlyVC alloc] init];
+//            pushVC=[[ViewPenOnlyVC alloc] init];
             pushVC =[[CameraPenDemoVC alloc] init];
 //              pushVC=[[SegmentRecordFullVC alloc] init];
             break;
@@ -199,7 +197,7 @@
     view=[self newButton:view index:kDemo2PenMothed hint:@"所有图层均支持的父类功能2"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"所有图层均支持的父类功能3(滤镜)"];
     view=[self newButton:view index:kExtractVideoFrame hint:@"提取视频帧"];
-    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"图层滤镜[后台]"];
+    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"后台容器(视频图层+滤镜+CALayer图层)"];
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
     
@@ -375,17 +373,6 @@ int  frameCount=0;
 }
 -(void)testFile
 {
-    
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 @end

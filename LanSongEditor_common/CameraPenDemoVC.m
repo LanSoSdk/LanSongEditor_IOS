@@ -152,7 +152,6 @@
             isSelectFilter=YES;
             [self.navigationController pushViewController:filterListVC animated:YES];
             
-            
 //            isPaused=!isPaused;
 //            [camDrawPad pauseRecord:isPaused];
             

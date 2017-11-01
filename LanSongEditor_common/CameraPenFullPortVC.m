@@ -14,7 +14,7 @@
 #import <LanSongEditorFramework/DrawPadCamera.h>
 
 // 定义录制的时间,这里是15秒
-#define  CAMERAPEN_RECORD_MAX_TIME 2
+#define  CAMERAPEN_RECORD_MAX_TIME 15
 
 @interface CameraPenFullPortVC ()
 {
@@ -132,9 +132,13 @@
 {
     operationPen=nil;
     camDrawPad=nil;
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
+    filterListVC=nil;
+    filterView=nil;
+    
+    
+    [SDKFileUtil deleteFile:dstPath];
+    dstPath=nil;
+    
     NSLog(@"CameraPenDemoVC  dealloc");
 }
 /**

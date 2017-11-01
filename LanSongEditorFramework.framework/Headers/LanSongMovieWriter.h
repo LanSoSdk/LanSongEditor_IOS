@@ -35,7 +35,13 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 @property(readwrite, nonatomic) BOOL hasAudioTrack;
 @property(readwrite, nonatomic) BOOL shouldPassthroughAudio;
 @property(readwrite, nonatomic) BOOL shouldInvalidateAudioSampleWhenDone;
+
+//lanso++
+@property(nonatomic, copy) void(^videoProgressBlock)(CGFloat progess);
+
 @property(nonatomic, copy) void(^completionBlock)(void);
+
+
 @property(nonatomic, copy) void(^failureBlock)(NSError*);
 @property(nonatomic, assign) id<LanSongMovieWriterDelegate> delegate;
 @property(readwrite, nonatomic) BOOL encodingLiveVideo;

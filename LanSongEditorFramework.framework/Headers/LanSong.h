@@ -172,4 +172,24 @@
 
 #import "LanSongBeautyFilter.h"
 
+#import "IFLanSongFilter.h"  //IFLanSongFilter是所有IF开头的类的父类, 只是用来被继承, 不能直接使用.
+
+
+#import "IF1977Filter.h"
+#import "IFAmaroFilter.h"
+#import "IFBrannanFilter.h"
+#import "IFEarlybirdFilter.h"
+#import "IFHefeFilter.h"
+#import "IFHudsonFilter.h"
+#import "IFInkwellFilter.h"
+#import "IFLomofiFilter.h"
+#import "IFNashvilleFilter.h"
+#import "IFRiseFilter.h"
+#import "IFSierraFilter.h"
+#import "IFSutroFilter.h"
+#import "IFToasterFilter.h"
+#import "IFValenciaFilter.h"
+#import "IFWaldenFilter.h"
+#import "IFXproIIFilter.h"
+#import "IFLordKelvinFilter.h"
 
