@@ -102,27 +102,7 @@
     __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSLog(@"progressBlock is:%f", currentPts);
-            weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
-            
-            //更新时间戳.
-            if(weakSelf.progressBar!=nil){
-                [weakSelf.progressBar setLastSegmentPts:currentPts];
-            }
-            
-            //走过最小
-            if( (totalDuration+ currentPts)>=MIN_VIDEO_DURATION){
-                weakSelf.okButton.enabled=YES;
-                [weakSelf.deleteButton setButtonStyle:DeleteButtonStyleNormal];
-            }
-            //走过最大.则停止.
-            if((totalDuration + currentPts)>=MAX_VIDEO_DURATION){
-                [weakSelf finishSegment];
-            }
-            
-            currentSegmentDuration=currentPts;
-            
+            [weakSelf padProgress:currentPts];
         });
     }];
     
@@ -140,7 +120,27 @@
     
     [self initView];
 }
-
+-(void)padProgress:(CGFloat)currentPts
+{
+    NSLog(@"progressBlock is:%f", currentPts);
+    
+    //更新时间戳.
+    if(self.progressBar!=nil){
+        [self.progressBar setLastSegmentPts:currentPts];
+    }
+    
+    //走过最小
+    if( (totalDuration+ currentPts)>=MIN_VIDEO_DURATION){
+        self.okButton.enabled=YES;
+        [self.deleteButton setButtonStyle:DeleteButtonStyleNormal];
+    }
+    //走过最大.则停止.
+    if((totalDuration + currentPts)>=MAX_VIDEO_DURATION){
+        [self finishSegment];
+    }
+    
+    currentSegmentDuration=currentPts;
+}
 /**
  开始分段录制
  */
@@ -191,7 +191,7 @@
         if(totalDuration>=path.duration){
             totalDuration-=path.duration;
         }
-         [_progressBar deleteLastSegment];//删除对应的界面.
+        [_progressBar deleteLastSegment];//删除对应的界面.
     }
     if (segmentArray.count > 0) {
         [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
@@ -200,7 +200,7 @@
     }
 }
 /**
- 结束分段录制, 
+ 结束分段录制,
  
  拼接在一起然后播放;
  */
@@ -272,7 +272,7 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchPoint = [touch locationInView:_recordButton.superview];
-
+    
     if (CGRectContainsPoint(_recordButton.frame, touchPoint)) {
         [self startSegment];
     }
@@ -284,7 +284,7 @@
 }
 - (void)initView
 {
-      nvheight=    self.navigationController.navigationBar.frame.size.height;
+    nvheight=    self.navigationController.navigationBar.frame.size.height;
     self.progressBar = [SegmentRecordProgressView getInstance];
     self.progressBar.maxDuration=MAX_VIDEO_DURATION;
     
@@ -342,13 +342,15 @@
 -(void)dealloc
 {
     operationPen=nil;
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
+    
+    [SDKFileUtil deleteFile:dstPath];
+    
     NSMutableArray *fileArray = [[NSMutableArray alloc] init];
     for (SegmentFile *data in segmentArray) {
         [fileArray addObject:data.segmentPath];
     }
+    camDrawPad=nil;
+    
     
     [SDKFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
