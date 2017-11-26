@@ -11,8 +11,6 @@
 @interface CameraPenSegmentRecordVC : UIViewController
 
 
-@property UILabel *labProgress;
 
 
-@property UILabel *timeLabel;
 @end

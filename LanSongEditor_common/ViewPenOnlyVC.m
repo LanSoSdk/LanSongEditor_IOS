@@ -55,6 +55,15 @@
     drawPadWidth=480;
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
+
+//    drawPadWidth=720;
+//    drawPadHeight=1280;
+//    drawPadBitRate=3000*1024;
+    
+//    drawPadWidth=960;
+//    drawPadHeight=540;
+//    drawPadBitRate=2000*1000;
+    
     drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstPath];
     
     
@@ -70,13 +79,20 @@
     
     //step2第二步:增加图层(当然也可以在容器进行中增加)
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
-    [drawpad addBitmapPen:imag];
+    BitmapPen *pen=[drawpad addBitmapPen:imag];
+    
+    
+    pen.scaleWidth=pen.drawPadSize.width/pen.penSize.width;
+    
+    pen.scaleHeight=pen.drawPadSize.height/pen.penSize.height;
     
     
     // 增加一个UI图层, 把这个UI容器的位置和大小和容器对齐.
     CGRect frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
     
     label   = [[YXLabel alloc] initWithFrame:frame];
+    label.backgroundColor=[UIColor redColor];
+    
     label.text       = @"蓝松科技, 短视频处理";
     label.startScale = 0.3f;
     label.endScale   = 2.f;
@@ -85,22 +101,24 @@
     label.font=[UIFont systemFontOfSize:30];
     
     
-    UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 50)];
-    [btn setTitle:@"add" forState:UIControlStateNormal];
+    UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(0, 50, 150, 50)];
+    [btn setTitle:@"addXXXX2FILTER" forState:UIControlStateNormal];
     btn.backgroundColor=[UIColor redColor];
     
     [label addSubview:btn];
     [self.view addSubview:label];
     
-    [drawpad addViewPen:label fromUI:YES];
+    ViewPen *viewPen=[drawpad addViewPen:label fromUI:YES];  //增加ViewPen到容器中,并拿到对象
     
+    if(viewPen!=nil){
+        [viewPen switchFilter:[[LanSongSepiaFilter alloc]init]];
+    }
     
     //step3: 第三步: 设置回调,开始运行容器.
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
-            
                         if (currentPts>6) {  //您可要在任意进度中停止DrawPad
                             [weakSelf stopDrawpad];
                         }
@@ -157,42 +175,6 @@
 -(void)stopDrawpad
 {
     [drawpad stopDrawPad];
-}
-
-- (void)slideChanged:(UISlider*)sender
-{
-    
-    CGFloat val=[(UISlider *)sender value];
-    CGFloat pos2=drawpad.drawpadSize.width*val;
-    switch (sender.tag) {
-        case 101:  //weizhi
-            operationPen.positionX=pos2;
-            
-            //当宽度增加后, 也演示下高度的变化.
-            if (operationPen.positionX > drawpad.drawpadSize.width/2) {
-                
-                operationPen.positionY+=10;
-                if (operationPen.positionY>=drawpad.drawpadSize.height) {
-                    operationPen.positionY=0;
-                }
-            }
-            break;
-        case 102:  //scale
-            if (operationPen!=nil) {
-                operationPen.scaleHeight=val;
-                operationPen.scaleWidth=val;
-            }
-            break;
-            
-        case 103:  //rotate;
-            if (operationPen!=nil) {
-                operationPen.rotateDegree=val;
-            }
-            break;
-            
-        default:
-            break;
-    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated

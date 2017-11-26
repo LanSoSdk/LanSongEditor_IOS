@@ -133,6 +133,16 @@
 
 
 
+/**
+ 把多个视频拼接在一起. 
+ 适用在分段录制的场合中.
+ 
+ 请注意,这里的拼接是完全没有做解码. 请确保拼接的多段视频各种参数一致.
+
+ @param mp4Array 多个分段录制的mp4文件,
+ @param dstFile 拼接后的最终文件
+ @return 拼接后的结果.
+ */
 +(int)executeConcatMP4:(NSMutableArray *)mp4Array dstFile:(NSString *)dstFile;
 /**
  *  提取源音频部分, 增加到目标视频中.
@@ -208,7 +218,6 @@
 + (void)executeCropCALayerWithPath:(NSString*)srcPath layer:(CALayer *)inputlayer startX:(CGFloat)startX startY:(CGFloat)startY cropW:(CGFloat)cropW cropH:(CGFloat)cropH dstPath:(NSString *)dstPath;
 
 /**
- [新增]
  视频和音频合成, 或理解为: 给视频增加一个背景音乐
  此函数, 在合成后, 会对视频和音频进行转码操作, 可能会改变视频的分辨率,
  等同于导出预设值为: AVAssetExportPresetMediumQuality
@@ -219,7 +228,6 @@
 +(void)videoMergeAudio:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
 
 /**
- [新增]
  视频和音频合成, 或理解为: 给视频增加一个背景音乐
  
  此函数是直接把视频轨道和音频轨道合成, 中间不会转码, 故音频编码必须为AAC

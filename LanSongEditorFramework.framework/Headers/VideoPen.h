@@ -31,7 +31,7 @@
 
 
 /**
- *  初始化
+ * 内部使用.
  *
  *  @param url    url路径
  *  @param size   容器的尺寸

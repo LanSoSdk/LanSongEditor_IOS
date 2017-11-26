@@ -4,14 +4,15 @@
 @interface FilterTpyeList ()
 {
     LanSongPicture *sourcePicture;
+    
     LanSongShowcaseFilterType filterType;
     
     LanSongFilterPipeline *pipeline;
     
     
     CIDetector *faceDetector;
-
-  
+    
+    
     BOOL faceThinking;
     
 }
@@ -128,7 +129,7 @@
         case LanSong_ADAPTIVETHRESHOLD: cell.textLabel.text = @"Adaptive threshold"; break;
         case LanSong_AVERAGELUMINANCETHRESHOLD: cell.textLabel.text = @"Average luminance threshold"; break;
         case LanSong_TRANSFORM3D: cell.textLabel.text = @"Transform (3-D)"; break;
-       
+            
         case LanSong_COLORINVERT: cell.textLabel.text = @"Color invert"; break;
         case LanSong_GRAYSCALE: cell.textLabel.text = @"Grayscale"; break;
         case LanSong_SEPIA: cell.textLabel.text = @"Sepia tone"; break;
@@ -224,11 +225,14 @@
      当选中一个滤镜的时候, 在这里切换到该滤镜.
      */
     
-    if(sourcePicture!=nil){  //如果不是为nil,则认为是两个输入的滤镜.
-        [_filterPen switchFilter:(LanSongTwoInputFilter *)_filter secondInput:sourcePicture];
-        [sourcePicture processImage];
-    }else{
-        [_filterPen switchFilter:_filter];
+    if(_filterPen!=nil)
+    {
+        if(sourcePicture!=nil){  //如果不是为nil,则认为是两个输入的滤镜.
+            [_filterPen switchFilter:(LanSongTwoInputFilter *)_selectedFilter secondInput:sourcePicture];
+            [sourcePicture processImage];
+        }else{
+            [_filterPen switchFilter:_selectedFilter];
+        }
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -245,7 +249,7 @@
         {
             self.title = @"无";
             self.filterSlider.hidden = YES;
-            self.filter = nil;
+            self.selectedFilter = nil;
         }; break;
             
         case LanSong_BEAUTY:
@@ -256,115 +260,114 @@
             [self.filterSlider setValue:0.6];
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
-            
-            self.filter = [[LanSongBeautyFilter alloc] init];
+            self.selectedFilter = [[LanSongBeautyFilter alloc] init];
         }; break;
             
-        //sno++
+            //sno++
         case LanSong_IF1977:
         {
             self.title = @"IF1977";
             self.filterSlider.hidden = YES;
-            self.filter = [[IF1977Filter alloc] init];
+            self.selectedFilter = [[IF1977Filter alloc] init];
         }; break;
             
         case LanSong_IFAmaro:
         {
             self.title = @"IFAmaro";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFAmaroFilter alloc] init];
+            self.selectedFilter = [[IFAmaroFilter alloc] init];
         }; break;
         case LanSong_IFBrannan:
         {
             self.title = @"IFBrannan";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFBrannanFilter alloc] init];
+            self.selectedFilter = [[IFBrannanFilter alloc] init];
         }; break;
         case LanSong_IFEarlybird:
         {
             self.title = @"IFEarlybird";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFEarlybirdFilter alloc] init];
+            self.selectedFilter = [[IFEarlybirdFilter alloc] init];
         }; break;
         case LanSong_IFHefe:
         {
             self.title = @"IFHefe";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFHefeFilter alloc] init];
+            self.selectedFilter = [[IFHefeFilter alloc] init];
         }; break;
         case LanSong_IFHudson:
         {
             self.title = @"IFHudson";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFHudsonFilter alloc] init];
+            self.selectedFilter = [[IFHudsonFilter alloc] init];
         }; break;
         case LanSong_IFInkwell:
         {
             self.title = @"IFInkwell";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFInkwellFilter alloc] init];
+            self.selectedFilter = [[IFInkwellFilter alloc] init];
         }; break;
         case LanSong_IFLomofi:
         {
             self.title = @"IFLomofi";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFLomofiFilter alloc] init];
+            self.selectedFilter = [[IFLomofiFilter alloc] init];
         }; break;
         case LanSong_IFNashville:
         {
             self.title = @"IFNashville";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFNashvilleFilter alloc] init];
+            self.selectedFilter = [[IFNashvilleFilter alloc] init];
         }; break;
         case LanSong_IFRise:
         {
             self.title = @"IFRise";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFRiseFilter alloc] init];
+            self.selectedFilter = [[IFRiseFilter alloc] init];
         }; break;
         case LanSong_IFSierra:
         {
             self.title = @"IFSierra";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFSierraFilter alloc] init];
+            self.selectedFilter = [[IFSierraFilter alloc] init];
         }; break;
         case LanSong_IFSutro:
         {
             self.title = @"IFSutro";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFSutroFilter alloc] init];
+            self.selectedFilter = [[IFSutroFilter alloc] init];
         }; break;
         case LanSong_IFToaster:
         {
             self.title = @"IFToaster";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFToasterFilter alloc] init];
+            self.selectedFilter = [[IFToasterFilter alloc] init];
         }; break;
         case LanSong_IFValencia:
         {
             self.title = @"IFValencia";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFValenciaFilter alloc] init];
+            self.selectedFilter = [[IFValenciaFilter alloc] init];
         }; break;
         case LanSong_IFWalden:
         {
             self.title = @"IFWalden";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFWaldenFilter alloc] init];
+            self.selectedFilter = [[IFWaldenFilter alloc] init];
         }; break;
         case LanSong_IFXproII:
         {
             self.title = @"IFXproII";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFXproIIFilter alloc] init];
+            self.selectedFilter = [[IFXproIIFilter alloc] init];
         }; break;
         case LanSong_IFLordKelvin:
         {
             self.title = @"IFLordKelvin";
             self.filterSlider.hidden = YES;
-            self.filter = [[IFLordKelvinFilter alloc] init];
+            self.selectedFilter = [[IFLordKelvinFilter alloc] init];
         }; break;
-    //sno++  end
+            //sno++  end
             
         case LanSong_SEPIA:
         {
@@ -375,7 +378,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[LanSongSepiaFilter alloc] init];
+            self.selectedFilter = [[LanSongSepiaFilter alloc] init];
         }; break;
         case LanSong_PIXELLATE:
         {
@@ -386,7 +389,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[LanSongPixellateFilter alloc] init];
+            self.selectedFilter = [[LanSongPixellateFilter alloc] init];
         }; break;
         case LanSong_POLARPIXELLATE:
         {
@@ -397,7 +400,7 @@
             [self.filterSlider setMinimumValue:-0.1];
             [self.filterSlider setMaximumValue:0.1];
             
-            self.filter = [[LanSongPolarPixellateFilter alloc] init];
+            self.selectedFilter = [[LanSongPolarPixellateFilter alloc] init];
         }; break;
         case LanSong_PIXELLATE_POSITION:
         {
@@ -408,7 +411,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.5];
             
-            self.filter = [[LanSongPixellatePositionFilter alloc] init];
+            self.selectedFilter = [[LanSongPixellatePositionFilter alloc] init];
         }; break;
         case LanSong_POLKADOT:
         {
@@ -419,7 +422,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[LanSongPolkaDotFilter alloc] init];
+            self.selectedFilter = [[LanSongPolkaDotFilter alloc] init];
         }; break;
         case LanSong_HALFTONE:
         {
@@ -430,7 +433,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.05];
             
-            self.filter = [[LanSongHalftoneFilter alloc] init];
+            self.selectedFilter = [[LanSongHalftoneFilter alloc] init];
         }; break;
         case LanSong_CROSSHATCH:
         {
@@ -441,21 +444,21 @@
             [self.filterSlider setMinimumValue:0.01];
             [self.filterSlider setMaximumValue:0.06];
             
-            self.filter = [[LanSongCrosshatchFilter alloc] init];
+            self.selectedFilter = [[LanSongCrosshatchFilter alloc] init];
         }; break;
         case LanSong_COLORINVERT:
         {
             self.title = @"Color Invert";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongColorInvertFilter alloc] init];
+            self.selectedFilter = [[LanSongColorInvertFilter alloc] init];
         }; break;
         case LanSong_GRAYSCALE:
         {
             self.title = @"Grayscale";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongGrayscaleFilter alloc] init];
+            self.selectedFilter = [[LanSongGrayscaleFilter alloc] init];
         }; break;
         case LanSong_MONOCHROME:
         {
@@ -466,36 +469,36 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[LanSongMonochromeFilter alloc] init];
-            [(LanSongMonochromeFilter *)self.filter setColor:(GPUVector4){0.0f, 0.0f, 1.0f, 1.f}];
+            self.selectedFilter = [[LanSongMonochromeFilter alloc] init];
+            [(LanSongMonochromeFilter *)self.selectedFilter setColor:(GPUVector4){0.0f, 0.0f, 1.0f, 1.f}];
         }; break;
         case LanSong_FALSECOLOR:
         {
             self.title = @"False Color";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongFalseColorFilter alloc] init];
+            self.selectedFilter = [[LanSongFalseColorFilter alloc] init];
         }; break;
         case LanSong_SOFTELEGANCE:
         {
             self.title = @"Soft Elegance (Lookup)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongSoftEleganceFilter alloc] init];
+            self.selectedFilter = [[LanSongSoftEleganceFilter alloc] init];
         }; break;
-//        case LanSong_MISSETIKATE:
-//        {
-//            self.title = @"Miss Etikate (Lookup)";
-//            self.filterSlider.hidden = YES;
-//            
-//            self.filter = [[LanSongMissEtikateFilter alloc] init];
-//        }; break;
+            //        case LanSong_MISSETIKATE:
+            //        {
+            //            self.title = @"Miss Etikate (Lookup)";
+            //            self.filterSlider.hidden = YES;
+            //
+            //            self.selectedFilter = [[LanSongMissEtikateFilter alloc] init];
+            //        }; break;
         case LanSong_AMATORKA:
         {
             self.title = @"Amatorka (Lookup)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongAmatorkaFilter alloc] init];
+            self.selectedFilter = [[LanSongAmatorkaFilter alloc] init];
         }; break;
             
         case LanSong_SATURATION:
@@ -507,7 +510,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:2.0];
             
-            self.filter = [[LanSongSaturationFilter alloc] init];
+            self.selectedFilter = [[LanSongSaturationFilter alloc] init];
         }; break;
         case LanSong_CONTRAST:
         {
@@ -518,7 +521,7 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongContrastFilter alloc] init];
+            self.selectedFilter = [[LanSongContrastFilter alloc] init];
         }; break;
         case LanSong_BRIGHTNESS:
         {
@@ -529,7 +532,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[LanSongBrightnessFilter alloc] init];
+            self.selectedFilter = [[LanSongBrightnessFilter alloc] init];
         }; break;
         case LanSong_LEVELS:
         {
@@ -540,7 +543,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[LanSongLevelsFilter alloc] init];
+            self.selectedFilter = [[LanSongLevelsFilter alloc] init];
         }; break;
         case LanSong_HUE:
         {
@@ -551,7 +554,7 @@
             [self.filterSlider setMaximumValue:360.0];
             [self.filterSlider setValue:90.0];
             
-            self.filter = [[LanSongHueFilter alloc] init];
+            self.selectedFilter = [[LanSongHueFilter alloc] init];
         }; break;
         case LanSong_WHITEBALANCE:
         {
@@ -562,7 +565,7 @@
             [self.filterSlider setMaximumValue:7500.0];
             [self.filterSlider setValue:5000.0];
             
-            self.filter = [[LanSongWhiteBalanceFilter alloc] init];
+            self.selectedFilter = [[LanSongWhiteBalanceFilter alloc] init];
         }; break;
         case LanSong_EXPOSURE:
         {
@@ -573,7 +576,7 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[LanSongExposureFilter alloc] init];
+            self.selectedFilter = [[LanSongExposureFilter alloc] init];
         }; break;
         case LanSong_SHARPEN:
         {
@@ -584,7 +587,7 @@
             [self.filterSlider setMaximumValue:4.0];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[LanSongSharpenFilter alloc] init];
+            self.selectedFilter = [[LanSongSharpenFilter alloc] init];
         }; break;
         case LanSong_UNSHARPMASK:
         {
@@ -595,9 +598,9 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongUnsharpMaskFilter alloc] init];
+            self.selectedFilter = [[LanSongUnsharpMaskFilter alloc] init];
             
-            //            [(LanSongUnsharpMaskFilter *)self.filter setIntensity:3.0];
+            //            [(LanSongUnsharpMaskFilter *)self.selectedFilter  setIntensity:3.0];
         }; break;
         case LanSong_GAMMA:
         {
@@ -608,7 +611,7 @@
             [self.filterSlider setMaximumValue:3.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongGammaFilter alloc] init];
+            self.selectedFilter = [[LanSongGammaFilter alloc] init];
         }; break;
         case LanSong_TONECURVE:
         {
@@ -619,8 +622,8 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongToneCurveFilter alloc] init];
-            [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]];
+            self.selectedFilter = [[LanSongToneCurveFilter alloc] init];
+            [(LanSongToneCurveFilter *)self.selectedFilter setBlueControlPoints:[NSArray arrayWithObjects:[NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)], [NSValue valueWithCGPoint:CGPointMake(0.5, 0.5)], [NSValue valueWithCGPoint:CGPointMake(1.0, 0.75)], nil]];
         }; break;
         case LanSong_HIGHLIGHTSHADOW:
         {
@@ -631,7 +634,7 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:1.0];
             
-            self.filter = [[LanSongHighlightShadowFilter alloc] init];
+            self.selectedFilter = [[LanSongHighlightShadowFilter alloc] init];
         }; break;
         case LanSong_HAZE:
         {
@@ -642,9 +645,9 @@
             [self.filterSlider setMaximumValue:0.2];
             [self.filterSlider setValue:0.2];
             
-            self.filter = [[LanSongHazeFilter alloc] init];
+            self.selectedFilter = [[LanSongHazeFilter alloc] init];
         }; break;
-      
+            
         case LanSong_HISTOGRAM:
         {
             self.title = @"Histogram";
@@ -654,18 +657,19 @@
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
             
-            self.filter = [[LanSongHistogramFilter alloc] initWithHistogramType:kLanSongHistogramRGB];
+            self.selectedFilter = [[LanSongHistogramFilter alloc] initWithHistogramType:kLanSongHistogramRGB];
         }; break;
         case LanSong_HISTOGRAM_EQUALIZATION:
         {
             self.title = @"Histogram Equalization";
             self.filterSlider.hidden = NO;
             
+            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
             [self.filterSlider setMinimumValue:4.0];
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
             
-            self.filter = [[LanSongHistogramEqualizationFilter alloc] initWithHistogramType:kLanSongHistogramLuminance];
+            self.selectedFilter = [[LanSongHistogramEqualizationFilter alloc] initWithHistogramType:kLanSongHistogramLuminance];
         }; break;
         case LanSong_THRESHOLD:
         {
@@ -676,7 +680,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongLuminanceThresholdFilter alloc] init];
+            self.selectedFilter = [[LanSongLuminanceThresholdFilter alloc] init];
         }; break;
         case LanSong_ADAPTIVETHRESHOLD:
         {
@@ -687,7 +691,7 @@
             [self.filterSlider setMaximumValue:20.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongAdaptiveThresholdFilter alloc] init];
+            self.selectedFilter = [[LanSongAdaptiveThresholdFilter alloc] init];
         }; break;
         case LanSong_AVERAGELUMINANCETHRESHOLD:
         {
@@ -698,18 +702,18 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongAverageLuminanceThresholdFilter alloc] init];
+            self.selectedFilter = [[LanSongAverageLuminanceThresholdFilter alloc] init];
         }; break;
-//        case LanSong_MASK:  暂时不支持Mask
-//        {
-//            self.title = @"Mask";
-//            self.filterSlider.hidden = YES;
-//            needsSecondImage = YES;
-//            
-//            self.filter = [[LanSongMaskFilter alloc] init];
-//            
-//            [(LanSongFilter*)self.filter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
-//        }; break;
+            //        case LanSong_MASK:  暂时不支持Mask
+            //        {
+            //            self.title = @"Mask";
+            //            self.filterSlider.hidden = YES;
+            //            needsSecondImage = YES;
+            //
+            //            self.selectedFilter = [[LanSongMaskFilter alloc] init];
+            //
+            //            [(LanSongFilter*)self.selectedFilter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+            //        }; break;
         case LanSong_TRANSFORM3D:
         {
             self.title = @"Transform (3-D)";
@@ -719,14 +723,14 @@
             [self.filterSlider setMaximumValue:6.28];
             [self.filterSlider setValue:0.75];
             
-            self.filter = [[LanSongTransformFilter alloc] init];
+            self.selectedFilter = [[LanSongTransformFilter alloc] init];
             CATransform3D perspectiveTransform = CATransform3DIdentity;
             perspectiveTransform.m34 = 0.4;
             perspectiveTransform.m33 = 0.4;
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
             perspectiveTransform = CATransform3DRotate(perspectiveTransform, 0.75, 0.0, 1.0, 0.0);
             
-            [(LanSongTransformFilter *)self.filter setTransform3D:perspectiveTransform];
+            [(LanSongTransformFilter *)self.selectedFilter setTransform3D:perspectiveTransform];
         }; break;
         case LanSong_SOBELEDGEDETECTION:
         {
@@ -737,14 +741,14 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[LanSongSobelEdgeDetectionFilter alloc] init];
+            self.selectedFilter = [[LanSongSobelEdgeDetectionFilter alloc] init];
         }; break;
         case LanSong_XYGRADIENT:
         {
             self.title = @"XY Derivative";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongXYDerivativeFilter alloc] init];
+            self.selectedFilter = [[LanSongXYDerivativeFilter alloc] init];
         }; break;
         case LanSong_PREWITTEDGEDETECTION:
         {
@@ -755,7 +759,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongPrewittEdgeDetectionFilter alloc] init];
+            self.selectedFilter = [[LanSongPrewittEdgeDetectionFilter alloc] init];
         }; break;
         case LanSong_CANNYEDGEDETECTION:
         {
@@ -766,7 +770,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongCannyEdgeDetectionFilter alloc] init];
+            self.selectedFilter = [[LanSongCannyEdgeDetectionFilter alloc] init];
         }; break;
         case LanSong_THRESHOLDEDGEDETECTION:
         {
@@ -777,7 +781,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[LanSongThresholdEdgeDetectionFilter alloc] init];
+            self.selectedFilter = [[LanSongThresholdEdgeDetectionFilter alloc] init];
         }; break;
         case LanSong_LOCALBINARYPATTERN:
         {
@@ -788,7 +792,7 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongLocalBinaryPatternFilter alloc] init];
+            self.selectedFilter = [[LanSongLocalBinaryPatternFilter alloc] init];
         }; break;
         case LanSong_LOWPASS:
         {
@@ -799,7 +803,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongLowPassFilter alloc] init];
+            self.selectedFilter = [[LanSongLowPassFilter alloc] init];
         }; break;
         case LanSong_HIGHPASS:
         {
@@ -810,7 +814,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongHighPassFilter alloc] init];
+            self.selectedFilter = [[LanSongHighPassFilter alloc] init];
         }; break;
         case LanSong_SKETCH:
         {
@@ -820,9 +824,9 @@
             [_filterSlider setMinimumValue:0.0];
             [_filterSlider setMaximumValue:1.0];
             [_filterSlider setValue:0.25];
-           
             
-            self.filter = [[LanSongSketchFilter alloc] init];
+            
+            self.selectedFilter = [[LanSongSketchFilter alloc] init];
         }; break;
         case LanSong_THRESHOLDSKETCH:
         {
@@ -833,14 +837,14 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.25];
             
-            self.filter = [[LanSongThresholdSketchFilter alloc] init];
+            self.selectedFilter = [[LanSongThresholdSketchFilter alloc] init];
         }; break;
         case LanSong_TOON:
         {
             self.title = @"Toon";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongToonFilter alloc] init];
+            self.selectedFilter = [[LanSongToonFilter alloc] init];
         }; break;
         case LanSong_SMOOTHTOON:
         {
@@ -851,7 +855,7 @@
             [self.filterSlider setMaximumValue:6.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongSmoothToonFilter alloc] init];
+            self.selectedFilter = [[LanSongSmoothToonFilter alloc] init];
         }; break;
         case LanSong_TILTSHIFT:
         {
@@ -862,41 +866,41 @@
             [self.filterSlider setMaximumValue:0.8];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongTiltShiftFilter alloc] init];
-            [(LanSongTiltShiftFilter *)self.filter setTopFocusLevel:0.4];
-            [(LanSongTiltShiftFilter *)self.filter setBottomFocusLevel:0.6];
-            [(LanSongTiltShiftFilter *)self.filter setFocusFallOffRate:0.2];
+            self.selectedFilter = [[LanSongTiltShiftFilter alloc] init];
+            [(LanSongTiltShiftFilter *)self.selectedFilter setTopFocusLevel:0.4];
+            [(LanSongTiltShiftFilter *)self.selectedFilter setBottomFocusLevel:0.6];
+            [(LanSongTiltShiftFilter *)self.selectedFilter setFocusFallOffRate:0.2];
         }; break;
         case LanSong_CGA:
         {
             self.title = @"CGA Colorspace";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongCGAColorspaceFilter alloc] init];
+            self.selectedFilter = [[LanSongCGAColorspaceFilter alloc] init];
         }; break;
         case LanSong_CONVOLUTION:
         {
             self.title = @"3x3 Convolution";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSong3x3ConvolutionFilter alloc] init];
-            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            self.selectedFilter = [[LanSong3x3ConvolutionFilter alloc] init];
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter setConvolutionKernel:(GPUMatrix3x3){
             //                {-2.0f, -1.0f, 0.0f},
             //                {-1.0f,  1.0f, 1.0f},
             //                { 0.0f,  1.0f, 2.0f}
             //            }];
-            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
                 {-1.0f,  0.0f, 1.0f},
                 {-2.0f, 0.0f, 2.0f},
                 {-1.0f,  0.0f, 1.0f}
             }];
             
-            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
             //                {1.0f,  1.0f, 1.0f},
             //                {1.0f, -8.0f, 1.0f},
             //                {1.0f,  1.0f, 1.0f}
             //            }];
-            //            [(LanSong3x3ConvolutionFilter *)self.filter setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f}
@@ -911,14 +915,14 @@
             [self.filterSlider setMaximumValue:5.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongEmbossFilter alloc] init];
+            self.selectedFilter = [[LanSongEmbossFilter alloc] init];
         }; break;
         case LanSong_LAPLACIAN:
         {
             self.title = @"Laplacian";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongLaplacianFilter alloc] init];
+            self.selectedFilter = [[LanSongLaplacianFilter alloc] init];
         }; break;
         case LanSong_POSTERIZE:
         {
@@ -929,7 +933,7 @@
             [self.filterSlider setMaximumValue:20.0];
             [self.filterSlider setValue:10.0];
             
-            self.filter = [[LanSongPosterizeFilter alloc] init];
+            self.selectedFilter = [[LanSongPosterizeFilter alloc] init];
         }; break;
         case LanSong_SWIRL:
         {
@@ -940,7 +944,7 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongSwirlFilter alloc] init];
+            self.selectedFilter = [[LanSongSwirlFilter alloc] init];
         }; break;
         case LanSong_BULGE:
         {
@@ -951,7 +955,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongBulgeDistortionFilter alloc] init];
+            self.selectedFilter = [[LanSongBulgeDistortionFilter alloc] init];
         }; break;
         case LanSong_PINCH:
         {
@@ -962,42 +966,42 @@
             [self.filterSlider setMaximumValue:2.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongPinchDistortionFilter alloc] init];
+            self.selectedFilter = [[LanSongPinchDistortionFilter alloc] init];
         }; break;
         case LanSong_STRETCH:
         {
             self.title = @"Stretch";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongStretchDistortionFilter alloc] init];
+            self.selectedFilter = [[LanSongStretchDistortionFilter alloc] init];
         }; break;
         case LanSong_DILATION:
         {
             self.title = @"Dilation";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongRGBDilationFilter alloc] initWithRadius:4];
+            self.selectedFilter = [[LanSongRGBDilationFilter alloc] initWithRadius:4];
         }; break;
         case LanSong_EROSION:
         {
             self.title = @"Erosion";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongRGBErosionFilter alloc] initWithRadius:4];
+            self.selectedFilter = [[LanSongRGBErosionFilter alloc] initWithRadius:4];
         }; break;
         case LanSong_OPENING:
         {
             self.title = @"Opening";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongRGBOpeningFilter alloc] initWithRadius:4];
+            self.selectedFilter = [[LanSongRGBOpeningFilter alloc] initWithRadius:4];
         }; break;
         case LanSong_CLOSING:
         {
             self.title = @"Closing";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongRGBClosingFilter alloc] initWithRadius:4];
+            self.selectedFilter = [[LanSongRGBClosingFilter alloc] initWithRadius:4];
         }; break;
             
         case LanSong_PERLINNOISE:
@@ -1009,7 +1013,7 @@
             [self.filterSlider setMaximumValue:30.0];
             [self.filterSlider setValue:8.0];
             
-            self.filter = [[LanSongPerlinNoiseFilter alloc] init];
+            self.selectedFilter = [[LanSongPerlinNoiseFilter alloc] init];
         }; break;
         case LanSong_MOSAIC:
         {
@@ -1020,11 +1024,11 @@
             [self.filterSlider setMaximumValue:0.05];
             [self.filterSlider setValue:0.025];
             
-            self.filter = [[LanSongMosaicFilter alloc] init];
-            [(LanSongMosaicFilter *)self.filter setTileSet:@"squares.png"];
-            [(LanSongMosaicFilter *)self.filter setColorOn:NO];
-            //[(LanSongMosaicFilter *)self.filter setTileSet:@"dotletterstiles.png"];
-            //[(LanSongMosaicFilter *)self.filter setTileSet:@"curvies.png"];
+            self.selectedFilter = [[LanSongMosaicFilter alloc] init];
+            [(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"squares.png"];
+            [(LanSongMosaicFilter *)self.selectedFilter  setColorOn:NO];
+            //[(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"dotletterstiles.png"];
+            //[(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"curvies.png"];
             
         }; break;
         case LanSong_CHROMAKEY:
@@ -1037,8 +1041,8 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.4];
             
-            self.filter = [[LanSongChromaKeyBlendFilter alloc] init];
-            [(LanSongChromaKeyBlendFilter *)self.filter setColorToReplaceRed:0.0 green:1.0 blue:0.0];
+            self.selectedFilter = [[LanSongChromaKeyBlendFilter alloc] init];
+            [(LanSongChromaKeyBlendFilter *)self.selectedFilter  setColorToReplaceRed:0.0 green:1.0 blue:0.0];
         }; break;
         case LanSong_ADD:
         {
@@ -1046,7 +1050,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongAddBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongAddBlendFilter alloc] init];
         }; break;
         case LanSong_DIVIDE:
         {
@@ -1054,7 +1058,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongDivideBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongDivideBlendFilter alloc] init];
         }; break;
         case LanSong_MULTIPLY:
         {
@@ -1062,7 +1066,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongMultiplyBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongMultiplyBlendFilter alloc] init];
         }; break;
         case LanSong_OVERLAY:
         {
@@ -1070,7 +1074,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongOverlayBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongOverlayBlendFilter alloc] init];
         }; break;
         case LanSong_LIGHTEN:
         {
@@ -1078,7 +1082,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongLightenBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongLightenBlendFilter alloc] init];
         }; break;
         case LanSong_DARKEN:
         {
@@ -1086,7 +1090,7 @@
             self.filterSlider.hidden = YES;
             
             needsSecondImage = YES;
-            self.filter = [[LanSongDarkenBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongDarkenBlendFilter alloc] init];
         }; break;
         case LanSong_DISSOLVE:
         {
@@ -1098,7 +1102,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongDissolveBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongDissolveBlendFilter alloc] init];
         }; break;
         case LanSong_SCREENBLEND:
         {
@@ -1106,7 +1110,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongScreenBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongScreenBlendFilter alloc] init];
         }; break;
         case LanSong_COLORBURN:
         {
@@ -1114,7 +1118,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongColorBurnBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongColorBurnBlendFilter alloc] init];
         }; break;
         case LanSong_COLORDODGE:
         {
@@ -1122,7 +1126,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongColorDodgeBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongColorDodgeBlendFilter alloc] init];
         }; break;
         case LanSong_LINEARBURN:
         {
@@ -1130,7 +1134,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongLinearBurnBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongLinearBurnBlendFilter alloc] init];
         }; break;
         case LanSong_EXCLUSIONBLEND:
         {
@@ -1138,7 +1142,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongExclusionBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongExclusionBlendFilter alloc] init];
         }; break;
         case LanSong_DIFFERENCEBLEND:
         {
@@ -1146,7 +1150,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongDifferenceBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongDifferenceBlendFilter alloc] init];
         }; break;
         case LanSong_SUBTRACTBLEND:
         {
@@ -1154,7 +1158,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongSubtractBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongSubtractBlendFilter alloc] init];
         }; break;
         case LanSong_HARDLIGHTBLEND:
         {
@@ -1162,7 +1166,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongHardLightBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongHardLightBlendFilter alloc] init];
         }; break;
         case LanSong_SOFTLIGHTBLEND:
         {
@@ -1170,7 +1174,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongSoftLightBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongSoftLightBlendFilter alloc] init];
         }; break;
         case LanSong_COLORBLEND:
         {
@@ -1178,7 +1182,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongColorBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongColorBlendFilter alloc] init];
         }; break;
         case LanSong_HUEBLEND:
         {
@@ -1186,7 +1190,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongHueBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongHueBlendFilter alloc] init];
         }; break;
         case LanSong_SATURATIONBLEND:
         {
@@ -1194,7 +1198,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongSaturationBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongSaturationBlendFilter alloc] init];
         }; break;
         case LanSong_LUMINOSITYBLEND:
         {
@@ -1202,7 +1206,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongLuminosityBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongLuminosityBlendFilter alloc] init];
         }; break;
         case LanSong_NORMALBLEND:
         {
@@ -1210,7 +1214,7 @@
             self.filterSlider.hidden = YES;
             needsSecondImage = YES;
             
-            self.filter = [[LanSongNormalBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongNormalBlendFilter alloc] init];
         }; break;
         case LanSong_POISSONBLEND:
         {
@@ -1222,7 +1226,7 @@
             [self.filterSlider setMaximumValue:1.0];
             [self.filterSlider setValue:0.5];
             
-            self.filter = [[LanSongPoissonBlendFilter alloc] init];
+            self.selectedFilter = [[LanSongPoissonBlendFilter alloc] init];
         }; break;
         case LanSong_KUWAHARA:
         {
@@ -1233,14 +1237,14 @@
             [self.filterSlider setMaximumValue:8.0];
             [self.filterSlider setValue:3.0];
             
-            self.filter = [[LanSongKuwaharaFilter alloc] init];
+            self.selectedFilter = [[LanSongKuwaharaFilter alloc] init];
         }; break;
         case LanSong_KUWAHARARADIUS3:
         {
             self.title = @"Kuwahara (Radius 3)";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongKuwaharaRadius3Filter alloc] init];
+            self.selectedFilter = [[LanSongKuwaharaRadius3Filter alloc] init];
         }; break;
         case LanSong_VIGNETTE:
         {
@@ -1251,7 +1255,7 @@
             [self.filterSlider setMaximumValue:0.9];
             [self.filterSlider setValue:0.75];
             
-            self.filter = [[LanSongVignetteFilter alloc] init];
+            self.selectedFilter = [[LanSongVignetteFilter alloc] init];
         }; break;
         case LanSong_GAUSSIAN:
         {
@@ -1262,7 +1266,7 @@
             [self.filterSlider setMaximumValue:24.0];
             [self.filterSlider setValue:2.0];
             
-            self.filter = [[LanSongGaussianBlurFilter alloc] init];
+            self.selectedFilter = [[LanSongGaussianBlurFilter alloc] init];
         }; break;
         case LanSong_BOXBLUR:
         {
@@ -1273,14 +1277,14 @@
             [self.filterSlider setMaximumValue:24.0];
             [self.filterSlider setValue:2.0];
             
-            self.filter = [[LanSongBoxBlurFilter alloc] init];
+            self.selectedFilter = [[LanSongBoxBlurFilter alloc] init];
         }; break;
         case LanSong_MEDIAN:
         {
             self.title = @"Median";
             self.filterSlider.hidden = YES;
             
-            self.filter = [[LanSongMedianFilter alloc] init];
+            self.selectedFilter = [[LanSongMedianFilter alloc] init];
         }; break;
         case LanSong_MOTIONBLUR:
         {
@@ -1291,7 +1295,7 @@
             [self.filterSlider setMaximumValue:180.0f];
             [self.filterSlider setValue:0.0];
             
-            self.filter = [[LanSongMotionBlurFilter alloc] init];
+            self.selectedFilter = [[LanSongMotionBlurFilter alloc] init];
         }; break;
         case LanSong_ZOOMBLUR:
         {
@@ -1302,9 +1306,9 @@
             [self.filterSlider setMaximumValue:2.5f];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongZoomBlurFilter alloc] init];
+            self.selectedFilter = [[LanSongZoomBlurFilter alloc] init];
         }; break;
-       case LanSong_GAUSSIAN_SELECTIVE:
+        case LanSong_GAUSSIAN_SELECTIVE:
         {
             self.title = @"Selective Blur";
             self.filterSlider.hidden = NO;
@@ -1313,8 +1317,8 @@
             [self.filterSlider setMaximumValue:.75f];
             [self.filterSlider setValue:40.0/320.0];
             
-            self.filter = [[LanSongGaussianSelectiveBlurFilter alloc] init];
-            [(LanSongGaussianSelectiveBlurFilter*)self.filter setExcludeCircleRadius:40.0/320.0];
+            self.selectedFilter = [[LanSongGaussianSelectiveBlurFilter alloc] init];
+            [(LanSongGaussianSelectiveBlurFilter*)self.selectedFilter  setExcludeCircleRadius:40.0/320.0];
         }; break;
         case LanSong_GAUSSIAN_POSITION:
         {
@@ -1325,8 +1329,8 @@
             [self.filterSlider setMaximumValue:.75f];
             [self.filterSlider setValue:40.0/320.0];
             
-            self.filter = [[LanSongGaussianBlurPositionFilter alloc] init];
-            [(LanSongGaussianBlurPositionFilter*)self.filter setBlurRadius:40.0/320.0];
+            self.selectedFilter = [[LanSongGaussianBlurPositionFilter alloc] init];
+            [(LanSongGaussianBlurPositionFilter*)self.selectedFilter  setBlurRadius:40.0/320.0];
         }; break;
         case LanSong_BILATERAL:
         {
@@ -1337,7 +1341,7 @@
             [self.filterSlider setMaximumValue:10.0];
             [self.filterSlider setValue:1.0];
             
-            self.filter = [[LanSongBilateralFilter alloc] init];
+            self.selectedFilter = [[LanSongBilateralFilter alloc] init];
         }; break;
         case LanSong_FILTERGROUP:
         {
@@ -1348,38 +1352,40 @@
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:0.3];
             
-            self.filter = [[LanSongFilterGroup alloc] init];
+            self.selectedFilter = [[LanSongFilterGroup alloc] init];
             
             LanSongSepiaFilter *sepiaFilter = [[LanSongSepiaFilter alloc] init];
-            [(LanSongFilterGroup *)self.filter addFilter:sepiaFilter];
+            [(LanSongFilterGroup *)self.selectedFilter  addFilter:sepiaFilter];
             
             LanSongPixellateFilter *pixellateFilter = [[LanSongPixellateFilter alloc] init];
-            [(LanSongFilterGroup *)self.filter addFilter:pixellateFilter];
+            [(LanSongFilterGroup *)self.selectedFilter  addFilter:pixellateFilter];
             
             [sepiaFilter addTarget:pixellateFilter];
-            [(LanSongFilterGroup *)self.filter setInitialFilters:[NSArray arrayWithObject:sepiaFilter]];
-            [(LanSongFilterGroup *)self.filter setTerminalFilter:pixellateFilter];
-        }; break;
-        default: self.filter = [[LanSongSepiaFilter alloc] init]; break;
+            [(LanSongFilterGroup *)self.selectedFilter  setInitialFilters:[NSArray arrayWithObject:sepiaFilter]];
+            [(LanSongFilterGroup *)self.selectedFilter  setTerminalFilter:pixellateFilter];
+        };
+            break;
+        default:
+            break;
     }
-        //对上面的的补充.
-        if (needsSecondImage)
-        {
-            UIImage *inputImage;
-            
-//            if (filterType == LanSong_MASK)
-//            {
-//                inputImage = [UIImage imageNamed:@"mask"];
-//            }
-//            else {
-                inputImage = [UIImage imageNamed:@"WID-small.jpg"];
-//            }
-            sourcePicture = [[LanSongPicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
-        }
+    //对上面的的补充.
+    if (needsSecondImage)
+    {
+        UIImage *inputImage;
+        
+        //            if (filterType == LanSong_MASK)
+        //            {
+        //                inputImage = [UIImage imageNamed:@"mask"];
+        //            }
+        //            else {
+        inputImage = [UIImage imageNamed:@"WID-small.jpg"];
+        //            }
+        sourcePicture = [[LanSongPicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+    }
 }
-     
-/**
 
+/**
+ 
  当slider滑动时调用这里,更改相关效果.
  */
 - (void)updateFilterFromSlider:(UISlider *)sender;
@@ -1388,135 +1394,136 @@
     switch(filterType)
     {
         case LanSong_BEAUTY:
-              [(LanSongBeautyFilter *)self.filter setBeautyLevel:value];
+            [(LanSongBeautyFilter *)self.selectedFilter  setBeautyLevel:value];
             break;
         case LanSong_SEPIA:
-            [(LanSongSepiaFilter *)self.filter setIntensity:value];
+            [(LanSongSepiaFilter *)self.selectedFilter  setIntensity:value];
             break;
         case LanSong_PIXELLATE:
-            [(LanSongPixellateFilter *)self.filter setFractionalWidthOfAPixel:value];
+            [(LanSongPixellateFilter *)self.selectedFilter  setFractionalWidthOfAPixel:value];
             break;
         case LanSong_POLARPIXELLATE:
-            [(LanSongPolarPixellateFilter *)self.filter setPixelSize:CGSizeMake(value,value)];
+            [(LanSongPolarPixellateFilter *)self.selectedFilter  setPixelSize:CGSizeMake(value,value)];
             break;
         case LanSong_PIXELLATE_POSITION:
-            [(LanSongPixellatePositionFilter *)self.filter setRadius:value];
+            [(LanSongPixellatePositionFilter *)self.selectedFilter  setRadius:value];
             break;
         case LanSong_POLKADOT:
-            [(LanSongPolkaDotFilter *)self.filter setFractionalWidthOfAPixel:value];
+            [(LanSongPolkaDotFilter *)self.selectedFilter  setFractionalWidthOfAPixel:value];
             break;
         case LanSong_HALFTONE:
-            [(LanSongHalftoneFilter *)self.filter setFractionalWidthOfAPixel:value];
+            [(LanSongHalftoneFilter *)self.selectedFilter  setFractionalWidthOfAPixel:value];
             break;
         case LanSong_SATURATION:
-            [(LanSongSaturationFilter *)self.filter setSaturation:value];
+            [(LanSongSaturationFilter *)self.selectedFilter  setSaturation:value];
             break;
         case LanSong_CONTRAST:
-            [(LanSongContrastFilter *)self.filter setContrast:value];
+            [(LanSongContrastFilter *)self.selectedFilter  setContrast:value];
             break;
         case LanSong_BRIGHTNESS:
-            [(LanSongBrightnessFilter *)self.filter setBrightness:value];
+            [(LanSongBrightnessFilter *)self.selectedFilter  setBrightness:value];
             break;
         case LanSong_LEVELS: {
-            [(LanSongLevelsFilter *)self.filter setRedMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
-            [(LanSongLevelsFilter *)self.filter setGreenMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
-            [(LanSongLevelsFilter *)self.filter setBlueMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.selectedFilter  setRedMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.selectedFilter  setGreenMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
+            [(LanSongLevelsFilter *)self.selectedFilter  setBlueMin:value gamma:1.0 max:1.0 minOut:0.0 maxOut:1.0];
         }; break;
         case LanSong_EXPOSURE:
-            [(LanSongExposureFilter *)self.filter setExposure:value];
+            [(LanSongExposureFilter *)self.selectedFilter  setExposure:value];
             break;
         case LanSong_MONOCHROME:
-            [(LanSongMonochromeFilter *)self.filter setIntensity:value];
+            [(LanSongMonochromeFilter *)self.selectedFilter  setIntensity:value];
             break;
         case LanSong_HUE:
-            [(LanSongHueFilter *)self.filter setHue:value];
+            [(LanSongHueFilter *)self.selectedFilter  setHue:value];
             break;
         case LanSong_WHITEBALANCE:
-            [(LanSongWhiteBalanceFilter *)self.filter setTemperature:value];
+            [(LanSongWhiteBalanceFilter *)self.selectedFilter  setTemperature:value];
             break;
         case LanSong_SHARPEN:
-            [(LanSongSharpenFilter *)self.filter setSharpness:value];
+            [(LanSongSharpenFilter *)self.selectedFilter  setSharpness:value];
             break;
         case LanSong_HISTOGRAM:
-            [(LanSongHistogramFilter *)self.filter setDownsamplingFactor:round(value)];
+            [(LanSongHistogramFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_HISTOGRAM_EQUALIZATION:
-            [(LanSongHistogramEqualizationFilter *)self.filter setDownsamplingFactor:round(value)];
+            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
+            [(LanSongHistogramEqualizationFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_UNSHARPMASK:
-            [(LanSongUnsharpMaskFilter *)self.filter setIntensity:value];
+            [(LanSongUnsharpMaskFilter *)self.selectedFilter  setIntensity:value];
             break;
         case LanSong_GAMMA:
-            [(LanSongGammaFilter *)self.filter setGamma:value];
+            [(LanSongGammaFilter *)self.selectedFilter  setGamma:value];
             break;
         case LanSong_CROSSHATCH:
-            [(LanSongCrosshatchFilter *)self.filter setCrossHatchSpacing:value];
+            [(LanSongCrosshatchFilter *)self.selectedFilter  setCrossHatchSpacing:value];
             break;
         case LanSong_POSTERIZE:
-            [(LanSongPosterizeFilter *)self.filter setColorLevels:round(value)];
+            [(LanSongPosterizeFilter *)self.selectedFilter  setColorLevels:round(value)];
             break;
         case LanSong_HAZE:
-            [(LanSongHazeFilter *)self.filter setDistance:value];
+            [(LanSongHazeFilter *)self.selectedFilter  setDistance:value];
             break;
         case LanSong_SOBELEDGEDETECTION:
-            [(LanSongSobelEdgeDetectionFilter *)self.filter setEdgeStrength:value];
+            [(LanSongSobelEdgeDetectionFilter *)self.selectedFilter  setEdgeStrength:value];
             break;
         case LanSong_PREWITTEDGEDETECTION:
-            [(LanSongPrewittEdgeDetectionFilter *)self.filter setEdgeStrength:value];
+            [(LanSongPrewittEdgeDetectionFilter *)self.selectedFilter  setEdgeStrength:value];
             break;
         case LanSong_SKETCH:
-            [(LanSongSketchFilter *)self.filter setEdgeStrength:value];
+            [(LanSongSketchFilter *)self.selectedFilter  setEdgeStrength:value];
             break;
         case LanSong_THRESHOLD:
-            [(LanSongLuminanceThresholdFilter *)self.filter setThreshold:value];
+            [(LanSongLuminanceThresholdFilter *)self.selectedFilter  setThreshold:value];
             break;
         case LanSong_ADAPTIVETHRESHOLD:
-            [(LanSongAdaptiveThresholdFilter *)self.filter setBlurRadiusInPixels:value];
+            [(LanSongAdaptiveThresholdFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_AVERAGELUMINANCETHRESHOLD:
-            [(LanSongAverageLuminanceThresholdFilter *)self.filter setThresholdMultiplier:value];
+            [(LanSongAverageLuminanceThresholdFilter *)self.selectedFilter  setThresholdMultiplier:value];
             break;
         case LanSong_DISSOLVE:
-            [(LanSongDissolveBlendFilter *)self.filter setMix:value];
+            [(LanSongDissolveBlendFilter *)self.selectedFilter  setMix:value];
             break;
         case LanSong_POISSONBLEND:
-            [(LanSongPoissonBlendFilter *)self.filter setMix:value];
+            [(LanSongPoissonBlendFilter *)self.selectedFilter  setMix:value];
             break;
         case LanSong_LOWPASS:
-            [(LanSongLowPassFilter *)self.filter setFilterStrength:value];
+            [(LanSongLowPassFilter *)self.selectedFilter  setFilterStrength:value];
             break;
         case LanSong_HIGHPASS:
-            [(LanSongHighPassFilter *)self.filter setFilterStrength:value];
+            [(LanSongHighPassFilter *)self.selectedFilter  setFilterStrength:value];
             break;
         case LanSong_CHROMAKEY:
-            [(LanSongChromaKeyBlendFilter *)self.filter setThresholdSensitivity:value];
+            [(LanSongChromaKeyBlendFilter *)self.selectedFilter  setThresholdSensitivity:value];
             break;
         case LanSong_KUWAHARA:
-            [(LanSongKuwaharaFilter *)self.filter setRadius:round(value)];
+            [(LanSongKuwaharaFilter *)self.selectedFilter  setRadius:round(value)];
             break;
         case LanSong_SWIRL:
-            [(LanSongSwirlFilter *)self.filter setAngle:value];
+            [(LanSongSwirlFilter *)self.selectedFilter  setAngle:value];
             break;
         case LanSong_EMBOSS:
-            [(LanSongEmbossFilter *)self.filter setIntensity:value];
+            [(LanSongEmbossFilter *)self.selectedFilter  setIntensity:value];
             break;
         case LanSong_CANNYEDGEDETECTION:
-            [(LanSongCannyEdgeDetectionFilter *)self.filter setBlurTexelSpacingMultiplier:value];
+            [(LanSongCannyEdgeDetectionFilter *)self.selectedFilter  setBlurTexelSpacingMultiplier:value];
             break;
         case LanSong_THRESHOLDEDGEDETECTION:
-            [(LanSongThresholdEdgeDetectionFilter *)self.filter setThreshold:value];
+            [(LanSongThresholdEdgeDetectionFilter *)self.selectedFilter  setThreshold:value];
             break;
         case LanSong_SMOOTHTOON:
-            [(LanSongSmoothToonFilter *)self.filter setBlurRadiusInPixels:value];
+            [(LanSongSmoothToonFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_THRESHOLDSKETCH:
-            [(LanSongThresholdSketchFilter *)self.filter setThreshold:value];
+            [(LanSongThresholdSketchFilter *)self.selectedFilter  setThreshold:value];
             break;
         case LanSong_BULGE:
-            [(LanSongBulgeDistortionFilter *)self.filter setScale:value];
+            [(LanSongBulgeDistortionFilter *)self.selectedFilter  setScale:value];
             break;
         case LanSong_TONECURVE:
-            [(LanSongToneCurveFilter *)self.filter setBlueControlPoints:
+            [(LanSongToneCurveFilter *)self.selectedFilter  setBlueControlPoints:
              [NSArray arrayWithObjects:
               [NSValue valueWithCGPoint:CGPointMake(0.0, 0.0)],
               [NSValue valueWithCGPoint:CGPointMake(0.5, value)],
@@ -1525,49 +1532,49 @@
              ];
             break;
         case LanSong_HIGHLIGHTSHADOW:
-            [(LanSongHighlightShadowFilter *)self.filter setHighlights:value];
+            [(LanSongHighlightShadowFilter *)self.selectedFilter  setHighlights:value];
             break;
         case LanSong_PINCH:
-            [(LanSongPinchDistortionFilter *)self.filter setScale:value];
+            [(LanSongPinchDistortionFilter *)self.selectedFilter  setScale:value];
             break;
         case LanSong_PERLINNOISE:
-            [(LanSongPerlinNoiseFilter *)self.filter setScale:value];
+            [(LanSongPerlinNoiseFilter *)self.selectedFilter  setScale:value];
             break;
         case LanSong_MOSAIC:
-            [(LanSongMosaicFilter *)self.filter setDisplayTileSize:CGSizeMake(value,value)];
+            [(LanSongMosaicFilter *)self.selectedFilter  setDisplayTileSize:CGSizeMake(value,value)];
             break;
         case LanSong_VIGNETTE:
-            [(LanSongVignetteFilter *)self.filter setVignetteEnd:value];
+            [(LanSongVignetteFilter *)self.selectedFilter  setVignetteEnd:value];
             break;
         case LanSong_BOXBLUR:
-            [(LanSongBoxBlurFilter *)self.filter setBlurRadiusInPixels:value];
+            [(LanSongBoxBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_GAUSSIAN:
-            [(LanSongGaussianBlurFilter *)self.filter setBlurRadiusInPixels:value];
+            [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
             
             //        case LanSong_GAUSSIAN:
-            //            [(LanSongGaussianBlurFilter *)self.filter setBlurPasses:round(value)];
+            //            [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurPasses:round(value)];
             //            break;
-            //        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.filter setBlurSize:value];
+            //        case LanSong_BILATERAL: [(LanSongBilateralFilter *)self.selectedFilter  setBlurSize:value];
             //            break;
             //        case LanSong_BILATERAL:
-            //            [(LanSongBilateralFilter *)self.filter setDistanceNormalizationFactor:[(UISlider*)sender value]];
+            //            [(LanSongBilateralFilter *)self.selectedFilter  setDistanceNormalizationFactor:[(UISlider*)sender value]];
             //            break;
         case LanSong_MOTIONBLUR:
-            [(LanSongMotionBlurFilter *)self.filter setBlurAngle:value];
+            [(LanSongMotionBlurFilter *)self.selectedFilter  setBlurAngle:value];
             break;
         case LanSong_ZOOMBLUR:
-            [(LanSongZoomBlurFilter *)self.filter setBlurSize:value];
+            [(LanSongZoomBlurFilter *)self.selectedFilter  setBlurSize:value];
             break;
         case LanSong_GAUSSIAN_SELECTIVE:
-            [(LanSongGaussianSelectiveBlurFilter *)self.filter setExcludeCircleRadius:value];
+            [(LanSongGaussianSelectiveBlurFilter *)self.selectedFilter  setExcludeCircleRadius:value];
             break;
         case LanSong_GAUSSIAN_POSITION:
-            [(LanSongGaussianBlurPositionFilter *)self.filter setBlurRadius:value];
+            [(LanSongGaussianBlurPositionFilter *)self.selectedFilter  setBlurRadius:value];
             break;
         case LanSong_FILTERGROUP:
-            [(LanSongPixellateFilter *)[(LanSongFilterGroup *)self.filter filterAtIndex:1] setFractionalWidthOfAPixel:value];
+            [(LanSongPixellateFilter *)[(LanSongFilterGroup *)self.selectedFilter  filterAtIndex:1] setFractionalWidthOfAPixel:value];
             break;
         case LanSong_TRANSFORM3D:
         {
@@ -1577,31 +1584,31 @@
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
             perspectiveTransform = CATransform3DRotate(perspectiveTransform, value, 0.0, 1.0, 0.0);
             
-            [(LanSongTransformFilter *)self.filter setTransform3D:perspectiveTransform];
+            [(LanSongTransformFilter *)self.selectedFilter  setTransform3D:perspectiveTransform];
         }; break;
         case LanSong_TILTSHIFT:
         {
             CGFloat midpoint = value;
-            [(LanSongTiltShiftFilter *)self.filter setTopFocusLevel:midpoint - 0.1];
-            [(LanSongTiltShiftFilter *)self.filter setBottomFocusLevel:midpoint + 0.1];
+            [(LanSongTiltShiftFilter *)self.selectedFilter  setTopFocusLevel:midpoint - 0.1];
+            [(LanSongTiltShiftFilter *)self.selectedFilter  setBottomFocusLevel:midpoint + 0.1];
         };
             break;
         case LanSong_LOCALBINARYPATTERN:
         {
             CGFloat multiplier = value;
-            [(LanSongLocalBinaryPatternFilter *)self.filter setTexelWidth:(multiplier / self.view.bounds.size.width)];
-            [(LanSongLocalBinaryPatternFilter *)self.filter setTexelHeight:(multiplier / self.view.bounds.size.height)];
+            [(LanSongLocalBinaryPatternFilter *)self.selectedFilter  setTexelWidth:(multiplier / self.view.bounds.size.width)];
+            [(LanSongLocalBinaryPatternFilter *)self.selectedFilter  setTexelHeight:(multiplier / self.view.bounds.size.height)];
         };
             break;
         default: break;
     }
-
+    
 }
 -(void)dealloc
 {
     _filterPen=nil;
-    _filter=nil;
-//    NSLog(@"Filter TypeList dealloc");
+    _selectedFilter=nil;
+    //    NSLog(@"Filter TypeList dealloc");
 }
 
 @end

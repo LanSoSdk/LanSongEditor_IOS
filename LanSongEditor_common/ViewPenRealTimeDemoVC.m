@@ -18,7 +18,8 @@
     
     NSString *dstPath;
     NSString *dstTmpPath;
-    NSURL *sampleURL;
+    
+    EditFileBox *srcFile;
     Pen *operationPen;  //当前操作的图层
     
     
@@ -46,6 +47,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     
+    srcFile=[AppDelegate getInstance].currentEditBox;
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     if ([SDKFileUtil fileExist:dstPath]) {
@@ -78,8 +80,7 @@
             
             
             //增加一个主视频图层
-            sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-            operationPen=[drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:nil];
+            operationPen=[drawpad addMainVideoPen:srcFile.srcVideoPath filter:nil];
     
     
             // 增加一个UI图层, 把这个UI容器的位置和大小和容器对齐.
@@ -138,6 +139,7 @@
     operationPen.scaleWidth=0.5f;
     operationPen.scaleHeight=0.5f;
     
+
     
     //----一下是ui操作.
     _labProgress=[[UILabel alloc] init];
@@ -161,51 +163,11 @@
         make.centerX.mas_equalTo(filterView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(size.width, 200));
     }];
-    
-
-    
-
 }
 
 -(void)stopDrawpad
 {
     [drawpad stopDrawPad];
-}
-
-- (void)slideChanged:(UISlider*)sender
-{
-    
-    CGFloat val=[(UISlider *)sender value];
-    CGFloat pos2=drawpad.drawpadSize.width*val;
-    switch (sender.tag) {
-        case 101:  //weizhi
-            operationPen.positionX=pos2;
-            
-            //当宽度增加后, 也演示下高度的变化.
-            if (operationPen.positionX > drawpad.drawpadSize.width/2) {
-                
-                operationPen.positionY+=10;
-                if (operationPen.positionY>=drawpad.drawpadSize.height) {
-                    operationPen.positionY=0;
-                }
-            }
-            break;
-        case 102:  //scale
-            if (operationPen!=nil) {
-                operationPen.scaleHeight=val;
-                operationPen.scaleWidth=val;
-            }
-            break;
-            
-        case 103:  //rotate;
-            if (operationPen!=nil) {
-                operationPen.rotateDegree=val;
-            }
-            break;
-            
-        default:
-            break;
-    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -217,23 +179,20 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)dealloc
 {
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    if([SDKFileUtil fileExist:dstTmpPath]){
-        [SDKFileUtil deleteFile:dstTmpPath];
-    }
+    
+    [SDKFileUtil deleteFile:dstPath];
+    
+    [SDKFileUtil deleteFile:dstTmpPath];
     NSLog(@"ViewPenRealTimeDemo. dealloc");
 }
 -(void)addAudio
 {
     if ([SDKFileUtil fileExist:dstTmpPath]) {
-        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:sampleURL] newMp4:dstTmpPath dstFile:dstPath];
+        [VideoEditor drawPadAddAudio:srcFile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
     }else{
         dstPath=dstTmpPath;
     }

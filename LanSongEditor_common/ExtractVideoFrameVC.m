@@ -13,7 +13,8 @@
 @interface ExtractVideoFrameVC ()
 {
     UILabel *labProgresse;
-    NSURL *videoURL;
+ 
+    EditFileBox *srcFile;
     ExtractVideoFrame *extractFrame;
     int  frameCnt;
     CFAbsoluteTime startTime; //记录开始时间.
@@ -33,8 +34,9 @@
 
 -(void)startExecute
 {
-    videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    extractFrame=[[ExtractVideoFrame alloc] initWithPath:[SDKFileUtil urlToFileString:videoURL]];
+    srcFile=[AppDelegate getInstance].currentEditBox;
+    
+    extractFrame=[[ExtractVideoFrame alloc] initWithPath:srcFile.srcVideoPath];
     if(extractFrame!=nil)
     {
         __weak typeof(self) weakSelf = self;
@@ -66,6 +68,8 @@
         frameCnt=0;
         [extractFrame start];  //内部会开启一个线程去提取.
         //[extractFrame startWithSeek:CMTimeMake(2, 1)];  //您可以指定开始时间, 比如从2秒开始;
+    }else{
+        NSLog(@"创建提取帧对象失败...");
     }
 }
 

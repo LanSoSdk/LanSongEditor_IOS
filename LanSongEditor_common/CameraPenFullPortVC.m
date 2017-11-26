@@ -29,6 +29,7 @@
     
     UISlider *filterSlider;
     DrawPadCamera *camDrawPad;
+    CameraPen  *cameraPen;
     DrawPadView *filterView;
     BOOL isPaused;
 }
@@ -55,9 +56,9 @@
     
 
     //增加一个图片图层,放到中间靠右侧.
-//    UIImage *image=[UIImage imageNamed:@"small"];
-//    BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
-//    bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
+    UIImage *image=[UIImage imageNamed:@"small"];
+    BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
+    bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     
     /*
      step3:第三步: 开始预览
@@ -68,11 +69,12 @@
     __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"progressBlock is:%f", currentPts);
+//            NSLog(@"progressBlock is:%f", currentPts);
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
         });
     }];
     
+    cameraPen=camDrawPad.cameraPen;
     //初始化其他UI界面.
     [self initView];
     
@@ -89,12 +91,21 @@
             [self.navigationController pushViewController:filterListVC animated:YES];
             break;
         case  102:  //btnStart;
-            dstPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
-            [camDrawPad startRecordWithPath:dstPath];
+            if(camDrawPad.isRecording==NO){
+                dstPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
+                [camDrawPad startRecordWithPath:dstPath];
+            }
             break;
         case  103:  //btnOK;
-            [camDrawPad stopRecord];
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            if(camDrawPad.isRecording){
+                [camDrawPad stopRecord];
+                [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            }
+            break;
+        case  104:  //btnSelect;
+            if(cameraPen!=nil){
+                [cameraPen rotateCamera];
+            }
             break;
         default:
             break;
@@ -173,56 +184,64 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    UISlider *slide=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节 "];
+    filterSlider=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节 "];
     
     UIButton *btnFilter=[[UIButton alloc] init];
     [btnFilter setTitle:@"滤镜" forState:UIControlStateNormal];
     [btnFilter setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnFilter.backgroundColor=[UIColor whiteColor];
+//    btnFilter.backgroundColor=[UIColor whiteColor];
     btnFilter.tag=101;
     
     
     UIButton *btnStart=[[UIButton alloc] init];
     [btnStart setTitle:@"开始" forState:UIControlStateNormal];
     [btnStart setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnStart.backgroundColor=[UIColor whiteColor];
     btnStart.tag=102;
-    
     
     UIButton *btnOK=[[UIButton alloc] init];
     [btnOK setTitle:@"停止" forState:UIControlStateNormal];
-    [btnOK setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    btnOK.backgroundColor=[UIColor whiteColor];
+    [btnOK setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btnOK setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     btnOK.tag=103;
     
+    UIButton *btnSelect=[[UIButton alloc] init];
+    [btnSelect setTitle:@"前置" forState:UIControlStateNormal];
+    [btnSelect setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnSelect.tag=104;
     
     [btnStart addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnOK addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnFilter addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [btnSelect addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self.view addSubview:btnFilter];
     [self.view addSubview:btnStart];
     [self.view addSubview:btnOK];
+    [self.view addSubview:btnSelect];
     
-    
-    
+    CGFloat btnWH=50;
     [btnStart mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
         make.left.mas_equalTo(filterView.mas_left).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
     }];
     [btnOK mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
         make.left.mas_equalTo(btnStart.mas_right).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
     }];
     
     [btnFilter mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(padding);
+        make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
         make.left.mas_equalTo(btnOK.mas_right).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+    }];
+    
+    [btnSelect mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
+        make.left.mas_equalTo(btnFilter.mas_right).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
     }];
 }
 /**

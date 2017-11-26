@@ -52,6 +52,11 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 @property(nonatomic, copy) void(^onProgressBlock)(CGFloat);
 
+
+//[LanSongContext sharedImageProcessingContext] context] 获取当前drawpad中的context;
+@property(nonatomic, copy) void(^onBeforeDrawPenBlock)(CGFloat);
+@property(nonatomic, copy) void(^onAfterDrawPenBlock)(CGFloat);
+
 /**
  *  drawPad的高度和宽度.注意:这里是像素值, 不是屏幕点,如果您使用, 要根据layer.contentScale来得到屏幕点.
  */
@@ -184,6 +189,8 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 -(BOOL)startDrawPad;
 /**
  *  停止工作
+ 注意: 调用stopDrawPad 不会返回CompletedCallBack的回调, 
+ 因为不确定你是返回, 还是希望的时间到而停止的.请注意.
  */
 -(void)stopDrawPad;
 

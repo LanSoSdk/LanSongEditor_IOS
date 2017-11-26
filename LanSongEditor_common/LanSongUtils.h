@@ -10,10 +10,13 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "AppDelegate.h"
 
 //包含我们所有的库头文件
 #import <LanSongEditorFramework/LanSongEditor.h>
 
+
+#import "EditFileBox.h"
 
 //接下来3个demo UI部分使用, 您可以直接删除.
 #import "MBProgressHUD.h"
@@ -52,6 +55,8 @@
 
 
 @interface LanSongUtils : NSObject
+
++(void)showDialog:(NSString *)str;
 
 +(void) showHUDToast:(NSString *)strHint;
 

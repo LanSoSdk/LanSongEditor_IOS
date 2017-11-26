@@ -191,7 +191,7 @@
         if(totalDuration>=path.duration){
             totalDuration-=path.duration;
         }
-        [_progressBar deleteLastSegment];//删除对应的界面.
+         [_progressBar deleteLastSegment];//删除对应的界面.
     }
     if (segmentArray.count > 0) {
         [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
@@ -200,7 +200,7 @@
     }
 }
 /**
- 结束分段录制,
+ 结束分段录制, 
  
  拼接在一起然后播放;
  */
@@ -272,7 +272,7 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchPoint = [touch locationInView:_recordButton.superview];
-    
+
     if (CGRectContainsPoint(_recordButton.frame, touchPoint)) {
         [self startSegment];
     }
@@ -284,7 +284,7 @@
 }
 - (void)initView
 {
-    nvheight=    self.navigationController.navigationBar.frame.size.height;
+      nvheight=    self.navigationController.navigationBar.frame.size.height;
     self.progressBar = [SegmentRecordProgressView getInstance];
     self.progressBar.maxDuration=MAX_VIDEO_DURATION;
     

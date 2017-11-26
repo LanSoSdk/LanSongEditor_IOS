@@ -37,13 +37,16 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/Mp3ToAAC.h>
 #import <LanSongEditorFramework/ExtractVideoFrame.h>
 #import <LanSongEditorFramework/ScaleExecute.h>
+#import <LanSongEditorFramework/LanSongAudioRecorder.h>
+#import <LanSongEditorFramework/LanSongTESTVC.h>
+#import <LanSongEditorFramework/BitmapPadExecute.h>
+#import <LanSongEditorFramework/LanSongDebug.h>
+
 
 @interface LanSongEditor : NSObject
 
 /**
   获取当前sdk的限制时间中的年份.
-
- @return <#return value description#>
  */
 +(int)getLimitedYear;
 

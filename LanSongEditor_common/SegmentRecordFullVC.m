@@ -25,7 +25,6 @@
     [self.view addSubview:fullView];
     
     [fullView setNav:self.navigationController];
-    
 }
 
 - (void)didReceiveMemoryWarning {

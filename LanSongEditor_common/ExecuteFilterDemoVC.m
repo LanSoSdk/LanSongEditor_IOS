@@ -27,9 +27,9 @@
     UIButton *btnPlay;
     
     DrawPadExecute *drawPad; //后台录制的容器.
+    EditFileBox *srcFile;
     NSString *dstTmpPath;
     NSString *dstPath;
-    NSURL *videoURL;
     YXLabel *label;
 }
 @end
@@ -38,28 +38,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self initUI];
 }
-
-
 -(void)startExecute
 {
     dstTmpPath = [SDKFileUtil genTmpMp4Path];
     dstPath=[SDKFileUtil genTmpMp4Path];
     
     
-    //step1: 设置容器
+    //step1: 设置容器大小为480x480, 或者您可以设置为原尺寸大小.
     drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 dstPath:dstTmpPath];
     
     
     //step2: 增加一个视频图层,并给图层增加滤镜.
     LanSongFilter *filter= (LanSongFilter *)[[LanSongSepiaFilter alloc] init];
     
-    [drawPad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:filter];
+    srcFile=[AppDelegate getInstance].currentEditBox;
+    
+    [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
     
     //设置进度
     __weak typeof(self) weakSelf = self;
@@ -92,11 +89,29 @@
     //增加一个CALayer;
     [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
     
+    [self addBitmapLayer];
     
     //step3: 开始执行
     if([drawPad startDrawPad]==NO)
     {
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    }
+}
+-(void)addBitmapLayer
+{
+    if(drawPad!=nil){
+        UIImage *image=[UIImage imageNamed:@"mm"];
+        BitmapPen *pen=[drawPad addBitmapPen:image];
+
+        //放到右上角.(图层的xy,是中心点的位置)
+        pen.positionX=pen.drawPadSize.width-pen.penSize.width/2;
+        pen.positionY=pen.penSize.height/2;
+        
+       
+        pen.scaleWidth=0.5f;
+        pen.scaleHeight=0.5f;
+ 
+        NSLog(@"增加一个 图片图层...");
     }
 }
 -(void) showProgress:(CGFloat) sampleTime
@@ -107,11 +122,12 @@
 -(void)addAudio
 {
     if ([SDKFileUtil fileExist:dstTmpPath]) {
-        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:videoURL] newMp4:dstTmpPath dstFile:dstPath];
+        [VideoEditor drawPadAddAudio:srcFile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
     }else{
         dstPath=dstTmpPath;
     }
 }
+
 -(void)showComplete
 {
     labProgresse.text=@"处理完毕";
@@ -124,16 +140,8 @@
 -(void)doButtonClicked:(UIView *)sender
 {
     switch (sender.tag) {
-            
         case 100 :
-            videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-            
-            if([SDKFileUtil fileExist:[SDKFileUtil urlToFileString:videoURL]])
-            {
                 [self startExecute];
-            }else{
-                [LanSongUtils showHUDToast:@"当前文件不存在"];
-            }
             break;
         case  101:
             [self startVideoPlayerVC];

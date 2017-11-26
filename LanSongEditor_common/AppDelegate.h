@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+#import "EditFileBox.h"
+
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -25,12 +28,13 @@
 
 
 
+
 /**
- 默认的输入源的路径.
- 在第一个界面,用户选择或默认.在其他界面处理.
+ 当前正在编辑的视频.
  */
-@property NSString *srcVideoPath;
+@property EditFileBox *currentEditBox;
 
 +(AppDelegate *)getInstance;
+
 @end
 

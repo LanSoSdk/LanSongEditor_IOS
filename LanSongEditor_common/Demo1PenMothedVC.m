@@ -15,7 +15,8 @@
 {
     DrawPadPreview *drawpad;
     
-    NSURL *sampleURL;
+    EditFileBox *srcfile;
+    
     NSString *dstPath;
     NSString *dstTmpPath;
     
@@ -31,6 +32,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     
+    srcfile=[AppDelegate getInstance].currentEditBox;
     
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
@@ -39,22 +41,6 @@
     
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
-    
-//    CGFloat     drawPadWidth=1280;  //OK
-//    CGFloat     drawPadHeight=720;
-
-//    CGFloat     drawPadWidth=720;  //OK
-//    CGFloat     drawPadHeight=1280;
-    
-//    CGFloat     drawPadWidth=560; //OK
-//    CGFloat     drawPadHeight=992;
-    
-//    CGFloat     drawPadWidth=544;  //OK
-//    CGFloat     drawPadHeight=960;
-    
-//    CGFloat     drawPadWidth=960;  //OK
-//    CGFloat     drawPadHeight=544;
-    
     
     
     int    drawPadBitRate=1000*1000;
@@ -84,9 +70,8 @@
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
     //增加一个视频图层.
-    sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
     LanSongSepiaFilter  *filter=[[LanSongSepiaFilter alloc] init];
-    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:sampleURL] filter:filter];
+    operationPen=  [drawpad addMainVideoPen:srcfile.srcVideoPath filter:filter];
     
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
@@ -103,7 +88,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf addAudio];
             [weakSelf showIsPlayDialog];
-            
         });
     }];
     
@@ -115,8 +99,11 @@
     
     
     //把视频缩小一半,放在背景图上.
-    operationPen.scaleWidth=0.5f;
-    operationPen.scaleHeight=0.5f;
+//    operationPen.scaleWidth=0.5f;
+//    operationPen.scaleHeight=0.5f;
+    
+   
+    
     
     //-------------以下是ui操作-----------------------
     _labProgress=[[UILabel alloc] init];
@@ -136,7 +123,6 @@
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
     
 }
-
 - (void)slideChanged:(UISlider*)sender
 {
     CGFloat val=[(UISlider *)sender value];
@@ -221,7 +207,7 @@
 -(void)addAudio
 {
     if ([SDKFileUtil fileExist:dstTmpPath]) {
-        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:sampleURL] newMp4:dstTmpPath dstFile:dstPath];
+        [VideoEditor drawPadAddAudio:srcfile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
     }else{
         dstPath=dstTmpPath;
     }
@@ -250,12 +236,9 @@
 {
     operationPen=nil;
     drawpad=nil;
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    if([SDKFileUtil fileExist:dstTmpPath]){
-        [SDKFileUtil deleteFile:dstTmpPath];
-    }
+    
+    [SDKFileUtil deleteFile:dstPath];
+    [SDKFileUtil deleteFile:dstTmpPath];
     NSLog(@"VideoPictureRealTime VC  dealloc");
 }
 /*

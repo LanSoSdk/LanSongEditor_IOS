@@ -2,7 +2,7 @@
 #import <LanSongEditorFramework/LanSongEditor.h>
 /**
  增加美颜,无等滤镜
-  增加InstaFilter, 17个.
+ 增加InstaFilter, 17个.
  */
 typedef enum {
     LanSong_NULL,
@@ -25,9 +25,6 @@ typedef enum {
     LanSong_IFWalden,
     LanSong_IFXproII,
     LanSong_IFLordKelvin,
-    
-    
-    
     
     LanSong_SATURATION,
     LanSong_CONTRAST,
@@ -134,7 +131,11 @@ typedef enum {
 
 @property UISlider *filterSlider;
 
-@property LanSongOutput<LanSongInput> *filter;
+
+/**
+ 当前选中的滤镜
+ */
+@property LanSongOutput <LanSongInput> *selectedFilter;
 
 
 @property Pen *filterPen;

@@ -18,8 +18,8 @@
     NSString *dstPath;
     NSString *dstTmpPath;
     
+    EditFileBox *srcFile;
     Pen *operationPen;  //当前操作的图层
-    NSURL *videoURL;
     
 }
 @end
@@ -30,8 +30,9 @@
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
-    
     self.title=@"演示增加MV图层";
+    
+    srcFile=[AppDelegate getInstance].currentEditBox;
     
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
@@ -80,8 +81,7 @@
     [drawpad addCALayerPenWithLayer:mainLayer fromUI:NO];
     
     //增加一个视频图层.
-    videoURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    operationPen=  [drawpad addMainVideoPen:[SDKFileUtil urlToFileString:videoURL] filter:nil];
+    operationPen=  [drawpad addMainVideoPen:srcFile.srcVideoPath filter:nil];
     
     
     //增加一个mv图层.
@@ -97,8 +97,6 @@
             
         });
     }];
-    
-    
     
     //设置完成后的回调
     [drawpad setOnCompletionBlock:^{
@@ -154,7 +152,7 @@
 -(void)addAudio
 {
     if ([SDKFileUtil fileExist:dstTmpPath]) {
-        [VideoEditor drawPadAddAudio:[SDKFileUtil urlToFileString:videoURL] newMp4:dstTmpPath dstFile:dstPath];
+        [VideoEditor drawPadAddAudio:srcFile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
     }else{
         dstPath=dstTmpPath;
     }

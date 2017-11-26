@@ -66,8 +66,27 @@
  */
 - (void)Mp3ToAacDelegateProgress:(Mp3ToAAC*)converter progress:(CGFloat)progress;
 
-/**
- 以下是举例代码:
+/*
+ 应用举例
+ -------------------------------------------------------------------------------------------------------------------------
+ {
+ NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+ NSString *srcPath=[[NSBundle mainBundle] pathForResource:@"niliuchenghe" ofType:@"mp3"];
  
+ Mp3ToAAC *audioConverter = [[Mp3ToAAC alloc] initWithDelegate:self
+ source:srcPath
+ destination:[[documentsFolders objectAtIndex:0] stringByAppendingPathComponent:@"mytest.m4a"]];
+ NSLog(@"开始转换.....");
+ [audioConverter start];
+ 
+ }
+ -(void)Mp3ToAacDelegateCompleted:(Mp3ToAAC*)convert;
+ {
+ NSLog(@"转换完成");
+ }
+ -(void)Mp3ToAacDelegateProgress:(Mp3ToAAC *)converter progress:(CGFloat)progress
+ {
+ NSLog(@"转换 进度是:%f",progress);
+ }
  */
 @end

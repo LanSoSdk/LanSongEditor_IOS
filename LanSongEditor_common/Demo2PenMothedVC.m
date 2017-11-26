@@ -69,6 +69,7 @@
     UIImage *image=[UIImage imageNamed:@"mm"];
     operationPen=[drawpad addBitmapPen:image];
     
+
     
     //设置进度回调.
     __weak typeof(self) weakSelf = self;
@@ -79,23 +80,13 @@
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             //在15秒的时候结束.
             if (currentPts>=8.0f) {
-                [weakSelf stopDrawPad];
+                [weakSelf completedDrawpad];
             }
 //            else if(currentPts>10.0f){  //可以用来演示在进度进行中,删除一个图层, 然后再增加一个图层.
 //                [weakSelf addBitmapPen];
 //            }else if(currentPts>5.0f){
 //                [weakSelf removeBitmapPen];
 //            }
-            
-        });
-    }];
-    
-    
-    //设置完成后的回调
-    [drawpad setOnCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf addAudio];
-            [weakSelf showIsPlayDialog];
             
         });
     }];
@@ -127,9 +118,15 @@
                         [self createSlide:currslide min:0.0f max:360.0f value:0 tag:103 labText:@"旋转:"];
 }
 
--(void)stopDrawPad
+-(void)completedDrawpad
 {
-    [drawpad stopDrawPad];
+    if(drawpad!=nil)
+    {
+        [drawpad stopDrawPad];
+        drawpad=nil;
+    }
+    [self addAudio];
+    [self showIsPlayDialog];
 }
 -(void)addBitmapPen
 {
@@ -258,16 +255,13 @@
 {
     if (drawpad!=nil) {
         [drawpad stopDrawPad];
+        drawpad=nil;
     }
 }
 -(void)dealloc
 {
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    if([SDKFileUtil fileExist:dstTmpPath]){
-        [SDKFileUtil deleteFile:dstTmpPath];
-    }
+    [SDKFileUtil deleteFile:dstPath];
+    [SDKFileUtil deleteFile:dstTmpPath];
 }
 /*
 #pragma mark - Navigation

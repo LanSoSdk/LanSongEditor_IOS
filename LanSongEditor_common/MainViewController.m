@@ -16,7 +16,7 @@
 
 #import "UIColor+Util.h"
 #import "Masonry.h"
-#import "FilterRealTimeDemoVC.h"
+#import "Demo3PenFilterVC.h"
 
 #import "ExecuteFilterDemoVC.h"
 #import "CommDemoListTableVC.h"
@@ -40,16 +40,15 @@
 #import "Demo2PenMothedVC.h"
 #import "ViewPenOnlyVC.h"
 
-
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
-#import "SimpleVideoFileFilterViewController.h"
+#import "BitmapPadVC.h"
 
 
 @interface MainViewController ()
 {
     UIView  *container;
-    NSString *videoPath; //当前要操作的文件.可能是选择的或默认的.
+    UILabel *labPath; // 视频路径.
 }
 @end
 
@@ -90,7 +89,6 @@
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
-
     /*
      初始化SDK
      */
@@ -101,24 +99,45 @@
      删除sdk中所有的临时文件.
      */
     [SDKFileUtil deleteAllSDKFiles];
-    
   
     [self initView];
-    [self testFile];
     
+    [self testFile];
 }
+
+/**
+ 点击后, 进去界面.
+ */
 -(void)onClicked:(UIView *)sender
 {
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
+    EditFileBox *box=nil;
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
-    NSString *directPath=[SDKFileUtil urlToFileString:sampleURL];  //用在直接播放
-
+    
+    NSLog(@"oncock----");
+    if([self needCheckBox:sender]){
+        //检查是否正常.
+        if([AppDelegate getInstance].currentEditBox==nil){
+            [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
+            return ;
+        }
+    }
     switch (sender.tag) {
+        case kUseDefaultVideo:
+            box=[[EditFileBox alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL]];
+            if(box!=nil){
+                labPath.text=@"使用默认视频";
+                [AppDelegate getInstance].currentEditBox=box;
+            }
+            sender.backgroundColor=[UIColor greenColor];
+            break;
+        case kSelectVideo:
+            [self pickVideo];
+            sender.backgroundColor=[UIColor yellowColor];
+            break;
         case kSegmentRecordSquare:
-//            pushVC=[[ViewPenOnlyVC alloc] init];
             pushVC =[[CameraPenDemoVC alloc] init];
-//              pushVC=[[SegmentRecordFullVC alloc] init];
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraPenFullPortVC alloc] init];
@@ -139,14 +158,14 @@
         case kMorePictureDemo:
             pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
             break;
-        case kVideoFilterDemo:
-            pushVC=[[FilterRealTimeDemoVC alloc] init];  //滤镜
-            break;
         case kDemo1PenMothed:
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
             break;
         case kDemo2PenMothed:
             pushVC=[[Demo2PenMothedVC alloc] init];  //移动缩放旋转2
+            break;
+        case kVideoFilterDemo:
+            pushVC=[[Demo3PenFilterVC alloc] init];  //滤镜
             break;
         case kExtractVideoFrame:
             pushVC=[[ExtractVideoFrameVC alloc] init];
@@ -159,12 +178,11 @@
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
             break;
         case kDirectPlay:
-               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:directPath];
+               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditBox.srcVideoPath];
             break;
         default:
             break;
     }
-    
     if (pushVC!=nil) {
         [self.navigationController pushViewController:pushVC animated:YES];
     }
@@ -184,8 +202,8 @@
         make.width.equalTo(scrollView);
     }];
     
-//    UIView *view=[self newDefaultButton:container];//时间关系, 调试好了,但暂时不用
-    UIView *view=[self newButton:container index:kSegmentRecordSquare hint:@"分段录制(正方形)"];
+    UIView *view=[self newDefaultButton:container];
+    view=[self newButton:view index:kSegmentRecordSquare hint:@"正方形录制"];
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制 (摄像头图层)"];
     view=[self newButton:view index:kSegmentRecordFullLandscape hint:@"横屏录制 (摄像头图层)"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制 (摄像头图层)"];
@@ -216,10 +234,8 @@
     versionHint.backgroundColor=[UIColor redColor];
     [container addSubview:versionHint];
     
-    
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.03;
-    
     
     [versionHint mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(view.mas_bottom).with.offset(padding);
@@ -231,7 +247,16 @@
         make.bottom.equalTo(versionHint.mas_bottom).with.offset(40);
     }];
 }
--(UIButton *)newDefaultButton:(UIView *)topView
+-(BOOL)needCheckBox:(UIView *)sender
+{
+    return  sender.tag !=kUseDefaultVideo &&
+    sender.tag!=kSelectVideo &&
+    sender.tag!=kSegmentRecordSquare &&
+    sender.tag!=kSegmentRecordFullPort &&
+    sender.tag!=kSegmentRecordFullLandscape &&
+    sender.tag!=kSegmentRecordSegmentRecord;
+}
+-(UIView *)newDefaultButton:(UIView *)topView
 {
     UIButton *btn1=[[UIButton alloc] init];
     btn1.tag=kUseDefaultVideo;
@@ -241,6 +266,7 @@
     btn1.backgroundColor=[UIColor greenColor];
     
     [btn1 addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btn1 addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
     [container addSubview:btn1];
     
     
@@ -253,24 +279,41 @@
     btn2.backgroundColor=[UIColor yellowColor];
     
     [btn2 addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btn2 addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
     
     [container addSubview:btn2];
+    
+    
+    labPath=[[UILabel alloc] init];
+    labPath.text=@"请选择视频文件.";
+    labPath.textColor=[UIColor redColor];
+    
+    [container addSubview:labPath];
+    
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.04;
     
-        [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(container.mas_top).with.offset(padding);
-            make.left.mas_equalTo(container.mas_left);
+            make.left.mas_equalTo(container.mas_left).with.offset(10);
             make.size.mas_equalTo(CGSizeMake(size.width*0.7f-20, 50));  //按钮的高度.
-        }];
+    }];
     
     [btn2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(container.mas_top).with.offset(padding);
         make.left.mas_equalTo(size.width*0.7f);
         make.size.mas_equalTo(CGSizeMake(size.width*0.25f, 50));  //按钮的高度.
     }];
-    return btn2;
+    
+    [labPath mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btn2.mas_bottom).with.offset(5);
+        make.left.mas_equalTo(container.mas_left).with.offset(10);
+        make.size.mas_equalTo(CGSizeMake(size.width, 30));  //按钮的高度.
+    }];
+    
+    return labPath;
 }
 -(UIButton *)newButton:(UIView *)topView index:(int)index hint:(NSString *)hint
 {
@@ -330,6 +373,7 @@
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
+
 int  frameCount=0;
 
 //-----------选择视频
@@ -341,7 +385,7 @@ int  frameCount=0;
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     NSString *requiredMediaType1 = ( NSString *)kUTTypeMovie;
     
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.sourceType =UIImagePickerControllerSourceTypeSavedPhotosAlbum; // UIImagePickerControllerSourceTypePhotoLibrary;
     
     NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType1,nil];
     
@@ -350,7 +394,6 @@ int  frameCount=0;
     picker.delegate = (id)self;
     
     [self presentViewController:picker animated:YES completion:nil];
-    
 }
 #pragma mark  imagePickterControllerDelegate
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -365,14 +408,55 @@ int  frameCount=0;
         //获取视频文件的url
         NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
         
-       videoPath=[SDKFileUtil urlToFileString:mediaURL];
+        NSString *videoPath=[SDKFileUtil urlToFileString:mediaURL];
         
-        NSLog(@"拿到的是url文件:%@,, string is:%@",mediaURL,videoPath);
+        
+        EditFileBox *box=[[EditFileBox alloc] initWithPath:videoPath];
+        if(box!=nil){
+            NSLog(@"拿到的是url文件:%@",[box.info description]);
+            labPath.text=[NSString stringWithFormat:@"选择的视频是:%@",[videoPath lastPathComponent]];
+            [AppDelegate getInstance].currentEditBox=box;
+        }else{
+            [LanSongUtils showHUDToast:@"导入视频错误, 系统相册返回nil"];
+        }
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 -(void)testFile
 {
 }
-
+//ScaleExecute *scale;
+//NSString *dstPath;
+//-(void)testScale
+//{
+//    NSString *srcPath=[AppDelegate getInstance].currentEditBox.srcVideoPath;
+//    dstPath=[SDKFileUtil genTmpMp4Path];
+//
+//    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
+//    if([info prepare]==NO){
+//        NSLog(@"缩放演示失败. info  is error....");
+//        return;
+//    }
+//    CGFloat scaleW=info.vWidth;
+//    CGFloat scaleH=info.vHeight;
+//    
+//    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
+//
+//    [scale setVideoProgressBlock:^(CGFloat time){
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
+//        });
+//    }];
+//
+//    [scale setCompletionBlock:^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSLog(@"缩放完成..");
+//            scale=nil;  //完毕后, 等于nil, 释放内存.
+//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+//        });
+//    }];
+//    [scale start];
+//}
 @end

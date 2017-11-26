@@ -16,7 +16,11 @@
 @implementation LanSongUtils
 
 
-
++(void)showDialog:(NSString *)str
+{
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:str delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
+}
 +(void) showHUDToast:(NSString *)strHint
 {
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -47,7 +51,6 @@
     }
 }
 
-//20170522++
 + (void)setView:(UIView *)view toSizeWidth:(CGFloat)width
 {
     CGRect frame = view.frame;

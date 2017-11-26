@@ -23,10 +23,10 @@ dispatch_queue_attr_t LanSongDefaultQueueAttribute(void);
 void runOnMainQueueWithoutDeadlock(void (^block)(void));
 
 //原来的是:runSynchronouslyOnVideoProcessingQueue
-void runSynchronouslyOnVideoProcessQueue(void (^block)(void));
+void runSyncOnVideoProcessQueue(void (^block)(void));
 
 //原来的是:runAsynchronouslyOnVideoProcessingQueue
-void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
+void runAsyncOnVideoProcessQueue(void (^block)(void));
 
 
 

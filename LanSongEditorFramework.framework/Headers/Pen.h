@@ -116,12 +116,20 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 /**
  *  
  缩放因子, 大于1.0为放大, 小于1.0为缩小. 默认是1.0f
- 此缩放是以增加到DrawPad中的frameBufferSize来做为基数, 放大或缩小
- 基本等同于.CGAffineTransformScale
+ 如果是图片, 则默认以图片的宽高为缩放基数.来放大或缩小
+ 
+ 如果是视频,则以当前drawpad的大小为缩放基数, 来放大或缩小.
  
  注意: 此缩放, 是针对正要渲染的Pen进行缩放, 不会更改frameBufferSize和penSize.
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidth,scaleHeight;
+
+/**
+ 直接缩放到的值,
+ 如果要等于把图片覆盖整个容器, 则值直接等于drawpadSize即可.
+ */
+@property(readwrite, nonatomic)  CGFloat scaleWidthValue,scaleHeightValue;
+
 
 /**
  *  内部使用

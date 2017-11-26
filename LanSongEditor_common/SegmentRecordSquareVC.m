@@ -272,6 +272,7 @@
     [_hud show:YES];
     [self.view addSubview:_hud];
     
+    //拼接在一起.
     [_recorder mergeVideoFiles];
     self.isProcessingData = YES;
 }

@@ -35,8 +35,14 @@
 @property CGSize  drawpadSize;
 
 
-@property    BOOL  isRecording;
+@property   BOOL  isRecording;
 @property    BOOL  isRunning;
+
+
+/**
+ 设置是否用44100, 双通道来录制.
+ */
+@property(nonatomic) BOOL isUseStereo;
 /**
  *     DrawPad执行过程中的进度对调, 返回的当前时间戳 单位是秒.
  
@@ -91,6 +97,7 @@
  @param value 是否暂停; YES/NO
  */
 -(void)pauseRecord:(BOOL)value;
+
 
 
 /**

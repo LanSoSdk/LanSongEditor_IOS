@@ -35,9 +35,6 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
 @end
 
 
-/**
- A LanSongOutput that provides frames from either camera
- */
 @interface CameraPen : Pen <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     NSUInteger numberOfFramesCaptured;
@@ -75,54 +72,110 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
 
 @property (readwrite) int32_t frameRate;
 
-/// Easy way to tell which cameras are present on device
+
+/**
+ 当前是否是前置
+ */
 @property (readonly, getter = isFrontFacingCameraPresent) BOOL frontFacingCameraPresent;
+
+/**
+ 当前是否是后置.
+ */
 @property (readonly, getter = isBackFacingCameraPresent) BOOL backFacingCameraPresent;
 
 
-/// Use this property to manage camera settings. Focus point, exposure point, etc.
+/**
+ 当前摄像头对象.
+ */
 @property(readonly) AVCaptureDevice *inputCamera;
 
+
+/**
+ 当前的角度.
+ */
 @property(readwrite, nonatomic) UIInterfaceOrientation outputImageOrientation;
 
-@property(readwrite, nonatomic) BOOL horizontallyMirrorFrontFacingCamera, horizontallyMirrorRearFacingCamera;
+
+/**
+ 当前置相机的时候, 是否左右镜像.
+ */
+@property(readwrite, nonatomic) BOOL horizontallyMirrorFrontFacingCamera;
+
+
+/**
+ 设置当后置的收, 是否左右镜像.
+ */
+@property(readwrite, nonatomic) BOOL horizontallyMirrorRearFacingCamera;
 
 @property(nonatomic, assign) id<CameraPenDelegate> delegate;
+
+/**
+ 切换前后摄像头
+ */
+- (void)rotateCamera;
+
+/*
+ 开启闪光灯
+ */
+- (void)openFlashLight;
+/**
+ 关闭闪光灯
+ */
+- (void)closeFlashLight;
+/**
+ 当前闪光灯是否在开着.
+ */
+-(BOOL)isFlashON;
 
 /**
  内部使用
  */
 - (id)init:(NSString *)sessionPreset position:(AVCaptureDevicePosition)pos drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
-
+/**
+ 内部使用
+ */
 - (BOOL)addAudioInputsAndOutputs;
-
-- (BOOL)removeAudioInputsAndOutputs;
-
+/**
+ 内部使用
+ */
 - (void)removeInputsAndOutputs;
-
+/**
+ 内部使用
+ */
 - (void)startCameraCapture;
+/**
+ 内部使用
+ */
 - (void)stopCameraCapture;
 
+/**
+ 内部使用
+ */
 - (void)pauseCameraCapture;
-
+/**
+ 内部使用
+ */
 - (void)resumeCameraCapture;
-
+/**
+ 内部使用
+ */
 - (void)processAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer;
-
+/**
+ 获取当前是前置还是后置
+ */
 - (AVCaptureDevicePosition)cameraPosition;
 
+
+/**
+ 内部使用
+ */
 - (AVCaptureConnection *)videoCaptureConnection;
 
-- (void)rotateCamera;
-
-- (CGFloat)averageFrameDurationDuringCapture;
-
-
+/**
+ 内部使用
+ */
 - (void)setAudioEncoderTarget:(MyEncoder3 *)newValue;
 
-+ (BOOL)isBackFacingCameraPresent;
-+ (BOOL)isFrontFacingCameraPresent;
 
-//-------lanso++
 
 @end

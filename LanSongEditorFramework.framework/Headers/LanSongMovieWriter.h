@@ -58,6 +58,10 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 
 // Initialization and teardown
 - (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;
+
+//lanso++, 可以设置码率.
+- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize bitrate:(int)bitrate;
+
 - (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize fileType:(NSString *)newFileType outputSettings:(NSDictionary *)outputSettings;
 
 - (void)setHasAudioTrack:(BOOL)hasAudioTrack audioSettings:(NSDictionary *)audioOutputSettings;

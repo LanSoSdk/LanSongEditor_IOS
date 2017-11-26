@@ -9,6 +9,7 @@
 }
 @end
 
+
 @implementation SegmentRecordFullView
 
 - (instancetype) initWithFrame:(CGRect)frame{

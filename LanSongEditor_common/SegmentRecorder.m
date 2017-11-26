@@ -182,6 +182,9 @@
         NSMutableArray *assetArray = [[NSMutableArray alloc] init];
         
         
+        NSLog(@"segment recorder ----->concat video---->");
+        
+        //第一步:拿到所有的assetTrack,放到数组里.
         for (NSURL *fileURL in fileURLArray)
         {
             AVAsset *asset = [AVAsset assetWithURL:fileURL];
@@ -204,7 +207,8 @@
         CGFloat renderW = MIN(renderSize.width, renderSize.height);
         
         //把一个一个的视频整理好要执行的命令后, 放入到layerInstructionArray中.
-        for (int i = 0; i < [assetArray count] && i < [assetTrackArray count]; i++) {
+        for (int i = 0; i < [assetArray count] && i < [assetTrackArray count]; i++)
+        {
             
             AVAsset *asset = [assetArray objectAtIndex:i];
             AVAssetTrack *assetTrack = [assetTrackArray objectAtIndex:i];

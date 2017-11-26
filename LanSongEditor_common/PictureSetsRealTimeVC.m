@@ -92,8 +92,6 @@
     __weak typeof(self) weakSelf = self;
     [drawpad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-              //NSLog(@"当前处理的进度是:%f(秒)",currentPts);
-            
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
             //在15秒的时候结束.
             if (currentPts>=26.0f) {
@@ -103,16 +101,6 @@
             [weakSelf updatePen:currentPts];
         });
     }];
-    
-    //设置完成后的回调
-    [drawpad setOnCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf addAudio];
-            [weakSelf showIsPlayDialog];
-            
-        });
-    }];
-    
     /**
      第四步: 设置容器自动刷新,并开始工作
      */
@@ -123,7 +111,6 @@
     {
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
     }
-    
 
     //----一下是ui操作.
     _labProgress=[[UILabel alloc] init];
@@ -167,12 +154,17 @@
 -(void)stopDrawPad
 {
     [drawpad stopDrawPad];
+    drawpad=nil;
+    
+    [self addAudio];
+    [self showIsPlayDialog];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
     if (drawpad!=nil) {
         [drawpad stopDrawPad];
+        drawpad=nil;
     }
 }
 /**
@@ -184,6 +176,7 @@
     UIImage *imag=[UIImage imageNamed:picName];
     Pen *item=[drawpad addBitmapPen:imag];
     
+    //因演示的图片过大,这里缩放一倍处理.
     item.scaleWidth=0.5f;
     item.scaleHeight=0.5f;
     
@@ -231,12 +224,8 @@
 
 -(void)dealloc
 {
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
-    if([SDKFileUtil fileExist:dstTmpPath]){
-        [SDKFileUtil deleteFile:dstTmpPath];
-    }
+    [SDKFileUtil deleteFile:dstPath];
+    [SDKFileUtil deleteFile:dstTmpPath];
 }
 /*
 #pragma mark - Navigation

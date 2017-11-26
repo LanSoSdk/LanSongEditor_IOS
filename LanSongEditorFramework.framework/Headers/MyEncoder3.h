@@ -65,6 +65,8 @@ extern NSString *const kMyEncoder3LanSongColorSwizzlingFragmentShaderString;
     LanSongRotationMode inputRotation;
 }
 
+@property(readwrite,nonatomic) BOOL isUseStereo;
+
 @property(readwrite, nonatomic) BOOL hasAudioTrack;
 @property(readwrite, nonatomic) BOOL shouldPassthroughAudio;
 @property(readwrite, nonatomic) BOOL shouldInvalidateAudioSampleWhenDone;

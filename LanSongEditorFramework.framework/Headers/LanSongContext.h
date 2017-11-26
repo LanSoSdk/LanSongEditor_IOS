@@ -3,7 +3,7 @@
 #import "LanSongFramebufferCache.h"
 
 //----LANSO++
-//#define LANSONGSDK_DEBUG 1
+#define LANSONGSDK_DEBUG 0
 
 #define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
 
@@ -43,6 +43,12 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 @property(readonly) CVOpenGLESTextureCacheRef coreVideoTextureCache;
 @property(readonly) LanSongFramebufferCache *framebufferCache;
 
+
+/**
+ 特定用户使用.
+ */
++(void)setOpengles30:(BOOL)is;
+
 + (void *)contextKey;
 + (LanSongContext *)sharedImageProcessingContext;
 + (dispatch_queue_t)sharedContextQueue;
@@ -66,6 +72,7 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 
 // Manage fast texture upload
 + (BOOL)supportsFastTextureUpload;
+
 
 @end
 

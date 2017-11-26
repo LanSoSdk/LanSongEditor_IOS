@@ -64,6 +64,7 @@
 {
     
 }
+//LSTODO: 有1%的几率不会被播放.但视频导出是好的.
 -(void)playVideo
 {
     NSURL *url=[NSURL fileURLWithPath:_videoPath];
@@ -147,7 +148,7 @@
 }
 - (IBAction)changeProgress:(id)sender {
    
-//    NSLog(@"self.player.currentItem.duration.value:%lld\n",self.player.currentItem.duration.value);
+    NSLog(@"self.player.currentItem.duration.value:%lld\n",self.player.currentItem.duration.value);
     //总的时长.
     self.sumPlayOperation = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
     
