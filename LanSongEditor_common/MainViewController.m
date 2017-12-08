@@ -113,9 +113,12 @@
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
     EditFileBox *box=nil;
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+    NSString *defaultVideo=@"ping20s";
+//    NSString *defaultVideo=@"green_nature";
     
-    NSLog(@"oncock----");
+    
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
+    
     if([self needCheckBox:sender]){
         //检查是否正常.
         if([AppDelegate getInstance].currentEditBox==nil){
@@ -127,8 +130,10 @@
         case kUseDefaultVideo:
             box=[[EditFileBox alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL]];
             if(box!=nil){
-                labPath.text=@"使用默认视频";
+                labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
                 [AppDelegate getInstance].currentEditBox=box;
+            }else{
+                  [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
             }
             sender.backgroundColor=[UIColor greenColor];
             break;
@@ -137,7 +142,12 @@
             sender.backgroundColor=[UIColor yellowColor];
             break;
         case kSegmentRecordSquare:
-            pushVC =[[CameraPenDemoVC alloc] init];
+            
+            pushVC=[[LanSongTESTVC alloc] init];
+            
+           // pushVC =[[CameraPenDemoVC alloc] init];
+          //   pushVC=[[SegmentRecordFullVC alloc] init];
+            
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraPenFullPortVC alloc] init];
@@ -426,37 +436,43 @@ int  frameCount=0;
 
 -(void)testFile
 {
+//    [self testScale];
 }
-//ScaleExecute *scale;
-//NSString *dstPath;
-//-(void)testScale
-//{
-//    NSString *srcPath=[AppDelegate getInstance].currentEditBox.srcVideoPath;
-//    dstPath=[SDKFileUtil genTmpMp4Path];
-//
-//    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
-//    if([info prepare]==NO){
-//        NSLog(@"缩放演示失败. info  is error....");
-//        return;
-//    }
-//    CGFloat scaleW=info.vWidth;
-//    CGFloat scaleH=info.vHeight;
-//    
-//    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
-//
-//    [scale setVideoProgressBlock:^(CGFloat time){
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
-//        });
-//    }];
-//
-//    [scale setCompletionBlock:^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"缩放完成..");
-//            scale=nil;  //完毕后, 等于nil, 释放内存.
-//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-//        });
-//    }];
-//    [scale start];
-//}
+ScaleExecute *scale;
+NSString *dstPath;
+-(void)testScale
+{
+    
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"green_nature" withExtension:@"mp4"];
+    NSString *srcPath=[SDKFileUtil urlToFileString:sampleURL];
+    
+    dstPath=[SDKFileUtil genTmpMp4Path];
+    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
+    if([info prepare]==NO){
+        NSLog(@"缩放演示失败. info  is error....");
+        return;
+    }else{
+        NSLog(@"info is---->%@",[info description]);
+    }
+    
+    CGFloat scaleW=info.vWidth;
+    CGFloat scaleH=info.vHeight;
+    
+    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
+
+    [scale setVideoProgressBlock:^(CGFloat time){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
+        });
+    }];
+
+    [scale setCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"缩放完成..");
+            scale=nil;  //完毕后, 等于nil, 释放内存.
+            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+        });
+    }];
+    [scale start];
+}
 @end

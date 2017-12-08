@@ -10,7 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 #import "Pen.h"
-#import "MyEncoder3.h"
 
 
 #import "LanSongContext.h"
@@ -174,7 +173,7 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
 /**
  内部使用
  */
-- (void)setAudioEncoderTarget:(MyEncoder3 *)newValue;
+- (void)setAudioEncoderTarget:(id<LanSongInput>)newValue;
 
 
 

@@ -87,8 +87,8 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 - (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight bitrate:(int)bitrate dstPath:(NSString *)dstPath;
 /**
  *  增加主视频, 如果有主视频,则以主视频的时间为准,
+    增加主视频后, 如果您后面再次设置了自动模式, 则自动模式无效.以主视频为的时间戳作为生成视频的时间戳.
  *
- *   1.如果设置了主视频,则音频部分,自动用主视频的音频作为目标视频中的音频部分.
  *
  增加后, 视频画面如果宽度大于高度, 则会把宽度等于DrawPad的宽度, 然后调整高度.
  如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
@@ -157,6 +157,29 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *  删除一个图层
  */
 -(void)removePen:(Pen *)pen;
+
+
+/**
+交换两个图层的位置
+
+@param first 第一个图层对象
+@param second 第二个图层对象
+*/
+-(void)exchangePenPosition:(Pen *)first second:(Pen *)second;
+
+/**
+ 设置图层的位置
+ 
+ @param pen 图层对象
+ @param index 位置, 最里层是0, 最外层是 getPenSize-1
+ */
+-(void)setPenPosition:(Pen *)pen index:(int)index;
+/**
+ 获取当前图层的个数.
+ */
+-(int)getPenSize;
+//-------------------------------------------------------
+
 /**
  *  为前台容器增加一个预览view界面
  *
@@ -204,4 +227,9 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  */
 - (void)setBackgroundColorRed:(GLfloat)redComponent green:(GLfloat)greenComponent blue:(GLfloat)blueComponent alpha:(GLfloat)alphaComponent;
 
+
+/**
+ 给当前使用的容器设置一个TAG, 以方便打印出来使用.
+ */
+@property (nonatomic,readwrite) NSString *TAG;
 @end

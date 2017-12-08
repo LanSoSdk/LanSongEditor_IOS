@@ -66,10 +66,11 @@
     
     [self initView];
     
+    [self getThumbnailFilters];
     /*
      开启前台容器.
      */
-    [self startPreviewDrawPad];
+  
     
     //滤镜选择.
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
@@ -87,6 +88,7 @@
      */
     int  drawPadBitRate=2000*1000;
     drawPad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    drawPad.TAG=@"preview";
     [drawPad setDrawPadPreView:filterView];
     /*
      step2: 第二步: 增加视频图层.
@@ -108,15 +110,25 @@
     //设置完成后的回调
     [drawPad setOnCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"前台执行完毕了.....stop!!!!");
             [weakSelf drawpadCompleted];
         });
     }];
+    
+    
+    
     //开始工作
     if([drawPad startDrawPad]==NO)
     {
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
     }
-    
+}
+
+/**
+ 获取缩略图滤镜, 在获取完毕后, 播放视频.
+ */
+-(void)getThumbnailFilters
+{
     //----一下应为异步执行,读取图片.
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
@@ -138,6 +150,7 @@
             }else{
                 [_collectionView reloadData];
             }
+             [self startPreviewDrawPad];
         });
     });
 }
@@ -187,6 +200,7 @@
 -(void)startExecuteDrawPad:(LanSongFilter *)filter
 {
     drawPad =[[DrawPadExecute alloc] initWithWidth:srcFile.drawpadWidth height:srcFile.drawpadHeight dstPath:dstTmpPath];
+    
     
     [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
     [self addBitmapLayer];
@@ -304,10 +318,8 @@
     }];
     
     //调节.
-    slide=[self createSlide:btnFilter min:0.0f max:1.0f value:0.5f tag:101 labText:@"全部滤镜调节 "];
+   slide=[self createSlide:btnFilter min:0.0f max:1.0f value:0.5f tag:101 labText:@"全部滤镜调节 "];
     
-    
-
    UIBarButtonItem *barItemEdit=[[UIBarButtonItem alloc] initWithTitle:@"后台滤镜" style:UIBarButtonItemStyleDone target:self action:@selector(doButtonClicked:)];
     barItemEdit.tag=602;
     self.navigationItem.rightBarButtonItem = barItemEdit;
@@ -469,6 +481,7 @@
             currentFilter=[filterArray objectAtIndex:indexPath.row];
         }
         if(mVideoPen!=nil && drawPad!=nil){
+            
             [mVideoPen switchFilter:currentFilter];  //切换滤镜.
         }
     }

@@ -11,35 +11,35 @@
 extern NSString *const kLanSongVertexShaderString;
 extern NSString *const kLanSongPassthroughFragmentShaderString;
 
-struct GPUVector4 {
+struct LanSongVector4 {
     GLfloat one;
     GLfloat two;
     GLfloat three;
     GLfloat four;
 };
-typedef struct GPUVector4 GPUVector4;
+typedef struct LanSongVector4 LanSongVector4;
 
-struct GPUVector3 {
+struct LanSongVector3 {
     GLfloat one;
     GLfloat two;
     GLfloat three;
 };
-typedef struct GPUVector3 GPUVector3;
+typedef struct LanSongVector3 LanSongVector3;
 
-struct GPUMatrix4x4 {
-    GPUVector4 one;
-    GPUVector4 two;
-    GPUVector4 three;
-    GPUVector4 four;
+struct LanSongMatrix4x4 {
+    LanSongVector4 one;
+    LanSongVector4 two;
+    LanSongVector4 three;
+    LanSongVector4 four;
 };
-typedef struct GPUMatrix4x4 GPUMatrix4x4;
+typedef struct LanSongMatrix4x4 LanSongMatrix4x4;
 
-struct GPUMatrix3x3 {
-    GPUVector3 one;
-    GPUVector3 two;
-    GPUVector3 three;
+struct LanSongMatrix3x3 {
+    LanSongVector3 one;
+    LanSongVector3 two;
+    LanSongVector3 three;
 };
-typedef struct GPUMatrix3x3 GPUMatrix3x3;
+typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 
 /** LanSong's base filter class
  LanSongFilter继承自LanSongoutput可以做完输出使用, 同时也实现LanSongInput的接口,可以作为输入用.
@@ -120,17 +120,17 @@ typedef struct GPUMatrix3x3 GPUMatrix3x3;
 - (void)setFloat:(GLfloat)newFloat forUniformName:(NSString *)uniformName;
 - (void)setSize:(CGSize)newSize forUniformName:(NSString *)uniformName;
 - (void)setPoint:(CGPoint)newPoint forUniformName:(NSString *)uniformName;
-- (void)setFloatVec3:(GPUVector3)newVec3 forUniformName:(NSString *)uniformName;
-- (void)setFloatVec4:(GPUVector4)newVec4 forUniform:(NSString *)uniformName;
+- (void)setFloatVec3:(LanSongVector3)newVec3 forUniformName:(NSString *)uniformName;
+- (void)setFloatVec4:(LanSongVector4)newVec4 forUniform:(NSString *)uniformName;
 - (void)setFloatArray:(GLfloat *)array length:(GLsizei)count forUniform:(NSString*)uniformName;
 
-- (void)setMatrix3f:(GPUMatrix3x3)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setMatrix4f:(GPUMatrix4x4)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
+- (void)setMatrix3f:(LanSongMatrix3x3)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
+- (void)setMatrix4f:(LanSongMatrix4x4)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 - (void)setFloat:(GLfloat)floatValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 - (void)setPoint:(CGPoint)pointValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 - (void)setSize:(CGSize)sizeValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setVec3:(GPUVector3)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setVec4:(GPUVector4)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
+- (void)setVec3:(LanSongVector3)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
+- (void)setVec4:(LanSongVector4)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 - (void)setFloatArray:(GLfloat *)arrayValue length:(GLsizei)arrayLength forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 - (void)setInteger:(GLint)intValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
 

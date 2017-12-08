@@ -40,12 +40,22 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
       NSObject *framebufferLock;  //数据的同步锁. 内部使用.
 }
 
+
 /**
  *  当前图层的类型
  */
 @property(readwrite, nonatomic) PenTpye penType;
 
+/*
+ 图层过多的话, 则可以给每个图层设置一个TAG;
+ */
+@property(readwrite, nonatomic) NSString *tag;
 
+/**
+ 内部使用.
+ 当然图层是否在运行.
+ */
+@property(nonatomic, assign,readonly)BOOL isRunning;
 
 /**
  内部使用.
@@ -74,11 +84,11 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
 
+
 /**
- 内部使用.
- 当前图层在容器中的ID号,不一定等于容器的层数.inner used
+ 当前图层在容器里的位置. 最里面是0, 最外面是图层最数量-1;
  */
-@property int  idInDrawPad;
+@property int  indexInDrawPad;
 
 /**
  *  当前时间戳
@@ -218,5 +228,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 -(BOOL) isFrameAvailable;
 -(void)setDriveDraw:(BOOL)is;
 -(void)resetCurrentFrame;
+
 
 @end

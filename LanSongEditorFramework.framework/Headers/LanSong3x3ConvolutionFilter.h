@@ -13,6 +13,6 @@
  The matrix is specified in row-major order, with the top left pixel being one.one and the bottom right three.three
  If the values in the matrix don't add up to 1.0, the image could be brightened or darkened.
  */
-@property(readwrite, nonatomic) GPUMatrix3x3 convolutionKernel;
+@property(readwrite, nonatomic) LanSongMatrix3x3 convolutionKernel;
 
 @end

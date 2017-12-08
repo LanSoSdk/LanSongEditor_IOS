@@ -10,7 +10,7 @@
 
 /** A 4x4 matrix used to transform each color in an image
  */
-@property(readwrite, nonatomic) GPUMatrix4x4 colorMatrix;
+@property(readwrite, nonatomic) LanSongMatrix4x4 colorMatrix;
 
 /** The degree to which the new transformed color replaces the original color for each pixel
  */

@@ -32,6 +32,12 @@
             CGFloat tmp=self.drawpadWidth;
             self.drawpadWidth=self.drawpadHeight;
             self.drawpadHeight=tmp;
+            
+            // 如果宽度和高度过大, 则缩小一倍,因为是等比例缩小,不太影响视频质量.
+            if(self.drawpadWidth * self.drawpadHeight>=1080*1920){
+                self.drawpadWidth/=2.0;
+                self.drawpadHeight/=2.0;
+            }
         }
         self.videoAngle=self.info.vRotateAngle;
     }

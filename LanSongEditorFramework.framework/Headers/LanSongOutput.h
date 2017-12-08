@@ -74,7 +74,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
 @property(readwrite, nonatomic, unsafe_unretained) id<LanSongInput> targetToIgnoreForUpdates;
 @property(nonatomic, copy) void(^frameProcessingCompletionBlock)(LanSongOutput*, CMTime);
 @property(nonatomic) BOOL enabled;
-@property(readwrite, nonatomic) GPUTextureOptions outputTextureOptions;
+@property(readwrite, nonatomic) LanSongTextureOptions outputTextureOptions;
 
 /// @name Managing targets
 - (void)setInputFramebufferForTarget:(id<LanSongInput>)target atIndex:(NSInteger)inputTextureIndex;

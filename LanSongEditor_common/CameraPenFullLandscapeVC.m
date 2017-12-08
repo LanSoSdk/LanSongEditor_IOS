@@ -10,8 +10,6 @@
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
 #import "FilterTpyeList.h"
-#import <LanSongEditorFramework/MyEncoder3.h>
-#import <LanSongEditorFramework/DrawPadCamera.h>
 
 // 定义录制的时间,这里是15秒
 #define  CAMERAPEN_RECORD_MAX_TIME 2

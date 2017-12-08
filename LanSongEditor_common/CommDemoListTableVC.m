@@ -73,26 +73,39 @@ enum {
     [window addSubview:demoHintHUD];
    
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LanSongVideoEditorProgress:) name:@"LanSongVideoEditorProgress" object:nil];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;œ
+      [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
     //显示处理提示,下一版本可以显示处理进度...(暂时没有增加)
 -(void)showProgressHUD
 {
     if (demoHintHUD!=nil) {
         [demoHintHUD show:YES];
-         demoHintHUD.labelText=@"正在处理...(进度提示稍后增加)";
+         demoHintHUD.labelText=@"正在处理...";
         demoHintHUD.mode=MBProgressHUDModeIndeterminate;
     }
 }
+
+- (void)LanSongVideoEditorProgress:(NSNotification *)notification{
+    
+    NSDictionary *dict = (NSDictionary *)notification.userInfo;
+    NSNumber *number=[dict objectForKey:@"LanSongVideoEditorProgress"];
+    if(number!=nil){
+        if (demoHintHUD!=nil) {
+            demoHintHUD.labelText=[NSString stringWithFormat:@"进度:%d",(int)(number.floatValue*100)];
+        }
+    }
+}
+
 -(void)hideProgressHUD
 {
     if (demoHintHUD!=nil) {
         [demoHintHUD hide:YES];
-        
         [self showIsPlayDialog];
     }
 }

@@ -13,7 +13,7 @@
 #import <CoreMedia/CoreMedia.h>
 
 
-typedef struct GPUTextureOptions {
+typedef struct LanSongTextureOptions {
     GLenum minFilter;
     GLenum magFilter;
     GLenum wrapS;
@@ -21,7 +21,7 @@ typedef struct GPUTextureOptions {
     GLenum internalFormat;
     GLenum format;
     GLenum type;
-} GPUTextureOptions;
+} LanSongTextureOptions;
 
 /**
  *  是上一个target的draw到这个FrameBuffer, 然后在下一个Target时, 又把这个FrameBuffer作为纹理输入,
@@ -37,13 +37,13 @@ typedef struct GPUTextureOptions {
 @interface LanSongFramebuffer : NSObject
 
 @property(readonly) CGSize size;
-@property(readonly) GPUTextureOptions textureOptions;
+@property(readonly) LanSongTextureOptions textureOptions;
 @property(readonly) GLuint texture;
 @property(readonly) BOOL missingFramebuffer;
 
 // Initialization and teardown
 - (id)initWithSize:(CGSize)framebufferSize;
-- (id)initWithSize:(CGSize)framebufferSize textureOptions:(GPUTextureOptions)fboTextureOptions onlyTexture:(BOOL)onlyGenerateTexture;
+- (id)initWithSize:(CGSize)framebufferSize textureOptions:(LanSongTextureOptions)fboTextureOptions onlyTexture:(BOOL)onlyGenerateTexture;
 - (id)initWithSize:(CGSize)framebufferSize overriddenTexture:(GLuint)inputTexture;
 
 // Usage

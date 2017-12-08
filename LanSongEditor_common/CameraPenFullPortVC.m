@@ -10,8 +10,8 @@
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
 #import "FilterTpyeList.h"
-#import <LanSongEditorFramework/MyEncoder3.h>
-#import <LanSongEditorFramework/DrawPadCamera.h>
+#import "YXLabel.h"
+
 
 // 定义录制的时间,这里是15秒
 #define  CAMERAPEN_RECORD_MAX_TIME 15
@@ -28,10 +28,16 @@
     BOOL  isSelectFilter;
     
     UISlider *filterSlider;
-    DrawPadCamera *camDrawPad;
+    DrawPadCamera *drawPad;
     CameraPen  *cameraPen;
     DrawPadView *filterView;
+    VideoPen *videoPen;
+    BitmapPen *bmpPen;
+    YXLabel *label; //test
+    
     BOOL isPaused;
+    CGFloat padWidth;
+    CGFloat padHeight;
 }
 @end
 
@@ -44,44 +50,43 @@
     /*
      step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
      */
-    CGFloat padWidth=540;
-    CGFloat padHeight=960;
-    camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:YES];
+    padWidth=540;
+    padHeight=960;
+    drawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:YES];
     /*
      step2:增加一个view,用来显示
      */
     filterView=[[DrawPadView alloc] initWithFrame:self.view.frame];
     [self.view addSubview: filterView];
-    [camDrawPad setDrawPadDisplay:filterView];
+    [drawPad setDrawPadDisplay:filterView];
     
 
     //增加一个图片图层,放到中间靠右侧.
     UIImage *image=[UIImage imageNamed:@"small"];
-    BitmapPen *bmpPen=    [camDrawPad addBitmapPen:image];
+    bmpPen=    [drawPad addBitmapPen:image];
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     
     /*
      step3:第三步: 开始预览
      */
-    [camDrawPad startPreview];
+    [drawPad startPreview];
     
    //进度显示.
     __weak typeof(self) weakSelf = self;
-    [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
+    [drawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"progressBlock is:%f", currentPts);
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
         });
     }];
     
-    cameraPen=camDrawPad.cameraPen;
+    
+    cameraPen=drawPad.cameraPen;
     //初始化其他UI界面.
     [self initView];
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
-    filterListVC.filterPen=camDrawPad.cameraPen;
-    
+    filterListVC.filterPen=drawPad.cameraPen;
 }
 -(void)doButtonClicked:(UIView *)sender
 {
@@ -91,14 +96,16 @@
             [self.navigationController pushViewController:filterListVC animated:YES];
             break;
         case  102:  //btnStart;
-            if(camDrawPad.isRecording==NO){
+            if(drawPad.isRecording==NO){
                 dstPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
-                [camDrawPad startRecordWithPath:dstPath];
+                [drawPad startRecordWithPath:dstPath];
             }
+             [label startAnimation];
             break;
         case  103:  //btnOK;
-            if(camDrawPad.isRecording){
-                [camDrawPad stopRecord];
+            [drawPad exchangePenPosition:videoPen second:cameraPen];
+            if(drawPad.isRecording){
+                [drawPad stopRecord];
                 [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             }
             break;
@@ -138,11 +145,10 @@
         
     }
 }
-
 -(void)dealloc
 {
     operationPen=nil;
-    camDrawPad=nil;
+    drawPad=nil;
     filterListVC=nil;
     filterView=nil;
     
@@ -208,6 +214,7 @@
     [btnSelect setTitle:@"前置" forState:UIControlStateNormal];
     [btnSelect setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     btnSelect.tag=104;
+    
     
     [btnStart addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnOK addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];

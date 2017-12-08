@@ -62,8 +62,6 @@
 		8B20FA001DFBD54800E27A83 /* CommDemoListTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20F9FF1DFBD54800E27A83 /* CommDemoListTableVC.m */; };
 		8B20FA041DFBD59300E27A83 /* CommDemoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B20FA031DFBD59300E27A83 /* CommDemoItem.m */; };
 		8B2AD48E1ED3D86C0017D6A3 /* SegmentRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */; };
-		8B2DAB6B1FCAA17D00F1AD30 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2DAB6A1FCAA17D00F1AD30 /* LanSongEditorFramework.framework */; };
-		8B2DAB6D1FCAA19100F1AD30 /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8B2DAB6C1FCAA19100F1AD30 /* LanSongEditorBundle.bundle */; };
 		8B2EF7BA1E238A1D0013C39C /* honor30s2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF7B91E238A010013C39C /* honor30s2.m4a */; };
 		8B34BDED1E14C07B00DC3751 /* p640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEC1E14C07B00DC3751 /* p640x1136.png */; };
 		8B34BDEF1E14C08200DC3751 /* mm.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEE1E14C08200DC3751 /* mm.png */; };
@@ -100,6 +98,8 @@
 		8BB81E031F43E829006D0D22 /* pic5.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFC1F43E829006D0D22 /* pic5.png */; };
 		8BB81E051F43E829006D0D22 /* tt3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BB81DFE1F43E829006D0D22 /* tt3.png */; };
 		8BB81E071F43F752006D0D22 /* Demo2PenMothedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB81E061F43F752006D0D22 /* Demo2PenMothedVC.m */; };
+		8BB859501FDA7F9600A9C082 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BB8594F1FDA7F9600A9C082 /* LanSongEditorFramework.framework */; };
+		8BB859521FDA7FC800A9C082 /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8BB859511FDA7FC800A9C082 /* LanSongEditorBundle.bundle */; };
 		8BC5C8E11E62B5090046135E /* MVPenDemoRealTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E01E62B5090046135E /* MVPenDemoRealTimeVC.m */; };
 		8BC5C8E91E62CD6A0046135E /* mei_b.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E71E62CD560046135E /* mei_b.mp4 */; };
 		8BC5C8EA1E62CD6A0046135E /* mei.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8BC5C8E81E62CD560046135E /* mei.mp4 */; };
@@ -139,7 +139,6 @@
 		8BF761471F983A9600436073 /* lookup_soft_elegance_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF761421F983A9600436073 /* lookup_soft_elegance_1.png */; };
 		8BF761481F983A9600436073 /* lookup_soft_elegance_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF761431F983A9600436073 /* lookup_soft_elegance_2.png */; };
 		8BF761491F983A9600436073 /* lookup.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF761441F983A9600436073 /* lookup.png */; };
-		8BF99D9B1F726EF50059B956 /* TestScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF99D9A1F726EF50059B956 /* TestScreenViewController.m */; };
 		8BFC00CA1DFE912B005D3BF2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8BFC00AE1DFE912B005D3BF2 /* LICENSE */; };
 		8BFC00CB1DFE912B005D3BF2 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC00B11DFE912B005D3BF2 /* MASCompositeConstraint.m */; };
 		8BFC00CC1DFE912B005D3BF2 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC00B41DFE912B005D3BF2 /* MASConstraint.m */; };
@@ -226,8 +225,6 @@
 		8B20FA031DFBD59300E27A83 /* CommDemoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommDemoItem.m; sourceTree = "<group>"; };
 		8B2AD48C1ED3D86C0017D6A3 /* SegmentRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecorder.h; sourceTree = "<group>"; };
 		8B2AD48D1ED3D86C0017D6A3 /* SegmentRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecorder.m; sourceTree = "<group>"; };
-		8B2DAB6A1FCAA17D00F1AD30 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
-		8B2DAB6C1FCAA19100F1AD30 /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
 		8B2EF7B91E238A010013C39C /* honor30s2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = honor30s2.m4a; sourceTree = "<group>"; };
 		8B34BDEC1E14C07B00DC3751 /* p640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = p640x1136.png; sourceTree = "<group>"; };
 		8B34BDEE1E14C08200DC3751 /* mm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mm.png; sourceTree = "<group>"; };
@@ -276,6 +273,8 @@
 		8BB81DFE1F43E829006D0D22 /* tt3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tt3.png; sourceTree = "<group>"; };
 		8BB81E061F43F752006D0D22 /* Demo2PenMothedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2PenMothedVC.m; sourceTree = "<group>"; };
 		8BB81E081F43F757006D0D22 /* Demo2PenMothedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demo2PenMothedVC.h; sourceTree = "<group>"; };
+		8BB8594F1FDA7F9600A9C082 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
+		8BB859511FDA7FC800A9C082 /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
 		8BC5C8DF1E62B5090046135E /* MVPenDemoRealTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVPenDemoRealTimeVC.h; sourceTree = "<group>"; };
 		8BC5C8E01E62B5090046135E /* MVPenDemoRealTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MVPenDemoRealTimeVC.m; sourceTree = "<group>"; };
 		8BC5C8E71E62CD560046135E /* mei_b.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = mei_b.mp4; sourceTree = "<group>"; };
@@ -347,8 +346,6 @@
 		8BF761421F983A9600436073 /* lookup_soft_elegance_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lookup_soft_elegance_1.png; sourceTree = "<group>"; };
 		8BF761431F983A9600436073 /* lookup_soft_elegance_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lookup_soft_elegance_2.png; sourceTree = "<group>"; };
 		8BF761441F983A9600436073 /* lookup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lookup.png; sourceTree = "<group>"; };
-		8BF99D991F726EF50059B956 /* TestScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestScreenViewController.h; sourceTree = "<group>"; };
-		8BF99D9A1F726EF50059B956 /* TestScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestScreenViewController.m; sourceTree = "<group>"; };
 		8BFC00AE1DFE912B005D3BF2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BFC00B01DFE912B005D3BF2 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		8BFC00B11DFE912B005D3BF2 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
@@ -391,7 +388,7 @@
 			files = (
 				8BCA93FB1FC2CAEA00D0BC50 /* libc++.tbd in Frameworks */,
 				8BF0E2921D51CA9200F52374 /* libbz2.tbd in Frameworks */,
-				8B2DAB6B1FCAA17D00F1AD30 /* LanSongEditorFramework.framework in Frameworks */,
+				8BB859501FDA7F9600A9C082 /* LanSongEditorFramework.framework in Frameworks */,
 				8BF0E2901D51CA6600F52374 /* libz.tbd in Frameworks */,
 				8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */,
 				8B8638391D51ABCB007A353C /* CoreVideo.framework in Frameworks */,
@@ -410,7 +407,7 @@
 		8B8638061D51AB29007A353C = {
 			isa = PBXGroup;
 			children = (
-				8B2DAB6C1FCAA19100F1AD30 /* LanSongEditorBundle.bundle */,
+				8BB859511FDA7FC800A9C082 /* LanSongEditorBundle.bundle */,
 				8BF0E2931D51CB2F00F52374 /* frameworks */,
 				8B8638111D51AB29007A353C /* LanSongEditor_all */,
 				8B8638101D51AB29007A353C /* Products */,
@@ -488,8 +485,6 @@
 				8BD3EA241F42F44100FC72E8 /* SlideEffect.h */,
 				8BD3EA251F42F44100FC72E8 /* SlideEffect.m */,
 				8B8638121D51AB29007A353C /* Supporting Files */,
-				8BF99D991F726EF50059B956 /* TestScreenViewController.h */,
-				8BF99D9A1F726EF50059B956 /* TestScreenViewController.m */,
 				8BF0E2A11D51D52100F52374 /* VideoPlayViewController.h */,
 				8BF0E2A21D51D52100F52374 /* VideoPlayViewController.m */,
 				8BF0E2A31D51D52100F52374 /* VideoPlayViewController.xib */,
@@ -608,7 +603,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B2DAB6A1FCAA17D00F1AD30 /* LanSongEditorFramework.framework */,
+				8BB8594F1FDA7F9600A9C082 /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -793,7 +788,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B2DAB6D1FCAA19100F1AD30 /* LanSongEditorBundle.bundle in Resources */,
+				8BB859521FDA7FC800A9C082 /* LanSongEditorBundle.bundle in Resources */,
 				8B93547A1FBC50F800014390 /* lookup_amatorka.png in Resources */,
 				8BF761471F983A9600436073 /* lookup_soft_elegance_1.png in Resources */,
 				8B7B0E501FC6C23400E952BE /* t14.jpg in Resources */,
@@ -878,7 +873,6 @@
 				8BEF48611E1A0E5F00EC1D05 /* ACEDrawingTools.m in Sources */,
 				8BD2B69A1F94E5D80035C791 /* ExtractVideoFrameVC.m in Sources */,
 				8B44F6271F8CCFD900F2EF6D /* ViewPenOnlyVC.m in Sources */,
-				8BF99D9B1F726EF50059B956 /* TestScreenViewController.m in Sources */,
 				8BAA94501ED0160E00A5ED4E /* SegmentRecordFullVC.m in Sources */,
 				8BFC00CF1DFE912B005D3BF2 /* MASViewAttribute.m in Sources */,
 				8B8673EB1F79BB2B008277EE /* SegmentRecordProgressView.m in Sources */,

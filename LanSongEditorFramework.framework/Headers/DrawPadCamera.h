@@ -40,7 +40,7 @@
 
 
 /**
- 设置是否用44100, 双通道来录制.
+ 设置是否用44100, 双通道来录制. 默认为YES设置.
  */
 @property(nonatomic) BOOL isUseStereo;
 /**
@@ -90,15 +90,6 @@
  @param savePath 录制时要保存的路径
  */
 -(void)startRecordWithPath:(NSString *)savePath;
-
-/**
- 是否要暂停录制
-
- @param value 是否暂停; YES/NO
- */
--(void)pauseRecord:(BOOL)value;
-
-
 
 /**
  停止录制.  
@@ -162,8 +153,26 @@
 
 /**
  删除一个图层.
-
- @param pen <#pen description#>
  */
 -(void)removePen:(Pen *)pen;
+
+/**
+ 交换两个图层的位置
+ 
+ @param first 第一个图层对象
+ @param second 第二个图层对象
+ */
+-(void)exchangePenPosition:(Pen *)first second:(Pen *)second;
+
+/**
+ 设置图层的位置
+ 
+ @param pen 图层对象
+ @param index 位置, 最里层是0, 最外层是 getPenSize-1
+ */
+-(void)setPenPosition:(Pen *)pen index:(int)index;
+/**
+ 获取当前图层的个数.
+ */
+-(int)getPenSize;
 @end

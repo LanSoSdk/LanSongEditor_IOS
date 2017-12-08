@@ -3,7 +3,8 @@
 #import "LanSongFramebufferCache.h"
 
 //----LANSO++
-#define LANSONGSDK_DEBUG 0
+//显示或注释掉.
+#define LANSONGSDK_DEBUG 1
 
 #define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
 

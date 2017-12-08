@@ -470,7 +470,7 @@
             [self.filterSlider setMaximumValue:1.0];
             
             self.selectedFilter = [[LanSongMonochromeFilter alloc] init];
-            [(LanSongMonochromeFilter *)self.selectedFilter setColor:(GPUVector4){0.0f, 0.0f, 1.0f, 1.f}];
+            [(LanSongMonochromeFilter *)self.selectedFilter setColor:(LanSongVector4){0.0f, 0.0f, 1.0f, 1.f}];
         }; break;
         case LanSong_FALSECOLOR:
         {
@@ -884,23 +884,23 @@
             self.filterSlider.hidden = YES;
             
             self.selectedFilter = [[LanSong3x3ConvolutionFilter alloc] init];
-            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter setConvolutionKernel:(LanSongMatrix3x3){
             //                {-2.0f, -1.0f, 0.0f},
             //                {-1.0f,  1.0f, 1.0f},
             //                { 0.0f,  1.0f, 2.0f}
             //            }];
-            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
+            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(LanSongMatrix3x3){
                 {-1.0f,  0.0f, 1.0f},
                 {-2.0f, 0.0f, 2.0f},
                 {-1.0f,  0.0f, 1.0f}
             }];
             
-            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(LanSongMatrix3x3){
             //                {1.0f,  1.0f, 1.0f},
             //                {1.0f, -8.0f, 1.0f},
             //                {1.0f,  1.0f, 1.0f}
             //            }];
-            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(GPUMatrix3x3){
+            //            [(LanSong3x3ConvolutionFilter *)self.selectedFilter  setConvolutionKernel:(LanSongMatrix3x3){
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f},
             //                { 0.11f,  0.11f, 0.11f}

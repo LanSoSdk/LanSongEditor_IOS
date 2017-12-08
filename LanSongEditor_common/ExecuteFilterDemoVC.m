@@ -41,11 +41,17 @@
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self initUI];
 }
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (drawPad!=nil) {
+        [drawPad stopDrawPad];
+        drawPad=nil;
+    }
+}
 -(void)startExecute
 {
     dstTmpPath = [SDKFileUtil genTmpMp4Path];
     dstPath=[SDKFileUtil genTmpMp4Path];
-    
     
     //step1: 设置容器大小为480x480, 或者您可以设置为原尺寸大小.
     drawPad =[[DrawPadExecute alloc] initWithWidth:480 height:480 dstPath:dstTmpPath];
@@ -56,14 +62,13 @@
     
     srcFile=[AppDelegate getInstance].currentEditBox;
     
-    [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
+   [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
     
     //设置进度
     __weak typeof(self) weakSelf = self;
     [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"当前的进度是:%f",sampleTime);
             [weakSelf showProgress:sampleTime];
         });
     }];
@@ -97,6 +102,7 @@
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
     }
 }
+
 -(void)addBitmapLayer
 {
     if(drawPad!=nil){
@@ -135,7 +141,6 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 -(void)doButtonClicked:(UIView *)sender
 {
@@ -230,5 +235,6 @@
 {
     [SDKFileUtil deleteFile:dstTmpPath];
     [SDKFileUtil deleteFile:dstPath];
+    NSLog(@"ExecuteFilterDemoVC  dealloc...");
 }
 @end

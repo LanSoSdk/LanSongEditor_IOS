@@ -19,7 +19,7 @@
     GLint minOutputUniform;
     GLint maxOutputUniform;
     
-    GPUVector3 minVector, midVector, maxVector, minOutputVector, maxOutputVector;
+    LanSongVector3 minVector, midVector, maxVector, minOutputVector, maxOutputVector;
 }
 
 /** Set levels for the red channel */
