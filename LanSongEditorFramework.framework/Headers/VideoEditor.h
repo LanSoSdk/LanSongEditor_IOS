@@ -81,6 +81,20 @@
 +(int) executeVideoMergeAudio:(NSString*)videoFile audioFile:(NSString *)audioFile dstFile:(NSString *)dstFile audioStartS:(float)audiostartS;
 
 /**
+ 视频和音频合成, 或理解为: 给视频增加一个背景音乐
+ 此函数, 在合成后, 会对视频和音频进行转码操作, 可能会改变视频的分辨率,
+ 等同于导出预设值为: AVAssetExportPresetMediumQuality
+ 
+ [执行较快,不需要进度显示]
+ 
+ 
+ @param videoPath 输入视频的路径
+ @param audioPath 输入音频的路径, 音频可以是mp3格式 或AAC格式.
+ @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
+ */
++(void)videoMergeAudio:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
+
+/**
  * 给视频文件增加一个音频
  *
  [执行较快,不需要进度显示]
@@ -94,6 +108,24 @@
  * @return 执行成功,返回0, 失败返回错误码
  */
 +(int) executeVideoMergeAudio:(NSString*)videoFile audioFile:(NSString *)audioFile dstFile:(NSString *)dstFile audioStartS:(float)audiostartS audioDurationS:(float)audioDurationS;
+
+
+/**
+ 给视频增加一个背景音乐;[异步导出操作]
+ 
+ 进度以 "LanSongVideoEditorProgress"通知 发出,可见本文件最后通知的使用.
+ 
+ 在正在过程中, 会判断videoV是否为0, 如果为零,会删除原来的音频, 如果不为零,则把要增加的音乐和背景音乐混合, 然后导出.
+ 如果背景音乐时长 小于视频支持,则循环音乐;
+ 如果大于,则从开始截取; 截取长度等于视频长度;
+ 
+ @param videoFile 视频文件
+ @param music 背景音乐
+ @param videoV 视频的音频的音量, 如果删除视频中原来的音频,则这里赋值为0;
+ @param musicV  背景音乐的音量调节, 1.0为默认, 小于1.0为减小;大于则放大;
+ @param dstPath 异步导出后的保存的目标路径
+ */
++(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV dstPath:(NSString *)dstPath;
 
 /**
  * 音频裁剪,截取音频文件中的一段.
@@ -150,8 +182,6 @@
  * @return 执行成功,返回0, 失败返回错误码
  */
 +(int) executeConvertTsToMp4:(NSMutableArray *)tsArray dstFile:(NSString *)dstFile;
-
-
 
 /**
  把多个视频拼接在一起. 
@@ -242,35 +272,18 @@
  *  @param cropH      裁剪的视频高度.
  */
 + (void)executeCropCALayerWithPath:(NSString*)srcPath layer:(CALayer *)inputlayer startX:(CGFloat)startX startY:(CGFloat)startY cropW:(CGFloat)cropW cropH:(CGFloat)cropH dstPath:(NSString *)dstPath;
-
 /**
- 视频和音频合成, 或理解为: 给视频增加一个背景音乐
- 此函数, 在合成后, 会对视频和音频进行转码操作, 可能会改变视频的分辨率,
- 等同于导出预设值为: AVAssetExportPresetMediumQuality
+ 两个音频混合,混合后导出AAC编码的的音频.
+ 默认是以第一个音频的时长为准, 如果第二个音频很短(比如背景音乐),第二个音频是否要循环.
  
- [执行较快,不需要进度显示]
- 
- 
- @param videoPath 输入视频的路径
- @param audioPath 输入音频的路径, 音频可以是mp3格式 或AAC格式.
- @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
+ @param first 第一个多媒体路径, 可以是音频,也可以是含有音频的视频.
+ @param second 第二个多媒体路径
+ @param isLoop  默认是以第一个音频的时长为准, 如果第二个音频很短(比如背景音乐),第二个音频是否要循环.
+ @param firstV 第一个的在混合时的音量
+ @param secondV 第二个在混合时的音量.
+ @param dstPath 混合后的目标文件
  */
-+(void)videoMergeAudio:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
-
-/**
- 视频和音频合成, 或理解为: 给视频增加一个背景音乐
- 
- 此函数是直接把视频轨道和音频轨道合成, 中间不会转码, 故音频编码必须为AAC
- 
- [执行较快,不需要进度显示]
- 
- @param videoPath 输入视频的路径
- @param audioPath 输入音频的路径, 音频必须为AAC
- @param dstPath 合成后的输出路径, 合成后, 视频为mp4格式, 建议后缀是mp4
- */
-+(void)videoMergeAudio2:(NSString *)videoPath audio:(NSString *)audioPath dstPath:(NSString *)dstPath;
-
-
++(void)mixTwoAudio:(NSURL *)first second:(NSURL *)second secondLoop:(BOOL)isLoop firstVolume:(float)firstV secondVolume:(float)secondV dstPath:(NSURL *)dstPath;
 /**
  *  通过音乐地址，读取音乐数据，获得图片
  *  @param url 音乐地址

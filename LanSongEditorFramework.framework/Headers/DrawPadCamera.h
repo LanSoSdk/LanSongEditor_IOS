@@ -54,12 +54,21 @@
 @property(nonatomic, copy) void(^onProgressBlock)(CGFloat);
 /**
  构造函数
-
  @param size DrawPad容器的宽度和高度
  @param isFront 相机是否前置
  */
 - (id)initWithPadSize:(CGSize)size isFront:(BOOL)isFront;
 
+
+/**
+ 构造函数
+
+ @param size 容器的宽度和高度
+ @param isFront 相机是否前置
+ @param sessionPreset 分辨率
+ @return
+ */
+- (id)initWithPadSize:(CGSize)size isFront:(BOOL)isFront sessionPreset:(NSString *)sessionPreset;
 /**
  设置要显示到的窗口, 务必宽高比 和设置的PadSize的相等.
  */

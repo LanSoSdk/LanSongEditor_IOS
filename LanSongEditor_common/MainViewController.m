@@ -142,12 +142,8 @@
             sender.backgroundColor=[UIColor yellowColor];
             break;
         case kSegmentRecordSquare:
-            
-            pushVC=[[LanSongTESTVC alloc] init];
-            
-           // pushVC =[[CameraPenDemoVC alloc] init];
+            pushVC =[[CameraPenDemoVC alloc] init];
           //   pushVC=[[SegmentRecordFullVC alloc] init];
-            
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraPenFullPortVC alloc] init];
