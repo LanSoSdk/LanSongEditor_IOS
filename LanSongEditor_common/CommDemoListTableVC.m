@@ -33,6 +33,7 @@ enum {
     NSString *dstAAC;
     
     MBProgressHUD *demoHintHUD;
+    BOOL  isPlayVideo;
 }
 @end
 
@@ -41,10 +42,13 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"视频编辑--基本功能列表";
+    isPlayVideo=NO;
     
     [SDKFileUtil deleteDir:[SDKFileUtil Path]];
     
-    srcVideo=[SDKFileUtil copyAssetFile:@"ping20s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
+  //  srcVideo=[SDKFileUtil copyAssetFile:@"ping20s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
+    srcVideo=[AppDelegate getInstance].currentEditBox.srcVideoPath;
+    
     srcAudio=[SDKFileUtil copyAssetFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];
     
     NSLog(@"srcAudio:%@",srcAudio);
@@ -64,7 +68,7 @@ enum {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(lanSongEditorCompletionNotificationReceiver:)
-                                                 name:@"LanSoEditorCommonCompletion"
+                                                 name:@"LanSongEditorCommonCompletion"
                                                object:nil];
     
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -75,11 +79,17 @@ enum {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LanSongVideoEditorProgress:) name:@"LanSongVideoEditorProgress" object:nil];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    isPlayVideo=NO;
+}
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-      [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if(!isPlayVideo){
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
 }
     //显示处理提示,下一版本可以显示处理进度...(暂时没有增加)
 -(void)showProgressHUD
@@ -112,13 +122,17 @@ enum {
 -(void)startVideoPlayVC
 {
     if ([SDKFileUtil fileExist:dstMp4]) {
+        
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstMp4;
+        isPlayVideo=YES;
         [self.navigationController pushViewController:videoVC animated:YES];
     }else if([SDKFileUtil fileExist:dstAAC]){
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstAAC;
+        isPlayVideo=YES;
         [self.navigationController pushViewController:videoVC animated:YES];
+        
     }else{
         [LanSongUtils showHUDToast:@"dstMp4 or dstAAC is not exist!"];
     }
@@ -131,7 +145,7 @@ enum {
 
 - (void)lanSongEditorCompletionNotificationReceiver:(NSNotification*) notification
 {
-    if ([[notification name] isEqualToString:@"LanSoEditorCommonCompletion"]) {
+    if ([[notification name] isEqualToString:@"LanSongEditorCommonCompletion"]) {
         
         NSString *completePath = [notification object];
         NSLog(@"返回的字符串是:%@",completePath);
@@ -139,7 +153,6 @@ enum {
         
         dispatch_async( dispatch_get_main_queue(), ^{
         			 [self hideProgressHUD];
-
         		});
     }
 }

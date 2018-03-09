@@ -16,7 +16,7 @@
 
 #import "UIColor+Util.h"
 #import "Masonry.h"
-#import "Demo3PenFilterVC.h"
+
 
 #import "ExecuteFilterDemoVC.h"
 #import "CommDemoListTableVC.h"
@@ -35,15 +35,15 @@
 #import "ViewPenRealTimeDemoVC.h"
 
 #import "MVPenDemoRealTimeVC.h"
-#import "MVPenOnlyVC.h"
 #import "Demo1PenMothedVC.h"
 #import "Demo2PenMothedVC.h"
+#import "Demo3PenFilterVC.h"
+
 #import "ViewPenOnlyVC.h"
 
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
 #import "BitmapPadVC.h"
-
 
 @interface MainViewController ()
 {
@@ -114,9 +114,6 @@
     UIViewController *pushVC=nil;
     EditFileBox *box=nil;
     NSString *defaultVideo=@"ping20s";
-//    NSString *defaultVideo=@"green_nature";
-    
-    
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
     
     if([self needCheckBox:sender]){
@@ -142,8 +139,10 @@
             sender.backgroundColor=[UIColor yellowColor];
             break;
         case kSegmentRecordSquare:
+//            pushVC=[[LanSongTESTVC alloc] init];
             pushVC =[[CameraPenDemoVC alloc] init];
           //   pushVC=[[SegmentRecordFullVC alloc] init];
+            
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraPenFullPortVC alloc] init];
@@ -159,7 +158,6 @@
             break;
         case kMVPenDemo:
             pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
-            //     pushVC=[[MVPenOnlyVC alloc] init];
             break;
         case kMorePictureDemo:
             pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
@@ -179,6 +177,7 @@
         case kVideoFilterBackGroudDemo:
             pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
             ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
+//            [self testScale];
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
@@ -429,46 +428,46 @@ int  frameCount=0;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 -(void)testFile
 {
-//    [self testScale];
+    
+//      [self.navigationController pushViewController:[[LanSongTESTVC alloc] init] animated:YES];
+//      [self testScale];
 }
-ScaleExecute *scale;
-NSString *dstPath;
--(void)testScale
-{
-    
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"green_nature" withExtension:@"mp4"];
-    NSString *srcPath=[SDKFileUtil urlToFileString:sampleURL];
-    
-    dstPath=[SDKFileUtil genTmpMp4Path];
-    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
-    if([info prepare]==NO){
-        NSLog(@"缩放演示失败. info  is error....");
-        return;
-    }else{
-        NSLog(@"info is---->%@",[info description]);
-    }
-    
-    CGFloat scaleW=info.vWidth;
-    CGFloat scaleH=info.vHeight;
-    
-    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
-
-    [scale setVideoProgressBlock:^(CGFloat time){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
-        });
-    }];
-
-    [scale setCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"缩放完成..");
-            scale=nil;  //完毕后, 等于nil, 释放内存.
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-        });
-    }];
-    [scale start];
-}
+//ScaleExecute *scale;
+//NSString *dstPath;
+//-(void)testScale
+//{
+//    
+//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"chli10s" withExtension:@"mp4"];
+//    NSString *srcPath=[SDKFileUtil urlToFileString:sampleURL];
+//    
+//    dstPath=[SDKFileUtil genTmpMp4Path];
+//    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
+//    if([info prepare]==NO){
+//        NSLog(@"缩放演示失败. info  is error....");
+//        return;
+//    }else{
+//        NSLog(@"info is---->%@",[info description]);
+//    }
+//    
+//    CGFloat scaleW=info.vWidth;
+//    CGFloat scaleH=info.vHeight;
+//    
+//    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
+//
+//    [scale setVideoProgressBlock:^(CGFloat time){
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
+//        });
+//    }];
+//
+//    [scale setCompletionBlock:^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            scale=nil;  //完毕后, 等于nil, 释放内存.
+//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+//        });
+//    }];
+//    [scale start];
+//}
 @end

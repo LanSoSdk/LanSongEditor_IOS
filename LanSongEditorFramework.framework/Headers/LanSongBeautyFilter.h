@@ -12,6 +12,14 @@
 @interface LanSongBeautyFilter : LanSongFilter
 
 
+
+/**
+ 设置当前美颜级别;默认是0.6
+ 范围是0.0---1.0;
+ 
+
+ @param level 
+ */
 -(void) setBeautyLevel:(CGFloat) level;
 
 @end

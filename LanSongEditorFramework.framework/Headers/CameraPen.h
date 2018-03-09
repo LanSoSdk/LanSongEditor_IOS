@@ -62,16 +62,31 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
     __unsafe_unretained id<CameraPenDelegate> _delegate;
 }
 
-/// Whether or not the underlying AVCaptureSession is running
+
+/**
+ 是否在运行;
+ */
 @property(readonly, nonatomic) BOOL isRunning;
 
 @property(readonly, retain, nonatomic) AVCaptureSession *captureSession;
 
+/**
+ 当前相机实际工作设置的分辨率
+ */
 @property (readwrite, nonatomic, copy) NSString *captureSessionPreset;
 
+/**
+ 当前Cemera 设置的帧率
+ */
 @property (readwrite) int32_t frameRate;
 
 
+/**
+ 当前Camera输出的像素的宽度和高度.
+ 在开始预览后, 拿到第一帧的时候, 方有效;
+ */
+@property (readonly) int pixelWidth;
+@property (readonly) int pixelheight;
 /**
  当前是否是前置
  */
@@ -90,7 +105,7 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
 
 
 /**
- 当前的角度.
+ 当前软件的角度.
  */
 @property(readwrite, nonatomic) UIInterfaceOrientation outputImageOrientation;
 
@@ -102,7 +117,7 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
 
 
 /**
- 设置当后置的收, 是否左右镜像.
+ 当后置相机的时候, 是否左右镜像.
  */
 @property(readwrite, nonatomic) BOOL horizontallyMirrorRearFacingCamera;
 
@@ -125,54 +140,24 @@ void setColorConvert709_CameraPen( GLfloat conversionMatrix[9] );
  当前闪光灯是否在开着.
  */
 -(BOOL)isFlashON;
-
-/**
- 内部使用
- */
-- (id)init:(NSString *)sessionPreset position:(AVCaptureDevicePosition)pos drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
-/**
- 内部使用
- */
-- (BOOL)addAudioInputsAndOutputs;
-/**
- 内部使用
- */
-- (void)removeInputsAndOutputs;
-/**
- 内部使用
- */
-- (void)startCameraCapture;
-/**
- 内部使用
- */
-- (void)stopCameraCapture;
-
-/**
- 内部使用
- */
-- (void)pauseCameraCapture;
-/**
- 内部使用
- */
-- (void)resumeCameraCapture;
-/**
- 内部使用
- */
-- (void)processAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 /**
  获取当前是前置还是后置
  */
 - (AVCaptureDevicePosition)cameraPosition;
 
-
+//-----------------------------------以下均为内部使用-------------------------
 /**
  内部使用
  */
+- (id)init:(NSString *)sessionPreset position:(AVCaptureDevicePosition)pos drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+- (BOOL)addAudioInputsAndOutputs;
+- (void)removeInputsAndOutputs;
+- (void)startCameraCapture;
+- (void)stopCameraCapture;
+- (void)pauseCameraCapture;
+- (void)resumeCameraCapture;
+- (void)processAudioSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 - (AVCaptureConnection *)videoCaptureConnection;
-
-/**
- 内部使用
- */
 - (void)setAudioEncoderTarget:(id<LanSongInput>)newValue;
 
 

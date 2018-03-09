@@ -36,8 +36,15 @@
 
 
 @property   BOOL  isRecording;
-@property    BOOL  isRunning;
+@property   BOOL  isRunning;
 
+
+/**
+ 是否录制声音. 
+ 输入类型.
+ 默认是录制声音.
+ */
+@property BOOL isRecordMic;
 
 /**
  设置是否用44100, 双通道来录制. 默认为YES设置.
@@ -65,18 +72,26 @@
 
  @param size 容器的宽度和高度
  @param isFront 相机是否前置
- @param sessionPreset 分辨率
+ @param sessionPreset 分辨率  LSTODO注意, 如果是前置的话, 如设置的分辨率过高,手机不支持, 将自动选择最大的尺寸;
  @return
  */
 - (id)initWithPadSize:(CGSize)size isFront:(BOOL)isFront sessionPreset:(NSString *)sessionPreset;
+
 /**
- 设置要显示到的窗口, 务必宽高比 和设置的PadSize的相等.
+   此方法已废弃,请用setDrawPadView
  */
 -(void)setDrawPadDisplay:(DrawPadView *)display;
 
+/**
+ 设置要显示到的窗口, 务必宽高比 和设置的PadSize的相等.
+ */
+-(void)setDrawPadView:(DrawPadView *)display;
 
 /**
  开始预览, 在开始录制前一定要开始预览.
+ 如果您要从录制界面, 进入到另一个要创建drawpad的界面时(比如编辑界面), 建议先stopPreview, 然后在push到下一个界面.
+  如果你要从当前录制界面,进入到预览界面(里面没有drawpad的对象)则可以不stopPreview, 让相机一直在运行着.
+ 
  */
 -(void)startPreview;
 
@@ -99,6 +114,17 @@
  @param savePath 录制时要保存的路径
  */
 -(void)startRecordWithPath:(NSString *)savePath;
+
+
+/**
+ 设置录制路径和 速度, 并开始录制
+ 
+范围是0.5---2.0; 0.5是慢1倍; 2.0是快一倍; 1.0为默认正常值;
+ 
+ @param savePath 录制时要保存的路径
+ @param speed 录制的速度. 范围是0.5---2.0; 0.5是慢1倍; 2.0是快一倍; 1.0为默认正常值;
+ */
+-(void)startRecordWithPath:(NSString *)savePath speedRate:(CGFloat)speed;
 
 /**
  停止录制.  
@@ -184,4 +210,5 @@
  获取当前图层的个数.
  */
 -(int)getPenSize;
+
 @end

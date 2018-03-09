@@ -42,6 +42,10 @@
     //执行过滤镜后的图片列表.
     NSMutableArray *filterImageArray;
     
+    BOOL getThumbnailing;
+    
+    DrawPadVideoExecute  *drawpadVideo;
+    
 }
 @end
 
@@ -55,6 +59,7 @@
     filterItemArray=[[NSMutableArray alloc] init];
     
     self.view.backgroundColor=[UIColor whiteColor];
+    //拿到默认路径.
     srcFile=[AppDelegate getInstance].currentEditBox;
     
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
@@ -66,11 +71,11 @@
     
     [self initView];
     
-    [self getThumbnailFilters];
+   
     /*
-     开启前台容器.
+     获取缩略图
      */
-  
+    [self getThumbnailFilters];
     
     //滤镜选择.
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
@@ -88,36 +93,26 @@
      */
     int  drawPadBitRate=2000*1000;
     drawPad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
+    
     drawPad.TAG=@"preview";
     [drawPad setDrawPadPreView:filterView];
+    
     /*
-     step2: 第二步: 增加视频图层.
+     step2: 第二步: 增加视频图层. 设置为自动刷新模式;
      */
-    mVideoPen=[drawPad addMainVideoPen:srcFile.srcVideoPath filter:nil];
+    [drawPad setUpdateMode:kAutoTimerUpdate autoFps:25];
+    
+    NSLog(@"当前要处理的视频信息是:");
+    [MediaInfo checkFile:srcFile.srcVideoPath];
+    
+    mVideoPen=[drawPad addVideoPen:srcFile.srcVideoPath filter:nil];
+    mVideoPen.loopPlay=YES;
     
     [self addBitmapLayer];
     
     /*
-     step3: 第三步: 设置进度回调和完成回调,开始执行.
+     step3: 第三步:开始执行.
      */
-    __weak typeof(self) weakSelf = self;
-    [drawPad setOnProgressBlock:^(CGFloat currentPts) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",currentPts];
-        });
-    }];
-    
-    //设置完成后的回调
-    [drawPad setOnCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"前台执行完毕了.....stop!!!!");
-            [weakSelf drawpadCompleted];
-        });
-    }];
-    
-    
-    
-    //开始工作
     if([drawPad startDrawPad]==NO)
     {
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
@@ -130,6 +125,7 @@
 -(void)getThumbnailFilters
 {
     //----一下应为异步执行,读取图片.
+     getThumbnailing=YES;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         filterItemArray=[FilterItem createDemoFilterArray];  //拿到列举的多个滤镜.
@@ -145,6 +141,7 @@
             filterImageArray=[BitmapPadExecute getMoreImageFromOneImage:image filterArray:filterArray];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            getThumbnailing=NO;
             if(filterImageArray.count==0){
                 [LanSongUtils showDialog:@"获取视频缩略图失败,请联系我们"];
             }else{
@@ -160,11 +157,6 @@
     filterListVC.filterPen=nil;
     isSelectFilter=NO;
     mVideoPen=nil;
-    if ([SDKFileUtil fileExist:dstTmpPath]) {
-        [VideoEditor drawPadAddAudio:srcFile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
-    }else{
-        dstPath=dstTmpPath;
-    }
     [self showIsPlayDialog];
 }
 -(void)addBitmapLayer
@@ -176,7 +168,7 @@
         //放到右上角.(图层的xy,是中心点的位置)
         pen.positionX=pen.drawPadSize.width-pen.penSize.width/2;
         pen.positionY=pen.penSize.height/2;
-        NSLog(@"增加一个 图片图层...");
+//        NSLog(@"增加一个 图片图层...");
     }
 }
 /**
@@ -199,38 +191,37 @@
  */
 -(void)startExecuteDrawPad:(LanSongFilter *)filter
 {
-    drawPad =[[DrawPadExecute alloc] initWithWidth:srcFile.drawpadWidth height:srcFile.drawpadHeight dstPath:dstTmpPath];
+    drawpadVideo=[[DrawPadVideoExecute alloc] initWithPath:srcFile.srcVideoPath
+                                        drawpadSize:CGSizeMake(drawPadWidth, drawPadHeight) dstPath:dstPath];
     
-    
-    [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
-    [self addBitmapLayer];
-    
-    //设置进度
     __weak typeof(self) weakSelf = self;
-    [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
-        
+    [drawpadVideo setVideoProgressBlock:^(CGFloat time){
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",sampleTime];
+            NSLog(@"即将处理时间(进度)是:%f,百分比是:%f",time,time/drawpadVideo.videoInfo.vDuration);
+             weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",time];
         });
     }];
     
-    //设置完成后的回调
-    [drawPad setOnCompletionBlock:^{
+     [drawpadVideo setCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf drawpadCompleted];
+            drawpadVideo=nil;  //完毕后, 等于nil, 释放内存.
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf drawpadCompleted];
+            });
         });
     }];
     
-    //step3: 开始执行
-    if([drawPad startDrawPad]==NO)
-    {
-        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
-    }
+    UIImage *image=[UIImage imageNamed:@"small"];
+    [drawpadVideo addBitmapPen:image];
+    [drawpadVideo start];
 }
 //--------------------一下是ui界面.
 -(void)viewDidAppear:(BOOL)animated
 {
     isSelectFilter=NO;
+    if(!getThumbnailing && drawPad==nil){
+        [self startPreviewDrawPad];
+    }
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -243,6 +234,7 @@
     filterListVC=nil;
     mVideoPen=nil;
     dstPath=nil;
+    filterView=nil;
     
     if(filterItemArray!=nil){
         [filterItemArray removeAllObjects];
@@ -279,13 +271,16 @@
     CGFloat width=size.width;
     CGFloat height=size.width*(drawPadHeight/drawPadWidth);  //等比例显示
     
-    if(srcFile.info.vRotateAngle==90 || srcFile.info.vRotateAngle==270){
+    if(srcFile.info.vRotateAngle==90 || srcFile.info.vRotateAngle==270 ||srcFile.info.vHeight>srcFile.info.vWidth){
         height=size.height/2;
         width=height*(drawPadWidth/drawPadHeight);
     }
+    
+    
     CGFloat x=size.width/2-width/2;
     filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(x, 60, width,height)];
     [self.view addSubview: filterView];
+    filterView.tag=333;
     
     
     //布局其他界面
@@ -352,9 +347,8 @@
         isSelectFilter=YES;
         [self.navigationController pushViewController:filterListVC animated:YES];
     }else if(sender.tag==602){  //后台滤镜.
-        if(drawPad!=nil && drawPad.isWorking){
-            [self stopDrawpad];
-        }
+        [self stopDrawpad];  //先停止预览drawpad
+        
         if(currentFilter!=nil){  //采用滤镜的几种滤镜
              [self startExecuteDrawPad:(LanSongFilter *)currentFilter];
         }else{//采用选中的所有滤镜.

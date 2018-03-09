@@ -71,12 +71,10 @@
             NSString *tmpMp4= [SDKFileUtil genTmpMp4Path];
             [CommDemoItem demoDeleteAudio:srcVideo dstMp4:tmpMp4];
             
-            
-            int  ret= [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
+           [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
             [SDKFileUtil deleteFile:tmpMp4];
         }else{
           [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
-            
         }
     }else{
         
@@ -118,6 +116,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcVideo];
     if ([info prepare]) {
+        
         //第一步创建视频文件字符串,用来保存演示的临时文件
         NSString *seg1=  [SDKFileUtil genFileNameWithSuffix:info.fileSuffix];
         NSString *seg2=  [SDKFileUtil genFileNameWithSuffix:info.fileSuffix];

@@ -48,6 +48,7 @@
     
     CGFloat padWidth=480;
     CGFloat padHeight=480;
+    
     camDrawPad=[[DrawPadCamera alloc] initWithPadSize:CGSizeMake(padWidth, padHeight) isFront:YES];
     
     CGSize size=self.view.frame.size;
@@ -55,11 +56,12 @@
     
     DrawPadView *filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(padWidth/padHeight))];
     [self.view addSubview: filterView];
-    [camDrawPad setDrawPadDisplay:filterView];
+    [camDrawPad setDrawPadView:filterView];
     
     
     [camDrawPad startPreview];
     
+    operationPen=camDrawPad.cameraPen;
        __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -149,17 +151,11 @@
         case 101 :  //filter
             isSelectFilter=YES;
             [self.navigationController pushViewController:filterListVC animated:YES];
-            
-//            isPaused=!isPaused;
-//            [camDrawPad pauseRecord:isPaused];
-            
             break;
         case  102:  //btnStart;
             dstPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
             
             [camDrawPad startRecordWithPath:dstPath];
-            
-            NSLog(@"start record.....");
             break;
         case  103:  //btnOK;
             [camDrawPad stopRecord];

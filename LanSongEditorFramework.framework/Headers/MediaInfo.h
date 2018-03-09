@@ -137,6 +137,7 @@
  */
 +(BOOL) isSupport:(NSString*)videoPath;
 
++(NSString *) checkFile:(NSString*)videoPath;
 /**
  *  是否有视频
  *

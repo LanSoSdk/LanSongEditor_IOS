@@ -16,6 +16,8 @@
 #import "MVPen.h"
 #import "CALayerPen.h"
 #import "DataPen.h"
+#import "DrawPadView.h"
+
 
 
 
@@ -75,11 +77,11 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 
 
 /**
- 初始化容器容器,
-
+ * 初始化容器容器,
+ *
  @param padWidth 这个容器的宽度, 也即是视频录制后的宽度
  @param padHeight 容器的高度, 即视频录制后的高度
- @param dstPath 保存的路径
+ @param dstPath 执行后的保存路径, 当前默认在预览的时候, 就开始保存.
  @return
  */
 - (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight dstPath:(NSString *)dstPath;
@@ -87,15 +89,14 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
 - (id)initWithWidth:(CGFloat)padWidth height:(CGFloat)padHeight bitrate:(int)bitrate dstPath:(NSString *)dstPath;
 /**
  *  增加主视频, 如果有主视频,则以主视频的时间为准,
-    增加主视频后, 如果您后面再次设置了自动模式, 则自动模式无效.以主视频为的时间戳作为生成视频的时间戳.
+ *   增加主视频后, 如果您后面再次设置了自动模式, 则自动刷新模式无效.以主视频为的时间戳作为生成视频的时间戳.
+ *  如果你想循环播放,则应该用addVideoPen,并设置自动刷新模式
  *
+ *  增加后, 视频画面如果宽度大于高度, 则会把宽度等于DrawPad的宽度, 然后调整高度.
+ *  如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
  *
- 增加后, 视频画面如果宽度大于高度, 则会把宽度等于DrawPad的宽度, 然后调整高度.
- 如果高度 大于宽度, 则会把高度等于Drawpad的高度, 等比例调整宽度.
- 
  *  @param videoPath 文件的绝对路径
  *  @param filter    可以给视频增加一个LanSongFilter的滤镜
- *
  *  @return
  */
 -(VideoPen *)addMainVideoPen:(NSString *)videoPath filter:(LanSongFilter *)filter;
@@ -185,7 +186,7 @@ typedef NS_ENUM(NSUInteger, DrawPadUpdateMode) {
  *
  *  @param preview
  */
--(void) setDrawPadPreView:(UIView *)preview;
+-(void) setDrawPadPreView:(DrawPadView *)preview;
 
 /**
  *  获取容器的宽度

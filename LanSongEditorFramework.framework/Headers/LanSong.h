@@ -193,3 +193,10 @@
 #import "IFXproIIFilter.h"
 #import "IFLordKelvinFilter.h"
 
+
+//2018年03月07日11:23:12 增加
+#import "LanSongBeautyTuneFilter.h"
+#import "LanSongBeautyAdvanceFilter.h"
+
+
+

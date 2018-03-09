@@ -42,10 +42,12 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/BitmapPadExecute.h>
 
 #import <LanSongEditorFramework/DrawPadCamera.h>
+#import <LanSongEditorFramework/DrawPadVideoExecute.h>
 
 #import <LanSongEditorFramework/LanSongDebug.h>
 //视频倒序
 #import <LanSongEditorFramework/LanSongVideoReverse.h>
+
 
 
 @interface LanSongEditor : NSObject

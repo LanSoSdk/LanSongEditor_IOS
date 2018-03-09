@@ -11,7 +11,7 @@
 
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG
-    #define LSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #define LSLog(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
     #define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 #else
     #define LSLog(...)
@@ -38,9 +38,16 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 
 @interface LanSongContext : NSObject
 
+
 @property(readonly, nonatomic) dispatch_queue_t contextQueue;
+
 @property(readwrite, retain, nonatomic) ShaderProgram *currentShaderProgram;
+
+/**
+ 当前语境
+ */
 @property(readonly, retain, nonatomic) EAGLContext *context;
+
 @property(readonly) CVOpenGLESTextureCacheRef coreVideoTextureCache;
 @property(readonly) LanSongFramebufferCache *framebufferCache;
 
@@ -71,6 +78,15 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 
 - (void)useSharegroup:(EAGLSharegroup *)sharegroup;
 
+
+/**
+ 2018年01月16日12:00:27增加
+ */
+- (BOOL)lockRender:(id<EAGLDrawable>)drawable;
+- (void)unlockRender;
+
+-(void)destoryCurrentContext;
+
 // Manage fast texture upload
 + (BOOL)supportsFastTextureUpload;
 
@@ -84,6 +100,8 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
 - (void)setInputRotation:(LanSongRotationMode)newInputRotation atIndex:(NSInteger)textureIndex;
 - (CGSize)maximumOutputSize;
+
+
 
 /**
  原生结束处理.

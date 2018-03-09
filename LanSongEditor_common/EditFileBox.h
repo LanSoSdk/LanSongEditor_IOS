@@ -47,6 +47,7 @@
 @property CGFloat  drawpadWidth;
 
 
+
 /**
  当前处理这个视频的容器高度.
  */

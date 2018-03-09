@@ -32,13 +32,14 @@
             CGFloat tmp=self.drawpadWidth;
             self.drawpadWidth=self.drawpadHeight;
             self.drawpadHeight=tmp;
-            
-            // 如果宽度和高度过大, 则缩小一倍,因为是等比例缩小,不太影响视频质量.
-            if(self.drawpadWidth * self.drawpadHeight>=1080*1920){
-                self.drawpadWidth/=2.0;
-                self.drawpadHeight/=2.0;
-            }
         }
+        //如果视频是全屏录制的, 则建议drawpadWidth默认等于屏幕的2/3
+        // 如果宽度和高度过大, 则缩小一倍,因为是等比例缩小,不太影响视频质量.
+        //这里不可取, 因为有些drawpad是后台的, 后台则是多少, 就应该显示多少;
+//        if(self.drawpadWidth * self.drawpadHeight>=960*544){
+//            self.drawpadWidth/=2.0;
+//            self.drawpadHeight/=2.0;
+//        }
         self.videoAngle=self.info.vRotateAngle;
     }
     self.srcVideoPath=path;

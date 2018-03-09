@@ -62,8 +62,9 @@
     
     srcFile=[AppDelegate getInstance].currentEditBox;
     
-   [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
+    VideoPen *videoPen= [drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
     
+   
     //设置进度
     __weak typeof(self) weakSelf = self;
     [drawPad setOnProgressBlock:^(CGFloat sampleTime) {
@@ -82,24 +83,28 @@
         });
     }];
     
-    CALayer *mainLayer=[CALayer layer];
-    mainLayer.frame=CGRectMake(0, 60, 480,480);
-    mainLayer.backgroundColor=[UIColor clearColor].CGColor;
-    
-    CALayer *layer=[CALayer layer];
-    layer.frame=CGRectMake(0, 80, 50, 50);
-    layer.backgroundColor=[UIColor blueColor].CGColor;
-    [mainLayer addSublayer:layer];
-    
-    //增加一个CALayer;
-    [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
-    
-    [self addBitmapLayer];
+//    CALayer *mainLayer=[CALayer layer];
+//    mainLayer.frame=CGRectMake(0, 60, 480,480);
+//    mainLayer.backgroundColor=[UIColor clearColor].CGColor;
+//    
+//    CALayer *layer=[CALayer layer];
+//    layer.frame=CGRectMake(0, 80, 50, 50);
+//    layer.backgroundColor=[UIColor blueColor].CGColor;
+//    [mainLayer addSublayer:layer];
+//    
+//    //增加一个CALayer;
+//    [drawPad addCALayerPenWithLayer:mainLayer fromUI:NO];
+//    
+//    [self addBitmapLayer];
     
     //step3: 开始执行
-    if([drawPad startDrawPad]==NO)
-    {
-        NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+    if(videoPen!=nil){
+        if([drawPad startDrawPad]==NO)
+        {
+            NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
+        }
+    }else{
+         NSLog(@"视频图层增加失败...");
     }
 }
 
@@ -117,7 +122,7 @@
         pen.scaleWidth=0.5f;
         pen.scaleHeight=0.5f;
  
-        NSLog(@"增加一个 图片图层...");
+//        NSLog(@"增加一个 图片图层...");
     }
 }
 -(void) showProgress:(CGFloat) sampleTime

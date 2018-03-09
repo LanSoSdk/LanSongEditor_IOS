@@ -37,29 +37,27 @@
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     
-    //step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+    /*
+     step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
+     */
     
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
-    
     
     int    drawPadBitRate=1000*1000;
     drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
     
     CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.01;
-    
     DrawPadView *filterView;
     if (drawPadWidth>drawPadHeight) {
         filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
-        
     }else{
         //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
         filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.height*(drawPadWidth/drawPadHeight)/2,size.height/2)];
         filterView.center=CGPointMake(size.width/2, filterView.center.y);
    }
-    
+
     
     [self.view addSubview: filterView];
     [drawpad setDrawPadPreView:filterView];
@@ -71,8 +69,9 @@
     
     //增加一个视频图层.
     LanSongSepiaFilter  *filter=[[LanSongSepiaFilter alloc] init];
-    videoPen=  [drawpad addMainVideoPen:srcfile.srcVideoPath filter:filter];
-   
+    videoPen=  [drawpad addVideoPen:srcfile.srcVideoPath filter:filter];
+    videoPen.loopPlay=YES;
+    [drawpad setUpdateMode:kAutoTimerUpdate autoFps:25];
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
     __weak typeof(self) weakSelf = self;
@@ -88,31 +87,22 @@
             [weakSelf drawpadCompleted];
         });
     }];
-    [self performSelector:@selector(toStartAudioRecord:) withObject:nil afterDelay:20.0];  //延迟0.1秒后执行的方法.  注意:方法后面一定有冒号的.
-    
     
     // 开始工作
     if([drawpad startDrawPad]==NO)
     {
         NSLog(@"DrawPad 容器线程执行失败, 请联系我们!");
     }
-    LanSongChromaKeyFilter *filter2=[[LanSongChromaKeyFilter alloc] init];
-    [videoPen switchFilter:filter2];
     videoPen.loopPlay=YES;
-    
-    
     
     //把视频缩小一半,放在背景图上.
 //    operationPen.scaleWidth=0.5f;
 //    operationPen.scaleHeight=0.5f;
-    
-   
-    
-    
     //-------------以下是ui操作-----------------------
+    CGFloat padding=size.height*0.01;
+    
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
-    
     [self.view addSubview:_labProgress];
     
     [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -125,11 +115,6 @@
     currslide=  [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
     currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
-    
-}
-- (void)toStartAudioRecord : (id)sender {
-    NSLog(@"do:%@",sender);
-    [self drawpadCompleted];
 }
 - (void)slideChanged:(UISlider*)sender
 {
@@ -143,7 +128,7 @@
     CGFloat posY=drawpad.drawpadSize.height*val;
     
     switch (sender.tag) {
-        case 101:  //weizhi
+        case 101:  //位置
             videoPen.positionX=posX;
             break;
         case 102:  //Y坐标
@@ -218,11 +203,6 @@
     }else{
         [LanSongUtils showDialog:@"没有生成目标文件,请查看是否设置为实时录制,或请联系我们!"];
     }
-//    if(drawpad!=nil && drawpad.isWorking){
-//        [drawpad stopDrawPad];
-//    }
-//      dstPath=dstTmpPath;
-//     [self showIsPlayDialog];
 }
 -(void)showIsPlayDialog
 {

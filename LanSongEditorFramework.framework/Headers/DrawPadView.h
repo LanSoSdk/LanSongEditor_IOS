@@ -12,36 +12,30 @@
 
 
 @interface DrawPadView : UIView
-{
-    LanSongRotationMode inputRotation;
-}
-
-/** The fill mode dictates how images are fit in the view, with the default being kLanSongFillModePreserveAspectRatio
- */
-@property(readwrite, nonatomic) LanSongFillModeType fillMode;
-
-/** This calculates the current display size, in pixels, taking into account Retina scaling factors
- */
-@property(readonly, nonatomic) CGSize sizeInPixels;
-
-@property(nonatomic) BOOL enabled;
 
 
 /**
- 内部使用
-
- @param newValue <#newValue description#>
+ 获取当前drawpad渲染到的屏幕尺寸;
+ (单位像素)
  */
-- (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
+@property(readonly, nonatomic) CGSize sizeInPixels;
+
+
 
 + (const GLfloat *)textureCoordinatesForRotation:(LanSongRotationMode)rotationMode;
 
 
+-(void)setContext:(LanSongContext *)context;
 /**
  内部使用
  */
--(void)makeCurrent;
+-(void)buildDrawBuffer;
 
+
+/**
+ 内部使用
+ */
+-(void)remark;
 
 /**
  内部使用

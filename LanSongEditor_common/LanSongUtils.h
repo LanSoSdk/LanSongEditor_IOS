@@ -22,6 +22,7 @@
 #import "MBProgressHUD.h"
 #import "Masonry.h"
 #import "UIColor+Util.h"
+#import "BeautyManager.h"
 
 
 

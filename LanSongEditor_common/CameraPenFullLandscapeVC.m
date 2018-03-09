@@ -82,7 +82,7 @@
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSLog(@"progressBlock is:%f", currentPts);
+//            NSLog(@"progressBlock is:%f", currentPts);
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
         });
     }];
@@ -109,8 +109,12 @@
             
             break;
         case  103:  //btnOK;
-            [camDrawPad stopRecord];
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            {
+                [camDrawPad stopRecord];
+                EditFileBox *box=[[EditFileBox alloc] initWithPath:dstPath];
+                [AppDelegate getInstance].currentEditBox=box;
+            }
+//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             break;
         default:
             break;
@@ -200,7 +204,6 @@
     [self.view addSubview:btnOK];
     
     
-    
     [btnStart mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(slide.mas_bottom).offset(padding);
         make.left.mas_equalTo(filterView.mas_left).offset(padding);
@@ -226,9 +229,9 @@
 {
     operationPen=nil;
     camDrawPad=nil;
-    if([SDKFileUtil fileExist:dstPath]){
-        [SDKFileUtil deleteFile:dstPath];
-    }
+    
+//    [SDKFileUtil deleteFile:dstPath];
+    
     NSLog(@"CameraPenDemoVC  dealloc");
 }
 /**

@@ -97,7 +97,6 @@
     if ([backCamera isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure]) {
         [backCamera setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
     }
-
     [backCamera unlockForConfiguration];
     
     self.videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:backCamera error:nil];
@@ -201,6 +200,7 @@
             renderSize.width = MAX(renderSize.width, assetTrack.naturalSize.height);
             renderSize.height = MAX(renderSize.height, assetTrack.naturalSize.width);
         }
+        
         
         
         

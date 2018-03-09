@@ -13,8 +13,9 @@
 #import "FilterTpyeList.h"
 #import "SegmentRecordProgressView.h"
 #import "DeleteButton.h"
+#import "Demo3PenFilterVC.h"
 
-#import <LanSongEditorFramework/DrawPadCamera.h>
+
 
 /**
  最小的视频时长,如果小于这个, 则视频认为没有录制.
@@ -26,7 +27,7 @@
  定义视频录制的最长时间, 如果超过这个时间,则默认为视频录制已经完成.
  
  */
-#define MAX_VIDEO_DURATION 8.0f
+#define MAX_VIDEO_DURATION 15.0f
 
 @interface SegmentFile: NSObject
 
@@ -58,10 +59,14 @@
     NSMutableArray  *segmentArray;  //存放的是当前段的SegmentFile对象.
     
     NSString * segmentPath;
-    
     CGFloat  nvheight;
     CGFloat  totalDuration; //总时长.
     CGFloat  currentSegmentDuration; //当前段的时长;
+    
+    
+    UISegmentedControl *segmentSpeed;
+    float recordSpeed;  //录制的速度
+    BeautyManager *beautyMng;
 }
 @property (strong, nonatomic) SegmentRecordProgressView *progressBar;
 
@@ -105,14 +110,7 @@
             [weakSelf padProgress:currentPts];
         });
     }];
-    
-    
-    /*
-     开始预览
-     */
-    [camDrawPad startPreview];
-    
-    
+    beautyMng=[[BeautyManager alloc] init];
     segmentArray=[[NSMutableArray alloc] init];
     totalDuration=0;
     currentSegmentDuration=0;
@@ -122,8 +120,6 @@
 }
 -(void)padProgress:(CGFloat)currentPts
 {
-    NSLog(@"progressBlock is:%f", currentPts);
-    
     //更新时间戳.
     if(self.progressBar!=nil){
         [self.progressBar setLastSegmentPts:currentPts];
@@ -144,12 +140,16 @@
 /**
  开始分段录制
  */
--(void)startSegment
+-(void)startSegmentRecord
 {
     [_progressBar addNewSegment];
     currentSegmentDuration=0;
     segmentPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
-    [camDrawPad startRecordWithPath:segmentPath];
+    
+    [beautyMng addBeauty:camDrawPad.cameraPen];
+    
+    NSLog(@"当前的速度是:%f", recordSpeed);
+    [camDrawPad startRecordWithPath:segmentPath speedRate: recordSpeed];
 }
 
 /**
@@ -169,8 +169,8 @@
             
             [segmentArray addObject:file];
             totalDuration+=currentSegmentDuration;
-            
-            NSLog(@"增加一个 segment:%lu",(unsigned long)segmentArray.count);
+        }else{
+            LSLog(@"当前段文件不存在....");
         }
         //增加完毕, 要复位.
         segmentPath=nil;
@@ -191,7 +191,7 @@
         if(totalDuration>=path.duration){
             totalDuration-=path.duration;
         }
-         [_progressBar deleteLastSegment];//删除对应的界面.
+        [_progressBar deleteLastSegment];//删除对应的界面.
     }
     if (segmentArray.count > 0) {
         [_deleteButton setButtonStyle:DeleteButtonStyleNormal];
@@ -200,7 +200,7 @@
     }
 }
 /**
- 结束分段录制, 
+ 结束分段录制,
  
  拼接在一起然后播放;
  */
@@ -212,37 +212,69 @@
     if(segmentArray.count>1){  //合成在一起.
         dstPath=[SDKFileUtil genTmpMp4Path];
         
+        
         NSMutableArray *fileArray = [[NSMutableArray alloc] init];
         for (SegmentFile *data in segmentArray) {
             [fileArray addObject:data.segmentPath];
         }
         
-        [VideoEditor executeConcatMP4:fileArray dstFile:dstPath];
-        if([SDKFileUtil fileExist:dstPath]==NO){
-            [LanSongUtils showHUDToast:@"抱歉,文件合成失败!,请联系我们"];
-        }
+        //把数组中的各段视频都拼接在一起;
+        [self concatVideoWithPath:fileArray dstPath:dstPath handle:^{
+            //拼接后,跳入另一个VC中开始播放;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                EditFileBox *box=[[EditFileBox alloc] initWithPath:dstPath];
+                [AppDelegate getInstance].currentEditBox=box;
+                
+                Demo3PenFilterVC *videoVC=[[Demo3PenFilterVC alloc] init];
+                [self.navigationController pushViewController:videoVC animated:YES];
+            });
+        }];
+        
+        
     }else if(segmentArray.count==1){
         SegmentFile *data=[segmentArray objectAtIndex:0];
         dstPath=data.segmentPath;
+        
+        if([SDKFileUtil fileExist:dstPath]){
+            EditFileBox *box=[[EditFileBox alloc] initWithPath:dstPath];
+            [AppDelegate getInstance].currentEditBox=box;
+            
+            
+            //打开其他界面;
+//            Demo3PenFilterVC *videoVC=[[Demo3PenFilterVC alloc] init];
+//            [self.navigationController pushViewController:videoVC animated:YES];
+            
+                //直接预览界面;
+               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+        }
+        
+        
     }else{  //为空.
         NSLog(@"segment array is empty");
     }
-    
-    if([SDKFileUtil fileExist:dstPath]){
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-    }
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
-
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 -(void)viewDidAppear:(BOOL)animated
 {
     isSelectFilter=NO;
+    
+    if(camDrawPad!=nil){
+        [camDrawPad startPreview];
+    }
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
-    //    if (drawpad!=nil && isSelectFilter==NO) {
-    //        [drawpad stopDrawPad];
-    //    }
+    if (camDrawPad!=nil && isSelectFilter==NO) {
+        [camDrawPad stopDrawPad];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -272,9 +304,9 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchPoint = [touch locationInView:_recordButton.superview];
-
+    
     if (CGRectContainsPoint(_recordButton.frame, touchPoint)) {
-        [self startSegment];
+        [self startSegmentRecord];
     }
 }
 
@@ -284,7 +316,7 @@
 }
 - (void)initView
 {
-      nvheight=    self.navigationController.navigationBar.frame.size.height;
+    nvheight=    self.navigationController.navigationBar.frame.size.height;
     self.progressBar = [SegmentRecordProgressView getInstance];
     self.progressBar.maxDuration=MAX_VIDEO_DURATION;
     
@@ -336,14 +368,93 @@
     CGPoint center2 = _deleteButton.center;
     center2.y = _recordButton.center.y;
     _deleteButton.center = center2;
-    
     [self.view addSubview:_deleteButton];
+    //美颜按钮
+    UIButton *btnBeauty=[[UIButton alloc] init];
+    [btnBeauty setTitle:@"美颜" forState:UIControlStateNormal];
+    [btnBeauty setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    btnBeauty.titleLabel.font=[UIFont systemFontOfSize:25];
+    btnBeauty.tag=201;
+      [self.view addSubview:btnBeauty];
+      [btnBeauty addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    //--------------------
+    //选择按钮
+    recordSpeed=1.0;
+    NSArray * _titles = @[@"极慢", @"慢",@"标准",@"快",@"极快"];
+    segmentSpeed = [[UISegmentedControl alloc] initWithItems:_titles];
+    segmentSpeed.selectedSegmentIndex = 2;
+    segmentSpeed.autoresizingMask = UIViewAutoresizingFlexibleWidth;//可以自动flex宽度.
+    [self.view addSubview:segmentSpeed];
+    
+    
+    [btnBeauty mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.view.mas_centerY);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.size.mas_equalTo(CGSizeMake(60, 60));
+    }];
+    
+    [segmentSpeed mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.progressBar.mas_top).offset(-10);
+        make.centerX.mas_equalTo(self.progressBar.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(300, 40));
+    }];
+    
+    [segmentSpeed addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    //关闭按钮
+    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 60, 60)];
+    [btnClose setTitle:@"关闭" forState:UIControlStateNormal];
+    [btnClose setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnClose.titleLabel.font=[UIFont systemFontOfSize:20];
+    btnClose.tag=301;
+    [btnClose addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnClose];
+}
+-(void)doButtonClicked:(UIView *)sender
+{
+    switch (sender.tag) {
+        case 301:  //关闭
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        case 201:  //美颜
+            if(beautyMng.isBeauting){
+                [beautyMng deleteBeauty:camDrawPad.cameraPen];
+            }else{
+                [beautyMng addBeauty:camDrawPad.cameraPen];
+            }
+            break;
+        default:
+            break;
+    }
+}
+//按钮点击事件
+-(void)segmentValueChanged:(UISegmentedControl *)seg{
+    NSLog(@"seg.tag-->%ld",(long)seg.selectedSegmentIndex);
+    switch (seg.selectedSegmentIndex) {
+        case 0:
+            recordSpeed=0.5;
+            break;
+        case 1:
+            recordSpeed=0.75;
+            break;
+        case 2:
+            recordSpeed=1.0;
+            break;
+        case 3:
+            recordSpeed=1.5;
+            break;
+        case 4:
+            recordSpeed=2.0;
+            break;
+        default:
+            recordSpeed=1.0;
+            break;
+    }
+    
 }
 -(void)dealloc
 {
     operationPen=nil;
-    
-    [SDKFileUtil deleteFile:dstPath];
     
     NSMutableArray *fileArray = [[NSMutableArray alloc] init];
     for (SegmentFile *data in segmentArray) {
@@ -351,11 +462,90 @@
     }
     camDrawPad=nil;
     
-    
     [SDKFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
     
     NSLog(@"CameraPenDemoVC  dealloc");
 }
+/**
+ 合并视频, 然后导出.
+ */
+
+/**
+ 把多个视频合并
+ 
+ @param filePathArray 视频数组, NSArray中的类型是 (NSString *)
+ @param dstPath 用IOS中的AVAssetExportSession导出的.
+ @param handler 异步导出的时候, 如果正常则打印
+ */
+- (void)concatVideoWithPath:(NSArray *)filePathArray dstPath:(NSString *)dstVideo handle:(void (^)(void))handler;
+{
+    NSError *error = nil;
+    CMTime durationSum = kCMTimeZero;
+    
+    AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
+    //第一步:拿到所有的assetTrack,放到数组里.
+    for (NSString *filePath in filePathArray)
+    {
+        AVAsset *asset = [AVAsset assetWithURL:[SDKFileUtil filePathToURL:filePath]];
+        if (!asset) {
+            continue;
+        }
+        //加音频
+        AVMutableCompositionTrack *dstAudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+        [dstAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+                               ofTrack:[[asset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]
+                                atTime:durationSum
+                                 error:nil];
+        //加视频
+        AVMutableCompositionTrack *dstVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+        
+        
+        [dstVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+                               ofTrack:[[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
+                                atTime:durationSum
+                                 error:&error];
+        if(error!=nil){
+            NSLog(@"error is :%@",error);
+        }
+        //总时间累积;
+        durationSum = CMTimeAdd(durationSum, asset.duration);
+    }
+    
+    //get save path
+    NSURL *mergeFileURL =[SDKFileUtil filePathToURL:dstVideo];
+    
+    //export
+    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPreset960x540];
+    exporter.outputURL = mergeFileURL;
+    exporter.outputFileType = AVFileTypeMPEG4;
+    exporter.shouldOptimizeForNetworkUse = NO;
+    [exporter exportAsynchronouslyWithCompletionHandler:^(void){
+        switch (exporter.status)
+        {
+            case AVAssetExportSessionStatusCompleted:
+            {
+                
+                if(handler!=nil){
+                    handler();
+                }
+            }
+                break;
+            case AVAssetExportSessionStatusFailed:
+                NSLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
+                break;
+            case AVAssetExportSessionStatusCancelled:
+                NSLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
+                break;
+            default:
+                NSLog(@"Export Failed: %@", [exporter.error localizedDescription]);
+                break;
+        }
+    }];
+}
+
+
+
+
 @end
 

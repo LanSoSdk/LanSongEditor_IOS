@@ -29,6 +29,11 @@
 //}
 
 // Opacity/intensity of lookup filter ranges from 0.0 to 1.0, with 1.0 as the normal setting
+
+/**
+ 第一个纹理和第二个纹理的混淆程度;
+ 如果是0,则完全用第一个纹理, 如果是1,则完全用第二个纹理;
+ */
 @property(readwrite, nonatomic) CGFloat intensity;
 
 @end

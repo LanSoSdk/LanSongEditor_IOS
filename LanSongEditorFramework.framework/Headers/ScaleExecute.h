@@ -99,7 +99,6 @@
 //    
 //    [scale setCompletionBlock:^{
 //        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"缩放完成..");
 //            scale=nil;  //完毕后, 等于nil, 释放内存.
 //        });
 //    }];

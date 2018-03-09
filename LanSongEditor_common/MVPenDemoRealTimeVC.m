@@ -35,7 +35,6 @@
     srcFile=[AppDelegate getInstance].currentEditBox;
     
     dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
   
     
@@ -61,10 +60,6 @@
 //    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
-    
-    //NSLog(@"增加一个Layer...");
-    
-  
 
     
     

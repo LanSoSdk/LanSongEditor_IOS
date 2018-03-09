@@ -13,8 +13,9 @@
 /**
  MP3格式转AAC格式的构造函数.
 
+ 支持wav转换.
  @param delegate 完成监听, 进度监听,错误监听的回调
- @param srcPath MP3源文件
+ @param srcPath MP3源文件或 wav文件,
  @param dstPath 转换后的AAC/M4A 文件的保存路径, 绝对路径,后缀是m4a的文件
  @return 创建好的对象
  */
@@ -24,6 +25,10 @@
  */
 - (void)start;
 
+/**
+ 阻塞执行模式, 调用后, 直接执行这里, 直到结束退出为止;
+ */
+-(void)startExecute;
 /**
   暂停
  */
