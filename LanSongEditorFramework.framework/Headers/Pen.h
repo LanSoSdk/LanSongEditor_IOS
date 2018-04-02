@@ -114,12 +114,12 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 @property(readwrite, nonatomic)  CGFloat rotateDegree;
 /**
  *  
- 设置或读取当前画面的中心点的坐标像素值, 左上角为0,0.
- 默认是中心点, 即:positionX=drawPadSize.width/2;
+ 设置或读取  <当前图层的中心点>在容器中的坐标;
+ 容器坐标的左上角是左上角为0,0. 从上到下 是Y轴, 从左到右是X轴;
+ 
+ 当一个图层增加到容器中, 如果没有设置中心点,则默认是:
+               positionX=drawPadSize.width/2;
                positionY=drawPadSize.height/2;
- 
- 注意:这里的XY是画面中心点的坐标, 不是画面左上角!.
- 
  */
 @property(readwrite, nonatomic)  CGFloat positionX, positionY;
 
@@ -145,7 +145,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  *  内部使用
  */
 - (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
-
 
 /**
  内部使用.

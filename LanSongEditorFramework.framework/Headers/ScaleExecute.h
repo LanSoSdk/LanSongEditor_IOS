@@ -85,7 +85,7 @@
 //NSString *dstPath;
 //-(void)testScaleExecute
 //{
-//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"ping20s" withExtension:@"mp4"];
+//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"xialu11s" withExtension:@"mp4"];
 //     dstPath=[SDKFileUtil genTmpMp4Path];
 //    
 //    scale=[[ScaleExecute alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL]

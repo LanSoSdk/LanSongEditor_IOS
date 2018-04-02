@@ -70,7 +70,7 @@
  -(void)testFile
  {
  
- NSString *assetPath = [[NSBundle mainBundle] pathForResource:@"ping20s" ofType:@"mp4"];
+ NSString *assetPath = [[NSBundle mainBundle] pathForResource:@"xialu11s" ofType:@"mp4"];
  extractFrame=[[ExtractVideoFrame alloc] initWithPath:assetPath];
  if(extractFrame!=nil){
  

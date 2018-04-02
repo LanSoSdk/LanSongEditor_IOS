@@ -135,11 +135,6 @@
     [label startAnimation];
     
     
-    //把视频缩小一半,放在背景图上.
-    operationPen.scaleWidth=0.5f;
-    operationPen.scaleHeight=0.5f;
-    
-
     
     //----一下是ui操作.
     _labProgress=[[UILabel alloc] init];
