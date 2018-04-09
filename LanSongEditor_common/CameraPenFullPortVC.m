@@ -36,6 +36,7 @@
     CGFloat padHeight;
     
     BeautyManager *beautyMng;
+    float beautyLevel;
 }
 @end
 
@@ -55,7 +56,7 @@
     [self.view addSubview: filterView];
     filterView.tag=222;
     
-    
+    beautyLevel=0;
     beautyMng=[[BeautyManager alloc] init];
     
     //初始化其他UI界面.
@@ -118,10 +119,16 @@
             }
             break;
         case 201:  //美颜
-            if(beautyMng.isBeauting){
-                [beautyMng deleteBeauty:cameraPen];
+            if(beautyLevel==0){  //增加美颜
+                [beautyMng addBeauty:drawPad.cameraPen];
+                beautyLevel+=0.22;
             }else{
-                [beautyMng addBeauty:cameraPen];
+                beautyLevel+=0.1;
+                [beautyMng setWarmCoolEffect:beautyLevel];
+                if(beautyLevel>1.0){ //删除美颜
+                    [beautyMng deleteBeauty:drawPad.cameraPen];
+                    beautyLevel=0;
+                }
             }
             segmentSpeed.enabled= !segmentSpeed.enabled;
             break;
@@ -237,7 +244,7 @@
     
     
     UIButton *btnBeauty=[[UIButton alloc] init];
-    [btnBeauty setTitle:@"美颜" forState:UIControlStateNormal];
+    [btnBeauty setTitle:@"美颜+/-" forState:UIControlStateNormal];
     [btnBeauty setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     btnBeauty.titleLabel.font=[UIFont systemFontOfSize:25];
     btnBeauty.tag=201;
@@ -296,7 +303,7 @@
     [btnBeauty mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.view.mas_centerY).offset(-btnWH);
         make.centerX.mas_equalTo(self.view.mas_right).offset(-btnWH);
-        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+        make.size.mas_equalTo(CGSizeMake(btnWH*2, btnWH));
     }];
 }
 /**

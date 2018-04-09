@@ -67,6 +67,7 @@
     UISegmentedControl *segmentSpeed;
     float recordSpeed;  //录制的速度
     BeautyManager *beautyMng;
+    float beautyLevel;
 }
 @property (strong, nonatomic) SegmentRecordProgressView *progressBar;
 
@@ -115,6 +116,7 @@
     totalDuration=0;
     currentSegmentDuration=0;
     segmentPath=nil;
+    beautyLevel=0;
     
     [self initView];
 }
@@ -371,12 +373,23 @@
     [self.view addSubview:_deleteButton];
     //美颜按钮
     UIButton *btnBeauty=[[UIButton alloc] init];
-    [btnBeauty setTitle:@"美颜" forState:UIControlStateNormal];
-    [btnBeauty setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btnBeauty setTitle:@"美颜+/-" forState:UIControlStateNormal];
+    [btnBeauty setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btnBeauty.titleLabel.font=[UIFont systemFontOfSize:25];
     btnBeauty.tag=201;
       [self.view addSubview:btnBeauty];
       [btnBeauty addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //前置
+    UIButton *btnSelect=[[UIButton alloc] init];
+    [btnSelect setTitle:@"前置" forState:UIControlStateNormal];
+    [btnSelect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btnSelect.titleLabel.font=[UIFont systemFontOfSize:25];
+    btnSelect.tag=202;
+    [self.view addSubview:btnSelect];
+    [btnSelect addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     //--------------------
     //选择按钮
     recordSpeed=1.0;
@@ -389,6 +402,11 @@
     
     [btnBeauty mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.view.mas_centerY);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.size.mas_equalTo(CGSizeMake(120, 60));
+    }];
+    [btnSelect mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnBeauty.mas_bottom).offset(10);
         make.right.mas_equalTo(self.view.mas_right);
         make.size.mas_equalTo(CGSizeMake(60, 60));
     }];
@@ -417,19 +435,29 @@
             [self.navigationController popViewControllerAnimated:YES];
             break;
         case 201:  //美颜
-            if(beautyMng.isBeauting){
-                [beautyMng deleteBeauty:camDrawPad.cameraPen];
-            }else{
+            if(beautyLevel==0){  //增加美颜
                 [beautyMng addBeauty:camDrawPad.cameraPen];
+                beautyLevel+=0.22;
+            }else{
+                 beautyLevel+=0.1;
+                 [beautyMng setWarmCoolEffect:beautyLevel];
+                if(beautyLevel>1.0){ //删除美颜
+                     [beautyMng deleteBeauty:camDrawPad.cameraPen];
+                     beautyLevel=0;
+                }
             }
             break;
+        case 202:
+            if(camDrawPad!=nil){
+                [camDrawPad.cameraPen rotateCamera];
+            }
         default:
             break;
     }
 }
 //按钮点击事件
 -(void)segmentValueChanged:(UISegmentedControl *)seg{
-    NSLog(@"seg.tag-->%ld",(long)seg.selectedSegmentIndex);
+//    NSLog(@"seg.tag-->%ld",(long)seg.selectedSegmentIndex);
     switch (seg.selectedSegmentIndex) {
         case 0:
             recordSpeed=0.5;
@@ -467,10 +495,6 @@
     
     NSLog(@"CameraPenDemoVC  dealloc");
 }
-/**
- 合并视频, 然后导出.
- */
-
 /**
  把多个视频合并
  

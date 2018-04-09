@@ -27,9 +27,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- 提示1:   ios版本的LanSong功能很强大, 为了滤镜部分和它兼容, 我们的图层继承自LanSong中的LanSongOutput,
-         您可以直接使用LanSong的滤镜效果,并支持LanSong的各种扩展效果.
-         与LanSongOutput的区别是: LanSongOutput只能做滤镜功能, 而我们是整个视频编辑SDK.
+ 提示1:   ios版本的GPUImage功能很强大, 为了滤镜部分和它兼容, 我们的图层继承自GPUImage中的GPUImageOutput,
+         您可以直接使用GPUImage的滤镜效果,并支持GPUImage的各种扩展效果.
+         与GPUImageOutput的区别是:GPUImageOutput只能做滤镜功能, 而我们是整个视频编辑SDK.
  
  提示2:  因为图层的的单词是Layer, 而'Layer'单词被IOS的UI使用了, 为了不使您代码中的对象命名混乱,
         我们用Pen这个单词作为图层的父类, 只是单词变化了,和Android版本的一样是图层的意思, 一样每个图层均支持移动缩放旋转滤镜等特性

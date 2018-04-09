@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title=@"展示图层基本方法";
     self.view.backgroundColor=[UIColor whiteColor];
     
     
@@ -40,7 +40,6 @@
     /*
      step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
      */
-    
     CGFloat     drawPadWidth=480;
     CGFloat     drawPadHeight=480;
     
@@ -63,15 +62,13 @@
     [drawpad setDrawPadPreView:filterView];
     
     
-   //第二步: 增加一些图层,当然您也可以在容器开始后增加
+   //第二步: 增加图层,当然您也可以在容器开始后增加
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
     
     //增加一个视频图层.
-    LanSongSepiaFilter  *filter=[[LanSongSepiaFilter alloc] init];
-    videoPen=  [drawpad addVideoPen:srcfile.srcVideoPath filter:filter];
+    videoPen=  [drawpad addMainVideoPen:srcfile.srcVideoPath filter:nil];
     videoPen.loopPlay=YES;
-    [drawpad setUpdateMode:kAutoTimerUpdate autoFps:25];
     
     //第三步, 设置 进度回调,完成回调, 开始执行.
     __weak typeof(self) weakSelf = self;
@@ -93,11 +90,8 @@
     {
         NSLog(@"DrawPad 容器线程执行失败, 请联系我们!");
     }
-    videoPen.loopPlay=YES;
+ 
     
-    //把视频缩小一半,放在背景图上.
-//    operationPen.scaleWidth=0.5f;
-//    operationPen.scaleHeight=0.5f;
     //-------------以下是ui操作-----------------------
     CGFloat padding=size.height*0.01;
     
@@ -112,8 +106,8 @@
     }];
     
     UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
-    currslide=  [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
-    currslide=          [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
+    currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
+    currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
 }
 - (void)slideChanged:(UISlider*)sender
@@ -177,7 +171,6 @@
     [self.view addSubview:labPos];
     [self.view addSubview:slidePos];
     
-    
     [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(parentView.mas_bottom).offset(padding);
         make.left.mas_equalTo(self.view.mas_left);
@@ -191,6 +184,10 @@
     }];
     return labPos;
 }
+
+/**
+ 容器完成回调;
+ */
 -(void)drawpadCompleted
 {
     //增加音频

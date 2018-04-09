@@ -28,10 +28,12 @@
     
     [videoCamera startCameraCapture];
     
+    filter=[[LanSongSepiaFilter alloc] init];
     
     
     previewView = [[LanSongView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [videoCamera addTarget:previewView];
+    [videoCamera addTarget:filter];
+    [filter addTarget:previewView];
     
     
     [self addSomeView];
@@ -100,9 +102,7 @@
 - (IBAction)startRecording:(id)sender {
     
     if(isRecording){
-        
         [self segmentStop];
-        
     }else{
         [self segmentStart];
     }
@@ -125,7 +125,9 @@
     movieWriter.shouldPassthroughAudio = NO;//录制Camera的时候, 要编码, 不能 -acodec copy
     
     
-    [videoCamera addTarget:movieWriter];
+    
+    
+    [filter addTarget:movieWriter];
     
     videoCamera.audioEncodingTarget = movieWriter;
     
@@ -226,8 +228,6 @@
         CGPoint location = [tgr locationInView:previewView];
         [self addfocusImage];
         [self layerAnimationWithPoint:location];
-        
-        
         
         AVCaptureDevice *device = videoCamera.inputCamera;
         CGPoint pointOfInterest = CGPointMake(0.5f, 0.5f);

@@ -46,7 +46,7 @@ enum {
     
     [SDKFileUtil deleteDir:[SDKFileUtil Path]];
     
-  //  srcVideo=[SDKFileUtil copyAssetFile:@"ping20s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
+  //  srcVideo=[SDKFileUtil copyAssetFile:@"xialu11s" withSubffix:@"mp4" dstDir:[SDKFileUtil Path]];
     srcVideo=[AppDelegate getInstance].currentEditBox.srcVideoPath;
     
     srcAudio=[SDKFileUtil copyAssetFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];

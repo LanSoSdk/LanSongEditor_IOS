@@ -80,6 +80,7 @@
             
             
             //增加一个主视频图层
+    
             operationPen=[drawpad addMainVideoPen:srcFile.srcVideoPath filter:nil];
     
     
@@ -113,8 +114,6 @@
 //            if (currentPts>6) {  //您可要在任意进度中停止DrawPad
 //                [weakSelf stopDrawpad];
 //            }
-            
-            
         });
     }];
     
@@ -133,9 +132,7 @@
     }
     
     [label startAnimation];
-    
-    
-    
+
     //----一下是ui操作.
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];

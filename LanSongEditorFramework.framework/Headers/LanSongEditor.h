@@ -20,10 +20,13 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/MediaInfo.h>
 #import <LanSongEditorFramework/VideoEditor.h>
 
+//创建临时 处理文件的头文件
 #import <LanSongEditorFramework/SDKFileUtil.h>
 
+//各种滤镜的头文件;
 #import <LanSongEditorFramework/LanSong.h>
 
+//预览类;
 #import <LanSongEditorFramework/DrawPadPreview.h>
 
 #import <LanSongEditorFramework/DrawPadView.h>

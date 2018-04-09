@@ -40,8 +40,6 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     
-    
-    
     dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     dstTmpPath= [SDKFileUtil genFileNameWithSuffix:@"mp4"];
     //step1:第一步: 创建一个容器,并增加编码保存路径
@@ -49,8 +47,6 @@
     drawPadHeight=480;
     drawPadBitRate=1000*1000;
     drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
-    
-    
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;

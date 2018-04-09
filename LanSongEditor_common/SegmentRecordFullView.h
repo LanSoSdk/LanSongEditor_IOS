@@ -8,6 +8,7 @@
 //    LanSongVideoCamera *videoCamera;
     CameraPen  *videoCamera;
     LanSongMovieWriter *movieWriter;
+    LanSongFilter  *filter;
     /*
      录制的当前段
      */

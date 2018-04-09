@@ -100,15 +100,9 @@
     /*
      step2: 第二步: 增加视频图层. 设置为自动刷新模式;
      */
-    [drawPad setUpdateMode:kAutoTimerUpdate autoFps:25];
-    
-    NSLog(@"当前要处理的视频信息是:");
-    [MediaInfo checkFile:srcFile.srcVideoPath];
-    
-    mVideoPen=[drawPad addVideoPen:srcFile.srcVideoPath filter:nil];
+    LanSongFilter *filter=[[LanSongFilter alloc] init];
+    mVideoPen=[drawPad addMainVideoPen:srcFile.srcVideoPath filter:filter];
     mVideoPen.loopPlay=YES;
-    
-    [self addBitmapLayer];
     
     /*
      step3: 第三步:开始执行.
@@ -158,18 +152,6 @@
     isSelectFilter=NO;
     mVideoPen=nil;
     [self showIsPlayDialog];
-}
--(void)addBitmapLayer
-{
-    if(drawPad!=nil){
-        UIImage *image=[UIImage imageNamed:@"small"];
-        BitmapPen *pen=[drawPad addBitmapPen:image];
-        
-        //放到右上角.(图层的xy,是中心点的位置)
-        pen.positionX=pen.drawPadSize.width-pen.penSize.width/2;
-        pen.positionY=pen.penSize.height/2;
-//        NSLog(@"增加一个 图片图层...");
-    }
 }
 /**
  停止drawpad的执行.

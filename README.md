@@ -2,9 +2,9 @@
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
- ### 当前版本是2.3.8
-*  增加分段录制,为每段设置录制的速度。
-*  增加美颜举例, 美颜可以调节冷暖色;
+ ### 当前版本是2.4.0
+*  优化ios11系统上的视频预览。
+*  增加抖动等效果;
 *  应客户需求， 增加其他各种代码。
 
 [更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)

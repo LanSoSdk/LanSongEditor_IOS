@@ -62,8 +62,6 @@
 #define kMVPenDemo 7
 #define kDirectPlay 8
 
-//分段录制正方形
-#define kSegmentRecordSquare 9
 //竖屏
 #define kSegmentRecordFullPort 10
 //横屏
@@ -113,7 +111,7 @@
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
     EditFileBox *box=nil;
-    NSString *defaultVideo=@"ping20s";
+    NSString *defaultVideo=@"dy_xialu1";
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
     
     if([self needCheckBox:sender]){
@@ -137,12 +135,6 @@
         case kSelectVideo:
             [self pickVideo];
             sender.backgroundColor=[UIColor yellowColor];
-            break;
-        case kSegmentRecordSquare:
-//            pushVC=[[LanSongTESTVC alloc] init];
-            pushVC =[[CameraPenDemoVC alloc] init];
-          //   pushVC=[[SegmentRecordFullVC alloc] init];
-            
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraPenFullPortVC alloc] init];
@@ -192,6 +184,7 @@
         [self.navigationController pushViewController:pushVC animated:YES];
     }
 }
+
 -(void)initView
 {
     UIScrollView *scrollView = [UIScrollView new];
@@ -208,7 +201,6 @@
     }];
     
     UIView *view=[self newDefaultButton:container];
-    view=[self newButton:view index:kSegmentRecordSquare hint:@"正方形录制"];
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制 (摄像头图层)"];
     view=[self newButton:view index:kSegmentRecordFullLandscape hint:@"横屏录制 (摄像头图层)"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制 (摄像头图层)"];
@@ -256,7 +248,6 @@
 {
     return  sender.tag !=kUseDefaultVideo &&
     sender.tag!=kSelectVideo &&
-    sender.tag!=kSegmentRecordSquare &&
     sender.tag!=kSegmentRecordFullPort &&
     sender.tag!=kSegmentRecordFullLandscape &&
     sender.tag!=kSegmentRecordSegmentRecord;
@@ -414,8 +405,6 @@ int  frameCount=0;
         NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
         
         NSString *videoPath=[SDKFileUtil urlToFileString:mediaURL];
-        
-        
         EditFileBox *box=[[EditFileBox alloc] initWithPath:videoPath];
         if(box!=nil){
             NSLog(@"拿到的是url文件:%@",[box.info description]);
@@ -430,44 +419,8 @@ int  frameCount=0;
 
 -(void)testFile
 {
-    
-//      [self.navigationController pushViewController:[[LanSongTESTVC alloc] init] animated:YES];
-//      [self testScale];
+//    LanSongTESTVC *pushVC=[[LanSongTESTVC alloc] init];  //视频+UI图层.
+//    [self.navigationController pushViewController:pushVC animated:NO];
 }
-//ScaleExecute *scale;
-//NSString *dstPath;
-//-(void)testScale
-//{
-//    
-//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"chli10s" withExtension:@"mp4"];
-//    NSString *srcPath=[SDKFileUtil urlToFileString:sampleURL];
-//    
-//    dstPath=[SDKFileUtil genTmpMp4Path];
-//    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
-//    if([info prepare]==NO){
-//        NSLog(@"缩放演示失败. info  is error....");
-//        return;
-//    }else{
-//        NSLog(@"info is---->%@",[info description]);
-//    }
-//    
-//    CGFloat scaleW=info.vWidth;
-//    CGFloat scaleH=info.vHeight;
-//    
-//    scale=[[ScaleExecute alloc] initWithPath:srcPath scaleSize:CGSizeMake(scaleW, scaleH) dstPath:dstPath];
-//
-//    [scale setVideoProgressBlock:^(CGFloat time){
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"当前缩放进度是:%f,百分比是:%f",time,time/scale.videoInfo.vDuration);
-//        });
-//    }];
-//
-//    [scale setCompletionBlock:^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            scale=nil;  //完毕后, 等于nil, 释放内存.
-//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-//        });
-//    }];
-//    [scale start];
-//}
+
 @end

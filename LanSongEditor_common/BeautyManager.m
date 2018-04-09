@@ -31,14 +31,20 @@
             if(image!=nil)
             {
                 LanSongPicture *lookupImageSource = [[LanSongPicture alloc] initWithImage:image];
-                self.lookupFilter = [[LanSongLookupFilter alloc] init];
                 
+                self.lookupFilter = [[LanSongLookupFilter alloc] init];
                 [lookupImageSource addTarget:self.lookupFilter atTextureLocation:1];
                 [lookupImageSource processImage];
                 
                 [self.beautyFilter addTarget:self.lookupFilter atTextureLocation:0];
                 
                 [self.lookupFilter setIntensity:0.22];
+                
+                
+//                比如 是_lookupFilter:
+//                则
+                [_lookupFilter imageFromCurrentFramebuffer];
+                
                 [cameraPen switchFilterWithStartFilter:self.beautyFilter endFilter:self.lookupFilter];
             }else{
                 [cameraPen switchFilter:self.beautyFilter];

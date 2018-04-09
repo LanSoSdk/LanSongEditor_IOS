@@ -45,7 +45,6 @@
     //DrawPadPreview是一个线程,
     drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
     
-    
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
@@ -57,14 +56,11 @@
     
     
     //第二步: 增加一些图层,当然您也可以在容器开始后增加
-//    
     UIImage *imag=[UIImage imageNamed:@"p640x1136"];
     [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
 
     
-    
     //增加一个CALayer, 是一个红色的矩形框(先放一个全局的CAlayer,然后增加矩形框).
-    
     CALayer *mainLayer=[CALayer layer];
     mainLayer.frame=CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth));
     mainLayer.backgroundColor=[UIColor clearColor].CGColor;
@@ -107,6 +103,7 @@
     {
         NSLog(@"DrawPad容器线程执行失败, 请联系我们!");
     }
+    
     //一下是ui操作.
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
