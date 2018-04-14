@@ -110,6 +110,8 @@ void reportAvailableMemoryForLanSong(NSString *tag);
  */
 - (void)removeTarget:(id<LanSongInput>)targetToRemove;
 
+- (void)removeTarget2:(id<LanSongInput>)targetToRemove;
+
 /** Removes all targets.
  */
 - (void)removeAllTargets;

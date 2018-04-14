@@ -44,6 +44,7 @@
 #import "SegmentRecordSquareVC.h"
 #import "SegmentRecordFullVC.h"
 #import "BitmapPadVC.h"
+#import "VideoEffectVC.h"
 
 @interface MainViewController ()
 {
@@ -158,7 +159,7 @@
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
             break;
         case kDemo2PenMothed:
-            pushVC=[[Demo2PenMothedVC alloc] init];  //移动缩放旋转2
+            pushVC=[[VideoEffectVC alloc] init];
             break;
         case kVideoFilterDemo:
             pushVC=[[Demo3PenFilterVC alloc] init];  //滤镜
@@ -209,7 +210,7 @@
     view=[self newButton:view index:kMVPenDemo hint:@"MV图层"];
     view=[self newButton:view index:kMorePictureDemo hint:@"照片影集"];
     view=[self newButton:view index:kDemo1PenMothed hint:@"所有图层均支持的父类功能1"];
-    view=[self newButton:view index:kDemo2PenMothed hint:@"所有图层均支持的父类功能2"];
+    view=[self newButton:view index:kDemo2PenMothed hint:@"视频效果【新】"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"所有图层均支持的父类功能3(滤镜)"];
     view=[self newButton:view index:kExtractVideoFrame hint:@"提取视频帧"];
     view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"后台容器(视频图层+滤镜+CALayer图层)"];
@@ -396,6 +397,10 @@ int  frameCount=0;
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
+/**
+ 得到 选择的视频
+ */
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
@@ -419,8 +424,6 @@ int  frameCount=0;
 
 -(void)testFile
 {
-//    LanSongTESTVC *pushVC=[[LanSongTESTVC alloc] init];  //视频+UI图层.
-//    [self.navigationController pushViewController:pushVC animated:NO];
 }
 
 @end

@@ -81,8 +81,6 @@
     __weak typeof(self) weakSelf = self;
     [camDrawPad setOnProgressBlock:^(CGFloat currentPts) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-//            NSLog(@"progressBlock is:%f", currentPts);
             weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
         });
     }];
@@ -96,15 +94,9 @@
         case 101 :  //filter
             isSelectFilter=YES;
             [self.navigationController pushViewController:filterListVC animated:YES];
-            
-            
-            //            isPaused=!isPaused;
-            //            [camDrawPad pauseRecord:isPaused];
-            
             break;
         case  102:  //btnStart;
             dstPath=[SDKFileUtil genTmpMp4Path];  //这里创建一个路径.
-            
             [camDrawPad startRecordWithPath:dstPath];
             
             break;
@@ -113,8 +105,8 @@
                 [camDrawPad stopRecord];
                 EditFileBox *box=[[EditFileBox alloc] initWithPath:dstPath];
                 [AppDelegate getInstance].currentEditBox=box;
+                [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             }
-//            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
             break;
         default:
             break;

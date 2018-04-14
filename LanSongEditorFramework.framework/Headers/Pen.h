@@ -13,6 +13,7 @@
 #import "LanSongFilter.h"
 #import "LanSongTwoInputFilter.h"
 
+#import "SubPen.h"
 
 
 typedef NS_ENUM(NSUInteger, PenTpye) {
@@ -74,7 +75,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
       如果是横屏, 则视频的宽度被缩放成480, 高度被缩放成 480 x(视频的宽高比720/1280)=270; 则这里penSize的宽高是480x270,从而保证视频的宽高比一直.
       如果是竖屏, 则视频的高度被缩放到480, 宽度被缩放成 270, ....
  
- 注意:后期会增加一些类似ImageView中的contentMode;其他各种缩放模式.
  */
 @property CGSize penSize;
 
@@ -89,17 +89,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  当前图层在容器里的位置. 最里面是0, 最外面是图层最数量-1;
  */
 @property int  indexInDrawPad;
-
-/**
- *  当前时间戳
- 可通过这样换算成秒:CGFloat frameTimeDifference = CMTimeGetSeconds(currentPTS)
- */
-//@property CMTime currentPTS;
-/**
- *  内部使用
- */
-//@property LanSongRotationMode inputRotation;
-
 
 /**
  当前图层是否隐藏, 
@@ -117,7 +106,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  设置或读取  <当前图层的中心点>在容器中的坐标;
  容器坐标的左上角是左上角为0,0. 从上到下 是Y轴, 从左到右是X轴;
  
- 当一个图层增加到容器中, 如果没有设置中心点,则默认是:
+ 当一个图层增加到容器中, 则默认是:
                positionX=drawPadSize.width/2;
                positionY=drawPadSize.height/2;
  */
@@ -134,12 +123,34 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidth,scaleHeight;
 
+
+/**
+ 同时缩放当前图层的宽度和高度, 内部代码等于设置:scaleWidth,scaleHeight
+ 
+ 此方法只用来写入;, 
+ */
+@property(readwrite, nonatomic)  CGFloat scaleWH;
 /**
  直接缩放到的值,
  如果要等于把图片覆盖整个容器, 则值直接等于drawpadSize即可.
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidthValue,scaleHeightValue;
 
+
+/**
+ 调节当前画面中的RGBA 4个分量的百分比;
+ 如果你设置了redPercenet=0.8则表示把当前像素中的红色分量降低80%;
+ */
+@property(readwrite, nonatomic) CGFloat redPercent;
+@property(readwrite, nonatomic) CGFloat greenPercent;
+@property(readwrite, nonatomic) CGFloat bluePercent;
+@property(readwrite, nonatomic) CGFloat alphaPercent;
+
+
+/**
+ 同时设置 RGBA的百分比;
+ */
+-(void) setRGBAPercent:(CGFloat)value;
 
 /**
  *  内部使用
@@ -231,5 +242,24 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 -(void)setDriveDraw:(BOOL)is;
 -(void)resetCurrentFrame;
 
+
+/**
+ 增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
+
+ @return 返回增加后的子图层对象
+ */
+-(SubPen *)addSubPen;
+
+/**
+ 删除一个子图层能
+
+ @param pen 指定子图层对象
+ */
+-(void)removeSubPen:(SubPen *)pen;
+
+-(void)removeLastSubPen;
+
+-(void)removeAllSubPen;
+-(int)getSubPenSize;
 
 @end

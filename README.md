@@ -2,9 +2,9 @@
 lansong  video  editor   ios version. crop cut overlay  filter beautiful compress merge and so on...
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
- ### 当前版本是2.4.0
-*  优化ios11系统上的视频预览。
-*  增加抖动等效果;
+ ### 当前版本是2.4.1
+*  增加子图层功能， 并增加子图层的多种举例
+*  增加抖动， 灵活出窍， 重影，多个画面等效果
 *  应客户需求， 增加其他各种代码。
 
 [更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)
@@ -25,6 +25,7 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
 *   抽象类Pen：继承它的有：视频图层， 图片图层，UI图层，数据图层，摄像头图层，MV图层；均有：平移/缩放/旋转/隐藏/显示/RGBA调节的功能。
 		另外他们各自也有独立的方法。
 *   滤镜功能：具有滤镜属性的图层有：视频图层，图片图层，摄像头图层
+*   每个图层， 可引出多个子图层； 子图层是克隆当前画面， 从而实现同一个画面分裂出多个相同的画面；
 
 
 比如您的操作是：

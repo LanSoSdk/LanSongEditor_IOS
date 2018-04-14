@@ -200,6 +200,6 @@
 
 //2018年04月05日12:20:26 增加
 #import "LanSongColorEdgeFilter.h"   //颜色偏移效果, 滤镜;
-
+#import "LanSongMirrorFilter.h"
 
 
