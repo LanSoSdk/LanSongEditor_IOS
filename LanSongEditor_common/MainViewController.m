@@ -30,10 +30,6 @@
 
 
 #import "ExtractVideoFrameVC.h"
-
-
-#import "ViewPenRealTimeDemoVC.h"
-
 #import "MVPenDemoRealTimeVC.h"
 #import "Demo1PenMothedVC.h"
 #import "Demo2PenMothedVC.h"
@@ -45,6 +41,7 @@
 #import "SegmentRecordFullVC.h"
 #import "BitmapPadVC.h"
 #import "VideoEffectVC.h"
+#import "TestLottieVC3.h"
 
 @interface MainViewController ()
 {
@@ -147,7 +144,7 @@
             pushVC=[[CameraPenSegmentRecordVC alloc] init];  //分段录制.
             break;
         case kVideoUIDemo:
-            pushVC=[[ViewPenRealTimeDemoVC alloc] init];  //视频+UI图层.
+            pushVC=[[TestLottieVC3 alloc] init];  //视频+UI图层.
             break;
         case kMVPenDemo:
             pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
@@ -160,6 +157,7 @@
             break;
         case kDemo2PenMothed:
             pushVC=[[VideoEffectVC alloc] init];
+//            pushVC=[[Demo2PenMothedVC alloc] init];  //移动缩放旋转2
             break;
         case kVideoFilterDemo:
             pushVC=[[Demo3PenFilterVC alloc] init];  //滤镜
@@ -170,7 +168,6 @@
         case kVideoFilterBackGroudDemo:
             pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
             ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
-//            [self testScale];
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
@@ -206,11 +203,11 @@
     view=[self newButton:view index:kSegmentRecordFullLandscape hint:@"横屏录制 (摄像头图层)"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制 (摄像头图层)"];
     
-    view=[self newButton:view index:kVideoUIDemo hint:@"UI图层"];
+    view=[self newButton:view index:kVideoUIDemo hint:@"AE模板(UI图层)"];
     view=[self newButton:view index:kMVPenDemo hint:@"MV图层"];
     view=[self newButton:view index:kMorePictureDemo hint:@"照片影集"];
     view=[self newButton:view index:kDemo1PenMothed hint:@"所有图层均支持的父类功能1"];
-    view=[self newButton:view index:kDemo2PenMothed hint:@"视频效果【新】"];
+    view=[self newButton:view index:kDemo2PenMothed hint:@"视频效果"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"所有图层均支持的父类功能3(滤镜)"];
     view=[self newButton:view index:kExtractVideoFrame hint:@"提取视频帧"];
     view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"后台容器(视频图层+滤镜+CALayer图层)"];
@@ -365,6 +362,7 @@
 {
     [LanSongUtils setViewControllerPortrait];
 }
+
 -(void)showSDKOutTimeWarnning
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -424,6 +422,8 @@ int  frameCount=0;
 
 -(void)testFile
 {
+//    LanSongTESTVC *pushVC=[[LanSongTESTVC alloc] init];  //视频+UI图层.
+//    [self.navigationController pushViewController:pushVC animated:NO];
 }
 
 @end

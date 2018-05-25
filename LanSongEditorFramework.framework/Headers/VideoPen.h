@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Pen.h"
-
+#import "MediaInfo.h"
 
 
 
@@ -61,6 +61,7 @@
  暂时不支持后台模式. 只是在AVPlayer中使用.
  */
 @property(nonatomic,getter=isLoop) BOOL loopPlay;
+
 
 /**
  * 内部使用.

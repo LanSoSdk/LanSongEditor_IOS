@@ -51,6 +51,8 @@
  */
 +(BOOL)drawPadAddAudio:(NSString *)oldMp4 newMp4:(NSString*)newMp4 dstFile:(NSString *)dstFile;
 
+
++(BOOL)mergeAVDirectly:(NSString *)video audio:(NSString*)audio dstFile:(NSString *)dstFile;
 /**
   建议使用videoMergeAudio
  * 音频和视频合成为多媒体文件，等于给视频增加一个音频。
