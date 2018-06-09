@@ -8,12 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LanSongUtils.h"
-
-
 /**
- LSTODO:
- 把所有的480去掉.
- 做子图层.
  */
 @interface MainViewController : UIViewController <UIImagePickerControllerDelegate>
 

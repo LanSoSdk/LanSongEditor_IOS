@@ -139,6 +139,8 @@ typedef enum {
 
 
 @property Pen *filterPen;
+@property DrawPadCameraPreview *drawpadCamera;
+@property DrawPadVideoPreview *drawpadVideo;
 /**
  当slider滑动时调用这里,更改相关效果.
  */

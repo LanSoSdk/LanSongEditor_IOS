@@ -104,3 +104,4 @@
  */
 +(void) demoCropCALayerWithPath:(NSString*)srcPath dstPash:(NSString *)dstPash;
 @end
+

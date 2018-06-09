@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 #import "LanSongContext.h"
 
-struct LanSongByteColorVector {
+struct LSOByteColorVector {
     GLubyte red;
     GLubyte green;
     GLubyte blue;
     GLubyte alpha;
 };
-typedef struct LanSongByteColorVector LanSongByteColorVector;
+typedef struct LSOByteColorVector LSOByteColorVector;
 
 @protocol LanSongRawDataProcessor;
 
@@ -33,7 +33,7 @@ typedef struct LanSongByteColorVector LanSongByteColorVector;
 - (id)initWithImageSize:(CGSize)newImageSize resultsInBGRAFormat:(BOOL)resultsInBGRAFormat;
 
 // Data access
-- (LanSongByteColorVector)colorAtLocation:(CGPoint)locationInImage;
+- (LSOByteColorVector)colorAtLocation:(CGPoint)locationInImage;
 - (NSUInteger)bytesPerRowInOutput;
 
 - (void)setImageSize:(CGSize)newImageSize;

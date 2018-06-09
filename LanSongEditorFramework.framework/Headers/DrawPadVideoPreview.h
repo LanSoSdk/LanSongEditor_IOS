@@ -9,38 +9,30 @@
 #import "VideoPen.h"
 #import "ViewPen.h"
 #import "Pen.h"
-#import "LanSongView.h"
+#import "LanSongView2.h"
+#import "BitmapPen.h"
+#import "MVPen.h"
 
 @interface DrawPadVideoPreview : NSObject
 
+@property (nonatomic)   VideoPen *videoPen;
+@property (nonatomic,assign) CGSize drawpadSize;
+
 
 /**
- 创建对象
+初始化
+ @param videoPath输入的视频路径
+ */
+-(id)initWithURL:(NSURL *)videoPath;
 
- @param size 容器的大小, 也是生成视频的大小
- @param view 容器预览要显示到的窗口
+/**
+初始化
+ @param videoPath 输入的视频路径
  @return
  */
--(id)initWithSize:(CGSize)size view:(LanSongView *)view;
+-(id)initWithPath:(NSString *)videoPath;
 
-/**
- 增加视频图层
- 
- @param path 视频路径
- @return 返回视频图层对象
- */
--(VideoPen *)addVideoPen:(NSString *)path;
-
-/**
- 增加视频图层, [URL格式]
-
- 当前只能增加唯一一个视频图层.
- 
- @param path 视频路径
- @return 返回对象
- */
--(VideoPen *)addVideoPenWithURL:(NSURL *)path;
-
+-(void)addLanSongView:(LanSongView2 *)view;
 
 /**
  增加UI图层; 举例有增加Lottie
@@ -51,18 +43,36 @@
  */
 -(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
+-(BitmapPen *)addBitmapPen:(UIImage *)image;
+
+-(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+
+-(void)removePen:(Pen *)pen;
 
 /**
  开始执行
-
+ 这个只是预览, 开始后,不会编码, 不会有完成回调
  @return 执行成功返回YES, 失败返回NO;
  */
 -(BOOL)start;
 
 
 /**
- 进度回调, 也是当前视频图层的视频播放进度 时间单位是秒;;
- 是工作在其他线程,
+ 开始执行,并实时录制;
+
+ @return
+ */
+-(BOOL)startWithEncode;
+
+/**
+ 取消
+ */
+-(void)cancel;
+
+/**
+ 进度回调,
+ 当在编码的时候, 等于当前视频图层的视频播放进度 时间单位是秒;;
+ 工作在其他线程,
  如要工作在主线程,请使用:
  dispatch_async(dispatch_get_main_queue(), ^{
  });
@@ -71,8 +81,8 @@
 
 
 /**
- 完成回调, 完成后返回生成的视频路径;
- 是工作在其他线程,
+ 编码完成回调, 完成后返回生成的视频路径;
+ 工作在其他线程,
  如要工作在主线程,请使用:
  dispatch_async(dispatch_get_main_queue(), ^{
  });
@@ -83,4 +93,15 @@
  当前是否在运行;
  */
 @property (nonatomic,readonly) BOOL isRunning;
+@property (nonatomic,readonly) BOOL isRecording;
+
+-(void)switchFilter:(LanSongOutput <LanSongInput> *)filter;
+
+/**
+ 滤镜级联, 叠加;
+ 把最后的滤镜输入到这里;
+ */
+-(void)switchFilterStartWith:(LanSongOutput <LanSongInput> *)startFilter  end:(LanSongOutput <LanSongInput> *)endFilter;
+
+-(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
 @end

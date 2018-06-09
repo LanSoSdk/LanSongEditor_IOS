@@ -71,10 +71,10 @@
             NSString *tmpMp4= [SDKFileUtil genTmpMp4Path];
             [CommDemoItem demoDeleteAudio:srcVideo dstMp4:tmpMp4];
             
-           [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
+            [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
             [SDKFileUtil deleteFile:tmpMp4];
         }else{
-          [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
+            [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
         }
     }else{
         
@@ -90,7 +90,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcAudio];
     if ([info prepare]) {
-       [VideoEditor executeAudioCutOut:srcAudio dstFile:dstPath startS:0.0 duration:info.aDuration/2];
+        [VideoEditor executeAudioCutOut:srcAudio dstFile:dstPath startS:0.0 duration:info.aDuration/2];
     }
 }
 /**
@@ -131,12 +131,12 @@
         //第二步:把MP4文件转换为TS流
         [VideoEditor executeConvertMp4toTs:seg1 dstTs:segTs1];
         [VideoEditor executeConvertMp4toTs:seg2 dstTs:segTs2];
-     
+        
         NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:2];
-     
-            [mutableArray addObject:segTs1];
-            [mutableArray addObject:segTs2];
-
+        
+        [mutableArray addObject:segTs1];
+        [mutableArray addObject:segTs2];
+        
         //第三步: 把ts流再次转换为MP4文件.
         [VideoEditor executeConvertTsToMp4:mutableArray dstFile:dstVideo];
         
@@ -190,7 +190,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcVideo];
     if ([info prepare]) {
-//    
+        //
         CALayer *retLayer = [CALayer layer];
         
         CATextLayer *titleLayer = [CATextLayer layer];
@@ -202,13 +202,13 @@
         
         //宽高和视频中的尺寸一一对应,这里仅设置为一般的宽高.
         titleLayer.bounds = CGRectMake(0, 0, info.vWidth/2, info.vHeight/2);
-      
+        
         
         [retLayer addSublayer:titleLayer];
         
         //设置layer在视频中的中心位置. 以视频的中心为中心.
         retLayer.position =CGPointMake(info.vWidth/2,info.vHeight/2);  //设置位置.
-       
+        
         [VideoEditor executeAddLayerWithPath:srcVideo watermarkLayer:retLayer dstPath:dstPash];
     }else{
         NSLog(@" add calayer  error!!!:%@",info);
@@ -238,7 +238,7 @@
     
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcPath];
     if ([info prepare]) {
-    
+        
         CALayer *retLayer = [CALayer layer];
         
         CATextLayer *titleLayer = [CATextLayer layer];
@@ -259,7 +259,8 @@
         retLayer.position =CGPointMake(info.vWidth/4,info.vHeight/4);  //设置位置.
         
         [VideoEditor executeCropCALayerWithPath:srcPath layer:retLayer startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
-    
+        
     }
 }
 @end
+

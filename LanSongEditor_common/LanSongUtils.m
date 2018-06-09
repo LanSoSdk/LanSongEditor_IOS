@@ -42,10 +42,12 @@
 +(void)startVideoPlayerVC:(UINavigationController*)nav dstPath:(NSString *)dstPath
 {
     if ([SDKFileUtil fileExist:dstPath]) {
+        SDKLine
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstPath;
         [nav pushViewController:videoVC animated:YES];
     }else{
+        SDKLine
         NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
         [LanSongUtils showHUDToast:str];
     }
@@ -145,6 +147,7 @@
 }
 
 
+
 //--------------------
 + (CGImageRef)imageRefFromBGRABytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize {
     
@@ -169,6 +172,32 @@
     return image;
 }
 
+/**
+ 根据容器大小, 计算应该显示多少到界面上;
+ 里面默认位置在:0,60;
+ 代码请自行修改,以满足你的需求;
+ @param fullSize self.view.frame.size(当前ViewController的大小)
+ @param padSize 容器大小
+ @return 得到的容器显示view
+ */
++(LanSongView2 *)createLanSongView:(CGSize)fullSize drawpadSize:(CGSize)padSize
+{
+    if(padSize.width>0  && padSize.height>0){
+        LanSongView2  *retView=nil;
+        
+        if (padSize.width>padSize.height) {
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, fullSize.width,fullSize.width*(padSize.height/padSize.width))];
+        }else{
+            //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, fullSize.height*(padSize.width/padSize.height)/2,
+                                                                   fullSize.height/2)];
+            retView.center=CGPointMake(fullSize.width/2, retView.center.y);
+        }
+        return retView;
+    }else{
+        return nil;
+    }
+}
 
 /**
  设置当前viewController竖屏

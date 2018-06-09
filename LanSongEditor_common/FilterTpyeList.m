@@ -234,6 +234,22 @@
             [_filterPen switchFilter:_selectedFilter];
         }
     }
+    if(_drawpadCamera!=nil){
+        if(sourcePicture!=nil){  //如果不是为nil,则认为是两个输入的滤镜.
+            [_drawpadCamera switchFilter:(LanSongTwoInputFilter *)_selectedFilter secondInput:sourcePicture];
+            [sourcePicture processImage];
+        }else{
+            [_drawpadCamera switchFilter:_selectedFilter];
+        }
+    }
+    if(_drawpadVideo!=nil){
+        if(sourcePicture!=nil){  //如果不是为nil,则认为是两个输入的滤镜.
+            [_drawpadVideo switchFilter:(LanSongTwoInputFilter *)_selectedFilter secondInput:sourcePicture];
+            [sourcePicture processImage];
+        }else{
+            [_drawpadVideo switchFilter:_selectedFilter];
+        }
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 /**
@@ -242,7 +258,7 @@
 - (void)setupFilter;
 {
     BOOL needsSecondImage = NO;
-    
+    self.selectedFilter=nil;
     switch (filterType)
     {
         case LanSong_NULL:
@@ -323,6 +339,7 @@
         {
             self.title = @"IFRise";
             self.filterSlider.hidden = YES;
+            NSLog(@"LSTODO 创建新的 IFRISE");
             self.selectedFilter = [[IFRiseFilter alloc] init];
         }; break;
         case LanSong_IFSierra:
@@ -1608,7 +1625,10 @@
 {
     _filterPen=nil;
     _selectedFilter=nil;
+    _drawpadVideo=nil;
+    _drawpadCamera=nil;
     //    NSLog(@"Filter TypeList dealloc");
 }
 
 @end
+

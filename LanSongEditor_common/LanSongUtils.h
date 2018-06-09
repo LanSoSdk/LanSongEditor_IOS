@@ -12,17 +12,13 @@
 
 #import "AppDelegate.h"
 
-//包含我们所有的库头文件
+//包含LanSongSDK所有的库头文件
 #import <LanSongEditorFramework/LanSongEditor.h>
-
-
-#import "EditFileBox.h"
 
 //接下来3个demo UI部分使用, 您可以直接删除.
 #import "MBProgressHUD.h"
 #import "Masonry.h"
 #import "UIColor+Util.h"
-#import "BeautyManager.h"
 
 
 
@@ -78,7 +74,15 @@
 
 
 
-
+/**
+ 根据容器大小, 计算应该显示多少到界面上;
+ 里面默认位置在:0,60;
+ 代码请自行修改,以满足你的需求;
+ @param fullSize self.view.frame.size(当前ViewController的大小)
+ @param padSize 容器大小
+ @return 得到的容器显示view
+ */
++(LanSongView2 *)createLanSongView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
 
 /**
 设置当前viewController竖屏

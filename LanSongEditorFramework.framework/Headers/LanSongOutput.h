@@ -18,30 +18,17 @@ typedef NS_ENUM(NSInteger, UIImageOrientation) {
 #endif
 
 dispatch_queue_attr_t LanSongDefaultQueueAttribute(void);
-
-//原来的是:runOnMainQueueWithoutDeadlocking
 void runOnMainQueueWithoutDeadlock(void (^block)(void));
-
-//原来的是:runSynchronouslyOnVideoProcessingQueue
-void runSyncOnVideoProcessQueue(void (^block)(void));
-
-//原来的是:runAsynchronouslyOnVideoProcessingQueue
-void runAsyncOnVideoProcessQueue(void (^block)(void));
-
-
-
-//原来的是:runSynchronouslyOnContextQueue
+void runSynchronouslyOnVideoProcessQueue(void (^block)(void));
+void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
 void runSyncOnContextQueue(LanSongContext *context, void (^block)(void));
-
-//原来的是:runAsynchronouslyOnContextQueue
 void runAsyncOnContextQueue(LanSongContext *context, void (^block)(void));
-
-
 void reportAvailableMemoryForLanSong(NSString *tag);
 
 @class LanSongMovieWriter;
 
 /** LanSong's base source object
+ 
  Images or frames of video are uploaded from source objects, which are subclasses of LanSongOutput. These include:
  
  - LanSongVideoCamera (for live video from an iOS camera) 
@@ -54,15 +41,12 @@ void reportAvailableMemoryForLanSong(NSString *tag);
 @interface LanSongOutput : NSObject
 {
     LanSongFramebuffer *outputFramebuffer;
-    NSMutableArray *targets;
     
-    
-    NSMutableArray *targetTextureIndices;
-    
+    NSMutableArray *targets, *targetTextureIndices;
     
     CGSize inputTextureSize, cachedMaximumOutputSize, forcedMaximumSize;
     
-    BOOL overrideInputSize;		
+    BOOL overrideInputSize;
     
     BOOL allTargetsWantMonochromeData;
     BOOL usingNextFrameForImageCapture;
@@ -74,7 +58,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
 @property(readwrite, nonatomic, unsafe_unretained) id<LanSongInput> targetToIgnoreForUpdates;
 @property(nonatomic, copy) void(^frameProcessingCompletionBlock)(LanSongOutput*, CMTime);
 @property(nonatomic) BOOL enabled;
-@property(readwrite, nonatomic) LanSongTextureOptions outputTextureOptions;
+@property(readwrite, nonatomic) LSOTextureOptions outputTextureOptions;
 
 /// @name Managing targets
 - (void)setInputFramebufferForTarget:(id<LanSongInput>)target atIndex:(NSInteger)inputTextureIndex;
@@ -109,8 +93,6 @@ void reportAvailableMemoryForLanSong(NSString *tag);
  @param targetToRemove Target to be removed
  */
 - (void)removeTarget:(id<LanSongInput>)targetToRemove;
-
-- (void)removeTarget2:(id<LanSongInput>)targetToRemove;
 
 /** Removes all targets.
  */

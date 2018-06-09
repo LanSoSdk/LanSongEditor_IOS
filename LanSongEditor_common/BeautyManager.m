@@ -41,15 +41,81 @@
                 [self.lookupFilter setIntensity:0.22];
                 
                 
-//                比如 是_lookupFilter:
-//                则
+                //                比如 是_lookupFilter:
+                //                则
                 [_lookupFilter imageFromCurrentFramebuffer];
                 
                 [cameraPen switchFilterWithStartFilter:self.beautyFilter endFilter:self.lookupFilter];
             }else{
                 [cameraPen switchFilter:self.beautyFilter];
             }
-              NSLog(@"已增加 美颜");
+            NSLog(@"已增加 美颜");
+            self.isBeauting=YES;
+        }
+    }
+}
+-(void)addBeautyWithCamera:(DrawPadCameraPreview *)drawpad
+{
+    @synchronized(self){
+        if(drawpad!=nil && _isBeauting==NO){
+            self.beautyFilter=[[LanSongBeautyTuneFilter alloc] init];
+            
+            UIImage *image = [UIImage imageNamed:@"lansongbeauty.png"];
+            if(image!=nil)
+            {
+                LanSongPicture *lookupImageSource = [[LanSongPicture alloc] initWithImage:image];
+                
+                self.lookupFilter = [[LanSongLookupFilter alloc] init];
+                [lookupImageSource addTarget:self.lookupFilter atTextureLocation:1];
+                [lookupImageSource processImage];
+                
+                [self.beautyFilter addTarget:self.lookupFilter atTextureLocation:0];
+                
+                [self.lookupFilter setIntensity:0.22];
+                
+                
+                [_lookupFilter imageFromCurrentFramebuffer];
+                
+                
+                //串起来;
+                [drawpad switchFilterStartWith:self.beautyFilter end:self.lookupFilter];
+            }else{
+                [drawpad switchFilter:self.beautyFilter];
+            }
+            NSLog(@"已增加 美颜");
+            self.isBeauting=YES;
+        }
+    }
+}
+-(void)addBeautyWithVideo:(DrawPadVideoPreview *)drawpad
+{
+    @synchronized(self){
+        if(drawpad!=nil && _isBeauting==NO){
+            self.beautyFilter=[[LanSongBeautyTuneFilter alloc] init];
+            
+            UIImage *image = [UIImage imageNamed:@"lansongbeauty.png"];
+            if(image!=nil)
+            {
+                LanSongPicture *lookupImageSource = [[LanSongPicture alloc] initWithImage:image];
+                
+                self.lookupFilter = [[LanSongLookupFilter alloc] init];
+                [lookupImageSource addTarget:self.lookupFilter atTextureLocation:1];
+                [lookupImageSource processImage];
+                
+                [self.beautyFilter addTarget:self.lookupFilter atTextureLocation:0];
+                
+                [self.lookupFilter setIntensity:0.22];
+                
+                
+                [_lookupFilter imageFromCurrentFramebuffer];
+                
+                
+                //串起来;
+                [drawpad switchFilterStartWith:self.beautyFilter end:self.lookupFilter];
+            }else{
+                [drawpad switchFilter:self.beautyFilter];
+            }
+            NSLog(@"已增加 美颜");
             self.isBeauting=YES;
         }
     }
@@ -74,5 +140,17 @@
         self.isBeauting=NO;
     }
 }
-
+-(void)deleteBeautyWithDrawPad:(DrawPadCameraPreview *)drawpad
+{
+    @synchronized(self){
+        if(drawpad!=nil){
+            [drawpad switchFilter:nil];
+            self.beautyFilter=nil;
+            self.lookupFilter=nil;
+            NSLog(@"已删除 美颜");
+        }
+        self.isBeauting=NO;
+    }
+}
 @end
+

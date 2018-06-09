@@ -4,7 +4,7 @@
 {
     LanSongFramebuffer *secondOutputFramebuffer;
 
-    ShaderProgram *secondFilterProgram;
+    LanSongProgram *secondFilterProgram;
     GLint secondFilterPositionAttribute, secondFilterTextureCoordinateAttribute;
     GLint secondFilterInputTextureUniform, secondFilterInputTextureUniform2;
     

@@ -1,3 +1,5 @@
+//#import "LanSongOutput.h"
+
 #import "LanSongOutput.h"
 
 #define STRINGIZE(x) #x
@@ -42,8 +44,6 @@ struct LanSongMatrix3x3 {
 typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 
 /** LanSong's base filter class
- LanSongFilter继承自LanSongoutput可以做完输出使用, 同时也实现LanSongInput的接口,可以作为输入用.
- 这样一个filter即可从别的filter得到数据源,也可以作为下一个filter的输入.
  
  Filters and other subsequent elements in the chain conform to the LanSongInput protocol, which lets them take in the supplied or processed texture from the previous link in the chain and do something with it. Objects one step further down the chain are considered targets, and processing can be branched by adding multiple targets to a single output or filter.
  */
@@ -51,7 +51,7 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 {
     LanSongFramebuffer *firstInputFramebuffer;
     
-    ShaderProgram *filterProgram;
+    LanSongProgram *filterProgram;
     GLint filterPositionAttribute, filterTextureCoordinateAttribute;
     GLint filterInputTextureUniform;
     GLfloat backgroundColorRed, backgroundColorGreen, backgroundColorBlue, backgroundColorAlpha;
@@ -65,14 +65,10 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
     
     NSMutableDictionary *uniformStateRestorationBlocks;
     dispatch_semaphore_t imageCaptureSemaphore;
-    
-    int count;
 }
 
 @property(readonly) CVPixelBufferRef renderTarget;
-
-@property(readwrite, nonatomic) BOOL preventRendering;  //是否阻止渲染, 如阻止,则不渲染直接传递下去.
-
+@property(readwrite, nonatomic) BOOL preventRendering;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
 
 /// @name Initialization and teardown
@@ -124,17 +120,17 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 - (void)setFloatVec4:(LanSongVector4)newVec4 forUniform:(NSString *)uniformName;
 - (void)setFloatArray:(GLfloat *)array length:(GLsizei)count forUniform:(NSString*)uniformName;
 
-- (void)setMatrix3f:(LanSongMatrix3x3)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setMatrix4f:(LanSongMatrix4x4)matrix forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setFloat:(GLfloat)floatValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setPoint:(CGPoint)pointValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setSize:(CGSize)sizeValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setVec3:(LanSongVector3)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setVec4:(LanSongVector4)vectorValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setFloatArray:(GLfloat *)arrayValue length:(GLsizei)arrayLength forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
-- (void)setInteger:(GLint)intValue forUniform:(GLint)uniform program:(ShaderProgram *)shaderProgram;
+- (void)setMatrix3f:(LanSongMatrix3x3)matrix forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setMatrix4f:(LanSongMatrix4x4)matrix forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setFloat:(GLfloat)floatValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setPoint:(CGPoint)pointValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setSize:(CGSize)sizeValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setVec3:(LanSongVector3)vectorValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setVec4:(LanSongVector4)vectorValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setFloatArray:(GLfloat *)arrayValue length:(GLsizei)arrayLength forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
+- (void)setInteger:(GLint)intValue forUniform:(GLint)uniform program:(LanSongProgram *)LanSongProgram;
 
-- (void)setAndExecuteUniformStateCallbackAtIndex:(GLint)uniform forProgram:(ShaderProgram *)shaderProgram toBlock:(dispatch_block_t)uniformStateBlock;
+- (void)setAndExecuteUniformStateCallbackAtIndex:(GLint)uniform forProgram:(LanSongProgram *)LanSongProgram toBlock:(dispatch_block_t)uniformStateBlock;
 - (void)setUniformsForProgramAtIndex:(NSUInteger)programIndex;
 
 @end

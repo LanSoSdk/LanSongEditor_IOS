@@ -40,6 +40,7 @@
     // Do any additional setup after loading the view from its nib.
     [super viewDidLoad];
     
+    LANSOSDKLine
   [LanSongUtils setViewControllerPortrait];
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {

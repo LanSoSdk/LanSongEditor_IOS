@@ -2,8 +2,8 @@
 //  FilterItem.m
 //  LanSongEditor_all
 //
-//  Created by sno on 26/11/2017.
-//  Copyright © 2017 sno. All rights reserved.
+//  Created by sno on 2018/6/6.
+//  Copyright © 2018年 sno. All rights reserved.
 //
 
 #import "FilterItem.h"
@@ -22,12 +22,12 @@
 
 /**
  返回的是FilterItem数组.
-仅为常用滤镜的滤镜, 实际您可以任意增删.
+ 仅为常用滤镜的滤镜, 实际您可以任意增删.
  */
 +(NSMutableArray *)createDemoFilterArray;
 {
     /*
-    一下仅仅为常用滤镜的滤镜, 实际您可以任意增删.
+     一下仅仅为常用滤镜的滤镜, 实际您可以任意增删.
      */
     NSMutableArray *filterItemArray=[[NSMutableArray alloc] init];
     [filterItemArray addObject: [[FilterItem alloc] initWithName:@"无" filter:  [[LanSongFilter alloc] init] ]];

@@ -152,6 +152,10 @@
  */
 -(BOOL) hasAudio;
 
+-(int)getWidth;
+
+-(int)getHeight;
+
 -(NSString *)description;
 
 

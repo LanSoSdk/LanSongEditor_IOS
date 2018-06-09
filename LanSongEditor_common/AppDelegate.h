@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-#import "EditFileBox.h"
-
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -29,10 +27,7 @@
 
 
 
-/**
- 当前正在编辑的视频.
- */
-@property EditFileBox *currentEditBox;
+@property (nonatomic,copy) NSString *currentEditVideo;
 
 +(AppDelegate *)getInstance;
 

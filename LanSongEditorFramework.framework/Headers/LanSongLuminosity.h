@@ -2,7 +2,7 @@
 
 @interface LanSongLuminosity : LanSongAverageColor
 {
-    ShaderProgram *secondFilterProgram;
+    LanSongProgram *secondFilterProgram;
     GLint secondFilterPositionAttribute, secondFilterTextureCoordinateAttribute;
     GLint secondFilterInputTextureUniform, secondFilterInputTextureUniform2;
     GLint secondFilterTexelWidthUniform, secondFilterTexelHeightUniform;

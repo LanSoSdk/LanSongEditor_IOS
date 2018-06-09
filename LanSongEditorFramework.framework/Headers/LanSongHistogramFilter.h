@@ -1,12 +1,6 @@
 #import "LanSongFilter.h"
 
-typedef enum {
-        kLanSongHistogramRed,
-    kLanSongHistogramGreen,
-    kLanSongHistogramBlue,
-    kLanSongHistogramRGB,
-    kLanSongHistogramLuminance
-} LanSongHistogramType;
+typedef enum { kLanSongHistogramRed, kLanSongHistogramGreen, kLanSongHistogramBlue, kLanSongHistogramRGB, kLanSongHistogramLuminance} LanSongHistogramType;
 
 @interface LanSongHistogramFilter : LanSongFilter
 {
@@ -14,7 +8,7 @@ typedef enum {
     
     GLubyte *vertexSamplingCoordinates;
     
-    ShaderProgram *secondFilterProgram, *thirdFilterProgram;
+    LanSongProgram *secondFilterProgram, *thirdFilterProgram;
     GLint secondFilterPositionAttribute, thirdFilterPositionAttribute;
 }
 

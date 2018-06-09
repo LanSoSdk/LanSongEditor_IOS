@@ -26,11 +26,13 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //各种滤镜的头文件;
 #import <LanSongEditorFramework/LanSong.h>
 
-//预览类;
+//已废弃, 不再使用
 #import <LanSongEditorFramework/DrawPadPreview.h>
-
+//已废弃, 不再使用
 #import <LanSongEditorFramework/DrawPadView.h>
+//已废弃, 不再使用
 #import <LanSongEditorFramework/DrawPadExecute.h>
+
 #import <LanSongEditorFramework/Pen.h>
 #import <LanSongEditorFramework/VideoPen.h>
 #import <LanSongEditorFramework/MVPen.h>
@@ -45,14 +47,15 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/BitmapPadExecute.h>
 
 #import <LanSongEditorFramework/DrawPadCamera.h>
-#import <LanSongEditorFramework/DrawPadVideoExecute.h>
 
-#import <LanSongEditorFramework/LanSongDebug.h>
 //视频倒序
 #import <LanSongEditorFramework/LanSongVideoReverse.h>
 
-
+//3个容器和 一个显示View
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
+#import <LanSongEditorFramework/DrawPadCameraPreview.h>
+#import <LanSongEditorFramework/DrawPadVideoExecute.h>
+#import <LanSongEditorFramework/LanSongView2.h>
 
 
 @interface LanSongEditor : NSObject

@@ -5,7 +5,7 @@
 @interface LanSongFramebufferCache : NSObject
 
 // Framebuffer management
-- (LanSongFramebuffer *)fetchFramebufferForSize:(CGSize)framebufferSize textureOptions:(LanSongTextureOptions)textureOptions onlyTexture:(BOOL)onlyTexture;
+- (LanSongFramebuffer *)fetchFramebufferForSize:(CGSize)framebufferSize textureOptions:(LSOTextureOptions)textureOptions onlyTexture:(BOOL)onlyTexture;
 - (LanSongFramebuffer *)fetchFramebufferForSize:(CGSize)framebufferSize onlyTexture:(BOOL)onlyTexture;
 - (void)returnFramebufferToCache:(LanSongFramebuffer *)framebuffer;
 - (void)purgeAllUnassignedFramebuffers;

@@ -11,8 +11,7 @@
 
 
 /**
- 继承自DrawPad, 是用在 [前台]  处理的容器;
- 内部不含UIView, 需要外部增加,我们demo有举例;
+ 不再使用
  */
 @interface DrawPadPreview : DrawPad
 

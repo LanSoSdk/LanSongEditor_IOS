@@ -2,20 +2,20 @@
 
 // The bytes passed into this input are not copied or retained, but you are free to deallocate them after they are used by this filter.
 // The bytes are uploaded and stored within a texture, so nothing is kept locally.
-// The default format for input bytes is LanSongPixelFormatBGRA, unless specified with pixelFormat:
-// The default type for input bytes is LanSongPixelTypeUByte, unless specified with pixelType:
+// The default format for input bytes is LSOPixelFormatBGRA, unless specified with pixelFormat:
+// The default type for input bytes is LSOPixelTypeUByte, unless specified with pixelType:
 
 typedef enum {
-	LanSongPixelFormatBGRA = GL_BGRA,
-	LanSongPixelFormatRGBA = GL_RGBA,
-	LanSongPixelFormatRGB = GL_RGB,
-    LanSongPixelFormatLuminance = GL_LUMINANCE
-} LanSongPixelFormat;
+	LSOPixelFormatBGRA = GL_BGRA,
+	LSOPixelFormatRGBA = GL_RGBA,
+	LSOPixelFormatRGB = GL_RGB,
+    LSOPixelFormatLuminance = GL_LUMINANCE
+} LSOPixelFormat;
 
 typedef enum {
-	LanSongPixelTypeUByte = GL_UNSIGNED_BYTE,
-	LanSongPixelTypeFloat = GL_FLOAT
-} LanSongPixelType;
+	LSOPixelTypeUByte = GL_UNSIGNED_BYTE,
+	LSOPixelTypeFloat = GL_FLOAT
+} LSOPixelType;
 
 @interface LanSongRawDataInput : LanSongOutput
 {
@@ -26,13 +26,13 @@ typedef enum {
 
 // Initialization and teardown
 - (id)initWithBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize;
-- (id)initWithBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize pixelFormat:(LanSongPixelFormat)pixelFormat;
-- (id)initWithBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize pixelFormat:(LanSongPixelFormat)pixelFormat type:(LanSongPixelType)pixelType;
+- (id)initWithBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize pixelFormat:(LSOPixelFormat)pixelFormat;
+- (id)initWithBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize pixelFormat:(LSOPixelFormat)pixelFormat type:(LSOPixelType)pixelType;
 
 /** Input data pixel format
  */
-@property (readwrite, nonatomic) LanSongPixelFormat pixelFormat;
-@property (readwrite, nonatomic) LanSongPixelType   pixelType;
+@property (readwrite, nonatomic) LSOPixelFormat pixelFormat;
+@property (readwrite, nonatomic) LSOPixelType   pixelType;
 
 // Image rendering
 - (void)updateDataFromBytes:(GLubyte *)bytesToUpload size:(CGSize)imageSize;

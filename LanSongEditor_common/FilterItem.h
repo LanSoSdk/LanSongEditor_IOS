@@ -2,8 +2,8 @@
 //  FilterItem.h
 //  LanSongEditor_all
 //
-//  Created by sno on 26/11/2017.
-//  Copyright © 2017 sno. All rights reserved.
+//  Created by sno on 2018/6/6.
+//  Copyright © 2018年 sno. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

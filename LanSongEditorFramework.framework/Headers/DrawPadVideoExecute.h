@@ -2,85 +2,90 @@
 //  DrawPadVideoExecute.h
 //  LanSongEditorFramework
 //
-//  Created by sno on 23/01/2018.
-//  Copyright © 2018 sno. All rights reserved.
+//  Created by sno on 2018/6/7.
+//  Copyright © 2018年 sno. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
-#import "LanSongFilter.h"
-#import "MediaInfo.h"
-#import "BitmapPen.h"
+
+#import <Foundation/Foundation.h>
 #import "VideoPen.h"
-#import "BitmapPen.h"
-#import "CALayerPen.h"
 #import "ViewPen.h"
+#import "Pen.h"
+#import "LanSongView2.h"
+#import "BitmapPen.h"
 #import "MVPen.h"
+#import "LanSong.h"
 
 @interface DrawPadVideoExecute : NSObject
 
-/**
-init
-
-@param path 要缩放的视频完整路径
-@param size 缩放到的大小,
-@param dstPath 缩放后保存到的视频路径, 后缀是mp4
-@return
-*/
--(id)initWithPath:(NSString *)path drawpadSize:(CGSize)size dstPath:(NSString *)dstPath;
+@property (nonatomic,readonly)MediaInfo *mediaInfo;
+@property (nonatomic)   LanSongMovie *videoPen;
+@property (nonatomic,assign) CGSize drawpadSize;
 
 
 /**
- 给init时输入的视频 设置
- 
- @param path 要缩放的视频完整路径
- @param size 缩放到的大小,
- @param bitrate 缩放到的码率.
- @param dstPath 缩放后保存到的视频路径, 后缀是mp4
- @return
+ 初始化
+
+ @param videoPath 输入的视频文件
+ @return 返回构造对象
  */
--(id)initWithPath:(NSString *)path drawpadSize:(CGSize)size bitrate:(int)bitrate dstPath:(NSString *)dstPath;
+-(id)initWithURL:(NSURL *)videoPath;
+-(id)initWithPath:(NSString *)videoPath;
+
 /**
- 在开始之前,给init时输入的视频 设置多个滤镜.
+ 增加UI图层;
+ @param view UI图层
+ @param from 这个UI来自界面; 当前请设置为YES
+ @return 返回对象
  */
--(void)switchFilterList:(NSArray*) filters;
+-(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
+-(BitmapPen *)addBitmapPen:(UIImage *)image;
+
+-(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+
+-(void)removePen:(Pen *)pen;
 
 /**
- 开始执行, 内部会开启VideoProgressQueue. 不可和DrawPad线程同时使用.
- 
- @return 开启成功返回YES, 失败返回NO;
+ 开始执行
  */
 -(BOOL)start;
-
 /**
- 停止执行,
+ 取消
  */
--(void)stop;
+-(void)cancel;
 
 /**
- *     执行过程中的进度对调, 返回的当前时间戳 单位是秒. 
- 这个时间戳是视频中即将处理的这一帧的时间戳.
- 
- 
- 注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
+ 进度回调,
+ 如要工作在主线程,请使用:
  dispatch_async(dispatch_get_main_queue(), ^{
- .....CODEC....
  });
  */
-@property(nonatomic, copy) void(^videoProgressBlock)(CGFloat progess);
-/**
- 结束回调.
- */
-@property(nonatomic, copy) void(^completionBlock)(void);
+@property(nonatomic, copy) void(^progressBlock)(CGFloat progess);
 
-@property  CGSize drawpadSize;
-
-@property   MediaInfo *videoInfo;
 
 /**
- 增加图片图层;
+ 编码完成回调, 完成后返回生成的视频路径;
+ 工作在其他线程,
+ 如要工作在主线程,请使用:
+ dispatch_async(dispatch_get_main_queue(), ^{
+ });
  */
--(BitmapPen *)addBitmapPen:(UIImage *)inputImage;
+@property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
 
+/**
+ 当前是否在运行;
+ */
+@property (nonatomic,readonly) BOOL isRunning;
+
+-(void)switchFilter:(LanSongOutput <LanSongInput> *)filter;
+
+/**
+ 滤镜级联, 叠加;
+ 把最后的滤镜输入到这里;
+ */
+-(void)switchFilterStartWith:(LanSongOutput <LanSongInput> *)startFilter  end:(LanSongOutput <LanSongInput> *)endFilter;
+
+-(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
 @end

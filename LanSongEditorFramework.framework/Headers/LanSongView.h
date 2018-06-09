@@ -38,5 +38,4 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType) {
 
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 
-+ (const GLfloat *)textureCoordinatesForRotation:(LanSongRotationMode)rotationMode;
 @end

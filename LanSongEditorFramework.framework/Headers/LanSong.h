@@ -1,4 +1,4 @@
-#import "ShaderProgram.h"
+#import "LanSongProgram.h"
 
 // Base classes
 #import "LanSongContext.h"
@@ -168,6 +168,7 @@
 #import "LanSongColourFASTFeatureDetector.h"
 #import "LanSongColourFASTSamplingOperation.h"
 
+
 //2017年10月19日15:48:35新增:
 
 #import "LanSongBeautyFilter.h"
@@ -196,10 +197,12 @@
 
 //2018年03月07日11:23:12 增加
 #import "LanSongBeautyTuneFilter.h"
+/*
+ 去燥,磨皮;
+ */
 #import "LanSongBeautyAdvanceFilter.h"
 
 //2018年04月05日12:20:26 增加
-#import "LanSongColorEdgeFilter.h"   //颜色偏移效果, 滤镜;
-#import "LanSongMirrorFilter.h"
-
+#import "LanSongColorEdgeFilter.h"   //抖音的颜色偏移效果, 滤镜;
+#import "LanSongMirrorFilter.h"  //镜像;
 

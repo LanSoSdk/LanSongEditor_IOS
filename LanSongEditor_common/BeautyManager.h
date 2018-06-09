@@ -1,13 +1,16 @@
 //
-//  BeautyManager.h
-//  LanSongEditorFramework
+//  BeautyManager.m
+//  LanSongEditor_all
 //
-//  Created by sno on 09/03/2018.
-//  Copyright © 2018 sno. All rights reserved.
+//  Created by sno on 2018/6/6.
+//  Copyright © 2018年 sno. All rights reserved.
 //
+
+#import "BeautyManager.h"
 
 #import <Foundation/Foundation.h>
 #import "LanSongUtils.h"
+
 
 @interface BeautyManager : NSObject
 
@@ -24,24 +27,30 @@
 
 /**
  增加美颜
-
+ 
  @param cameraPen 当前获取到摄像头图层对象
  */
 -(void)addBeauty:(CameraPen *)cameraPen;
 
+-(void)addBeautyWithCamera:(DrawPadCameraPreview *)drawpad;
+
+//LSTODO 要修改这里;
+-(void)addBeautyWithVideo:(DrawPadVideoPreview *)drawpad;
+
+
 /**
  删除美颜
-
+ 
  @param cameraPen 摄像头图层对象
  */
 -(void)deleteBeauty:(CameraPen *)cameraPen;
 
-
+-(void)deleteBeautyWithDrawPad:(DrawPadCameraPreview *)drawpad;
 /**
  当增加美颜后, 调节冷暖色;
- 0.0为暖色; 
+ 0.0为暖色;
  1.0 为冷色;
-默认是0.22;
+ 默认是0.22;
  @param level 级别;
  */
 -(void)setWarmCoolEffect:(CGFloat)level;

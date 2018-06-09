@@ -9,88 +9,59 @@
 #import "Demo1PenMothedVC.h"
 
 #import "LanSongUtils.h"
-#import "BlazeiceDooleView.h"
+#import "VideoPlayViewController.h"
 
 @interface Demo1PenMothedVC ()
 {
-    DrawPadPreview *drawpad;
+    DrawPadVideoPreview *drawpadPreview;
     
-    EditFileBox *srcfile;
-    
-    NSString *dstPath;
-    NSString *dstTmpPath;
-    
-    VideoPen *videoPen;  //当前操作的图层
+    LanSongView2 *lansongView;
+    BitmapPen *bmpPen;
+    CGSize drawpadSize;
 }
+@property (nonatomic,assign) NSString *dstPath;
 @end
 
 @implementation Demo1PenMothedVC
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"展示图层基本方法";
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    
-    srcfile=[AppDelegate getInstance].currentEditBox;
-    
-    dstPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    dstTmpPath = [SDKFileUtil genFileNameWithSuffix:@"mp4"];
-    
-    /*
-     step1:第一步: 创建容器(尺寸,码率,编码后的目标文件路径,增加一个预览view)
-     */
-    CGFloat     drawPadWidth=480;
-    CGFloat     drawPadHeight=480;
-    
-    int    drawPadBitRate=1000*1000;
-    drawpad=[[DrawPadPreview alloc] initWithWidth:drawPadWidth height:drawPadHeight bitrate:drawPadBitRate dstPath:dstTmpPath];
-    
-    
-    CGSize size=self.view.frame.size;
-    DrawPadView *filterView;
-    if (drawPadWidth>drawPadHeight) {
-        filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.width,size.width*(drawPadHeight/drawPadWidth))];
-    }else{
-        //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
-        filterView=[[DrawPadView alloc] initWithFrame:CGRectMake(0, 60, size.height*(drawPadWidth/drawPadHeight)/2,size.height/2)];
-        filterView.center=CGPointMake(size.width/2, filterView.center.y);
-   }
 
+    //创建容器
+    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
+    drawpadSize=drawpadPreview.drawpadSize;
     
-    [self.view addSubview: filterView];
-    [drawpad setDrawPadPreView:filterView];
+    //创建显示窗口
+     CGSize size=self.view.frame.size;
+    lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
+    [self.view addSubview:lansongView];
+    [drawpadPreview addLanSongView:lansongView];
     
     
-   //第二步: 增加图层,当然您也可以在容器开始后增加
-    UIImage *imag=[UIImage imageNamed:@"p640x1136"];
-    [drawpad addBitmapPen:imag];  //增加一个图片图层,因为先增加的,放到最后,等于是背景.
+    //增加Bitmap
+    UIImage *image=[UIImage imageNamed:@"mm"];
+    bmpPen=[drawpadPreview addBitmapPen:image];
     
-    //增加一个视频图层.
-    videoPen=  [drawpad addMainVideoPen:srcfile.srcVideoPath filter:nil];
-    videoPen.loopPlay=YES;
     
-    //第三步, 设置 进度回调,完成回调, 开始执行.
     __weak typeof(self) weakSelf = self;
-    [drawpad setOnProgressBlock:^(CGFloat currentPts) {
+    [drawpadPreview setProgressBlock:^(CGFloat progess) {
+        NSLog(@"progress  is :%f",progess);
+    }];
+    
+    [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+            VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+            vce.videoPath=path;
+            [weakSelf.navigationController pushViewController:vce animated:NO];
         });
     }];
     
-    //设置完成后的回调
-    [drawpad setOnCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf drawpadCompleted];
-        });
-    }];
-    
-    // 开始工作
-    if([drawpad startDrawPad]==NO)
-    {
-        NSLog(@"DrawPad 容器线程执行失败, 请联系我们!");
-    }
- 
+    //开始执行
+    [drawpadPreview startWithEncode];
     
     //-------------以下是ui操作-----------------------
     CGFloat padding=size.height*0.01;
@@ -100,8 +71,8 @@
     [self.view addSubview:_labProgress];
     
     [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(filterView.mas_bottom).offset(padding);
-        make.centerX.mas_equalTo(filterView.mas_centerX);
+        make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(lansongView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
@@ -112,28 +83,28 @@
 }
 - (void)slideChanged:(UISlider*)sender
 {
-    if(videoPen==nil){
+    if(bmpPen==nil){
         return ;
     }
     
     CGFloat val=[(UISlider *)sender value];
     
-    CGFloat posX=drawpad.drawpadSize.width*val;
-    CGFloat posY=drawpad.drawpadSize.height*val;
+    CGFloat posX=drawpadPreview.drawpadSize.width*val;
+    CGFloat posY=drawpadPreview.drawpadSize.height*val;
     
     switch (sender.tag) {
         case 101:  //位置
-            videoPen.positionX=posX;
+            bmpPen.positionX=posX;
             break;
         case 102:  //Y坐标
-            videoPen.positionY=posY;
+            bmpPen.positionY=posY;
             break;
         case 103:  //scale
-                videoPen.scaleHeight=val;
-                videoPen.scaleWidth=val;
+            bmpPen.scaleHeight=val;
+            bmpPen.scaleWidth=val;
             break;
         case 104:  //rotate;
-                videoPen.rotateDegree=val;
+            bmpPen.rotateDegree=val;
             break;
         default:
             break;
@@ -184,51 +155,21 @@
     }];
     return labPos;
 }
-
-/**
- 容器完成回调;
- */
--(void)drawpadCompleted
-{
-    //增加音频
-    if ([SDKFileUtil fileExist:dstTmpPath]) {
-        BOOL ret=[VideoEditor drawPadAddAudio:srcfile.srcVideoPath newMp4:dstTmpPath dstFile:dstPath];
-        if(ret==NO){
-            dstPath=dstTmpPath;
-        }
-         [self showIsPlayDialog];
-    }else{
-        [LanSongUtils showDialog:@"没有生成目标文件,请查看是否设置为实时录制,或请联系我们!"];
-    }
-}
--(void)showIsPlayDialog
-{
-    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"视频已经处理完毕,是否需要预览" delegate:self cancelButtonTitle:@"预览" otherButtonTitles:@"返回", nil];
-    [alertView show];
-}
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==0) {
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-    }else {  //返回
-        
-    }
-}
 -(void)viewDidDisappear:(BOOL)animated
 {
-    if (drawpad!=nil) {
-        [drawpad stopDrawPad];
+    if (drawpadPreview!=nil) {
+        [drawpadPreview cancel];
+        drawpadPreview=nil;
     }
 }
 
 -(void)dealloc
 {
-    videoPen=nil;
-    drawpad=nil;
+    bmpPen=nil;
+    drawpadPreview=nil;
+    lansongView=nil;
     
-    [SDKFileUtil deleteFile:dstPath];
-    [SDKFileUtil deleteFile:dstTmpPath];
-    NSLog(@"VideoPictureRealTime VC  dealloc");
+    NSLog(@"Demo1PenMothedVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation
@@ -241,4 +182,5 @@
  */
 
 @end
+
 

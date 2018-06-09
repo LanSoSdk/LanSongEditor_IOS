@@ -1,4 +1,4 @@
-#import "ShaderProgram.h"
+#import "LanSongProgram.h"
 #import "LanSongFramebuffer.h"
 #import "LanSongFramebufferCache.h"
 
@@ -11,18 +11,14 @@
 
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG
-    #define LSLog(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
-    #define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
+#define LSLog(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
+#define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 #else
-    #define LSLog(...)
-    #define LANSOSDKLine ;
+#define LSLog(...)
+#define LANSOSDKLine ;
 #endif
 
 //-------LANSO++  END
-
-/**
- 如果有向左旋转, 向右旋转的角度,则返回YES, 交换宽高;
- */
 #define LanSongRotationSwapsWidthAndHeight(rotation) ((rotation) == kLanSongRotateLeft || (rotation) == kLanSongRotateRight || (rotation) == kLanSongRotateRightFlipVertical || (rotation) == kLanSongRotateRightFlipHorizontal)
 
 typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
@@ -38,24 +34,11 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 
 @interface LanSongContext : NSObject
 
-
 @property(readonly, nonatomic) dispatch_queue_t contextQueue;
-
-@property(readwrite, retain, nonatomic) ShaderProgram *currentShaderProgram;
-
-/**
- 当前语境
- */
+@property(readwrite, retain, nonatomic) LanSongProgram *currentLanSongProgram;
 @property(readonly, retain, nonatomic) EAGLContext *context;
-
 @property(readonly) CVOpenGLESTextureCacheRef coreVideoTextureCache;
 @property(readonly) LanSongFramebufferCache *framebufferCache;
-
-
-/**
- 特定用户使用.
- */
-+(void)setOpengles30:(BOOL)is;
 
 + (void *)contextKey;
 + (LanSongContext *)sharedImageProcessingContext;
@@ -63,8 +46,8 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 + (LanSongFramebufferCache *)sharedFramebufferCache;
 + (void)useImageProcessingContext;
 - (void)useAsCurrentContext;
-+ (void)setActiveShaderProgram:(ShaderProgram *)shaderProgram;
-- (void)setContextShaderProgram:(ShaderProgram *)shaderProgram;
++ (void)setActiveLanSongProgram:(LanSongProgram *)LanSongProgram;
+- (void)setContextLanSongProgram:(LanSongProgram *)LanSongProgram;
 + (GLint)maximumTextureSizeForThisDevice;
 + (GLint)maximumTextureUnitsForThisDevice;
 + (GLint)maximumVaryingVectorsForThisDevice;
@@ -74,22 +57,19 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 + (CGSize)sizeThatFitsWithinATextureForSize:(CGSize)inputSize;
 
 - (void)presentBufferForDisplay;
-- (ShaderProgram *)programForVertexShaderString:(NSString *)vertexShaderString fragmentShaderString:(NSString *)fragmentShaderString;
+- (LanSongProgram *)programForVertexShaderString:(NSString *)vertexShaderString fragmentShaderString:(NSString *)fragmentShaderString;
 
 - (void)useSharegroup:(EAGLSharegroup *)sharegroup;
 
-
 /**
- 2018年01月16日12:00:27增加
- */
-- (BOOL)lockRender:(id<EAGLDrawable>)drawable;
-- (void)unlockRender;
+ 特定客户使用
 
--(void)destoryCurrentContext;
+ @param is <#is description#>
+ */
++(void)setOpengles30:(BOOL)is;
 
 // Manage fast texture upload
 + (BOOL)supportsFastTextureUpload;
-
 
 @end
 
@@ -100,12 +80,6 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
 - (void)setInputRotation:(LanSongRotationMode)newInputRotation atIndex:(NSInteger)textureIndex;
 - (CGSize)maximumOutputSize;
-
-
-
-/**
- 原生结束处理.
- */
 - (void)endProcessing;
 - (BOOL)shouldIgnoreUpdatesToThisTarget;
 - (BOOL)enabled;

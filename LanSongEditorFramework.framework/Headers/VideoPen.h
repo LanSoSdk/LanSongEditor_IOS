@@ -56,8 +56,6 @@
 /**
  设置视频图层在是视频处理完毕后, 是否要循环处理.
  
- 这个loopPlay仅仅在自动刷新模式下可用.
- 
  暂时不支持后台模式. 只是在AVPlayer中使用.
  */
 @property(nonatomic,getter=isLoop) BOOL loopPlay;

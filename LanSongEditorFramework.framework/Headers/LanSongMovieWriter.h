@@ -2,6 +2,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongContext.h"
 
+#import "LanSongContext.h"
+#import "LanSongProgram.h"
+#import "LanSongFilter.h"
+
 extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 
 @protocol LanSongMovieWriterDelegate <NSObject>
@@ -19,8 +23,7 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
     NSURL *movieURL;
     NSString *fileType;
 	AVAssetWriter *assetWriter;
-	AVAssetWriterInput *assetWriterAudioInput;  //音频写入对象.
-    
+	AVAssetWriterInput *assetWriterAudioInput;
 	AVAssetWriterInput *assetWriterVideoInput;
     AVAssetWriterInputPixelBufferAdaptor *assetWriterPixelBufferInput;
     
@@ -30,18 +33,32 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 
     CGSize videoSize;
     LanSongRotationMode inputRotation;
+    
+    
+    //move here
+    GLuint movieFramebuffer, movieRenderbuffer;
+    
+    LanSongProgram *colorSwizzlingProgram;
+    GLint colorSwizzlingPositionAttribute, colorSwizzlingTextureCoordinateAttribute;
+    GLint colorSwizzlingInputTextureUniform;
+    
+    LanSongFramebuffer *firstInputFramebuffer;
+    
+    BOOL discont;
+    CMTime startTime, previousFrameTime, previousAudioTime;
+    CMTime offsetTime;
+    
+    dispatch_queue_t audioQueue, videoQueue;
+    BOOL audioEncodingIsFinished, videoEncodingIsFinished;
+    
+    BOOL isRecording;
+    int   encodeBitrate;  //新增码率设置.
 }
 
 @property(readwrite, nonatomic) BOOL hasAudioTrack;
 @property(readwrite, nonatomic) BOOL shouldPassthroughAudio;
 @property(readwrite, nonatomic) BOOL shouldInvalidateAudioSampleWhenDone;
-
-//lanso++
-@property(nonatomic, copy) void(^videoProgressBlock)(CGFloat progess);
-
 @property(nonatomic, copy) void(^completionBlock)(void);
-
-
 @property(nonatomic, copy) void(^failureBlock)(NSError*);
 @property(nonatomic, assign) id<LanSongMovieWriterDelegate> delegate;
 @property(readwrite, nonatomic) BOOL encodingLiveVideo;
@@ -56,10 +73,13 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 @property(nonatomic, assign, getter = isPaused) BOOL paused;
 @property(nonatomic, retain) LanSongContext *movieWriterContext;
 
-// Initialization and teardown
-- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;
+//lanso++
+@property(nonatomic, copy) void(^videoProgressBlock)(CGFloat progess);
 
-//lanso++, 可以设置码率.
+
+
+- (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;
+//lanso++
 - (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize bitrate:(int)bitrate;
 
 - (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize fileType:(NSString *)newFileType outputSettings:(NSDictionary *)outputSettings;
@@ -75,4 +95,15 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 - (void)processAudioBuffer:(CMSampleBufferRef)audioBuffer;
 - (void)enableSynchronizationCallbacks;
 
+
+//move here
+// Movie recording
+- (void)initializeMovieWithOutputSettings:(NSMutableDictionary *)outputSettings;
+
+// Frame rendering
+- (void)createDataFBO;
+- (void)destroyDataFBO;
+- (void)setFilterFBO;
+
+- (void)renderAtInternalSizeUsingFramebuffer:(LanSongFramebuffer *)inputFramebufferToUse;
 @end

@@ -12,10 +12,6 @@ void setColorConvert709( GLfloat conversionMatrix[9] );
 
 
 //Delegate Protocal for Face Detection.
-
-/**
- 摄像头视频输出的回调, 拿到原画面后,可以把数据拉出去.
- */
 @protocol LanSongVideoCameraDelegate <NSObject>
 
 @optional
@@ -32,19 +28,16 @@ void setColorConvert709( GLfloat conversionMatrix[9] );
     CGFloat totalFrameTimeDuringCapture;
     
     AVCaptureSession *_captureSession;
-    //采集的设备,有input和output.
-    AVCaptureDevice *_inputCamera;//
+    AVCaptureDevice *_inputCamera;
     AVCaptureDevice *_microphone;
-    
     AVCaptureDeviceInput *videoInput;
 	AVCaptureVideoDataOutput *videoOutput;
 
-    BOOL capturePaused;  //停止画面输出, 就是在回调中,直接返回.
-    
+    BOOL capturePaused;
     LanSongRotationMode outputRotation, internalRotation;
     dispatch_semaphore_t frameRenderingSemaphore;
         
-    BOOL captureAsYUV; ///是否以YUV, 是手动设置的?????
+    BOOL captureAsYUV;
     GLuint luminanceTexture, chrominanceTexture;
 
     __unsafe_unretained id<LanSongVideoCameraDelegate> _delegate;
@@ -145,8 +138,7 @@ void setColorConvert709( GLfloat conversionMatrix[9] );
  */
 - (AVCaptureConnection *)videoCaptureConnection;
 
-/**
- This flips between the front and rear cameras
+/** This flips between the front and rear cameras
  */
 - (void)rotateCamera;
 

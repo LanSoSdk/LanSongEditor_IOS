@@ -2,12 +2,7 @@
 
 @interface LanSongPixellatePositionFilter : LanSongFilter
 {
-    GLint fractionalWidthOfAPixelUniform;  //gl中的masaic的每个马克点的大小.
-    
-    GLint aspectRatioUniform;//?????  //gl的纹理宽高比?????
-    
-    GLint centerUniform;  //gl中masaic的中心点
-    GLint radiusUniform;  //gl mosaic的半径坐标
+    GLint fractionalWidthOfAPixelUniform, aspectRatioUniform, centerUniform, radiusUniform;
 }
 
 // The fractional width of the image to use as a size for the pixels in the resulting image. Values below one pixel width in the source image are ignored.

@@ -7,63 +7,38 @@
 //
 
 #import "MainViewController.h"
-
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 
 #import "LanSongUtils.h"
-
 #import "UIColor+Util.h"
 #import "Masonry.h"
-
-
-#import "ExecuteFilterDemoVC.h"
-#import "CommDemoListTableVC.h"
-#import "PictureSetsRealTimeVC.h"
-
-
-#import "CameraPenDemoVC.h"
-#import "CameraPenFullPortVC.h"
-#import "CameraPenFullLandscapeVC.h"
-#import "CameraPenSegmentRecordVC.h"
-
-
-#import "ExtractVideoFrameVC.h"
-#import "MVPenDemoRealTimeVC.h"
+#import "CameraFullPortVC.h"
 #import "Demo1PenMothedVC.h"
-#import "Demo2PenMothedVC.h"
-#import "Demo3PenFilterVC.h"
+#import "TestLottieVC.h"
+#import "FilterVideoDemoVC.h"
+#import "CameraSegmentRecordVC.h"
 
-#import "ViewPenOnlyVC.h"
-
-#import "SegmentRecordSquareVC.h"
-#import "SegmentRecordFullVC.h"
-#import "BitmapPadVC.h"
-#import "VideoEffectVC.h"
-#import "TestLottieVC3.h"
+#import "CommDemoListTableVC.h"
 
 @interface MainViewController ()
 {
     UIView  *container;
     UILabel *labPath; // 视频路径.
+    
 }
 @end
 
 #define kVideoFilterDemo 1
-#define kVideoFilterBackGroudDemo 2
 //移动缩放旋转演示
 #define kDemo1PenMothed 3
 #define kVideoUIDemo 4
-#define kMorePictureDemo 5
 #define kCommonEditDemo 6
-#define kMVPenDemo 7
 #define kDirectPlay 8
 
 //竖屏
 #define kSegmentRecordFullPort 10
-//横屏
-#define kSegmentRecordFullLandscape 11
 //分段录制
 #define kSegmentRecordSegmentRecord 12
 
@@ -76,12 +51,12 @@
 
 @implementation MainViewController
 {
-    ExtractVideoFrame *extractFrame;
+//    ExtractVideoFrame *extractFrame;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"[容器图层]---开发架构举例";
+    self.title = @"LanSongSDK图层架构";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -108,72 +83,57 @@
 {
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
-    EditFileBox *box=nil;
-    NSString *defaultVideo=@"dy_xialu1";
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
     
     if([self needCheckBox:sender]){
         //检查是否正常.
-        if([AppDelegate getInstance].currentEditBox==nil){
+        if([SDKFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
             [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
             return ;
         }
     }
     switch (sender.tag) {
         case kUseDefaultVideo:
-            box=[[EditFileBox alloc] initWithPath:[SDKFileUtil urlToFileString:sampleURL]];
-            if(box!=nil){
-                labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-                [AppDelegate getInstance].currentEditBox=box;
-            }else{
-                  [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
+            {
+                NSString *defaultVideo=@"dy_xialu1";
+                NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
+                if(sampleURL!=nil){
+                    labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
+                    [AppDelegate getInstance].currentEditVideo=[SDKFileUtil urlToFileString:sampleURL];
+                }else{
+                    [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
+                }
+                sender.backgroundColor=[UIColor greenColor];
+                break;
             }
-            sender.backgroundColor=[UIColor greenColor];
-            break;
         case kSelectVideo:
             [self pickVideo];
             sender.backgroundColor=[UIColor yellowColor];
             break;
         case kSegmentRecordFullPort:
-            pushVC=[[CameraPenFullPortVC alloc] init];
-            break;
-        case kSegmentRecordFullLandscape:
-            pushVC=[[CameraPenFullLandscapeVC alloc] init];  //横屏
+            pushVC=[[CameraFullPortVC alloc] init];
             break;
         case kSegmentRecordSegmentRecord:
-            pushVC=[[CameraPenSegmentRecordVC alloc] init];  //分段录制.
+            pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
             break;
         case kVideoUIDemo:
-            pushVC=[[TestLottieVC3 alloc] init];  //视频+UI图层.
-            break;
-        case kMVPenDemo:
-            pushVC=[[MVPenDemoRealTimeVC alloc] init];  //MVPen演示, 增加一个mv图层.
-            break;
-        case kMorePictureDemo:
-            pushVC=[[PictureSetsRealTimeVC alloc] init]; //图片图层
+             pushVC=[[TestLottieVC alloc] init]; //图层叠加
             break;
         case kDemo1PenMothed:
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
             break;
         case kDemo2PenMothed:
-            pushVC=[[VideoEffectVC alloc] init];
-//            pushVC=[[Demo2PenMothedVC alloc] init];  //移动缩放旋转2
+//            pushVC=[[VideoEffectVC alloc] init];
             break;
         case kVideoFilterDemo:
-            pushVC=[[Demo3PenFilterVC alloc] init];  //滤镜
-            break;
-        case kExtractVideoFrame:
-            pushVC=[[ExtractVideoFrameVC alloc] init];
-            break;
-        case kVideoFilterBackGroudDemo:
-            pushVC=[[ExecuteFilterDemoVC alloc] init];  //后台滤镜
-            ((ExecuteFilterDemoVC *)pushVC).isAddUIPen=NO;
+            pushVC=[[FilterVideoDemoVC alloc] init];  //滤镜
             break;
         case kCommonEditDemo:
-            pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
+            pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示LSTODO
             break;
         case kDirectPlay:
-               [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditBox.srcVideoPath];
+            {
+                 [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideo];
+            }
             break;
         default:
             break;
@@ -199,18 +159,12 @@
     }];
     
     UIView *view=[self newDefaultButton:container];
-    view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制 (摄像头图层)"];
-    view=[self newButton:view index:kSegmentRecordFullLandscape hint:@"横屏录制 (摄像头图层)"];
-    view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制 (摄像头图层)"];
+    view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
+    view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
     
-    view=[self newButton:view index:kVideoUIDemo hint:@"AE模板(UI图层)"];
-    view=[self newButton:view index:kMVPenDemo hint:@"MV图层"];
-    view=[self newButton:view index:kMorePictureDemo hint:@"照片影集"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"所有图层均支持的父类功能1"];
-    view=[self newButton:view index:kDemo2PenMothed hint:@"视频效果"];
-    view=[self newButton:view index:kVideoFilterDemo hint:@"所有图层均支持的父类功能3(滤镜)"];
-    view=[self newButton:view index:kExtractVideoFrame hint:@"提取视频帧"];
-    view=[self newButton:view index:kVideoFilterBackGroudDemo hint:@"后台容器(视频图层+滤镜+CALayer图层)"];
+    view=[self newButton:view index:kVideoUIDemo hint:@"图层叠加(AE模板)"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层移动缩放选择"];
+    view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜"];
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
     
@@ -247,7 +201,6 @@
     return  sender.tag !=kUseDefaultVideo &&
     sender.tag!=kSelectVideo &&
     sender.tag!=kSegmentRecordFullPort &&
-    sender.tag!=kSegmentRecordFullLandscape &&
     sender.tag!=kSegmentRecordSegmentRecord;
 }
 -(UIView *)newDefaultButton:(UIView *)topView
@@ -406,13 +359,10 @@ int  frameCount=0;
     {
         //获取视频文件的url
         NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
-        
-        NSString *videoPath=[SDKFileUtil urlToFileString:mediaURL];
-        EditFileBox *box=[[EditFileBox alloc] initWithPath:videoPath];
-        if(box!=nil){
-            NSLog(@"拿到的是url文件:%@",[box.info description]);
-            labPath.text=[NSString stringWithFormat:@"选择的视频是:%@",[videoPath lastPathComponent]];
-            [AppDelegate getInstance].currentEditBox=box;
+        if(mediaURL!=nil){
+            labPath.text=[NSString stringWithFormat:@"选择的视频是:%@",[mediaURL lastPathComponent]];
+            NSString *path=[SDKFileUtil urlToFileString:mediaURL];
+            [AppDelegate getInstance].currentEditVideo=path;
         }else{
             [LanSongUtils showHUDToast:@"导入视频错误, 系统相册返回nil"];
         }
@@ -423,7 +373,11 @@ int  frameCount=0;
 -(void)testFile
 {
 //    LanSongTESTVC *pushVC=[[LanSongTESTVC alloc] init];  //视频+UI图层.
+//    TestLottieVC *pushVC=[[TestLottieVC alloc] init];
+    
+//    FilterVideoDemoVC  *pushVC=[[FilterVideoDemoVC alloc] init];
 //    [self.navigationController pushViewController:pushVC animated:NO];
+    
 }
 
 @end
