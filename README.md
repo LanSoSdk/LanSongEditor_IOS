@@ -62,7 +62,7 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
 
 ### 我们有android版本的SDK，欢迎你的评估使用：
 *	android系统SDK--基本版本：https://github.com/LanSoSdk/LanSoEditor_common
-*	android系统SDK--高级版本：https://github.com/LanSoSdk/LanSoEditor_advance
+*	android系统SDK--专业版本：https://github.com/LanSoSdk/LanSoEditor_advance
 
 ### 联系方式:
 *   QQ 1852600324 
