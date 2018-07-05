@@ -19,9 +19,14 @@
 
 @interface DrawPadVideoExecute : NSObject
 
+
+/**
+ 当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
+ */
 @property (nonatomic,readonly)MediaInfo *mediaInfo;
 @property (nonatomic)   LanSongMovie *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
+
 
 
 /**
@@ -58,6 +63,8 @@
 
 /**
  进度回调,
+ 此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;
+ 比如在:assetWriterPixelBufferInput appendPixelBuffer执行后,
  如要工作在主线程,请使用:
  dispatch_async(dispatch_get_main_queue(), ^{
  });
@@ -88,4 +95,14 @@
 -(void)switchFilterStartWith:(LanSongOutput <LanSongInput> *)startFilter  end:(LanSongOutput <LanSongInput> *)endFilter;
 
 -(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
+
+
+/**
+ 直接增加上原来的音频;
+ @param video <#video description#>
+ @param audio <#audio description#>
+ @param dstFile <#dstFile description#>
+ @return <#return value description#>
+ */
++(BOOL)addAudioDirectly:(NSString *)video audio:(NSString*)audio dstFile:(NSString *)dstFile;
 @end

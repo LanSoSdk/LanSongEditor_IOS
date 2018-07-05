@@ -22,7 +22,8 @@ static NSString * const kCompContainerAnimationKey = @"play";
   NSNumber *_playRangeEndFrame;
   CGFloat _playRangeStartProgress;
   CGFloat _playRangeEndProgress;
-  NSBundle *_bundle;
+  NSBundle *_bundle;  //在哪里调用LSTODO
+    
   CGFloat _animationProgress;
   // Properties for tracking automatic restoration of animation.
   BOOL _shouldRestoreStateWhenAttachedToWindow;

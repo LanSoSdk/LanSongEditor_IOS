@@ -137,6 +137,14 @@
  */
 +(BOOL) isSupport:(NSString*)videoPath;
 
+
+/**
+ 检查当前文件,内部会打印出检查出的各种信息log;
+
+ 同时这些信息也会返回.
+ @param videoPath <#videoPath description#>
+ @return <#return value description#>
+ */
 +(NSString *) checkFile:(NSString*)videoPath;
 /**
  *  是否有视频

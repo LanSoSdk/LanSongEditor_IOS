@@ -347,4 +347,14 @@
         }
  }
  */
+/**
+ 把一张图片转换为视频
+ 内部会建立一个queue, 异步执行, 但执行速度特别快, 小视频几乎1秒内; 建议等待一会
+ 
+ @param image 图像宽高
+ @param frameRate 帧率,建议是25或30
+ @param duration 视频的总长度
+ @param block 转换完毕后的回调,回调中有完成的视频路径;
+ */
++ (void)compressImages:(UIImage *)image frameRate:(int)frameRate duration:(int)duration completion:(void(^)(NSURL *outurl))block;
 @end

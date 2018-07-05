@@ -21,6 +21,7 @@
 #import "CameraSegmentRecordVC.h"
 
 #import "CommDemoListTableVC.h"
+#import "TESTLottie2VC.h"
 
 @interface MainViewController ()
 {
@@ -116,7 +117,7 @@
             pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
             break;
         case kVideoUIDemo:
-             pushVC=[[TestLottieVC alloc] init]; //图层叠加
+             pushVC=[[TESTLottie2VC alloc] init]; //图层叠加
             break;
         case kDemo1PenMothed:
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
@@ -236,7 +237,6 @@
     labPath.textColor=[UIColor redColor];
     
     [container addSubview:labPath];
-    
     
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.04;
@@ -372,12 +372,6 @@ int  frameCount=0;
 
 -(void)testFile
 {
-//    LanSongTESTVC *pushVC=[[LanSongTESTVC alloc] init];  //视频+UI图层.
-//    TestLottieVC *pushVC=[[TestLottieVC alloc] init];
-    
-//    FilterVideoDemoVC  *pushVC=[[FilterVideoDemoVC alloc] init];
-//    [self.navigationController pushViewController:pushVC animated:NO];
-    
 }
 
 @end

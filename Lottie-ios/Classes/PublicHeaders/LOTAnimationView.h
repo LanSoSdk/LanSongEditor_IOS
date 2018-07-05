@@ -20,12 +20,27 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(init(name:));
 
 /// Loads animation by name from specified bundle, Images are also loaded from the bundle
+
+/**
+ LSTODO  测试这个;
+
+ @param animationName json文件
+ @param bundle NSBundle路径 完整的文件夹???
+ @return <#return value description#>
+ */
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 
 /// Creates an animation from the deserialized JSON Dictionary
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 
 /// Loads an animation from a specific file path. WARNING Do not use a web URL for file path.
+/**
+ 从指定位置 增加动画文件json;
+ 从main bundle中找images文件夹;
+ 
+ @param filePath json完整路径
+ @return return value description
+ */
 + (nonnull instancetype)animationWithFilePath:(nonnull NSString *)filePath NS_SWIFT_NAME(init(filePath:));
 
 /// Creates an animation from the deserialized JSON Dictionary, images are loaded from the specified bundle

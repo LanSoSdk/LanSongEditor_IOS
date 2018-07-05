@@ -11,26 +11,6 @@
 @interface SDKFileUtil : NSObject
 
 /**
- *  拷贝资源文件到目标文件夹
- *
- *  @param name   资源名字
- *  @param fix    后缀
- *  @param dstDir 目标文件夹
- *
- *  @return 拷贝成功,返回目标文件名;失败返回NULL
- */
-+(NSString *) copyAssetFile:(NSString *)name withSubffix:(NSString *)fix dstDir:(NSString *)dstDir;
-
-/**
- *  拷贝文件
- *
- *  @param sourcePath 源路径
- *  @param toPath     目标文件路径(包含目标文件名)
- *
- *  @return 如果拷贝成功,返回YES,失败返回NO, (可能是内存不足导致失败)
- */
-+ (BOOL)copyFile:(NSString *)sourcePath toPath:(NSString *)toPath;
-/**
  *  判断文件是否存在
  *
  *  @param str 文件路径
@@ -54,6 +34,14 @@
  * @
  */
 + (void)createDir:(NSString *)createDir;
+
+/**
+ 在Docments文件夹下创建新的文件夹;
+
+ @param dirName 文件夹名字
+ @return 返回完整的文件夹路径;
+ */
++ (NSString *)createDirInDocuments:(NSString *)dirName;
 //在指定的文件夹下.
 /**
  *  生成这个文件名字, 并不真正在文件夹里创建文件
@@ -160,4 +148,28 @@
  */
 +(NSURL *)filePathToURL:(NSString *)path;
 
+/**
+ *  拷贝资源文件到Documents文件夹下的指定的文件夹;
+ * 资源文件是这样的:
+ NSString * srcPath = [[NSBundle mainBundle] pathForResource:@"aobama" ofType:@"json"];
+ 目标文件夹是创建在:Documents的子文件夹;如拷贝到Documents下, 则dstDir=@"";
+ 
+ *  @param name   资源名字
+ *  @param fix    后缀
+ *  @param dstDir 目标文件夹 可以是@"" 或者 @"image" 或者@"img/2/2/3/"
+ *
+ *  @return 拷贝成功,返回目标文件名;失败返回NULL
+ */
++(NSString *) copyResourceFile:(NSString *)name withSubffix:(NSString *)fix dstDir:(NSString *)dstDir;
+
+/**
+ *  拷贝文件
+ *  内部是直接拷贝, 阻塞执行;
+ 
+ *  @param sourcePath 源路径
+ *  @param toPath     目标文件路径(包含目标文件名)
+ *
+ *  @return 如果拷贝成功,返回YES,失败返回NO, (可能是内存不足导致失败)
+ */
++ (BOOL)copyFile:(NSString *)sourcePath toPath:(NSString *)toPath;
 @end

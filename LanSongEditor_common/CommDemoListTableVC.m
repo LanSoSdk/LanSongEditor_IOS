@@ -48,7 +48,7 @@ enum {
     
     srcVideo=[AppDelegate getInstance].currentEditVideo;
     
-    srcAudio=[SDKFileUtil copyAssetFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];
+    srcAudio=[SDKFileUtil copyResourceFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];
     
     NSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:

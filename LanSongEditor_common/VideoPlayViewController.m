@@ -19,6 +19,8 @@
     MediaInfo *mInfo;
     AVPlayerLayer *layer;
       CGContextRef   context;        //绘制layer的context
+    
+    id _notificationToken;
 }
 //监控进度
 @property (nonatomic,strong)NSTimer *avTimer;
@@ -39,13 +41,14 @@
 - (void)viewDidLoad {
     // Do any additional setup after loading the view from its nib.
     [super viewDidLoad];
+    _notificationToken=0;
     
-    LANSOSDKLine
   [LanSongUtils setViewControllerPortrait];
+    
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         
-        NSLog(@"获取到的视频信息是:%@",mInfo);  //用中文,让您看到你您处理后的视频信息.
+        NSLog(@"获取到的视频信息是:%@",mInfo);
         
         NSString *str= [NSString stringWithFormat:@"宽度:%d"
                 "高度:%d"
@@ -97,10 +100,26 @@
     [self.player play];
     
     self.isPlaying=YES;
+
+    [self setPlayerLoop];
     
     //设置最大值最小值音量
     //    self.volume.maximumValue =10.0f;
     //    self.volume.minimumValue =0.0f;
+}
+- (void)setPlayerLoop
+{
+    if (_notificationToken)
+        _notificationToken = nil;
+    
+    //设置播放结束后的动作
+    _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    
+    _notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+
+        [_player.currentItem seekToTime:kCMTimeZero];  //这个是循环播放的.
+        
+    }];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -111,13 +130,18 @@
     if (self.isPlaying) {
         [self.player replaceCurrentItemWithPlayerItem:nil];
     }
+    if (_notificationToken) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_notificationToken name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+        _notificationToken = nil;
+    }
+    
     mInfo=nil;
     layer=nil;
 }
 //监控播放进度方法
 - (void)timer
 {
-    if (self.isPlaying==YES) { //浮点运算可以得到 秒后面的小数位.
+    if (self.isPlaying) {
         float  timepos= (float)self.player.currentItem.currentTime.value;
         timepos/=(float)self.player.currentItem.currentTime.timescale;  //timescale, 时间刻度.
        self.progressSlider.value = CMTimeGetSeconds(self.player.currentItem.currentTime) / CMTimeGetSeconds(self.player.currentItem.duration);

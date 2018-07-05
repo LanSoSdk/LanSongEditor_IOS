@@ -34,9 +34,9 @@
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithURL:sampleURL];
     drawpadSize=drawpadPreview.drawpadSize;
     
-    
-    
     CGSize size=self.view.frame.size;
+    
+    
     //先增加一个lottieUI界面, 然后用lansongView挡着这个界面;
     [self createLottieView];
     
@@ -119,6 +119,7 @@
     self.lottieView.contentMode = UIViewContentModeScaleAspectFit;
     self.lottieView.frame=CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.width*480/640);
     
+    [_lottieView setProgressWithFrame: [NSNumber numberWithInt:5]];
     
     [self.view addSubview:self.lottieView];
     [self.view setNeedsLayout];
