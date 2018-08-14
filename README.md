@@ -3,7 +3,7 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
  蓝松科技的视频编辑SDK IOS版本Demo演示.
  
  ### 当前版本是2.6.7
-*再次深度优化AE模板.
+*   再次深度优化AE模板.
 
 [更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)
 
@@ -13,13 +13,13 @@ lansong  video  editor   ios version. crop cut overlay  filter beautiful compres
 
 ### 此SDK采用为收费授权,公司性质的合作,为了您项目更好的进行,欢迎和我们联系.谢谢!
 
-###架构1: 图层
+### 架构1: 图层
 *   类似ios中的UI布局, 或者类似 adobe Affect Effect 动画处理一样, 我们的SDK是基于图层架构设计, 所有的素材,都是一层一层的处理;
 *   我们设计了一个容器概念, 命名为Drawpad, 向内部增加各种图层, 比如视频图层, 图片图层, mv图层等, 既可完成视频处理;
 *   滤镜功能：具有滤镜属性的图层有：视频图层，图片图层，摄像头图层
 *   视频图层，可引出多个子图层； 子图层是克隆当前画面， 从而实现同一个画面分裂出多个相同的画面,比如灵魂出窍,模糊背景, 错位等抖音的效果;
 
-###架构2: AE模板
+### 架构2: AE模板
 
 *  SDK可以直接导入在PC端设计师做好的AE模板, 从而一些复杂的效果,直接PC设置好,导入进SDK既可.
 *  举例有:一类似趣推微商小视频, 逗拍, 小柿饼APP之类;
