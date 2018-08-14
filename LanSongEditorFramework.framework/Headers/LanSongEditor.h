@@ -21,7 +21,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/VideoEditor.h>
 
 //创建临时 处理文件的头文件
-#import <LanSongEditorFramework/SDKFileUtil.h>
+#import <LanSongEditorFramework/LanSongFileUtil.h>
 
 //各种滤镜的头文件;
 #import <LanSongEditorFramework/LanSong.h>
@@ -41,7 +41,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/CameraPen.h>
 #import <LanSongEditorFramework/Mp3ToAAC.h>
 #import <LanSongEditorFramework/ExtractVideoFrame.h>
-#import <LanSongEditorFramework/ScaleExecute.h>
+#import <LanSongEditorFramework/LanSongScaleExecute.h>
 #import <LanSongEditorFramework/LanSongAudioRecorder.h>
 #import <LanSongEditorFramework/LanSongTESTVC.h>
 #import <LanSongEditorFramework/BitmapPadExecute.h>
@@ -56,6 +56,32 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/DrawPadCameraPreview.h>
 #import <LanSongEditorFramework/DrawPadVideoExecute.h>
 #import <LanSongEditorFramework/LanSongView2.h>
+
+//获取mv的图片;
+#import <LanSongEditorFramework/LanSongGetMVFrame.h>
+
+//新增一个AE容器, 可以向里面增加AE模板;
+#import <LanSongEditorFramework/DrawPadAEExecute.h>
+//视频解码得到UIImage;
+#import <LanSongEditorFramework/LanSongVideoDecoder.h>
+
+
+//lottie的一些库文件
+#import <LanSongEditorFramework/LOTValueDelegate.h>
+#import <LanSongEditorFramework/LOTAnimatedControl.h>
+#import <LanSongEditorFramework/LOTCacheProvider.h>
+#import <LanSongEditorFramework/LOTKeypath.h>
+#import <LanSongEditorFramework/LOTInterpolatorCallback.h>
+#import <LanSongEditorFramework/LOTAnimatedSwitch.h>
+#import <LanSongEditorFramework/LOTAnimationCache.h>
+#import <LanSongEditorFramework/Lottie.h>
+#import <LanSongEditorFramework/LOTComposition.h>
+#import <LanSongEditorFramework/LOTAnimationTransitionController.h>
+#import <LanSongEditorFramework/LOTAnimationView.h>
+#import <LanSongEditorFramework/LOTAnimationView_Compat.h>
+#import <LanSongEditorFramework/LOTValueCallback.h>
+#import <LanSongEditorFramework/LOTBlockCallback.h>
+
 
 
 @interface LanSongEditor : NSObject

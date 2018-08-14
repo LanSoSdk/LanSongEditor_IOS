@@ -171,6 +171,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 -(void)drawDisplay2;
 - (void)draw:(LanSongContext *)context;
+-(void)drawSubPen;  //内部使用
+-(void)drawSubPenDisplay;
+
 
 - (void)draw1Lock;
 - (void)draw2Lock;

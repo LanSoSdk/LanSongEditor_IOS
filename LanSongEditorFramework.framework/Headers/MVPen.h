@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Pen.h"
-
-
+#import "MediaInfo.h"
 /**
  当MV播放到最后一帧的时候, 做合作方式处理
  */
@@ -43,6 +42,8 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  默认是循环
  */
 @property MVEndMode mvMode;
+
+
 /**
  *  初始化
  *
@@ -54,4 +55,9 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  */
 - (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
+
+/**
+ 读取属性
+ */
+@property(nonatomic,readonly) MediaInfo *mediaInfo;
 @end

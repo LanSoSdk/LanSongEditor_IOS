@@ -95,7 +95,6 @@
             case  102:  //btnStart;
                 if(drawPadCamera.isRecording==NO){
                     [drawPadCamera startRecord];
-                    LANSOSDKLine
                     [drawPadCamera setProgressBlock:^(CGFloat progess) {
                         NSLog(@"progress is :%f",progess);
                         [weakSelf progressBlock:progess];

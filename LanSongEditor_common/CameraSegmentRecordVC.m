@@ -172,7 +172,7 @@
     if(drawPadCamera.isRecording && currentSegmentDuration>0)
     {
         [drawPadCamera stopRecord:^(NSString *path) {
-            if([SDKFileUtil fileExist:path])
+            if([LanSongFileUtil fileExist:path])
             {
                 SegmentFile *file=[[SegmentFile alloc] init];
                 file.segmentPath=path;
@@ -199,7 +199,7 @@
         [drawPadCamera stopRecord:^(NSString *path) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if([SDKFileUtil fileExist:path])
+                if([LanSongFileUtil fileExist:path])
                 {
                     SegmentFile *file=[[SegmentFile alloc] init];
                     file.segmentPath=path;
@@ -226,7 +226,7 @@
         SegmentFile *path=[segmentArray objectAtIndex:segmentArray.count-1];
         
         [segmentArray removeObject:path];
-        [SDKFileUtil deleteFile:path.segmentPath];
+        [LanSongFileUtil deleteFile:path.segmentPath];
         
         if(totalDuration>=path.duration){
             totalDuration-=path.duration;
@@ -254,7 +254,7 @@
         }
         //开始拼接起来;
         
-        dstPath=[SDKFileUtil genTmpMp4Path];
+        dstPath=[LanSongFileUtil genTmpMp4Path];
         [VideoEditor executeConcatMP4:fileArray dstFile:dstPath];  //耗时很少;
         [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else if(segmentArray.count==1){
@@ -464,7 +464,7 @@
     }
     drawPadCamera=nil;
     
-    [SDKFileUtil deleteAllFiles:fileArray];
+    [LanSongFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
     
     NSLog(@"CameraPenDemoVC  dealloc");
@@ -485,7 +485,7 @@
 //    //第一步:拿到所有的assetTrack,放到数组里.
 //    for (NSString *filePath in filePathArray)
 //    {
-//        AVAsset *asset = [AVAsset assetWithURL:[SDKFileUtil filePathToURL:filePath]];
+//        AVAsset *asset = [AVAsset assetWithURL:[LanSongFileUtil filePathToURL:filePath]];
 //        if (!asset) {
 //            continue;
 //        }
@@ -511,7 +511,7 @@
 //    }
 //
 //    //get save path
-//    NSURL *mergeFileURL =[SDKFileUtil filePathToURL:dstVideo];
+//    NSURL *mergeFileURL =[LanSongFileUtil filePathToURL:dstVideo];
 //
 //    //export
 //    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPreset960x540];

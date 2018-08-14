@@ -115,6 +115,8 @@
  *  @return 对象本身.
  */
 -(id)initWithPath:(NSString *)filepath;
+
+-(id)initWithURL:(NSURL *)url;
 /**
  *  初始化后,需要执行prepare, 才可以得到当前视频的一些信息.
  *

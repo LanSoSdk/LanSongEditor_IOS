@@ -11,7 +11,6 @@
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
 #import "YXLabel.h"
-#import "Lottie.h"
 #import "VideoPlayViewController.h"
 
 

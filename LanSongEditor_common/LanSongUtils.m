@@ -41,7 +41,7 @@
  */
 +(void)startVideoPlayerVC:(UINavigationController*)nav dstPath:(NSString *)dstPath
 {
-    if ([SDKFileUtil fileExist:dstPath]) {
+    if ([LanSongFileUtil fileExist:dstPath]) {
         SDKLine
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstPath;

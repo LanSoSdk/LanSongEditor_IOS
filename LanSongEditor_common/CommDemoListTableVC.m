@@ -44,11 +44,11 @@ enum {
     self.title = @"视频编辑--基本功能列表";
     isPlayVideo=NO;
     
-    [SDKFileUtil deleteDir:[SDKFileUtil Path]];
+    [LanSongFileUtil deleteDir:[LanSongFileUtil Path]];
     
     srcVideo=[AppDelegate getInstance].currentEditVideo;
     
-    srcAudio=[SDKFileUtil copyResourceFile:@"honor30s2" withSubffix:@"m4a" dstDir:[SDKFileUtil Path]];
+    srcAudio=[LanSongFileUtil copyResourceFile:@"honor30s2" withSubffix:@"m4a" dstDir:[LanSongFileUtil Path]];
     
     NSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:
@@ -120,13 +120,13 @@ enum {
 }
 -(void)startVideoPlayVC
 {
-    if ([SDKFileUtil fileExist:dstMp4]) {
+    if ([LanSongFileUtil fileExist:dstMp4]) {
         
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstMp4;
         isPlayVideo=YES;
         [self.navigationController pushViewController:videoVC animated:YES];
-    }else if([SDKFileUtil fileExist:dstAAC]){
+    }else if([LanSongFileUtil fileExist:dstAAC]){
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstAAC;
         isPlayVideo=YES;
@@ -203,15 +203,15 @@ enum {
     NSInteger index = [indexPath row];
     CommDemoItem *item=(CommDemoItem *)[mCommonArray objectAtIndex:index];
     
-    if ([SDKFileUtil fileExist:dstMp4]) {
-        [SDKFileUtil deleteFile:dstMp4];
+    if ([LanSongFileUtil fileExist:dstMp4]) {
+        [LanSongFileUtil deleteFile:dstMp4];
     }
-    dstMp4=[SDKFileUtil genTmpMp4Path];
+    dstMp4=[LanSongFileUtil genTmpMp4Path];
     
-    if ([SDKFileUtil fileExist:dstAAC]) {
-        [SDKFileUtil deleteFile:dstAAC];
+    if ([LanSongFileUtil fileExist:dstAAC]) {
+        [LanSongFileUtil deleteFile:dstAAC];
     }
-    dstAAC =[SDKFileUtil genTmpM4APath];
+    dstAAC =[LanSongFileUtil genTmpM4APath];
     
     [self showProgressHUD];
     switch (item.demoID) {

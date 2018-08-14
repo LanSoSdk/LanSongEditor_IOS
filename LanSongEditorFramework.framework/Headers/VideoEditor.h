@@ -357,4 +357,7 @@
  @param block 转换完毕后的回调,回调中有完成的视频路径;
  */
 + (void)compressImages:(UIImage *)image frameRate:(int)frameRate duration:(int)duration completion:(void(^)(NSURL *outurl))block;
+
++(void)createVideoWithSize:(CGSize )size frameRate:(int)frameRate duration:(int)duration completion:(void (^)(NSURL *))block;
+
 @end

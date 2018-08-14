@@ -9,7 +9,7 @@
 #import "CommDemoItem.h"
 #import <LanSongEditorFramework/LanSongEditor.h>
 #import <LansongEditorFramework/MediaInfo.h>
-#import <LanSongEditorFramework/SDKFileUtil.h>
+#import <LanSongEditorFramework/LanSongFileUtil.h>
 
 @implementation CommDemoItem
 
@@ -68,11 +68,11 @@
     if ([info prepare]) {
         if ([info hasAudio]) { //如果有音频,则先删除之前的音频
             
-            NSString *tmpMp4= [SDKFileUtil genTmpMp4Path];
+            NSString *tmpMp4= [LanSongFileUtil genTmpMp4Path];
             [CommDemoItem demoDeleteAudio:srcVideo dstMp4:tmpMp4];
             
             [VideoEditor executeVideoMergeAudio:tmpMp4 audioFile:srcAudio dstFile:dstMp4];
-            [SDKFileUtil deleteFile:tmpMp4];
+            [LanSongFileUtil deleteFile:tmpMp4];
         }else{
             [VideoEditor executeVideoMergeAudio:srcVideo audioFile:srcAudio dstFile:dstMp4];
         }
@@ -118,11 +118,11 @@
     if ([info prepare]) {
         
         //第一步创建视频文件字符串,用来保存演示的临时文件
-        NSString *seg1=  [SDKFileUtil genFileNameWithSuffix:info.fileSuffix];
-        NSString *seg2=  [SDKFileUtil genFileNameWithSuffix:info.fileSuffix];
+        NSString *seg1=  [LanSongFileUtil genFileNameWithSuffix:info.fileSuffix];
+        NSString *seg2=  [LanSongFileUtil genFileNameWithSuffix:info.fileSuffix];
         
-        NSString *segTs1=[SDKFileUtil genFileNameWithSuffix:@"ts"];
-        NSString *segTs2=[SDKFileUtil genFileNameWithSuffix:@"ts"];
+        NSString *segTs1=[LanSongFileUtil genFileNameWithSuffix:@"ts"];
+        NSString *segTs2=[LanSongFileUtil genFileNameWithSuffix:@"ts"];
         
         //为了演示方便,直接截成两个文件, 实际中你可以传入两个文件
         [VideoEditor executeVideoCutOut:srcVideo dstFile:seg1 start:0 durationS:info.vDuration/3];
@@ -141,10 +141,10 @@
         [VideoEditor executeConvertTsToMp4:mutableArray dstFile:dstVideo];
         
         //删除为了演示而生成的临时文件.
-        [SDKFileUtil deleteFile:segTs2];
-        [SDKFileUtil deleteFile:segTs1];
-        [SDKFileUtil deleteFile:seg1];
-        [SDKFileUtil deleteFile:seg2];
+        [LanSongFileUtil deleteFile:segTs2];
+        [LanSongFileUtil deleteFile:segTs1];
+        [LanSongFileUtil deleteFile:seg1];
+        [LanSongFileUtil deleteFile:seg2];
         
     }
 }

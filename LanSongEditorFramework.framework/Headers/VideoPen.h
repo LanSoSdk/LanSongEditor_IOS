@@ -32,14 +32,13 @@
 
 /**
  当前视频图层的即将显示的进度.
- LANSOTODO
  */
 @property(nonatomic, copy) void(^onVideoPenCurrentPostionBlock)(CGFloat);
 
 /**
  当使用DrawPadPreview前台预览处理的时候, 用系统自带的AVPlayer作为播放器
  您可以拿到这个播放器对象, 进行seek, rate等操作.
- 
+ LSTODO 暂时无法测试!!!???
  比如我们的测试代码是:
  //总的时长.
  //循环播放
@@ -59,7 +58,6 @@
  暂时不支持后台模式. 只是在AVPlayer中使用.
  */
 @property(nonatomic,getter=isLoop) BOOL loopPlay;
-
 
 /**
  * 内部使用.

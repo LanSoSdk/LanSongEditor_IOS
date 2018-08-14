@@ -99,7 +99,7 @@
         filterItemArray=[FilterItem createDemoFilterArray];  //拿到列举的多个滤镜.
 
         
-        NSURL *sampleURL = [SDKFileUtil filePathToURL:srcPath];
+        NSURL *sampleURL = [LanSongFileUtil filePathToURL:srcPath];
         
         UIImage *image=[VideoEditor getVideoImageimageWithURL:sampleURL];
         if(image!=nil){
@@ -217,7 +217,7 @@
         filterImageArray=nil;
     }
     
-    [SDKFileUtil deleteFile:dstPath];
+    [LanSongFileUtil deleteFile:dstPath];
     NSLog(@"Demo3PenFilterVC dealloc");
 }
 - (void)didReceiveMemoryWarning {

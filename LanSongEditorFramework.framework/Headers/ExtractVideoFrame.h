@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LanSongFilter.h"
 #import "MediaInfo.h"
-#import "SDKFileUtil.h"
+#import "LanSongFileUtil.h"
 
 
 @interface ExtractVideoFrame : NSObject
@@ -88,8 +88,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [extractFrame stop];
         });
-        
-        
     }
 }];
 

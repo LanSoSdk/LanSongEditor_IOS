@@ -10,5 +10,13 @@
 
 #import <UIKit/UIKit.h>
 
+#define AEDEMO_AOBAMA 1
+#define AEDEMO_HONG_SAN 2
+#define AEDEMO_ZAO_AN 3
+#define AEDEMO_TWO_IMAGE 4
+
 @interface TESTLottie2VC : UIViewController
+
+
+@property int AeType;
 @end

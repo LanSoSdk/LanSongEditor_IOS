@@ -12,20 +12,28 @@
 #import "LanSongUtils.h"
 #import "BlazeiceDooleView.h"
 #import "YXLabel.h"
-#import "Lottie.h"
 #import "VideoPlayViewController.h"
-
 
 @interface TESTLottie2VC ()
 {
     NSMutableArray *mPenArray;
     NSString *dstPath;
-    DrawPadVideoExecute *drawpadExecute;
-   
+    DrawPadAEExecute *drawpadExecute;
+    
+    
+    NSURL *videoURL;
+    NSURL *mvColor;
+    NSURL *mvMask;
+    NSString *jsonPath;
+    UIView *view;
+    
+    UIImage *jsonImage0;
+    UIImage *jsonImage1;
+    
+    MediaInfo *mediaInfo;
 }
-@property  int  frameCnt;
 @property UILabel *labProgress;
-@property LOTAnimationView *lottieView;
+
 @end
 
 @implementation TESTLottie2VC
@@ -33,8 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor redColor];
-
-    _frameCnt=0;
+    
     
     //-------------以下是ui操作-----------------------
     CGSize size=self.view.frame.size;
@@ -47,76 +54,216 @@
         make.center.mas_equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
-    [self startExecuteDrawPad];
+    
+        if(_AeType==AEDEMO_AOBAMA){
+            [self testAobamaAEModule];
+        }else if(_AeType==AEDEMO_ZAO_AN){
+            [self testZaoanAEModule];
+        }else if(_AeType==AEDEMO_HONG_SAN){
+            [self aeType_JSonMV];
+        }else if(_AeType==AEDEMO_TWO_IMAGE){
+            [self testOnlyJson];
+        }else{
+            NSLog(@"AeType unkonw :%d",_AeType);
+        }
 }
-//---------------------------
--(void)createLottieView:(CGSize)size
+-(void)testAobamaAEModule
 {
-    //先创建图片images文件夹和各种图片
-    UIImage *image1=[self createImageWithText:@"测试写入文字123abc" imageSize:CGSizeMake(255, 185)];
-    
-    NSArray *images=[NSArray arrayWithObjects:image1, nil];
-    NSString *jsonPath=[self createLottieNeedFiles:@"aobama.json" images:images];
-    
-    
-    //创建Lottie的View
-    self.lottieView =[LOTAnimationView animationWithFilePath:jsonPath];
-    self.lottieView.contentMode = UIViewContentModeScaleAspectFit;
-    self.lottieView.frame=CGRectMake(0, 0,size.width,size.height);
+//    //奥巴马这个模板, 是先视频层, 再AE层, 最后mv;
+    videoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
+    mediaInfo=[[MediaInfo alloc] initWithPath:[LanSongFileUtil urlToFileString:videoURL]];
+    if([mediaInfo prepare]){
+
+        //增加AE图层, AE=json+image
+        jsonImage0=[self createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
+        NSString *jsonName=@"aobama";
+        
+        jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
+
+        //开始创建;
+        drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
+        
+        
+        //增加lottie层
+        LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+        [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+        
+        
+
+        //再增加mv图层;
+        mvColor=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
+        mvMask = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
+        [drawpadExecute addMVPen:mvColor withMask:mvMask];
+
+        //开始执行
+        [self startAE];
+    }
+}
+//早安的例子
+-(void)testZaoanAEModule
+{
+//    //素材有4个;
+    NSString *jsonName=@"zaoan";
+    mvColor=[[NSBundle mainBundle] URLForResource:@"zaoan_mvColor" withExtension:@"mp4"];
+    mvMask=[[NSBundle mainBundle] URLForResource:@"zaoan_mvMask" withExtension:@"mp4"];
+    jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
+    jsonImage0=[UIImage imageNamed:@"zaoan"];
+
+
+    mediaInfo=[[MediaInfo alloc] initWithPath:[LanSongFileUtil urlToFileString:mvColor]];
+    if([mediaInfo prepare]){
+
+        [VideoEditor createVideoWithSize:CGSizeMake(mediaInfo.vWidth, mediaInfo.vHeight) frameRate:(int)mediaInfo.vFrameRate duration:(int)mediaInfo.vDuration completion:^(NSURL *outUrl) {
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                videoURL=outUrl;
+                drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:outUrl];
+                //增加lottie层;
+                LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+                if(jsonImage0!=nil){
+                     [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+                }
+               
+                
+                //增加mv层;
+                [drawpadExecute addMVPen:mvColor withMask:mvMask];
+                [self startAE];  //开始执行;
+            });
+
+
+        }];
+    }else{
+        NSLog(@"早安 ae 模板创建错误");
+    }
 }
 
+
 /**
- 创建lottie需要的两个文件:
- 1,json,
- 2,和json同一个目录下的images文件夹,
- images文件夹里有img_0.png, img_1.png, img_2.png 等需要的图片文件;
+ AE模板类型:
+ 先增加 json层; 后增加mv层
  */
--(NSString *)createLottieNeedFiles:(NSString *)json images:(NSArray *)images
+-(void)aeType_JSonMV
 {
-    //1, 把json文件拷贝到Docments文件夹下;
-    NSString *dstJsonPath=[SDKFileUtil copyResourceFile:@"aobama" withSubffix:@"json" dstDir:@"aobama"];
-    
-    //2,保存图片到Docments下的images文件夹中;
-     NSString *imagesDir=[SDKFileUtil createDirInDocuments:@"aobama/images"];  //先创建
-    BOOL success=NO;
-    for (int i=0; i<images.count; i++) {
-        UIImage *image=[images objectAtIndex:i];
-        NSString * string =[NSString stringWithFormat:@"%@/img_%d.png",imagesDir,i];
-        success = [UIImagePNGRepresentation(image) writeToFile:string  atomically:YES];
-        if (success){
-            NSLog(@"写入本地成功:%@",string);
-        }else{
-            NSLog(@"写入图片失败 :%@",image);
-        }
-    }
-    //4,返回json文件路劲
-    if(success){
-        return dstJsonPath;
+//    //素材有4个;
+    NSString *jsonName=@"hongsan";
+    mvColor=[[NSBundle mainBundle] URLForResource:@"hongsan_mvColor" withExtension:@"mp4"];
+    mvMask=[[NSBundle mainBundle] URLForResource:@"hongsan_mvMask" withExtension:@"mp4"];
+    jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
+    jsonImage0=[UIImage imageNamed:@"hongsan"];
+
+
+    mediaInfo=[[MediaInfo alloc] initWithPath:[LanSongFileUtil urlToFileString:mvColor]];
+
+    if([mediaInfo prepare]){
+
+        //这个模板没有视频, 暂时创建一个视频, 我们后期版本可能不需要;
+        [VideoEditor createVideoWithSize:CGSizeMake(mediaInfo.vWidth, mediaInfo.vHeight) frameRate:(int)mediaInfo.vFrameRate duration:(int)mediaInfo.vDuration completion:^(NSURL *outUrl) {
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:outUrl];
+                
+                //增加lottie层;
+                LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+                [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+                
+                //增加mv层;
+                [drawpadExecute addMVPen:mvColor withMask:mvMask];
+                
+                [self startAE];  //开始执行;
+            });
+        }];
     }else{
-        return nil;
+        NSLog(@"hongsan ae 模板创建错误");
     }
 }
+/**
+ 测试只有json文件的情况;
+ */
+-(void)testOnlyJson
+{
+    NSString *jsonName=@"img_time3";
+    jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
+    
+    UIImage *image1=[UIImage imageNamed:@"imgRotate"];
+    UIImage *image2=[UIImage imageNamed:@"imgScale"];
+    
+    
+    //创建lottieView
+    LOTAnimationView *lottieView1 =[LOTAnimationView animationWithFilePath:jsonPath];
+    [lottieView1 updateImageWithKey:@"image_0" image:image1];
+    [lottieView1 updateImageWithKey:@"image_1" image:image2];
+    
+    
+    CGSize size=CGSizeMake(lottieView1.jsonWidth,lottieView1.jsonHeight);
+    int duration=(int)(lottieView1.jsonDuration+1.0);
+    
+    [VideoEditor createVideoWithSize:size frameRate:lottieView1.jsonFrameRate duration:duration completion:^(NSURL *outUrl) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:outUrl];
+            [drawpadExecute addAEView:lottieView1];
+            [self startAE];  //开始执行;
+        });
+    }];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)startAE
+{
+    if(drawpadExecute!=nil){
+        __weak typeof(self) weakSelf = self;
+        [drawpadExecute setProgressBlock:^(CGFloat progess) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf drawpadProgress:progess];
+            });
+        }];
+        
+        [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf drawpadCompleted:dstPath];
+            });
+        }];
+        [drawpadExecute start];
+    }
+}
+-(void)drawpadProgress:(CGFloat) progress
+{
+    int percent=(int)(progress*100/drawpadExecute.mediaInfo.vDuration);
+    _labProgress.text=[NSString stringWithFormat:@"   当前进度 %f,百分比是:%d",progress,percent];
+}
+-(void)drawpadCompleted:(NSString *)path
+{
+    dstPath=path;
+    drawpadExecute=nil;
+    VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+    vce.videoPath=path;
+    [self.navigationController pushViewController:vce animated:NO];
+}
+
 
 -(UIImage *)createImageWithText:(NSString *)text imageSize:(CGSize)size
 {
-        //文字转图片;
-        NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-        [paragraphStyle setAlignment:NSTextAlignmentCenter];
-        [paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
-        [paragraphStyle setLineSpacing:15.f];  //行间距
-        [paragraphStyle setParagraphSpacing:2.f];//字符间距
-        
-        NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:30],
-                                     NSForegroundColorAttributeName : [UIColor blueColor],
-                                     NSBackgroundColorAttributeName : [UIColor clearColor],
-                                     NSParagraphStyleAttributeName : paragraphStyle, };
+    //文字转图片;
+    NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
+    [paragraphStyle setLineSpacing:15.f];  //行间距
+    [paragraphStyle setParagraphSpacing:2.f];//字符间距
     
-        UIImage *image  = [self imageFromString:text attributes:attributes size:size];
-        return image;
+    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:30],
+                                 NSForegroundColorAttributeName : [UIColor blueColor],
+                                 NSBackgroundColorAttributeName : [UIColor clearColor],
+                                 NSParagraphStyleAttributeName : paragraphStyle, };
+    
+    UIImage *image  = [self imageFromString:text attributes:attributes size:size];
+    return image;
 }
 /**
  把文字转换为图片;
- 
  @param string 文字,
  @param attributes 文字的属性
  @param size 转换后的图片宽高
@@ -135,73 +282,7 @@
     
     return image;
 }
-//创建单色图片
-+ (UIImage *)crateImageWithSingleColor:(UIColor *)color size:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, CGRectMake(0, 0, size.width,size.height));
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
--(void)initView
-{
-}
 -(void)dealloc{
 }
-
-////-------------
--(void)startExecuteDrawPad
-{
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
-    drawpadExecute=[[DrawPadVideoExecute alloc] initWithURL:sampleURL];
-
-    CGSize size=CGSizeMake(drawpadExecute.mediaInfo.vWidth, drawpadExecute.mediaInfo.vHeight);
-    [self createLottieView:size];
-    
-    
-    //在视频图层上,增加一个UI图层;
-    [drawpadExecute addViewPen:self.lottieView isFromUI:NO];
-    
-    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
-    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
-    [drawpadExecute addMVPen:colorPath withMask:maskPath];
-    
-    __weak typeof(self) weakSelf = self;
-    _frameCnt=0;
-    [drawpadExecute setProgressBlock:^(CGFloat progess) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf drawpadProgress:progess];
-        });
-    }];
-    [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf drawpadCompleted:dstPath];
-        });
-    }];
-    [drawpadExecute start];
-}
--(void)drawpadProgress:(CGFloat) progress
-{
-    int percent=(int)(progress*100/drawpadExecute.mediaInfo.vDuration);
-     NSLog(@"即将处理时间(进度)是:%f,百分比是:%d",progress,percent);
-    _frameCnt++;
-    [self.lottieView setProgressWithFrame:[NSNumber numberWithInt:_frameCnt]];
-    _labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",progress];
-}
--(void)drawpadCompleted:(NSString *)path
-{
-    dstPath=path;
-    drawpadExecute=nil;
-    VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-    vce.videoPath=path;
-    [self.navigationController pushViewController:vce animated:NO];
-}
 @end
+

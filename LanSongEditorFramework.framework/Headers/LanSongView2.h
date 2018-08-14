@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 //lanso++
 -(void)updateDraw:(NSMutableArray *)mPenArray;
 -(void)setPenArray:(NSMutableArray *)array;
+-(void)setDrivePen:(Pen *)pen;
 //lanso++
 @property (nonatomic)BOOL forceUpdate;
 @end

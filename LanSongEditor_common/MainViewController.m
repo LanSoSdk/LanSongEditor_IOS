@@ -22,12 +22,14 @@
 
 #import "CommDemoListTableVC.h"
 #import "TESTLottie2VC.h"
+#import "VideoEffectVC.h"
 
 @interface MainViewController ()
 {
     UIView  *container;
     UILabel *labPath; // 视频路径.
-    
+ 
+    LanSongScaleExecute *scaleExecute; //LSTODO 测试
 }
 @end
 
@@ -45,7 +47,7 @@
 
 #define kDemo2PenMothed 13
 #define kExtractVideoFrame 14
-
+#define kLikeDouYinDemo 15
 
 #define kUseDefaultVideo 801
 #define kSelectVideo 802
@@ -70,7 +72,7 @@
     /*
      删除sdk中所有的临时文件.
      */
-    [SDKFileUtil deleteAllSDKFiles];
+    [LanSongFileUtil deleteAllSDKFiles];
   
     [self initView];
     
@@ -87,7 +89,7 @@
     
     if([self needCheckBox:sender]){
         //检查是否正常.
-        if([SDKFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
+        if([LanSongFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
             [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
             return ;
         }
@@ -99,7 +101,7 @@
                 NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
                 if(sampleURL!=nil){
                     labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-                    [AppDelegate getInstance].currentEditVideo=[SDKFileUtil urlToFileString:sampleURL];
+                    [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
                 }else{
                     [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
                 }
@@ -117,16 +119,20 @@
             pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
             break;
         case kVideoUIDemo:
-             pushVC=[[TESTLottie2VC alloc] init]; //图层叠加
+            {
+               TESTLottie2VC *push1=[[TESTLottie2VC alloc] init]; //图层叠加
+                push1.AeType=AEDEMO_AOBAMA;
+                pushVC=push1;
+            }
             break;
         case kDemo1PenMothed:
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
             break;
-        case kDemo2PenMothed:
-//            pushVC=[[VideoEffectVC alloc] init];
-            break;
         case kVideoFilterDemo:
             pushVC=[[FilterVideoDemoVC alloc] init];  //滤镜
+            break;
+        case kLikeDouYinDemo:
+            pushVC=[[VideoEffectVC alloc] init];
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示LSTODO
@@ -162,10 +168,11 @@
     UIView *view=[self newDefaultButton:container];
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
-    
-    view=[self newButton:view index:kVideoUIDemo hint:@"图层叠加(AE模板)"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"图层移动缩放选择"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层基本"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜"];
+    view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
+    view=[self newButton:view index:kVideoUIDemo hint:@"类似趣推小视频(AE模板)"];
+    
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
     
@@ -361,7 +368,7 @@ int  frameCount=0;
         NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
         if(mediaURL!=nil){
             labPath.text=[NSString stringWithFormat:@"选择的视频是:%@",[mediaURL lastPathComponent]];
-            NSString *path=[SDKFileUtil urlToFileString:mediaURL];
+            NSString *path=[LanSongFileUtil urlToFileString:mediaURL];
             [AppDelegate getInstance].currentEditVideo=path;
         }else{
             [LanSongUtils showHUDToast:@"导入视频错误, 系统相册返回nil"];
@@ -369,9 +376,12 @@ int  frameCount=0;
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
-
+//---------------------------------
 -(void)testFile
 {
+//    UIViewController *pushVC=[[VideoEffectVC alloc] init];
+//    [self.navigationController pushViewController:pushVC animated:YES];
 }
+
 
 @end

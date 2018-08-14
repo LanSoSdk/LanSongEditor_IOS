@@ -18,6 +18,7 @@
     LanSongView2 *lansongView;
     BitmapPen *bmpPen;
     CGSize drawpadSize;
+    VideoPen *videoPen;
 }
 @property (nonatomic,assign) NSString *dstPath;
 @end
@@ -30,19 +31,44 @@
     self.title=@"展示图层基本方法";
     self.view.backgroundColor=[UIColor whiteColor];
 
+  
+    [self startPreview]; //开启预览
+    //-------------以下是ui操作-----------------------
+     CGSize size=self.view.frame.size;
+    CGFloat padding=size.height*0.01;
+    
+    _labProgress=[[UILabel alloc] init];
+    _labProgress.textColor=[UIColor redColor];
+    [self.view addSubview:_labProgress];
+    
+    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
+        make.centerX.mas_equalTo(lansongView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 40));
+    }];
+    
+    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
+            currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
+    currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
+    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
+}
+-(void)startPreview
+{
+    [self stopPreview];
+    
     //创建容器
     NSString *video=[AppDelegate getInstance].currentEditVideo;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
     
     //创建显示窗口
-     CGSize size=self.view.frame.size;
+    CGSize size=self.view.frame.size;
     lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
     [self.view addSubview:lansongView];
     [drawpadPreview addLanSongView:lansongView];
     
     
-    //增加Bitmap
+    //增加Bitmap图层
     UIImage *image=[UIImage imageNamed:@"mm"];
     bmpPen=[drawpadPreview addBitmapPen:image];
     
@@ -60,26 +86,16 @@
         });
     }];
     
-    //开始执行
+    videoPen=drawpadPreview.videoPen;
+    //开始执行,并编码
     [drawpadPreview startWithEncode];
-    
-    //-------------以下是ui操作-----------------------
-    CGFloat padding=size.height*0.01;
-    
-    _labProgress=[[UILabel alloc] init];
-    _labProgress.textColor=[UIColor redColor];
-    [self.view addSubview:_labProgress];
-    
-    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
-        make.centerX.mas_equalTo(lansongView.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(size.width, 40));
-    }];
-    
-    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
-    currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
-    currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
-    [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
+}
+-(void)stopPreview
+{
+    if (drawpadPreview!=nil) {
+        [drawpadPreview cancel];
+        drawpadPreview=nil;
+    }
 }
 - (void)slideChanged:(UISlider*)sender
 {
@@ -157,18 +173,15 @@
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
-    if (drawpadPreview!=nil) {
-        [drawpadPreview cancel];
-        drawpadPreview=nil;
-    }
+    [self stopPreview];
 }
 
 -(void)dealloc
 {
+     [self stopPreview];
     bmpPen=nil;
     drawpadPreview=nil;
     lansongView=nil;
-    
     NSLog(@"Demo1PenMothedVC VC  dealloc");
 }
 /*
