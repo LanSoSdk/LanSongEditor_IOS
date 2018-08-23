@@ -10,13 +10,14 @@
 
 #import "LanSongOutput.h"
 
+/**
+ 子图层暂时不支持滤镜;
+ */
 @interface SubPen : NSObject
 
 //-------------------------------------------------
+
 - (id)initWithPenSize:(CGSize)penSize DrawPadSize:(CGSize)size;
-/**
- *  内部使用
- */
 -(void)loadParam:(LanSongContext*)context;
 /**
  *  内部使用
@@ -26,8 +27,6 @@
  *  内部使用
  */
 - (void)drawDisplay:(LanSongFramebuffer *)inputFramebufferToUse inputSize:(CGSize)inputSize;
-
-
 
 @property(readwrite, nonatomic) NSString *tag;
 

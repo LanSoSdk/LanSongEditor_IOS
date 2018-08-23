@@ -17,6 +17,7 @@
 
 
 typedef NS_ENUM(NSUInteger, PenTpye) {
+    kNullPen,
     kVideoPen,
     kBitmapPen,
     kViewPen,
@@ -49,6 +50,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 @property(readwrite, nonatomic) NSString *tag;
 
 @property (readwrite, nonatomic) LanSongFramebuffer *frameBufferTarget;
+
+@property (readonly, nonatomic) CMTime currentFrameTime;
+
 /**
  内部使用.
  当然图层是否在运行.
@@ -154,50 +158,10 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  同时设置 RGBA的百分比;
  */
 -(void) setRGBAPercent:(CGFloat)value;
-
 /**
- *  内部使用
+ 删除所有滤镜;
  */
-- (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
-
-/**
- 内部使用.
- */
--(void)releasePen;
-/**
- *  内部使用
- */
--(BOOL)decodeOneFrame;
-
--(void)drawDisplay2;
-- (void)draw:(LanSongContext *)context;
--(void)drawSubPen;  //内部使用
--(void)drawSubPenDisplay;
-
-
-- (void)draw1Lock;
-- (void)draw2Lock;
-- (void)draw1Unlock;
-- (void)draw2Unlock;
--(void)resetEncoderProgram;
-
-/**
- *  内部使用
- */
--(void)loadParam:(LanSongContext*)context;
-/**
- *  内部使用
- */
--(void)loadShader;
-/**
- *  内部使用
- */
-- (void)draw;
-/**
- *  内部使用
- */
-- (void)drawDisplay;
-
+-(void)removeAllFilter;
 /**
  *  切换滤镜, 默认是没有滤镜. 
     因为IOS端的LanSong开源库很强大, 这里完全兼容LanSong的库,您也可以根据自己的情况扩展LanSong相关的效果.
@@ -244,20 +208,6 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  @param endFilter  切换的最后一个滤镜.
  */
 -(void)switchFilterWithStartFilter:(LanSongOutput<LanSongInput> *)startFilter endFilter:(LanSongOutput<LanSongInput> *)endFilter;
-
-
-/**
- 内部使用
- */
-- (void)startProcessing:(BOOL)isAutoMode;
-
--(void)endProcessing;
-
--(BOOL) isFrameAvailable;
--(void)setDriveDraw:(BOOL)is;
--(void)resetCurrentFrame;
-
-
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
 
@@ -266,15 +216,59 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 -(SubPen *)addSubPen;
 
 /**
- 删除一个子图层能
+ 删除指定子图层
 
  @param pen 指定子图层对象
  */
 -(void)removeSubPen:(SubPen *)pen;
 
+/**
+ 删除最后一个子图层
+ */
 -(void)removeLastSubPen;
 
+/**
+ 删除所有子图层
+ */
 -(void)removeAllSubPen;
+
+/**
+ 获取
+
+ @return <#return value description#>
+ */
 -(int)getSubPenSize;
+
+
+
+
+/**
+ ****************** 一下为 内部使用的函数. 请勿调用 ******************************
+ */
+- (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
+-(void)releasePen;
+-(BOOL)decodeOneFrame;
+-(void)drawDisplay2;
+- (void)draw:(LanSongContext *)context;
+-(void)drawSubPenEncoder:(LanSongContext *)context;
+-(void)drawSubPenDisplay;
+- (void)draw1Lock;
+- (void)draw2Lock;
+- (void)draw1Unlock;
+- (void)draw2Unlock;
+-(void)setDriverTarget1:(id<LanSongInput>)driver1;
+-(void)setDriverTarget2:(id<LanSongInput>)driver2;
+-(void)resetEncoderProgram;
+-(void)loadParam:(LanSongContext*)context;
+-(void)loadShader;
+- (void)draw;
+- (void)drawDisplay;
+- (void)startProcessing:(BOOL)isAutoMode;
+-(void)endProcessing;
+-(BOOL) isFrameAvailable;
+-(void)setDriveDraw:(BOOL)is;
+-(void)resetCurrentFrame;
+-(void)sendToLanSong2:(CMTime)time;
+-(void)sendTolanSong2Finish;
 
 @end

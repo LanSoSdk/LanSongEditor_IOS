@@ -24,9 +24,51 @@
 @interface MediaInfo : NSObject
 
 
+/**
+ *   初始化MediaInfo对象. 创建成功返回对象,失败返回nil
+ *
+ *  @param filepath 文件的完整路径
+ *
+ *  @return 对象本身.
+ */
+-(id)initWithPath:(NSString *)filepath;
+
+-(id)initWithURL:(NSURL *)url;
+/**
+ *  初始化后,需要执行prepare, 才可以得到当前视频的一些信息.
+ *
+ *  @return 执行成功,返回YES,失败返回NO;
+ */
+-(BOOL)prepare;
+/**
+ *  是在prepare后执行的, 检查当前文件是否支持.
+ * 如果单纯的检查文件是否支持,可以用类方法 isSupport, 见下面.
+ *
+ *  @return 支持返回YES, 不支持返回NO;
+ */
+-(BOOL)isSupport;
+/**
+ *  类方法, 单纯的判断当前传递过来的文件是否支持.
+ *
+ *  @param videoPath 视频文件完整路径
+ *
+ *  @return 支持返回YES, 不支持返回NO;
+ */
++(BOOL) isSupport:(NSString*)videoPath;
+
+
+/**
+ 检查当前文件,内部会打印出检查出的各种信息log;
+
+ 同时这些信息也会返回.
+ */
++(NSString *) checkFile:(NSString*)videoPath;
+
 @property(nonatomic, readonly) NSString *filePath;
 @property(nonatomic, readonly) NSString *fileName;
 @property(nonatomic, readonly) NSString *fileSuffix;
+
+//-------------一下是prepare后得到的信息;
 /**
  * 视频的显示宽度, 即正常视频宽度. 如果视频旋转了90度或270度,则这里等于实际视频的高度,请注意!!
  */
@@ -105,49 +147,6 @@
  * 音频的最大码率, 这里暂时没有用到.
  */
 @property(nonatomic) int64_t aBitRateMax;
-
-
-/**
- *   初始化MediaInfo对象. 创建成功返回对象,失败返回nil
- *
- *  @param filepath 文件的完整路径
- *
- *  @return 对象本身.
- */
--(id)initWithPath:(NSString *)filepath;
-
--(id)initWithURL:(NSURL *)url;
-/**
- *  初始化后,需要执行prepare, 才可以得到当前视频的一些信息.
- *
- *  @return 执行成功,返回YES,失败返回NO;
- */
--(BOOL)prepare;
-/**
- *  是在prepare后执行的, 检查当前文件是否支持.
- * 如果单纯的检查文件是否支持,可以用类方法 isSupport, 见下面.
- *
- *  @return 支持返回YES, 不支持返回NO;
- */
--(BOOL)isSupport;
-/**
- *  类方法, 单纯的判断当前传递过来的文件是否支持.
- *
- *  @param videoPath 视频文件完整路径
- *
- *  @return 支持返回YES, 不支持返回NO;
- */
-+(BOOL) isSupport:(NSString*)videoPath;
-
-
-/**
- 检查当前文件,内部会打印出检查出的各种信息log;
-
- 同时这些信息也会返回.
- @param videoPath <#videoPath description#>
- @return <#return value description#>
- */
-+(NSString *) checkFile:(NSString*)videoPath;
 /**
  *  是否有视频
  *

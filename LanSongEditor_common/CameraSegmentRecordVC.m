@@ -95,7 +95,7 @@
     [self.view addSubview:lansongView];
     
     drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:YES];
-    drawPadCamera.videoCamera.horizontallyMirrorFrontFacingCamera=YES;
+    drawPadCamera.cameraPen.horizontallyMirrorFrontFacingCamera=YES;
     
     //增加图片图层
     UIImage *image=[UIImage imageNamed:@"small"];
@@ -111,9 +111,10 @@
     
     //开始预览
     [drawPadCamera startPreview];
-    [beautyMng addBeautyWithCamera:drawPadCamera];
+    [beautyMng addBeauty:drawPadCamera.cameraPen];
     
-    
+    drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
+    drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO
     
     //初始化其他UI界面.
     [self initView];
@@ -153,7 +154,7 @@
     [_progressBar addNewSegment];
     currentSegmentDuration=0;
     
-    [beautyMng addBeautyWithCamera:drawPadCamera];
+    [beautyMng addBeauty:drawPadCamera.cameraPen];
     
     __weak typeof (self) weakSelf=self;
     [drawPadCamera setProgressBlock:^(CGFloat progess) {
@@ -435,20 +436,20 @@
             break;
         case 201:  //美颜
             if(beautyLevel==0){  //增加美颜
-                [beautyMng addBeautyWithCamera:drawPadCamera];
+                [beautyMng addBeauty:drawPadCamera.cameraPen];
                 beautyLevel+=0.22;
             }else{
                 beautyLevel+=0.1;
                 [beautyMng setWarmCoolEffect:beautyLevel];
                 if(beautyLevel>1.0){ //删除美颜
-                    [beautyMng deleteBeautyWithDrawPad:drawPadCamera];
+                    [beautyMng deleteBeauty:drawPadCamera.cameraPen];
                     beautyLevel=0;
                 }
             }
             break;
         case 202:
             if(drawPadCamera!=nil){
-                [drawPadCamera.videoCamera rotateCamera];
+                [drawPadCamera.cameraPen rotateCamera];
             }
         default:
             break;

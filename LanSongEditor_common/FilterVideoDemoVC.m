@@ -64,7 +64,7 @@
 /**
  开始前台容器
  */
--(void)startDrawPadPreview
+-(void)startPreview
 {
     //创建容器
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:srcPath];
@@ -81,7 +81,7 @@
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=slide;
-    filterListVC.drawpadVideo=drawpadPreview;
+    filterListVC.filterPen=drawpadPreview.videoPen;
     isSelectFilter=NO;
     
     [drawpadPreview start];
@@ -116,7 +116,7 @@
             }else{
                 [_collectionView reloadData];
             }
-            [self startDrawPadPreview];
+            [self startPreview];
         });
     });
 }
@@ -147,16 +147,15 @@
  开始后台容器执行.
  filter 滤镜可以和执行前台预览时的共用同一个对象.
  */
--(void)startExecuteDrawPad:(LanSongFilter *)filter
+-(void)startExecute:(LanSongFilter *)filter
 {
-
         drawpadExecute=[[DrawPadVideoExecute alloc] initWithPath:srcPath];
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             NSLog(@"progress is::%f",progess);
         }];
     
         //增加滤镜
-        [drawpadExecute switchFilter:filter];
+        [drawpadExecute.videoPen switchFilter:filter];
     
 //        //增加Bitmap
 //        UIImage *image=[UIImage imageNamed:@"mm"];
@@ -172,13 +171,13 @@
         __weak typeof(self) weakSelf = self;
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 NSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/drawpadExecute.mediaInfo.vDuration);
                 weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",progess];
             });
         }];
         [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"LSTODO 处理完毕.....");
                  [weakSelf drawpadCompleted:dstPath];
             });
         }];
@@ -189,7 +188,7 @@
 {
     isSelectFilter=NO;
     if(!getThumbnailing && drawpadPreview==nil){
-        [self startDrawPadPreview];
+        [self startPreview];
     }
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -295,10 +294,10 @@
     }else if(sender.tag==602){  //后台滤镜.
         [self stopDrawpad];  //先停止预览drawpad
         
-        if(currentFilter!=nil){  //采用滤镜的几种滤镜
-            [self startExecuteDrawPad:(LanSongFilter *)currentFilter];
+        if(currentFilter!=nil){  //采用列出来的几种滤镜
+            [self startExecute:(LanSongFilter *)currentFilter];
         }else{//采用选中的所有滤镜.
-            [self startExecuteDrawPad:(LanSongFilter *)filterListVC.selectedFilter];
+            [self startExecute:(LanSongFilter *)filterListVC.selectedFilter];
         }
     }
 }
@@ -418,7 +417,7 @@
         if(filterArray.count>indexPath.row){
             currentFilter=[filterArray objectAtIndex:indexPath.row];
         }
-        [drawpadPreview switchFilter:currentFilter]; //切换滤镜.
+        [drawpadPreview.videoPen switchFilter:currentFilter]; //切换滤镜.
     }
 }
 @end

@@ -24,7 +24,7 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
 
 /**
  @param animationName json文件
- @param bundle NSBundle路径 完整的文件夹???
+ @param bundle NSBundle路径
  @return <#return value description#>
  */
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
@@ -98,8 +98,18 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
 @property (nonatomic) int jsonWidth;
 @property (nonatomic) int jsonHeight;
 
-@property (nonatomic) int jsonFrameRate;//帧率
+@property (nonatomic) CGFloat jsonFrameRate;//帧率
 @property (nonatomic) CGFloat jsonDuration; //总时长 =(结束帧数 - 开始帧数)/帧率; 单位秒;两位有效小数;
+/**
+ lansong++
+ 拿到json中所有图片的信息, 一个LanSongLOTInfo对象数组;
+ 
+ 比如打印出来:
+     for(LanSongLOTInfo *info in imageInfoArray){
+         NSLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
+     }
+ */
+@property (nonatomic) NSMutableArray *imageInfoArray;
 
 
 /**
@@ -112,6 +122,14 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
  */
 -(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image;
 
+/**
+ lansong++
+ 替换指定图片的视频;
+ 
+ @param key json中的refId, image_0 image_1等;
+ @param url 视频文件路径
+ @return 可以替换返回YES;
+ */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url;
 /*
  * Plays the animation from its current position to a specific progress.

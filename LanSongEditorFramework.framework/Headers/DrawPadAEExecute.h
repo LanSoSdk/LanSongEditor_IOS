@@ -22,7 +22,12 @@
 /**
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
  */
-@property (nonatomic,readonly)MediaInfo *mediaInfo;
+@property (nonatomic,readonly)MediaInfo *videoPenInfo;
+
+/**
+ 当前进度的最终长度;, 进度/duration等于百分比;
+ */
+@property (readonly) CGFloat duration;
 @property (nonatomic)   LanSongMovie *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
 
@@ -44,6 +49,14 @@
  */
 -(id)initWithPath:(NSString *)videoPath;
 
+
+/**
+不增加背景视频.
+ 默认生成的视频, 帧率等于第一个增加的AEJson 图层或 MV图层;
+ @return
+ */
+-(id)init;
+
 /**
  增加UI图层;
  @param view UI图层
@@ -64,8 +77,6 @@
  几乎等于:addAEView:(LOTAnimationView *)view
  */
 -(LOTAnimationView *)addAEJsonPath:(NSString *)jsonPath;
-
-
 -(BitmapPen *)addBitmapPen:(UIImage *)image;
 
 -(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;

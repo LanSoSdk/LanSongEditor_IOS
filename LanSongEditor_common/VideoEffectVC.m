@@ -13,8 +13,6 @@
 #import "FilterItem.h"
 #import "VideoPlayViewController.h"
 
-
-
 @interface VideoEffectVC ()
 {
     DrawPadVideoPreview *drawpadPreview;
@@ -81,11 +79,7 @@
     [self stopPreview];
     
     //创建容器
-   // NSString *video=[AppDelegate getInstance].currentEditVideo;
-    NSString *defaultVideo=@"dy_xialu1";
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
-    NSString *video=[LanSongFileUtil urlToFileString:sampleURL];
-    
+    NSString *video=[AppDelegate getInstance].currentEditVideo;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
     
@@ -170,12 +164,6 @@
 {
         [self stopPreview];
 }
--(void)dealloc
-{
-    [self stopPreview];
-    videoPen=nil;
-    dstPath=nil;
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -185,7 +173,7 @@
  */
 -(void)colorEdgeStart{
     colorEdgeFilter = [[LanSongColorEdgeFilter alloc] init];
-     [drawpadPreview switchFilter:colorEdgeFilter];
+     [videoPen switchFilter:colorEdgeFilter];
     
     colorScaleStatus = SCALE_STATUS_ADD;
     colorScaleEnable =YES;
@@ -211,7 +199,7 @@
         if (colorEdgeCnt >= ONESCALE_FRAMES) {
             colorScaleStatus = SCALE_STATUS_DEL;
         } else if (colorEdgeCnt <= 0) { //恢复默认状态
-             [drawpadPreview switchFilter:nil];
+             [videoPen switchFilter:nil];
             
             colorEdgeFilter =nil;
             colorEdgeCnt = 0;
@@ -269,7 +257,7 @@
 {
     if(videoPen!=nil){
         LanSongMirrorFilter *filter=[[LanSongMirrorFilter alloc] init];
-         [drawpadPreview switchFilter:filter];
+         [videoPen switchFilter:filter];
     }
 }
 
@@ -378,21 +366,21 @@
 {
     if(videoPen!=nil){
         LanSongColorInvertFilter *filter=[[LanSongColorInvertFilter alloc] init];
-         [drawpadPreview switchFilter:filter];
+         [videoPen switchFilter:filter];
     }
 }
 -(void)videoColorToon
 {
     if(videoPen!=nil){
         LanSongToonFilter *filter=[[LanSongToonFilter alloc] init];
-        [drawpadPreview switchFilter:filter];
+        [videoPen switchFilter:filter];
     }
 }
 -(void)videoColorLaplacian
 {
     if(videoPen!=nil){
         LanSongLaplacianFilter *filter=[[LanSongLaplacianFilter alloc] init];
-         [drawpadPreview switchFilter:filter];
+         [videoPen switchFilter:filter];
     }
 }
 /**
@@ -409,7 +397,7 @@
         videoPen.positionY=videoPen.drawPadSize.height/2;
         
         [videoPen removeAllSubPen];
-        [drawpadPreview switchFilter:nil];
+        [videoPen switchFilter:nil];
     }
 }
 -(void)initButtonView
@@ -523,6 +511,11 @@
     
     return btn1;
 }
-
+-(void)dealloc
+{
+    [self stopPreview];
+    videoPen=nil;
+    dstPath=nil;
+}
 @end
 

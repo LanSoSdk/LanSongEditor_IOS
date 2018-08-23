@@ -75,7 +75,7 @@
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progess) {
-        NSLog(@"progress  is :%f",progess);
+//        NSLog(@"progress  is :%f",progess);
     }];
     
     [drawpadPreview setCompletionBlock:^(NSString *path) {
@@ -87,8 +87,11 @@
     }];
     
     videoPen=drawpadPreview.videoPen;
+    videoPen.loopPlay=YES;
+    
+
     //开始执行,并编码
-    [drawpadPreview startWithEncode];
+    [drawpadPreview start];
 }
 -(void)stopPreview
 {

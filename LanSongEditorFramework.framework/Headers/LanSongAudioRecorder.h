@@ -8,22 +8,16 @@
 @interface LanSongAudioRecorder : NSObject
 
 
-
-
 /**
  初始化
  
- @param saveUrl 保存路径, 后缀名一定是m4a, 或aac
- */
--(id)initWithSaveURL:(NSURL *)saveUrl;
-/**
- 初始化
-
+ [可以不调用]
+ 默认是 44100, 双通道;
+ 
  @param sampleRate 采样率
  @param chnels 通道数, 单通道=1, 双通道=2;
- @param saveUrl 保存路径
  */
--(id)initWithSampleRate:(float)sampleRate chnls:(int)chnels saveUrl:(NSURL *)saveUrl;
+-(id)initWithSampleRate:(float)sampleRate chnls:(int)chnels;
 
 
 /**
@@ -33,10 +27,9 @@
 
 
 /**
- 结束
+ 结束 停止后,返回录制的音频文件;
  */
--(void)stopRecord;
-
+-(NSString *)stopRecord;
 
 /**
  是否在录制中.

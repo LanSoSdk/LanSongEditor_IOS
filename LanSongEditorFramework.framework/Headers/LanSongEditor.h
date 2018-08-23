@@ -35,6 +35,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/Pen.h>
 #import <LanSongEditorFramework/VideoPen.h>
+#import <LanSongEditorFramework/VideoPen2.h>
+
 #import <LanSongEditorFramework/MVPen.h>
 #import <LanSongEditorFramework/ViewPen.h>
 #import <LanSongEditorFramework/BitmapPen.h>
@@ -66,6 +68,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LanSongVideoDecoder.h>
 
 
+
+
+
 //lottie的一些库文件
 #import <LanSongEditorFramework/LOTValueDelegate.h>
 #import <LanSongEditorFramework/LOTAnimatedControl.h>
@@ -81,6 +86,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LOTAnimationView_Compat.h>
 #import <LanSongEditorFramework/LOTValueCallback.h>
 #import <LanSongEditorFramework/LOTBlockCallback.h>
+#import <LanSongEditorFramework/LanSongLOTInfo.h>
+
 
 
 

@@ -16,20 +16,17 @@
 #import "Masonry.h"
 #import "CameraFullPortVC.h"
 #import "Demo1PenMothedVC.h"
-#import "TestLottieVC.h"
 #import "FilterVideoDemoVC.h"
 #import "CameraSegmentRecordVC.h"
 
 #import "CommDemoListTableVC.h"
-#import "TESTLottie2VC.h"
+#import "AEModuleDemoVC.h"
 #import "VideoEffectVC.h"
 
 @interface MainViewController ()
 {
     UIView  *container;
     UILabel *labPath; // 视频路径.
- 
-    LanSongScaleExecute *scaleExecute; //LSTODO 测试
 }
 @end
 
@@ -49,12 +46,14 @@
 #define kExtractVideoFrame 14
 #define kLikeDouYinDemo 15
 
+#define kAEModuleDemo1 16
+#define kAEModuleDemo2 17
+
 #define kUseDefaultVideo 801
 #define kSelectVideo 802
 
 @implementation MainViewController
 {
-//    ExtractVideoFrame *extractFrame;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -118,13 +117,6 @@
         case kSegmentRecordSegmentRecord:
             pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
             break;
-        case kVideoUIDemo:
-            {
-               TESTLottie2VC *push1=[[TESTLottie2VC alloc] init]; //图层叠加
-                push1.AeType=AEDEMO_AOBAMA;
-                pushVC=push1;
-            }
-            break;
         case kDemo1PenMothed:
             pushVC=[[Demo1PenMothedVC alloc] init];  //移动缩放旋转1
             break;
@@ -134,8 +126,22 @@
         case kLikeDouYinDemo:
             pushVC=[[VideoEffectVC alloc] init];
             break;
+        case kAEModuleDemo1:
+        {
+            AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
+            push1.AeType=AEDEMO_AOBAMA;
+            pushVC=push1;
+        }
+            break;
+        case kAEModuleDemo2:
+        {
+            AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
+            push1.AeType=AEDEMO_HONG_SAN;
+            pushVC=push1;
+        }
+            break;
         case kCommonEditDemo:
-            pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示LSTODO
+            pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
             break;
         case kDirectPlay:
             {
@@ -168,10 +174,11 @@
     UIView *view=[self newDefaultButton:container];
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"图层基本"];
-    view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];
+    view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜---图层的方法"];
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
-    view=[self newButton:view index:kVideoUIDemo hint:@"类似趣推小视频(AE模板)"];
+    view=[self newButton:view index:kAEModuleDemo1 hint:@"类似趣推(AE模板)1"];
+    view=[self newButton:view index:kAEModuleDemo2 hint:@"类似趣推(AE模板)2"];
     
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
@@ -223,8 +230,6 @@
     [btn1 addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btn1 addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
     [container addSubview:btn1];
-    
-    
     
     UIButton *btn2=[[UIButton alloc] init];
     btn2.tag=kSelectVideo;
@@ -379,9 +384,6 @@ int  frameCount=0;
 //---------------------------------
 -(void)testFile
 {
-//    UIViewController *pushVC=[[VideoEffectVC alloc] init];
-//    [self.navigationController pushViewController:pushVC animated:YES];
 }
-
 
 @end

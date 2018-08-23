@@ -41,6 +41,10 @@
  */
 @property (nonatomic,readonly) int jsonWidth;
 @property (nonatomic,readonly) int jsonHeight;
+/*
+ lansong++
+ */
+@property (nonatomic, readonly) NSMutableArray *ImageInfoArray;
 
 @property (nonatomic, readonly) CGRect compBounds;
 @property (nonatomic, readonly, nullable) NSNumber *startFrame;

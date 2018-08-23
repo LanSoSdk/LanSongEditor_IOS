@@ -27,25 +27,13 @@
 
 /**
  增加美颜
- 
- @param cameraPen 当前获取到摄像头图层对象
  */
--(void)addBeauty:(CameraPen *)cameraPen;
-
--(void)addBeautyWithCamera:(DrawPadCameraPreview *)drawpad;
-
-//LSTODO 要修改这里;
--(void)addBeautyWithVideo:(DrawPadVideoPreview *)drawpad;
-
+-(void)addBeauty:(Pen *)pen;
 
 /**
  删除美颜
- 
- @param cameraPen 摄像头图层对象
  */
--(void)deleteBeauty:(CameraPen *)cameraPen;
-
--(void)deleteBeautyWithDrawPad:(DrawPadCameraPreview *)drawpad;
+-(void)deleteBeauty:(Pen *)pen;
 /**
  当增加美颜后, 调节冷暖色;
  0.0为暖色;

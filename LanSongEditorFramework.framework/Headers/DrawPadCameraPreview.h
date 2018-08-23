@@ -15,10 +15,12 @@
 #import "BitmapPen.h"
 #import "MVPen.h"
 #import "LanSongVideoCamera.h"
+#import "CameraPen2.h"
 
 @interface DrawPadCameraPreview : NSObject
 
-@property (nonatomic,strong)LanSongVideoCamera *videoCamera;
+@property (nonatomic,strong)CameraPen2 *cameraPen;
+
 
 -(id)initFullScreen:(LanSongView2 *)view isFrontCamera:(BOOL)isFront;
 
@@ -91,17 +93,4 @@
  */
 @property (nonatomic,readonly) BOOL isRunning;
 @property (nonatomic,readonly) BOOL isRecording;
-
--(void)switchFilter:(LanSongOutput <LanSongInput> *)filter;
-
-/**
- 滤镜级联, 叠加;
- 把最后的滤镜输入到这里;
-
- @param endfilter <#endfilter description#>
- */
--(void)switchFilterStartWith:(LanSongOutput <LanSongInput> *)startFilter  end:(LanSongOutput <LanSongInput> *)endFilter;
-
--(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
-
 @end

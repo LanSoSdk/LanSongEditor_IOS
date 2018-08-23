@@ -51,7 +51,7 @@
     [self.view addSubview:lansongView];
     
     drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:YES];
-    drawPadCamera.videoCamera.horizontallyMirrorFrontFacingCamera=YES;
+    drawPadCamera.cameraPen.horizontallyMirrorFrontFacingCamera=YES;
     
     //增加图片图层
     UIImage *image=[UIImage imageNamed:@"small"];
@@ -67,7 +67,21 @@
     
     //开始预览
     [drawPadCamera startPreview];
-    [beautyMng addBeautyWithCamera:drawPadCamera];
+    [beautyMng addBeauty:drawPadCamera.cameraPen];
+    
+    NSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
+    
+    drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
+    drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO
+    
+    
+//    SubPen *pen=[drawPadCamera.cameraPen addSubPen];
+//    pen.scaleWidth=0.5f;
+//    pen.scaleHeight=0.5;
+//
+//    pen.positionX=pen.scaleWidthValue/2;
+//    pen.positionY=pen.scaleHeightValue/2;
+//    NSLog(@"pen x%f, y:%f",pen.positionX,pen.positionY);
     
     
     
@@ -76,7 +90,7 @@
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
-    filterListVC.drawpadCamera=drawPadCamera;
+    filterListVC.filterPen=drawPadCamera.cameraPen;
 }
 -(void)progressBlock:(CGFloat)currentPts
 {
@@ -107,7 +121,6 @@
                 if(drawPadCamera.isRecording){
                     //停止,开始播放;
                     [drawPadCamera stopRecord:^(NSString *path) {
-                        
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:path];
                         });
@@ -116,19 +129,19 @@
                 break;
             case  104:
                 if(drawPadCamera!=nil){
-                    [drawPadCamera.videoCamera rotateCamera];
+                    [drawPadCamera.cameraPen rotateCamera];
                 }
                 break;
             case 201:  //美颜
                 if(beautyLevel==0){  //增加美颜
                     
-                    [beautyMng addBeautyWithCamera:drawPadCamera];
+                    [beautyMng addBeauty:drawPadCamera.cameraPen];
                     beautyLevel+=0.22;
                 }else{
                     beautyLevel+=0.1;
                     [beautyMng setWarmCoolEffect:beautyLevel];
                     if(beautyLevel>1.0){ //删除美颜
-                        [beautyMng deleteBeautyWithDrawPad:drawPadCamera];
+                        [beautyMng deleteBeauty:drawPadCamera.cameraPen];
                         beautyLevel=0;
                     }
                 }
@@ -164,7 +177,6 @@
 }
 -(void)dealloc
 {
-    
     if(drawPadCamera!=nil){
         [drawPadCamera stopPreview];
         drawPadCamera=nil;

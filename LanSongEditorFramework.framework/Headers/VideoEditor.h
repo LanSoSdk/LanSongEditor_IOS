@@ -130,6 +130,17 @@
 +(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV dstPath:(NSString *)dstPath;
 
 /**
+ 给视频 在指定位置 增加背景音乐;[异步导出操作]
+ 
+ @param videoFile 视频路径
+ @param music 背景音乐路径
+ @param videoV 视频的音量
+ @param musicV 背景音乐音量
+ @param insetPos 背景音乐插入到视频的那个位置(单位秒);
+ @param dstPath 导出文件, 后缀是mp4
+ */
++(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV insertPos:(CGFloat )insetPos dstPath:(NSString *)dstPath;
+/**
  * 音频裁剪,截取音频文件中的一段.
  * 需要注意到是: 尽量保持目标文件的后缀名和源音频的后缀名一致.
  

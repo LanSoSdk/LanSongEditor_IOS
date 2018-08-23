@@ -82,9 +82,8 @@
 - (void)executeCropCALayerWithPath:(NSString*)asset layer:(CALayer *)inputlayer startX:(CGFloat)startX startY:(CGFloat)startY cropW:(CGFloat)cropW cropH:(CGFloat)cropH dstPath:(NSString *)dstPath;
 /**
  给视频增加一个背景音乐;[异步导出操作]
- 在正在过程中, 会判断videoV是否为0, 如果为零,会删除原来的音频, 如果不为零,则把要增加的音乐和背景音乐混合, 然后导出.
- 如果背景音乐时长 小于视频支持,则循环音乐;
- 如果大于,则从开始截取; 截取长度等于视频长度;
+ 如果背景音乐时长 小于视频,则循环音乐;
+ 如果大于,则从开始截取
  
  @param videoFile 视频文件
  @param music 背景音乐
@@ -93,4 +92,17 @@
  @param dstPath 异步导出后的保存的目标路径
  */
 -(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV dstPath:(NSString *)dstPath;
+
+/**
+ 给视频 在指定位置 增加背景音乐;[异步导出操作]
+ 
+ @param videoFile 视频路径
+ @param music 背景音乐路径
+ @param videoV 视频的音量
+ @param musicV 背景音乐音量
+ @param insetPos 背景音乐插入到视频的那个位置(单位秒);
+ @param dstPath 导出文件, 后缀是mp4
+ */
+-(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV insertPos:(CGFloat )insetPos dstPath:(NSString *)dstPath;
+
 @end
