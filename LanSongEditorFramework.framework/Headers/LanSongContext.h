@@ -11,6 +11,8 @@
 
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG
+#define LSTODO(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
+
 #define LSLog(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
 #define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 #else

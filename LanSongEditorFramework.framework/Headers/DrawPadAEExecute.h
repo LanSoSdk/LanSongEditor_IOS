@@ -16,11 +16,18 @@
 #import "LanSong.h"
 #import "LOTAnimationView.h"
 
+
+/**
+ Ae图层的后台快速合成容器;
+ 
+ 用来Ae的各种素材合成为目标视频;
+ */
 @interface DrawPadAEExecute : NSObject
 
 
 /**
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
+ 如果用init创建的DrawPadAEExecute则此对象为nil;
  */
 @property (nonatomic,readonly)MediaInfo *videoPenInfo;
 
@@ -28,6 +35,10 @@
  当前进度的最终长度;, 进度/duration等于百分比;
  */
 @property (readonly) CGFloat duration;
+
+/**
+ 通过 initWithURL/initWithPath创建的视频对象
+ */
 @property (nonatomic)   LanSongMovie *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
 
@@ -51,8 +62,9 @@
 
 
 /**
-不增加背景视频.
- 默认生成的视频, 帧率等于第一个增加的AEJson 图层或 MV图层;
+ 不增加背景视频的初始化方法;
+ 容器大小,生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的分辨率;
+ 
  @return
  */
 -(id)init;
@@ -77,8 +89,23 @@
  几乎等于:addAEView:(LOTAnimationView *)view
  */
 -(LOTAnimationView *)addAEJsonPath:(NSString *)jsonPath;
+
+/**
+ 增加的图片图层,
+
+ 在容器开始运行前增加
+ */
 -(BitmapPen *)addBitmapPen:(UIImage *)image;
 
+
+/**
+ 增加mv图层;
+
+ 各种透明的动画, 在我们SDK中, 认为是MV效果, 关于MV的 原理和制作步骤,请参考我们的指导文件.
+ @param colorPath mv效果中的彩色视频路径
+ @param maskPath mv效果中的黑白视频路径
+ @return 增加后,返回mv图层对象
+ */
 -(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 /**

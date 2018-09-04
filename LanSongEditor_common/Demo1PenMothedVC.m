@@ -19,6 +19,7 @@
     BitmapPen *bmpPen;
     CGSize drawpadSize;
     VideoPen *videoPen;
+    
 }
 @property (nonatomic,assign) NSString *dstPath;
 @end
@@ -75,7 +76,7 @@
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progess) {
-//        NSLog(@"progress  is :%f",progess);
+        [weakSelf progressBlock];
     }];
     
     [drawpadPreview setCompletionBlock:^(NSString *path) {
@@ -92,6 +93,9 @@
 
     //开始执行,并编码
     [drawpadPreview start];
+}
+-(void)progressBlock
+{
 }
 -(void)stopPreview
 {

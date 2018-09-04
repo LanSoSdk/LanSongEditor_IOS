@@ -110,8 +110,6 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
      }
  */
 @property (nonatomic) NSMutableArray *imageInfoArray;
-
-
 /**
  lansong++
  在开始执行前调用, 替换指定key的图片
@@ -131,6 +129,15 @@ typedef void (^LOTAnimationCompletionBlock)(BOOL animationFinished);
  @return 可以替换返回YES;
  */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url;
+
+/**
+ 当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
+
+ @param key json中的refId, image_0 image_1等, 给哪个id设置回调
+ @param frameUpdateBlock 视频每更新一帧, 会直接执行这里的回调, 注意回调返回的是UIImage * 类型
+ @return 可以设置返回YES
+ */
+- (BOOL)setVideoImageFrameBlock:(NSString *)key updateblock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
 /*
  * Plays the animation from its current position to a specific progress.
  * The animation will start from its current position.

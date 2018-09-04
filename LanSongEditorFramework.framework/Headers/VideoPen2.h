@@ -2,7 +2,7 @@
 //  VideoPen2.h
 //  LanSongEditorFramework
 //
-//  Created by sno on 2018/8/21.
+//  Created by sno on 2018/6/21.
 //  Copyright © 2018 sno. All rights reserved.
 //
 
@@ -13,6 +13,11 @@
 #import "LanSongOutput.h"
 #import "Pen.h"
 
+
+/**
+ 视频图层,
+ 用在视频后台处理;
+ */
 @interface VideoPen2 : Pen
 
 @property (readwrite, retain) AVAsset *asset;

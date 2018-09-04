@@ -113,6 +113,10 @@
 
 
 /**
+ 
+  [建议用AudioPadExecute]
+ 
+ 
  给视频增加一个背景音乐;[异步导出操作]
  
  进度以 "LanSongVideoEditorProgress"通知 发出,可见本文件最后通知的使用.
@@ -130,8 +134,8 @@
 +(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV dstPath:(NSString *)dstPath;
 
 /**
+  [建议用AudioPadExecute]
  给视频 在指定位置 增加背景音乐;[异步导出操作]
- 
  @param videoFile 视频路径
  @param music 背景音乐路径
  @param videoV 视频的音量

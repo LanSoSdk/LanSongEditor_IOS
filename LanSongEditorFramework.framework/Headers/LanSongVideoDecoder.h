@@ -11,6 +11,11 @@
 #import "MediaInfo.h"
 #import "LanSongFileUtil.h"
 
+
+/**
+ 提取视频帧, 同步模式;
+ 
+ */
 @interface LanSongVideoDecoder : LanSongOutput
 
 
@@ -36,5 +41,14 @@
 - (void)stop;
 
 -(UIImage *)getOneFrame;
+/**
+ 当前的进度的百分比;
+ @return 当前进度系数, 0.0---1.0f;
+ */
+- (float)progress;
 
+/**
+ 当前 getOneFrame得到的图片的时间戳;
+ */
+-(float)getCurrentFramePts;
 @end

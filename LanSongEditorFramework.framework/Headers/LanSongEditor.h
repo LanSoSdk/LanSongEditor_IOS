@@ -17,60 +17,90 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <LanSongEditor/PublicHeader.h>
 
 
+//**************************容器类(7个)***********************************
+//视频预览容器
+#import <LanSongEditorFramework/DrawPadVideoPreview.h>
+
+//视频后台执行容器
+#import <LanSongEditorFramework/DrawPadVideoExecute.h>
+
+//AE模板的后台合成容器
+#import <LanSongEditorFramework/DrawPadAEExecute.h>
+
+//AE模板的前台预览容器
+#import <LanSongEditorFramework/DrawPadAEPreview.h>
+
+//录制视频容器:录制视频
+#import <LanSongEditorFramework/DrawPadCameraPreview.h>
+
+//图片容器: 给图片增加滤镜; 给多张图片增加滤镜;
+#import <LanSongEditorFramework/BitmapPadExecute.h>
+
+//音频容器:用来合成各种声音
+#import <LanSongEditorFramework/AudioPadExecute.h>
+
+//容器显示,集成UIView
+#import <LanSongEditorFramework/LanSongView2.h>
+//********************图层类(6个)*************************************
+
+//图层的父类, 所有的xxxPen 集成这个父类;
+#import <LanSongEditorFramework/Pen.h>
+
+//视频图层, 用在前台预览容器中
+#import <LanSongEditorFramework/VideoPen.h>
+//视频图层, 用在后台容器中
+#import <LanSongEditorFramework/VideoPen2.h>
+
+//MV图层
+#import <LanSongEditorFramework/MVPen.h>
+
+//UI图层, 用来增加一些UIView到容器中
+#import <LanSongEditorFramework/ViewPen.h>
+
+//图片图层;
+#import <LanSongEditorFramework/BitmapPen.h>
+
+//子图层: 可做灵魂出窍等功能;
+#import <LanSongEditorFramework/SubPen.h>
+//******************************滤镜****************************************
+//各种滤镜的头文件;
+#import <LanSongEditorFramework/LanSong.h>
+//***************************独立的音视频功能******************************
+//Mp3 转AAC的类
+#import <LanSongEditorFramework/LanSongMp3ToAAC.h>
+//提取视频帧, 异步工作模式
+#import <LanSongEditorFramework/LanSongExtractFrame.h>
+//提取视频帧, 同步工作模式
+#import <LanSongEditorFramework/LanSongVideoDecoder.h>
+
+//提取MV视频帧, 同步工作模式
+#import <LanSongEditorFramework/LanSongGetMVFrame.h>
+
+//视频缩放, 支持任意视频分辨率的缩放
+#import <LanSongEditorFramework/LanSongScaleExecute.h>
+
+//视频倒序
+#import <LanSongEditorFramework/LanSongVideoReverse.h>
+
+//音频录制类
+#import <LanSongEditorFramework/LanSongAudioRecorder.h>
+
+
+//*************************辅助, 常见功能处理类**************************
+//获取音视频的信息;
 #import <LanSongEditorFramework/MediaInfo.h>
+
+//列举了一些常见的视频编辑功能
 #import <LanSongEditorFramework/VideoEditor.h>
 
 //创建临时 处理文件的头文件
 #import <LanSongEditorFramework/LanSongFileUtil.h>
 
-//各种滤镜的头文件;
-#import <LanSongEditorFramework/LanSong.h>
 
-//已废弃, 不再使用
-#import <LanSongEditorFramework/DrawPadPreview.h>
-//已废弃, 不再使用
-#import <LanSongEditorFramework/DrawPadView.h>
-//已废弃, 不再使用
-#import <LanSongEditorFramework/DrawPadExecute.h>
+//*************************杂项**************************
 
-#import <LanSongEditorFramework/Pen.h>
-#import <LanSongEditorFramework/VideoPen.h>
-#import <LanSongEditorFramework/VideoPen2.h>
-
-#import <LanSongEditorFramework/MVPen.h>
-#import <LanSongEditorFramework/ViewPen.h>
-#import <LanSongEditorFramework/BitmapPen.h>
-#import <LanSongEditorFramework/CameraPen.h>
-#import <LanSongEditorFramework/Mp3ToAAC.h>
-#import <LanSongEditorFramework/ExtractVideoFrame.h>
-#import <LanSongEditorFramework/LanSongScaleExecute.h>
-#import <LanSongEditorFramework/LanSongAudioRecorder.h>
+//我们用来测试代码的UIViewController
 #import <LanSongEditorFramework/LanSongTESTVC.h>
-#import <LanSongEditorFramework/BitmapPadExecute.h>
-
-#import <LanSongEditorFramework/DrawPadCamera.h>
-
-//视频倒序
-#import <LanSongEditorFramework/LanSongVideoReverse.h>
-
-//3个容器和 一个显示View
-#import <LanSongEditorFramework/DrawPadVideoPreview.h>
-#import <LanSongEditorFramework/DrawPadCameraPreview.h>
-#import <LanSongEditorFramework/DrawPadVideoExecute.h>
-#import <LanSongEditorFramework/LanSongView2.h>
-
-//获取mv的图片;
-#import <LanSongEditorFramework/LanSongGetMVFrame.h>
-
-//新增一个AE容器, 可以向里面增加AE模板;
-#import <LanSongEditorFramework/DrawPadAEExecute.h>
-//视频解码得到UIImage;
-#import <LanSongEditorFramework/LanSongVideoDecoder.h>
-
-
-
-
-
 //lottie的一些库文件
 #import <LanSongEditorFramework/LOTValueDelegate.h>
 #import <LanSongEditorFramework/LOTAnimatedControl.h>
@@ -87,6 +117,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LOTValueCallback.h>
 #import <LanSongEditorFramework/LOTBlockCallback.h>
 #import <LanSongEditorFramework/LanSongLOTInfo.h>
+
+
 
 
 

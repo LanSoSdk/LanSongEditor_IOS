@@ -35,6 +35,13 @@
  */
 @property(nonatomic, copy) void(^onVideoPenCurrentPostionBlock)(CGFloat);
 
+
+/**
+ 用在前台预览,
+ 当前播放走到文件尾部.
+ */
+@property(nonatomic, copy) void(^onAVPlayerToEndBlock)();
+
 /**
  当使用DrawPadPreview前台预览处理的时候, 用系统自带的AVPlayer作为播放器
  您可以拿到这个播放器对象, 进行seek, rate等操作.

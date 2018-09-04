@@ -40,6 +40,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
  */
 @interface LanSongOutput : NSObject
 {
+    //当前图层的纹理对象
     LanSongFramebuffer *outputFramebuffer;
     
     NSMutableArray *targets, *targetTextureIndices;

@@ -22,6 +22,7 @@
 #import "CommDemoListTableVC.h"
 #import "AEModuleDemoVC.h"
 #import "VideoEffectVC.h"
+#import "TESTAEPreview.h"
 
 @interface MainViewController ()
 {
@@ -43,7 +44,7 @@
 #define kSegmentRecordSegmentRecord 12
 
 #define kDemo2PenMothed 13
-#define kExtractVideoFrame 14
+#define kLanSongExtractFrame 14
 #define kLikeDouYinDemo 15
 
 #define kAEModuleDemo1 16
@@ -65,13 +66,13 @@
     /*
      初始化SDK
      */
-    if([LanSongEditor initSDK:NULL]==NO){
+    if([LanSongEditor initSDK:nil]==NO){
         [self showSDKOutTimeWarnning];
     }
     /*
      删除sdk中所有的临时文件.
      */
-    [LanSongFileUtil deleteAllSDKFiles];
+    [LanSongFileUtil deleteAllSDKFiles];  //LSTODO 为什么还是会有liudehua, aobama文件夹
   
     [self initView];
     
@@ -281,7 +282,7 @@
     
     [btn setTitle:hint forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-     btn.backgroundColor=[UIColor whiteColor];
+    btn.backgroundColor=[UIColor whiteColor];
     
     [btn addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
@@ -382,6 +383,9 @@ int  frameCount=0;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 //---------------------------------
+AVPlayer *_avplayer;
+AVPlayerItem *playeritem;
+ id _notificationToken;
 -(void)testFile
 {
 }

@@ -11,7 +11,9 @@
 #import "LanSongOutput.h"
 
 /**
- 子图层暂时不支持滤镜;
+ 子图层: 复制当前图层的画面; 得到独立的一个图层, 可移动旋转缩放,透明度设置等;
+ 举例有:抖音效果;
+ 暂时不支持滤镜;
  */
 @interface SubPen : NSObject
 
