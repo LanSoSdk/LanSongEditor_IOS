@@ -8,119 +8,30 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "LanSongLog.h"
 
 @interface LanSongFileUtil : NSObject
 
-/**
- *  判断文件是否存在
- *
- *  @param str 文件路径
- *
- *  @return 存在返回YES,不存在返回NO
- */
-+ (BOOL) fileExist:(NSString *)str;
 
 /**
- *  判断文件数组是否存在, 需要array中的所有都是NSString类型的数据.
- *
- *  @param array 里面都是 NSString的数组.
- *
- *  @return 存在返回YES,不存在返回NO
- */
-+ (BOOL) fileArrayExist:(NSMutableArray *)array;
-/**
- * @brief 创建文件夹
- *
- * @param createDir 创建文件夹路径
- * @
- */
-+ (void)createDir:(NSString *)createDir;
-
-/**
- 在Docments文件夹下创建新的文件夹;
-
- @param dirName 文件夹名字
- @return 返回完整的文件夹路径;
- */
-+ (NSString *)createDirInDocuments:(NSString *)dirName;
-//在指定的文件夹下.
-/**
- *  生成这个文件名字, 并不真正在文件夹里创建文件
- *
- *  @param dir    文件夹全路径, 可以是NSHome
- *  @param suffix 后缀名字
- *
- *  @return 返回创建好的文件路径字符串.
- */
-+ (NSString *) genNewFileName:(NSString *)dir suffix:(NSString *)suffix;
-
-/**
- *  在默认的文件夹下创建一个路径字符串,
- *
- *  @param suffix 后缀名字
- *
- *  @return  返回创建好的文件路径字符串.
- */
-+ (NSString *) genFileNameWithSuffix:(NSString *)suffix;
-
-
-/**
- *  从文件路劲中获取文件名字.
+ 设置内部文件创建在哪个文件夹下; 如果不设置,默认在当前Document/lansongBox下;
+ 举例:
+ NSArray *paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+ NSString *documentsDirectory =[paths objectAtIndex:0];
+ NSString *tmpDir = [documentsDirectory stringByAppendingString:@"/box2"];
+ [LanSongFileUtil setGenTempFileDir:tmpDir];
  
-    源字符串   --->     结果字符串
-//    “/tmp/scratch.tiff”   --->     “scratch.tiff”
-//    “/tmp/scratch”   --->     “scratch”
-//    “/tmp/”   --->     “tmp”
-//    “scratch”   --->     “scratch”
-//    “/”   --->     “/”
- *  @param filePath 文件路径
- *  @return 字符串名字或NULL;
+ 建议在initSDK的时候设置;
  */
-+ (NSString *)getfileNameFromPath:(NSString *)filePath;
-/**
- 从输入字符串中,得到文件后缀
-
- @param filePath 输入字符串, 如xxx.mp4;  /tmp/xxx/xxx/test.mp4;
- @return
- */
-+(NSString *)getFileExtension:(NSString *)inputText;
-
++(void)setGenTempFileDir:(NSString *)path;
 
 /**
- 返回文件名, 不带后缀; xxx.mp4返回xxx
- 注意不要有路径, 是一个单纯的含后缀的文件名字;
+ 我们的内部默认以当前时间为文件名; 比如:20180906094232_092.mp4
+ 你可以在这个时间前面增加一些字符串,比如增加用户名,手机型号等等;
+ 比如:prefix:xiaoming_iphone6s; 则生成的文件名是: xiaoming_iphone6s20180906094232_092.mp4
+ @param prefix
  */
-+(NSString *)getStringDeleteExtension:(NSString *)fileName;
-
-
-/**
- 获取dir的路径;
- 如 "/tmp/xx/323/ttt.m4a; 则返回 /tmp/xx/323
- */
-+(NSString *)getDirPath:(NSString *)inputPath;
-/**
- *  删除文件,
- *
- *  @param filepath 文件的完整路径
- */
-+(void)deleteFile:(NSString *)filepath;
-
-/**
- 删除文件字符串数组中的所有文件.
- */
-+(void)deleteAllFiles:(NSMutableArray *)fileArray;
-
-/**
- 删除SDK默认文件夹中的所有文件
- */
-+(void)deleteAllSDKFiles;
-/**
- *  删除文件夹(这里仅仅是删除文件夹里的所有文件,并不删除文件夹名字)
- *
- *  @param dir 文件夹路径
- */
-+(void)deleteDir:(NSString *)dir;
-
++(void)setGenTempFilePrefix:(NSString *)prefix;
 
 /**
  *  返回SDK默认的文件夹, 默认是当前APP的NSDocumentDirectory下创建一个lansongBox文件夹,然后返回.
@@ -174,6 +85,7 @@
  */
 +(NSURL *)filePathToURL:(NSString *)path;
 
++(NSString *) copyResourceFile:(NSString *)name withSubffix:(NSString *)fix;
 /**
  *  拷贝资源文件到Documents文件夹下的指定的文件夹;
  * 资源文件是这样的:
@@ -200,6 +112,118 @@
 + (BOOL)copyFile:(NSString *)sourcePath toPath:(NSString *)toPath;
 
 /**
+ *  判断文件是否存在
+ *
+ *  @param str 文件路径
+ *
+ *  @return 存在返回YES,不存在返回NO
+ */
++ (BOOL) fileExist:(NSString *)str;
+
+/**
+ *  判断文件数组是否存在, 需要array中的所有都是NSString类型的数据.
+ *
+ *  @param array 里面都是 NSString的数组.
+ *
+ *  @return 存在返回YES,不存在返回NO
+ */
++ (BOOL) fileArrayExist:(NSMutableArray *)array;
+/**
+ * @brief 创建文件夹
+ *
+ * @param createDir 创建文件夹路径
+ * @
+ */
++ (void)createDir:(NSString *)createDir;
+
+/**
+ 在Docments文件夹下创建新的文件夹;
+ 
+ @param dirName 文件夹名字
+ @return 返回完整的文件夹路径;
+ */
++ (NSString *)createDirInDocuments:(NSString *)dirName;
+//在指定的文件夹下.
+/**
+ *  生成这个文件名字, 并不真正在文件夹里创建文件
+ *
+ *  @param dir    文件夹全路径, 可以是NSHome
+ *  @param suffix 后缀名字
+ *
+ *  @return 返回创建好的文件路径字符串.
+ */
++ (NSString *) genNewFileName:(NSString *)dir suffix:(NSString *)suffix;
+
+/**
+ *  在默认的文件夹下创建一个路径字符串,
+ *
+ *  @param suffix 后缀名字
+ *
+ *  @return  返回创建好的文件路径字符串.
+ */
++ (NSString *) genFileNameWithSuffix:(NSString *)suffix;
+
+
+/**
+ *  从文件路劲中获取文件名字.
+ 
+ 源字符串   --->     结果字符串
+ //    “/tmp/scratch.tiff”   --->     “scratch.tiff”
+ //    “/tmp/scratch”   --->     “scratch”
+ //    “/tmp/”   --->     “tmp”
+ //    “scratch”   --->     “scratch”
+ //    “/”   --->     “/”
+ *  @param filePath 文件路径
+ *  @return 字符串名字或NULL;
+ */
++ (NSString *)getfileNameFromPath:(NSString *)filePath;
+/**
+ 从输入字符串中,得到文件后缀
+ 
+ @param filePath 输入字符串, 如xxx.mp4;  /tmp/xxx/xxx/test.mp4;
+ @return
+ */
++(NSString *)getFileExtension:(NSString *)inputText;
+
+
+//获取视频文件大小
++ (long) getFileSize:(NSString *)path;
+/**
+ 返回文件名, 不带后缀; xxx.mp4返回xxx
+ 注意不要有路径, 是一个单纯的含后缀的文件名字;
+ */
++(NSString *)getStringDeleteExtension:(NSString *)fileName;
+
+
+/**
+ 获取dir的路径;
+ 如 "/tmp/xx/323/ttt.m4a; 则返回 /tmp/xx/323
+ */
++(NSString *)getDirPath:(NSString *)inputPath;
+/**
+ *  删除文件,
+ *
+ *  @param filepath 文件的完整路径
+ */
++(void)deleteFile:(NSString *)filepath;
+
+/**
+ 删除文件字符串数组中的所有文件.
+ */
++(void)deleteAllFiles:(NSMutableArray *)fileArray;
+
+/**
+ 删除SDK默认文件夹中的所有文件
+ */
++(void)deleteAllSDKFiles;
+/**
+ *  删除文件夹(这里仅仅是删除文件夹里的所有文件,并不删除文件夹名字)
+ *
+ *  @param dir 文件夹路径
+ */
++(void)deleteDir:(NSString *)dir;
+
+/**
  保存图片, 默认是保存到docment下的lansongBox文件夹中;
 
  @param image 图片
@@ -208,6 +232,39 @@
 +(NSString *)saveUIImage:(UIImage *)image;
 
 
+/**
+ 保存图片 默认是保存到docment下的lansongBox文件夹中;
+
+ @param imageBytes 图片数据
+ @param imageSize 图片尺寸
+ @return 保存成功,返回路径;失败,返回nil;
+ */
++(NSString *)saveUIImageWithBytes:(unsigned char *)imageBytes imageSize:(CGSize)imageSize;
+
+/**
+ 把字节数组, 转换为图片
+ @param imageBytes 字节
+ @param imageSize 图片的宽高
+ @return
+ */
++ (UIImage *)convertBytesToImage:(unsigned char *)imageBytes imageSize:(CGSize)imageSize;
+/**
+ 拷贝一个图片
+
+ 源码是:
+ +(UIImage *)copyImage:(UIImage *)imageToCopy;
+ {
+ UIGraphicsBeginImageContext(imageToCopy.size);
+ [imageToCopy drawInRect:CGRectMake(0, 0, imageToCopy.size.width, imageToCopy.size.height)];
+ UIImage *copiedImage = UIGraphicsGetImageFromCurrentImageContext();
+ UIGraphicsEndImageContext();
+ return copiedImage;
+ }
+ 
+ @param imageToCopy 要拷贝的
+ @return 拷贝后返回的;
+ */
++(UIImage *)copyImage:(UIImage *)imageToCopy;
 /**
  把图片保存到相册;
  */
@@ -221,15 +278,15 @@
  
  
  对路径截取的9种操作
- NSLog(@"1=%@",[index lastPathComponent]);
- NSLog(@"2=%@",[index stringByDeletingLastPathComponent]);
- NSLog(@"3=%@",[index pathExtension]);
- NSLog(@"4=%@",[index stringByDeletingPathExtension]);
- NSLog(@"5=%@",[index stringByAbbreviatingWithTildeInPath]);
- NSLog(@"6=%@",[index stringByExpandingTildeInPath]);
- NSLog(@"7=%@",[index stringByStandardizingPath]);
- NSLog(@"8=%@",[index stringByResolvingSymlinksInPath]);
- NSLog(@"9=%@",[[index lastPathComponent] stringByDeletingPathExtension]);
+ LSLog(@"1=%@",[index lastPathComponent]);
+ LSLog(@"2=%@",[index stringByDeletingLastPathComponent]);
+ LSLog(@"3=%@",[index pathExtension]);
+ LSLog(@"4=%@",[index stringByDeletingPathExtension]);
+ LSLog(@"5=%@",[index stringByAbbreviatingWithTildeInPath]);
+ LSLog(@"6=%@",[index stringByExpandingTildeInPath]);
+ LSLog(@"7=%@",[index stringByStandardizingPath]);
+ LSLog(@"8=%@",[index stringByResolvingSymlinksInPath]);
+ LSLog(@"9=%@",[[index lastPathComponent] stringByDeletingPathExtension]);
  
  处理后的结果:
  1=2013_50.zip

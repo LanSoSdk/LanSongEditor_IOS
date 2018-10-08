@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "LanSongUtils.h"
-/**
- */
 @interface MainViewController : UIViewController <UIImagePickerControllerDelegate>
 
 

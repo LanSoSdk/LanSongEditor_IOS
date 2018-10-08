@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "LanSongLog.h"
 
 @interface ExecuteCropWaterMark : NSObject
 

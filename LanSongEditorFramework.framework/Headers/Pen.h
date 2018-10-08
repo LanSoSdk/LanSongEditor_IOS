@@ -103,6 +103,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 @property(getter=isHidden) BOOL hidden;
 /**
  角度值0--360度. 默认为0.0
+ 顺时针旋转.
  以视频的原视频角度为旋转对象,
  基本等同于CGAffineTransformRotate
  */
@@ -164,13 +165,10 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 -(void)removeAllFilter;
 /**
  *  切换滤镜, 默认是没有滤镜. 
-    因为IOS端的LanSong开源库很强大, 这里完全兼容LanSong的库,您也可以根据自己的情况扩展LanSong相关的效果.
- *
+    因为IOS端的GPUImage开源库很强大, 这里兼容GPUImage库,您也可以根据自己的情况扩展GPUImage相关的效果.
  *  @param filter 滤镜对象.
  */
 -(void)switchFilter:(LanSongOutput<LanSongInput> *)filter;
-
-
 /**
   切换滤镜, 
  切换到的目标滤镜需要第二个输入源的情况;
@@ -266,9 +264,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 - (void)startProcessing:(BOOL)isAutoMode;
 -(void)endProcessing;
 -(BOOL) isFrameAvailable;
+-(void) setFrameAvailable:(BOOL)is;
 -(void)setDriveDraw:(BOOL)is;
 -(void)resetCurrentFrame;
 -(void)sendToLanSong2:(CMTime)time;
 -(void)sendTolanSong2Finish;
-
 @end

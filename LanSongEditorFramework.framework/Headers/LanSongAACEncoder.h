@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 #import <UIKit/UIKit.h>
+#import "LanSongLog.h"
 @interface LanSongAACEncoder : NSObject
 
 @end

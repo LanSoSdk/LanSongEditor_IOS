@@ -22,14 +22,7 @@
 
 
 
-@property (readwrite, retain) AVAsset *asset;
-
-@property(readwrite, retain) NSURL *url;
-
-
-@property(readwrite, nonatomic) BOOL playAtActualSpeed;
-
-
+@property(readonly, nonatomic)MediaInfo *mediaInfo;
 /**
  当前视频图层的即将显示的进度.
  */
@@ -38,42 +31,28 @@
 
 /**
  用在前台预览,
- 当前播放走到文件尾部.
+ 当前播放走到文件尾部的回调. 如果你设置了循环播放,则会再次循环;
  */
 @property(nonatomic, copy) void(^onAVPlayerToEndBlock)();
 
 /**
  当使用DrawPadPreview前台预览处理的时候, 用系统自带的AVPlayer作为播放器
  您可以拿到这个播放器对象, 进行seek, rate等操作.
- LSTODO 暂时无法测试!!!???
- 比如我们的测试代码是:
- //总的时长.
- //循环播放
- //             sumPlayOperation = videoPen.avplayer.currentItem.duration.value/videoPen.avplayer.currentItem.duration.timescale;
- //            [videoPen.avplayer seekToTime: CMTimeMakeWithSeconds(sender.value*sumPlayOperation, videoPen.avplayer.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
- //
- //            }];
- NSLog(@"sender.value  is>>>:%f",sender.value);
- videoPen.avplayer.rate=sender.value;  //调速
  */
 @property(nonatomic) AVPlayer *avplayer;
 
-
+/**
+ 设置avplayer的播放速度, 范围从0.0--2.0;
+ 内部等于_avplayer.rate=rate;
+ */
+@property (nonatomic) float rate;
 /**
  设置视频图层在是视频处理完毕后, 是否要循环处理.
- 
- 暂时不支持后台模式. 只是在AVPlayer中使用.
  */
 @property(nonatomic,getter=isLoop) BOOL loopPlay;
 
 /**
  * 内部使用.
- *
- *  @param url    url路径
- *  @param size   容器的尺寸
- *  @param target 目标
- *
- *  @return
  */
 - (id)initWithURL:(NSURL *)url drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 

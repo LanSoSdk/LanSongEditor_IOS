@@ -48,10 +48,17 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
+    
     UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
             currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
     currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
+    
+    
+//    [self performSelector:@selector(delaySelector:) withObject:nil afterDelay:3];  //延迟0.1秒后执行的方法.
+}
+- (void)delaySelector : (id)sender {
+   
 }
 -(void)startPreview
 {
@@ -61,6 +68,7 @@
     NSString *video=[AppDelegate getInstance].currentEditVideo;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
+    
     
     //创建显示窗口
     CGSize size=self.view.frame.size;
@@ -73,6 +81,18 @@
     UIImage *image=[UIImage imageNamed:@"mm"];
     bmpPen=[drawpadPreview addBitmapPen:image];
     
+    //演示增加UI图层;
+//    //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+//    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+//    view.backgroundColor=[UIColor clearColor];
+//    //在view上增加其他ui
+//    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
+//    label.text=@"测试文字123abc";
+//    label.textColor=[UIColor redColor];
+//    [view addSubview:label];
+//    [self.view addSubview:view];
+//    [drawpadPreview addViewPen:view isFromUI:YES];
+    
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progess) {
@@ -81,18 +101,30 @@
     
     [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-            vce.videoPath=path;
-            [weakSelf.navigationController pushViewController:vce animated:NO];
+            
+            NSString *original=[AppDelegate getInstance].currentEditVideo;
+            NSString *dstPath=[LanSongFileUtil genTmpMp4Path];
+            
+            //增加上原来的声音;
+            BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
+            if(ret){
+                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+                vce.videoPath=dstPath;
+                [weakSelf.navigationController pushViewController:vce animated:NO];
+            }else{
+                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+                vce.videoPath=path;
+                [weakSelf.navigationController pushViewController:vce animated:NO];
+            }
         });
     }];
     
     videoPen=drawpadPreview.videoPen;
     videoPen.loopPlay=YES;
     
-
     //开始执行,并编码
     [drawpadPreview start];
+    //[drawpadPreview startRecord];
 }
 -(void)progressBlock
 {
@@ -117,17 +149,17 @@
     
     switch (sender.tag) {
         case 101:  //位置
-            bmpPen.positionX=posX;
+            videoPen.positionX=posX;
             break;
         case 102:  //Y坐标
-            bmpPen.positionY=posY;
+            videoPen.positionY=posY;
             break;
         case 103:  //scale
-            bmpPen.scaleHeight=val;
-            bmpPen.scaleWidth=val;
+            videoPen.scaleHeight=val;
+            videoPen.scaleWidth=val;
             break;
         case 104:  //rotate;
-            bmpPen.rotateDegree=val;
+            videoPen.rotateDegree=val;
             break;
         default:
             break;
@@ -155,10 +187,7 @@
     slidePos.value=value;
     slidePos.continuous = YES;
     slidePos.tag=tag;
-    
     [slidePos addTarget:self action:@selector(slideChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.01;
     
@@ -189,7 +218,7 @@
     bmpPen=nil;
     drawpadPreview=nil;
     lansongView=nil;
-    NSLog(@"Demo1PenMothedVC VC  dealloc");
+    LSLog(@"Demo1PenMothedVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

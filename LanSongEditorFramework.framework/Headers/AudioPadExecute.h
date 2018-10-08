@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "LanSongLog.h"
 @interface AudioPadExecute : NSObject
 
 /**
@@ -15,18 +16,30 @@
 
  srcInput: 如果是音频,处理后返回的是音频/ 如是视频,则返回的视频
  @param srcInput 音频或视频源
- @param volume 和其他声音混合时的音量
+ @param volume 和其他声音混合时的音量; 如不要主视频的声音,则这里等于0;
  */
 -(id)initWithPath:(NSURL *)srcInput volume:(CGFloat)volume;
 
 /**
  增加音频
 可多次调用
+ LSNEW
  @param audio 音频路径.或带有音频的视频路径
  @param volume 混合时的音量
  @return 增加成功,返回YES, 失败返回NO;
  */
 -(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume;
+
+/**
+ 增加音频
+ 可多次调用
+ 
+ @param audio 音频路径.或带有音频的视频路径
+ @param volume 混合时的音量
+ @param isLoop 是否循环
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume loop:(BOOL)isLoop;
 
 
 /**
@@ -92,14 +105,14 @@
  
  [audioPad setProgressBlock:^(CGFloat progess) {
  dispatch_async(dispatch_get_main_queue(), ^{
- NSLog(@"progress  dispatch_get_main_queue  is :%f",progess);
+ LSLog(@"progress  dispatch_get_main_queue  is :%f",progess);
  });
  }];
  
  [audioPad setCompletionBlock:^(NSString *dstPath) {
  
  dispatch_async(dispatch_get_main_queue(), ^{
- NSLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
+ LSLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
  });
  }];
  

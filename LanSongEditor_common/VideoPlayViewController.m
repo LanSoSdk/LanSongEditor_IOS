@@ -21,6 +21,7 @@
       CGContextRef   context;        //绘制layer的context
     
     id _notificationToken;
+    BOOL isUpdateSlider;
 }
 //监控进度
 @property (nonatomic,strong)NSTimer *avTimer;
@@ -48,17 +49,24 @@
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         
-        NSLog(@"获取到的视频信息是:%@",mInfo);
-        
+        LSLog(@"获取到的视频信息是:%@",mInfo);
         NSString *str= [NSString stringWithFormat:@"宽度:%d"
                 "高度:%d"
                 "时长:%f"
                "旋转角度:%f"
                 "音频采样率:%d"
                 "音频通道:%d"
-                ,mInfo.vWidth,mInfo.vHeight,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
+                ,mInfo.getWidth,mInfo.getHeight,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
         [self.libInfo setText:str];
         [self playVideo];
+        
+//         //显示第一张图片
+//        UIImage *image=[VideoEditor getVideoImageimageWithURL:[LanSongFileUtil filePathToURL:self.videoPath]];
+//        float ratio=[mInfo getHeight]*1.0/([mInfo getWidth]*1.0);
+//        UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 300, 100, 100*ratio)];
+//        imgView.image=image;
+//        [self.view addSubview:imgView];
+        
     }else{
         [LanSongUtils showHUDToast:@"当前视频错误, 退出"];
         [self.navigationController popViewControllerAnimated:YES];
@@ -92,17 +100,12 @@
     self.progressSlider.value = 0;
     //设置播放的音量
     self.player.volume = 1.0f;
-    
-    
     //增加一个定时器,监听播放进度.
     self.avTimer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-    
     [self.player play];
-    
     self.isPlaying=YES;
-
     [self setPlayerLoop];
-    
+    isUpdateSlider=YES;
     //设置最大值最小值音量
     //    self.volume.maximumValue =10.0f;
     //    self.volume.minimumValue =0.0f;
@@ -116,9 +119,7 @@
     _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     _notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-
         [_player.currentItem seekToTime:kCMTimeZero];  //这个是循环播放的.
-        
     }];
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -141,7 +142,7 @@
 //监控播放进度方法
 - (void)timer
 {
-    if (self.isPlaying) {
+    if (self.isPlaying && isUpdateSlider) {
         float  timepos= (float)self.player.currentItem.currentTime.value;
         timepos/=(float)self.player.currentItem.currentTime.timescale;  //timescale, 时间刻度.
        self.progressSlider.value = CMTimeGetSeconds(self.player.currentItem.currentTime) / CMTimeGetSeconds(self.player.currentItem.duration);
@@ -171,12 +172,16 @@
         self.isPlaying=NO;
     }
 }
+- (IBAction)slideTouchUp:(id)sender {
+    isUpdateSlider=YES;
+}
+- (IBAction)slideTouchDown:(id)sender {
+    isUpdateSlider=NO;
+}
 - (IBAction)changeProgress:(id)sender {
-   
-    NSLog(@"self.player.currentItem.duration.value:%lld\n",self.player.currentItem.duration.value);
-    //总的时长.
-    self.sumPlayOperation = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
+    LSLog(@"self.player.currentItem.duration.value:%lld\n",self.player.currentItem.duration.value);
     
+    self.sumPlayOperation = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
     [self.player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*self.sumPlayOperation, self.player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
         [self.player play];
     }];
@@ -194,7 +199,7 @@
     
     [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
         if (error) {
-            NSLog(@"Video could not be saved");
+            LSLog(@"Video could not be saved");
             [LanSongUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
         }else{
             [LanSongUtils showHUDToast:@"已导出到相册"];

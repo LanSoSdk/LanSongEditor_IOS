@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "LanSongLog.h"
 
 @interface VideoEditor : NSObject
 
@@ -113,10 +114,6 @@
 
 
 /**
- 
-  [建议用AudioPadExecute]
- 
- 
  给视频增加一个背景音乐;[异步导出操作]
  
  进度以 "LanSongVideoEditorProgress"通知 发出,可见本文件最后通知的使用.
@@ -210,7 +207,7 @@
  
  @param mp4Array 多个分段录制的mp4文件,
  @param dstFile 拼接后的最终文件
- @return 拼接后的结果.
+ @return 拼接返回0:正确; 其他错误;
  */
 +(int)executeConcatMP4:(NSMutableArray *)mp4Array dstFile:(NSString *)dstFile;
 /**
@@ -221,6 +218,18 @@
  *  @param dstPath       处理后的目标文件.
  */
 +(void)extractAudioToDestination:(NSString *)oldVideoPath onlyVideoPath:(NSString *)onlyVideoPath dstPath:(NSString *)dstPath;
+/**
+ 设置多媒体文件中的 视频元数据的角度.
+ 
+ 顺时针旋转多少度.
+ 
+ 此设置不改变音视频的各种参数, 仅仅是告诉播放器,"要旋转多少度"来播放而已.
+ @param srcPath 原视频
+ @param angle 需要更改的角度,顺时针旋转多少度.
+ @param dstPath 目标视频路径
+ @return 正常返回0, 其他返回错误
+ */
++(int)executeAddVideoMetaAngle:(NSString *)srcPath angle:(int)angle dstPath:(NSString *)dstPath;
 
 /**
  *  旋转视频任意高度,因为视频有可能不是正方形, 旋转过程中, 可能出现画面超出原视频的尺寸, 故需要设置视频的宽度和高度.

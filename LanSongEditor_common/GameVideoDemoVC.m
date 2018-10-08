@@ -1,0 +1,334 @@
+//
+//  GameVideoDemoVC.m
+//  LanSongEditor_all
+//
+//  Created by sno on 2018/9/7.
+//  Copyright © 2018 sno. All rights reserved.
+//
+
+#import "GameVideoDemoVC.h"
+
+#import "LanSongUtils.h"
+#import "VideoPlayViewController.h"
+
+@interface GameVideoDemoVC ()
+{
+    
+    MediaInfo *mediaInfo;
+    DrawPadVideoPreview *drawpadPreview;
+    
+    LanSongView2 *lansongView;
+    BitmapPen *bmpPen;
+    CGSize drawpadSize;
+    VideoPen *videoPen;
+}
+@property (nonatomic,retain) NSMutableArray *videoArray;
+@end
+
+@implementation GameVideoDemoVC
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title=@"测试Preview";
+    self.view.backgroundColor=[UIColor whiteColor];
+    
+    //布局视频宽高
+    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    mediaInfo=[[MediaInfo alloc] initWithPath:video];
+     if([mediaInfo prepare] && [mediaInfo hasVideo]){
+         CGSize size=self.view.frame.size;
+         CGSize viewSize=CGSizeMake([mediaInfo getWidth], [mediaInfo getHeight]);
+         lansongView=[LanSongUtils createLanSongView:size drawpadSize:viewSize];
+         [self.view addSubview:lansongView];
+     }
+    
+    _videoArray=[[NSMutableArray alloc] init];
+    
+    
+    
+    //-------------以下是ui操作-----------------------
+    
+    
+     CGSize size=self.view.frame.size;
+    _labProgress=[[UILabel alloc] init];
+    _labProgress.textColor=[UIColor redColor];
+    [self.view addSubview:_labProgress];
+    
+    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(lansongView.mas_bottom);
+        make.centerX.mas_equalTo(lansongView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 30));
+    }];
+    
+    _recordProgress=[[UILabel alloc] init];
+    _recordProgress.textColor=[UIColor redColor];
+    [self.view addSubview:_recordProgress];
+    
+    [_recordProgress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_labProgress.mas_bottom);
+        make.centerX.mas_equalTo(_labProgress.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(size.width, 30));
+    }];
+    
+    UIView *btn1=[self createButtons];
+    
+    UIView *currslide=  [self createSlide:btn1 min:0.0f max:2.0f value:0.5f tag:601 labText:@"速度:"];
+    UIView *currslide2=  [self createSlide:currslide min:0.0f max:2.0f value:0.5f tag:602 labText:@"移动:"];
+    [self createSlide:currslide2 min:0.0f max:2.0f value:0.5f tag:603 labText:@"缩放:"];
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self startPreview]; //开启预览
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [self stopPreview];
+}
+-(void)startPreview
+{
+    [self stopPreview];
+    
+    //创建容器
+    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
+    drawpadSize=drawpadPreview.drawpadSize;
+    
+    //创建显示窗口
+    if(lansongView==nil){ //创建后,不再创建
+        lansongView=[LanSongUtils createLanSongView:self.view.frame.size drawpadSize:drawpadSize];
+         [self.view addSubview:lansongView];
+    }
+    
+    [drawpadPreview addLanSongView:lansongView];
+    
+    //增加Bitmap图层
+    UIImage *image=[UIImage imageNamed:@"mm"];
+    bmpPen=[drawpadPreview addBitmapPen:image];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    //设置预览进度;
+    [drawpadPreview setProgressBlock:^(CGFloat progress) {
+        [weakSelf progressBlock:progress];
+    }];
+    
+    [drawpadPreview setRecordProgressBlock:^(CGFloat progress) {
+         [weakSelf recordProgressBlock:progress];
+    }];
+    [drawpadPreview setCompletionBlock:^(NSString *path) {
+        [weakSelf.videoArray addObject:path];
+    }];
+    
+    videoPen=drawpadPreview.videoPen;
+    videoPen.loopPlay=YES;
+    
+    //开始执行,并编码
+    [drawpadPreview start];
+}
+-(void)progressBlock:(CGFloat)progress
+{
+    int percent=(int)(progress*100/drawpadPreview.duration);
+    _labProgress.text=[NSString stringWithFormat:@"播放进度:%f,百分比:%d",progress,percent];
+}
+-(void)recordProgressBlock:(CGFloat)progress
+{
+    _recordProgress.text=[NSString stringWithFormat:@"录制时长:%f",progress];
+}
+-(void)stopPreview
+{
+    if (drawpadPreview!=nil) {
+        [drawpadPreview cancel];
+        drawpadPreview=nil;
+    }
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)doButtonClicked:(UIView *)sender
+{
+    switch (sender.tag) {
+        case 101 :  //开始录制
+            [drawpadPreview setRecordSize:CGSizeMake(540, 900)];
+            [drawpadPreview startRecord];
+            break;
+        case  102:  //停止录制
+            [drawpadPreview stopRecord];
+            break;
+        case  103:  //容器暂停
+            [drawpadPreview.videoPen.avplayer pause];
+            break;
+        case  104:  //容器恢复
+            [drawpadPreview.videoPen.avplayer play];
+            break;
+        case 105:  //容器停止
+            [drawpadPreview stop];
+            break;
+        case 106:  //容器开始
+            [drawpadPreview start];
+            break;
+        case 107:
+            if([_videoArray count]>1){
+                NSString *dstPath=[LanSongFileUtil genTmpMp4Path];
+                 [VideoEditor executeConcatMP4:_videoArray dstFile:dstPath];
+                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+                vce.videoPath=dstPath;
+                [self.navigationController pushViewController:vce animated:NO];
+            }else if([_videoArray count]==1){
+                NSString *path=[_videoArray objectAtIndex:0];
+                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+                vce.videoPath=path;
+                [self.navigationController pushViewController:vce animated:NO];
+            }else{
+                [LanSongUtils showDialog:@"没有录制的视频"];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+-(UIView *)createButtons
+{
+    //点击按钮;
+    UIButton *btnStartRecord=[self createButton:@"开始录制" tag:101];
+    UIButton *btnStopRecord=[self createButton:@"停止录制" tag:102];
+    UIButton *btnDrawpadPause=[self createButton:@"容器暂停" tag:103];
+    UIButton *btnDrawpadResume=[self createButton:@"容器恢复" tag:104];
+    UIButton *btnDrawPadStop=[self createButton:@"容器停止" tag:105];
+    UIButton *btnDrawPadStart=[self createButton:@"容器开始" tag:106];
+    UIButton *btnVideoConcat=[self createButton:@"拼接合成" tag:107];
+    CGFloat btnWidth=80;
+    CGFloat btnHeight=30;
+    [btnStartRecord mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_recordProgress.mas_bottom);
+        make.left.mas_equalTo(_recordProgress.mas_left);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    [btnStopRecord mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_recordProgress.mas_bottom);
+        make.left.mas_equalTo(btnStartRecord.mas_right);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    
+    [btnDrawPadStart mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnStartRecord.mas_bottom);
+        make.left.mas_equalTo(btnStartRecord.mas_left);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    
+    [btnDrawpadPause mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnStartRecord.mas_bottom);
+        make.left.mas_equalTo(btnDrawPadStart.mas_right);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    [btnDrawpadResume mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnStartRecord.mas_bottom);
+        make.left.mas_equalTo(btnDrawpadPause.mas_right);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    [btnDrawPadStop mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnStartRecord.mas_bottom);
+        make.left.mas_equalTo(btnDrawpadResume.mas_right);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    [btnVideoConcat mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btnDrawPadStop.mas_bottom);
+        make.left.mas_equalTo(btnDrawPadStart.mas_left);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    return btnVideoConcat;
+}
+-(UIButton *)createButton:(NSString *)text tag:(int)tag
+{
+    UIButton *btn=[[UIButton alloc] init];
+    [btn setTitle:text forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btn.tag=tag;
+    
+    [btn addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    return btn;
+}
+- (void)slideChanged:(UISlider*)sender
+{
+    CGFloat val=[(UISlider *)sender value];
+    switch (sender.tag) {
+        case 601:
+            videoPen.avplayer.rate=val;  //速度在0.0---2.0之间;
+            break;
+        case 602:
+            videoPen.positionX=videoPen.positionX+10;  //移动
+            if(videoPen.positionX>(videoPen.drawPadSize.width + videoPen.penSize.width/2)){
+                videoPen.positionX=0;
+            }
+            break;
+        case 603:
+            videoPen.scaleWH=val*2;
+            break;
+        default:
+            break;
+    }
+}
+-(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
+
+{
+    UILabel *labPos=[[UILabel alloc] init];
+    labPos.text=text;
+    
+    UISlider *slidePos=[[UISlider alloc] init];
+    
+    slidePos.maximumValue=max;
+    slidePos.minimumValue=min;
+    slidePos.value=value;
+    slidePos.continuous = YES;
+    slidePos.tag=tag;
+    [slidePos addTarget:self action:@selector(slideChanged:) forControlEvents:UIControlEventValueChanged];
+    CGSize size=self.view.frame.size;
+//    CGFloat padding=size.height*0.01;
+    
+    [self.view addSubview:labPos];
+    [self.view addSubview:slidePos];
+    
+    [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(parentView.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.size.mas_equalTo(CGSizeMake(80, 40));
+    }];
+    
+    [slidePos mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(labPos.mas_centerY);
+        make.left.mas_equalTo(labPos.mas_right);
+        make.size.mas_equalTo(CGSizeMake(size.width-80, 15));
+    }];
+    return labPos;
+}
+-(void)dealloc
+{
+    [self stopPreview];
+    bmpPen=nil;
+    drawpadPreview=nil;
+    lansongView=nil;
+    if(_videoArray!=nil){
+        [_videoArray removeAllObjects];
+        _videoArray=nil;
+    }
+    LSLog(@"GameVideoDemoVC VC  dealloc");
+}
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+@end

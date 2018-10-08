@@ -19,10 +19,15 @@
 #import "FilterVideoDemoVC.h"
 #import "CameraSegmentRecordVC.h"
 
+#import "GameVideoDemoVC.h"
+
+
 #import "CommDemoListTableVC.h"
 #import "AEModuleDemoVC.h"
+#import "AEPreviewDemo.h"
+
 #import "VideoEffectVC.h"
-#import "TESTAEPreview.h"
+
 
 @interface MainViewController ()
 {
@@ -49,6 +54,12 @@
 
 #define kAEModuleDemo1 16
 #define kAEModuleDemo2 17
+#define kAEModuleDemo3 18
+
+
+#define kAEPreviewDemo 19
+
+#define kGameVideoDemo 20
 
 #define kUseDefaultVideo 801
 #define kSelectVideo 802
@@ -59,7 +70,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"LanSongSDK图层架构";
+    self.title = @"蓝松短视频SDK";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -72,13 +83,11 @@
     /*
      删除sdk中所有的临时文件.
      */
-    [LanSongFileUtil deleteAllSDKFiles];  //LSTODO 为什么还是会有liudehua, aobama文件夹
+    [LanSongFileUtil deleteAllSDKFiles];
   
     [self initView];
     
-    [self testFile];
 }
-
 /**
  点击后, 进去界面.
  */
@@ -97,7 +106,7 @@
     switch (sender.tag) {
         case kUseDefaultVideo:
             {
-                NSString *defaultVideo=@"dy_xialu1";
+                NSString *defaultVideo=@"dy_xialu2";
                 NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
                 if(sampleURL!=nil){
                     labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
@@ -128,18 +137,32 @@
             pushVC=[[VideoEffectVC alloc] init];
             break;
         case kAEModuleDemo1:
-        {
-            AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
-            push1.AeType=AEDEMO_AOBAMA;
-            pushVC=push1;
-        }
+            {
+                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
+                push1.AeType=AEDEMO_AOBAMA;
+                pushVC=push1;
+            }
             break;
         case kAEModuleDemo2:
-        {
-            AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
-            push1.AeType=AEDEMO_HONG_SAN;
-            pushVC=push1;
-        }
+            {
+                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
+                push1.AeType=AEDEMO_XIANZI;
+                pushVC=push1;
+            }
+            break;
+        case kAEModuleDemo3:
+            {
+                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
+                push1.AeType=AEDEMO_ZAO_AN;
+                pushVC=push1;
+            }
+            break;
+            
+            case kAEPreviewDemo:
+            {
+                AEPreviewDemo *push1=[[AEPreviewDemo alloc] init];
+                pushVC=push1;
+            }
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
@@ -148,6 +171,9 @@
             {
                  [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideo];
             }
+            break;
+        case kGameVideoDemo:
+            pushVC=[[GameVideoDemoVC alloc] init];  //游戏录制类演示
             break;
         default:
             break;
@@ -178,8 +204,13 @@
     view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜---图层的方法"];
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
-    view=[self newButton:view index:kAEModuleDemo1 hint:@"类似趣推(AE模板)1"];
-    view=[self newButton:view index:kAEModuleDemo2 hint:@"类似趣推(AE模板)2"];
+    view=[self newButton:view index:kAEModuleDemo1 hint:@"AE模板特效-1"];
+    view=[self newButton:view index:kAEModuleDemo2 hint:@"AE模板特效-2"];
+    view=[self newButton:view index:kAEModuleDemo3 hint:@"AE模板特效-3"];
+    view=[self newButton:view index:kAEPreviewDemo hint:@"AE模板特效-预览"];
+    
+    view=[self newButton:view index:kGameVideoDemo hint:@"游戏视频录制类"];
+    
     
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
@@ -207,7 +238,6 @@
         make.left.mas_equalTo(container.mas_left);
         make.size.mas_equalTo(CGSizeMake(size.width, 150));
     }];
-    //
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(versionHint.mas_bottom).with.offset(40);
     }];
@@ -334,10 +364,6 @@
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
-
-int  frameCount=0;
-
-//-----------选择视频
 /**
  选择视频.
  */
@@ -346,7 +372,7 @@ int  frameCount=0;
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     NSString *requiredMediaType1 = ( NSString *)kUTTypeMovie;
     
-    picker.sourceType =UIImagePickerControllerSourceTypeSavedPhotosAlbum; // UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.sourceType =UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     
     NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType1,nil];
     
@@ -382,12 +408,4 @@ int  frameCount=0;
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
-//---------------------------------
-AVPlayer *_avplayer;
-AVPlayerItem *playeritem;
- id _notificationToken;
--(void)testFile
-{
-}
-
 @end

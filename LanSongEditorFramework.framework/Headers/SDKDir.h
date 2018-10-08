@@ -11,7 +11,7 @@
 @interface SDKDir : NSObject
 
 
-    +(NSString *)Path;
++(NSString *)Path;
 /**
  *  创建一个mp4路径(只是路径, 没有文件生成)
  *

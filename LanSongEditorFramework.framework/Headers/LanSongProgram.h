@@ -4,7 +4,7 @@
 //  I've extended this to be able to take programs as NSStrings in addition to files, for baked-in shaders
 
 #import <Foundation/Foundation.h>
-
+#import "LanSongLog.h"
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>

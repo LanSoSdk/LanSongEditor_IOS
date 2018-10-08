@@ -128,7 +128,7 @@
 }
 -(void)drawpadProgress:(CGFloat)currentPts
 {
-    NSLog(@"录制进度...%f",currentPts);
+    LSLog(@"录制进度...%f",currentPts);
     //更新时间戳.
     if(self.progressBar!=nil){
         [self.progressBar setLastSegmentPts:currentPts];
@@ -263,7 +263,7 @@
         dstPath=data.segmentPath;
         [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else{  //为空.
-        NSLog(@"segment array is empty");
+        LSLog(@"segment array is empty");
     }
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -468,7 +468,7 @@
     [LanSongFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
     
-    NSLog(@"CameraPenDemoVC  dealloc");
+    LSLog(@"CameraPenDemoVC  dealloc");
 }
 ///**
 // 把多个视频合并
@@ -505,7 +505,7 @@
 //                                atTime:durationSum
 //                                 error:&error];
 //        if(error!=nil){
-//            NSLog(@"error is :%@",error);
+//            LSLog(@"error is :%@",error);
 //        }
 //        //总时间累积;
 //        durationSum = CMTimeAdd(durationSum, asset.duration);
@@ -531,13 +531,13 @@
 //            }
 //                break;
 //            case AVAssetExportSessionStatusFailed:
-//                NSLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
+//                LSLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //            case AVAssetExportSessionStatusCancelled:
-//                NSLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
+//                LSLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
 //                break;
 //            default:
-//                NSLog(@"Export Failed: %@", [exporter.error localizedDescription]);
+//                LSLog(@"Export Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //        }
 //    }];

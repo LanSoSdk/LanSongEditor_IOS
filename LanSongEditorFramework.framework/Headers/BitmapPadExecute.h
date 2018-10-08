@@ -84,6 +84,6 @@
  view.image=imgItem;
  [self.view  addSubview:view];
  }
- NSLog(@"获取得到的 array个数是:%lu",(unsigned long)retArray.count);
+ LSLog(@"获取得到的 array个数是:%lu",(unsigned long)retArray.count);
  */
 @end

@@ -32,7 +32,7 @@
 {
     MediaInfo *info=[[MediaInfo alloc]initWithPath:srcPath];
     [info prepare];
-    NSLog(@"info :%@",srcPath);
+    LSLog(@"info :%@",srcPath);
     
     return [info description];
 }
@@ -201,17 +201,17 @@
         titleLayer.backgroundColor=[[UIColor blueColor] CGColor];
         
         //宽高和视频中的尺寸一一对应,这里仅设置为一般的宽高.
-        titleLayer.bounds = CGRectMake(0, 0, info.vWidth/2, info.vHeight/2);
+        titleLayer.bounds = CGRectMake(0, 0, info.width/2, info.height/2);
         
         
         [retLayer addSublayer:titleLayer];
         
         //设置layer在视频中的中心位置. 以视频的中心为中心.
-        retLayer.position =CGPointMake(info.vWidth/2,info.vHeight/2);  //设置位置.
+        retLayer.position =CGPointMake(info.width/2,info.height/2);  //设置位置.
         
         [VideoEditor executeAddLayerWithPath:srcVideo watermarkLayer:retLayer dstPath:dstPash];
     }else{
-        NSLog(@" add calayer  error!!!:%@",info);
+        LSLog(@" add calayer  error!!!:%@",info);
     }
 }
 /**
@@ -224,7 +224,7 @@
 {
     MediaInfo *info =[[MediaInfo alloc] initWithPath:srcPath];
     if ([info prepare]) {
-        [VideoEditor executeCropFrameWithPath:srcPath startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
+        [VideoEditor executeCropFrameWithPath:srcPath startX:0 startY:0 cropW:info.getWidth/2 cropH:info.getHeight/2 dstPath:dstPash];
     }
 }
 /**
@@ -250,15 +250,15 @@
         
         
         //宽高和视频中的尺寸一一对应,这里仅设置为一般的宽高.
-        titleLayer.bounds = CGRectMake(0, 0, info.vWidth/4, info.vHeight/4);
+        titleLayer.bounds = CGRectMake(0, 0, info.width/4, info.height/4);
         
         
         [retLayer addSublayer:titleLayer];
         
         //设置layer在视频中的中心位置. 以视频的中心为中心.
-        retLayer.position =CGPointMake(info.vWidth/4,info.vHeight/4);  //设置位置.
+        retLayer.position =CGPointMake(info.width/4,info.height/4);  //设置位置.
         
-        [VideoEditor executeCropCALayerWithPath:srcPath layer:retLayer startX:0 startY:0 cropW:info.vWidth/2 cropH:info.vHeight/2 dstPath:dstPash];
+        [VideoEditor executeCropCALayerWithPath:srcPath layer:retLayer startX:0 startY:0 cropW:info.width/2 cropH:info.height/2 dstPath:dstPash];
         
     }
 }

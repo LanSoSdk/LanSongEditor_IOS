@@ -80,9 +80,9 @@
  
 [extractFrame setExtractProcessBlock:^(UIImage *img, CMTime frameTime) {
     if(img==nil){
-        NSLog(@"img is nil");
+        LSLog(@"img is nil");
     }else{
-        NSLog(@"保存到相册中的图片是:%d, 当前时间戳是:%f", frameCount++, CMTimeGetSeconds(frameTime));
+        LSLog(@"保存到相册中的图片是:%d, 当前时间戳是:%f", frameCount++, CMTimeGetSeconds(frameTime));
         UIImageWriteToSavedPhotosAlbum(img, self,nil, nil);
     }
     if(frameCount>=50){  //时间到后, 停止;
@@ -95,7 +95,7 @@
 }];
 
 [extractFrame setExtractCompletedBlock:^(LanSongExtractFrame *v){
-    NSLog(@"执行完成");
+    LSLog(@"执行完成");
 }];
 
 //[extractFrame start];

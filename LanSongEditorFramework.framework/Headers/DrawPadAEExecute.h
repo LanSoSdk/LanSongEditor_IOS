@@ -14,7 +14,7 @@
 #import "BitmapPen.h"
 #import "MVPen.h"
 #import "LanSong.h"
-#import "LOTAnimationView.h"
+#import "LSOAnimationView.h"
 
 
 /**
@@ -78,17 +78,17 @@
 
 
 /**
- 增加 AELOTAnimationView对象;
+ 增加 AELSOAnimationView对象;
  */
--(void)addAEView:(LOTAnimationView *)view;
+-(void)addAEView:(LSOAnimationView *)view;
 
 /**
  增加AE的json文件;
- 返回LOTAnimationView对象; 拿着对象可以做updateImage或updateVideo;
+ 返回LSOAnimationView对象; 拿着对象可以做updateImage或updateVideo;
  
- 几乎等于:addAEView:(LOTAnimationView *)view
+ 几乎等于:addAEView:(LSOAnimationView *)view
  */
--(LOTAnimationView *)addAEJsonPath:(NSString *)jsonPath;
+-(LSOAnimationView *)addAEJsonPath:(NSString *)jsonPath;
 
 /**
  增加的图片图层,

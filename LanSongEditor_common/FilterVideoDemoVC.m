@@ -150,10 +150,6 @@
 -(void)startExecute:(LanSongFilter *)filter
 {
         drawpadExecute=[[DrawPadVideoExecute alloc] initWithPath:srcPath];
-        [drawpadExecute setProgressBlock:^(CGFloat progess) {
-            NSLog(@"progress is::%f",progess);
-        }];
-    
         //增加滤镜
         [drawpadExecute.videoPen switchFilter:filter];
     
@@ -171,13 +167,12 @@
         __weak typeof(self) weakSelf = self;
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/drawpadExecute.mediaInfo.vDuration);
+               // LSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/drawpadExecute.mediaInfo.vDuration);
                 weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",progess];
             });
         }];
         [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"LSTODO 处理完毕.....");
                  [weakSelf drawpadCompleted:dstPath];
             });
         }];
@@ -217,7 +212,7 @@
     }
     
     [LanSongFileUtil deleteFile:dstPath];
-    NSLog(@"Demo3PenFilterVC dealloc");
+    LSLog(@"Demo3PenFilterVC dealloc");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -664,7 +664,7 @@
             self.title = @"Histogram Equalization";
             self.filterSlider.hidden = NO;
             
-            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
+            LSLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
             [self.filterSlider setMinimumValue:4.0];
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
@@ -1028,7 +1028,6 @@
             [(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"squares.png"];
             [(LanSongMosaicFilter *)self.selectedFilter  setColorOn:NO];
             //[(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"dotletterstiles.png"];
-            //[(LanSongMosaicFilter *)self.selectedFilter  setTileSet:@"curvies.png"];
             
         }; break;
         case LanSong_CHROMAKEY:
@@ -1447,7 +1446,7 @@
             [(LanSongHistogramFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_HISTOGRAM_EQUALIZATION:
-            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
+            LSLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
             [(LanSongHistogramEqualizationFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_UNSHARPMASK:
@@ -1608,7 +1607,7 @@
 {
     _filterPen=nil;
     _selectedFilter=nil;
-    //    NSLog(@"Filter TypeList dealloc");
+    //    LSLog(@"Filter TypeList dealloc");
 }
 
 @end

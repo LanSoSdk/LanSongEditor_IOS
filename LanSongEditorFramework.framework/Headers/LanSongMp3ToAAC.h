@@ -4,6 +4,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 #import <UIKit/UIKit.h>
+#import "LanSongLog.h"
 
 @protocol LanSongMp3ToAACDelegate;
 
@@ -81,17 +82,17 @@
  LanSongMp3ToAAC *audioConverter = [[LanSongMp3ToAAC alloc] initWithDelegate:self
  source:srcPath
  destination:[[documentsFolders objectAtIndex:0] stringByAppendingPathComponent:@"mytest.m4a"]];
- NSLog(@"开始转换.....");
+ LSLog(@"开始转换.....");
  [audioConverter start];
  
  }
  -(void)LanSongMp3ToAACDelegateCompleted:(LanSongMp3ToAAC*)convert;
  {
- NSLog(@"转换完成");
+ LSLog(@"转换完成");
  }
  -(void)LanSongMp3ToAACDelegateProgress:(LanSongMp3ToAAC *)converter progress:(CGFloat)progress
  {
- NSLog(@"转换 进度是:%f",progress);
+ LSLog(@"转换 进度是:%f",progress);
  }
  */
 @end

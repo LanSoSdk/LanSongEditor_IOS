@@ -55,17 +55,15 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-        if(_AeType==AEDEMO_AOBAMA){
-            [self testAobama];
-        }else if(_AeType==AEDEMO_ZAO_AN){
-            [self testZaoan];  //早安;
-        }else if(_AeType==AEDEMO_HONG_SAN){
-            [self testHongSan];
-        }else if(_AeType==AEDEMO_TWO_IMAGE){
-            [self testOnlyJson];
-        }else{
-            NSLog(@"AeType unkonw :%d",_AeType);
-        }
+    if(_AeType==AEDEMO_AOBAMA){
+        [self testAobama];
+    }else if(_AeType==AEDEMO_ZAO_AN){  //早安;
+        [self testZaoan];
+    }else if(_AeType==AEDEMO_XIANZI){ //紫霞仙子
+        [self testZixianXiaZi];
+    }else{
+        LSLog(@"AeType unkonw :%d",_AeType);
+    }
 }
 -(void)testAobama
 {
@@ -79,11 +77,10 @@
         NSString *jsonName=@"aobama";
         jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
 
-        
         //开始创建, 先增加一个视频;
         drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
         //增加lottie层
-        LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+        LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
         [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
 
         //再增加mv图层;
@@ -104,11 +101,9 @@
     jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
     jsonImage0=[UIImage imageNamed:@"zaoan"];
     
-    
-    
     drawpadExecute=[[DrawPadAEExecute alloc] init];
     //增加lottie层;
-    LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+    LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
     if(jsonImage0!=nil){
         [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
     }
@@ -120,50 +115,29 @@
 /**
  AE模板类型:
  先增加 json层; 后增加mv层
- 小红伞
  */
--(void)testHongSan
+-(void)testZixianXiaZi
 {
 //    //素材有4个;
-        NSString *jsonName=@"hongsan";
-        mvColor=[[NSBundle mainBundle] URLForResource:@"hongsan_mvColor" withExtension:@"mp4"];
-        mvMask=[[NSBundle mainBundle] URLForResource:@"hongsan_mvMask" withExtension:@"mp4"];
+        NSString *jsonName=@"zixiaxianzi";
+        mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
+        mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
         jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-        jsonImage0=[UIImage imageNamed:@"hongsan"];
     
     //开始创建
         drawpadExecute=[[DrawPadAEExecute alloc] init];
         //增加lottie层;
-        LOTAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
-        [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+        LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+        [lottieView updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"zixiaxianzi_img0"]];
+        [lottieView updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"zixiaxianzi_img1"]];
 
         //增加mv层;
-        [drawpadExecute addMVPen:mvColor withMask:mvMask];
-
+        if(mvColor!=nil && mvMask!=nil){
+            [drawpadExecute addMVPen:mvColor withMask:mvMask];
+        }
         [self startAE];  //开始执行;
 }
-/**
- 测试只有json文件的情况;
- */
--(void)testOnlyJson
-{
-    NSString *jsonName=@"img_time3";
-    jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-    
-    UIImage *image1=[UIImage imageNamed:@"imgRotate"];
-    UIImage *image2=[UIImage imageNamed:@"imgScale"];
-    
-    
-    //创建lottieView
-    LOTAnimationView *lottieView1 =[LOTAnimationView animationWithFilePath:jsonPath];
-    [lottieView1 updateImageWithKey:@"image_0" image:image1];
-    [lottieView1 updateImageWithKey:@"image_1" image:image2];
-    
-    
-    drawpadExecute=[[DrawPadAEExecute alloc] init];
-    [drawpadExecute addAEView:lottieView1];
-    [self startAE];  //开始执行;
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -182,7 +156,10 @@
                 [weakSelf drawpadCompleted:dstPath];
             });
         }];
+        
         [drawpadExecute start];
+    }else{
+        [LanSongUtils showDialog:@"您没有创建Ae容器对象"];
     }
 }
 -(void)drawpadProgress:(CGFloat) progress

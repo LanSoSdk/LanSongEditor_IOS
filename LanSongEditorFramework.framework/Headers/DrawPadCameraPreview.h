@@ -34,16 +34,35 @@
 /**
  增加UI图层
 
- @param view <#view description#>
- @param from <#from description#>
- @return <#return value description#>
+ @param view 增加UI图层;
+ @param from 这个UI是否已经增加到界面上; 如果已经增加,则内部不再渲染到界面;
+ @return 增加成功返回UI图层对象;
  */
 -(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
+
+/**
+ 增加图片图层
+
+ @param image 图片
+ @return 返回图片图层对象
+ */
 -(BitmapPen *)addBitmapPen:(UIImage *)image;
 
+
+/**
+ 增加MV图层
+
+ @param colorPath mv图层的颜色视频
+ @param maskPath mv图层的灰度视频
+ @return 返回mv图层对象
+ */
 -(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
+
+/**
+ 删除图层
+ */
 -(void)removePen:(Pen *)pen;
 
 /**

@@ -13,7 +13,7 @@
 #import "LanSongView2.h"
 #import "BitmapPen.h"
 #import "MVPen.h"
-#import "LOTAnimationView.h"
+#import "LSOAnimationView.h"
 
 /**
  Ae模板的前台预览容器
@@ -67,7 +67,7 @@
  增加UI图层;
  
  @param view UI图层
- @param from 这个UI来自界面; 当前请设置为YES
+ @param from  这个UI是否来自界面, 如果你已经self.view addSubView增加了这个view,则这里设置为YES;
  @return 返回对象
  */
 -(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
@@ -98,7 +98,7 @@
  
  在start前增加
  */
--(LOTAnimationView *)addAEJsonPath:(NSString *)jsonPath;
+-(LSOAnimationView *)addAEJsonPath:(NSString *)jsonPath;
 
 
 /**

@@ -63,29 +63,29 @@
  
  for(int i=0;i<17;i++){
  int ret= [ring addData:src len:len];
- NSLog(@"增加的个数是:%d, ret=:%d",i,ret);
+ LSLog(@"增加的个数是:%d, ret=:%d",i,ret);
  }
  
  for(int i=0;i<16;i++){
  int ret= [ring getData:src len:len];
- NSLog(@"获取的个数是:%d, ret=:%d",i,ret);
+ LSLog(@"获取的个数是:%d, ret=:%d",i,ret);
  }
  
  //以下测试: 先完全填满, 然后读取还剩下300个, 再次填1000个, 一次性读取1300个, 看是否可以.
  //      这样还剩下384个.
- NSLog(@"还剩下的个数是:%d",[ring getUsedSize]);
+ LSLog(@"还剩下的个数是:%d",[ring getUsedSize]);
  
  
  memset(src,2,1000);  //填入2.
  int ret= [ring addData:src len:len];
- NSLog(@"再次填入1000个:%d",ret);
+ LSLog(@"再次填入1000个:%d",ret);
  
  
  int ret2= [ring getData:src len:1384];
- NSLog(@"看下获取到的个数是::%d",ret2);
+ LSLog(@"看下获取到的个数是::%d",ret2);
  //测试打印的数据是正确的, 即先取出384个1, 然后是1000个2;
  for(int i=0;i<ret2;i++){
- NSLog(@"%d",src[i]);
+ LSLog(@"%d",src[i]);
  }
  
  

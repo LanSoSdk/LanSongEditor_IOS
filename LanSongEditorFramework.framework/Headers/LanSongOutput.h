@@ -42,6 +42,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
 {
     //当前图层的纹理对象
     LanSongFramebuffer *outputFramebuffer;
+    LanSongFramebuffer *outputFramebufferRotation;  //有角度旋转的;
     
     NSMutableArray *targets, *targetTextureIndices;
     

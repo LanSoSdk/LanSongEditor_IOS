@@ -18,7 +18,7 @@
 #import <Foundation/Foundation.h>
 
 #import <AVFoundation/AVFoundation.h>
-
+#import "LanSongLog.h"
 
 
 
@@ -76,7 +76,7 @@
  -(void)didLanSongVideoReverseFinish:(bool)success withError:(NSError *)error
  {
  if (!success) {
- NSLog(@"%s error: %@", __FUNCTION__, error.localizedDescription);
+ LSLog(@"%s error: %@", __FUNCTION__, error.localizedDescription);
  return;
  }
  [self showReversedVideo];

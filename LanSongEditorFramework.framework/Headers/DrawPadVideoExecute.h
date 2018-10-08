@@ -43,16 +43,30 @@
 /**
  增加UI图层;
  @param view UI图层
- @param from 这个UI来自界面; 当前请设置为YES
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
+-(ViewPen *)addViewPen:(UIView *)view;
 
 -(BitmapPen *)addBitmapPen:(UIImage *)image;
 
 -(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 -(void)removePen:(Pen *)pen;
+/**
+ 设置录制视频的宽高;
+ 设置后, 容器宽高不变, 会在编码的时候, 把容器的所有图层缩放到这个宽高上;
+ 如果录制视频的宽高比 不等于容器的宽高比,则录制后的图层会变形;
+ 
+ 在startRecord前调用;
+ @param size 录制视频的宽高
+ */
+-(void)setRecordSize:(CGSize)size;
+
+/**
+ 设置录制的码率
+ 在startRecord前调用;
+ */
+-(void)setRecordBitrate:(int)bitrate;
 
 /**
  开始执行
@@ -89,8 +103,14 @@
 @property (nonatomic,readonly) BOOL isRunning;
 
 /**
- 直接增加上原来的音频;
- */
+直接增加上原来的声音;
+里面没有做mp3或aac检查,没有做时长检查,直接合并在一起;
+
+@param video 生成的视频
+@param audio 带声音的原视频路径/或其他音频
+@param dstFile 生成的文件
+@return 成功返回true, 失败返回false;
+*/
 +(BOOL)addAudioDirectly:(NSString *)video audio:(NSString*)audio dstFile:(NSString *)dstFile;
 
 
@@ -144,11 +164,11 @@
  //
  //        __weak typeof(self) weakSelf = self;
  //        [testExecute setProgressBlock:^(CGFloat progess) {
- //                NSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/testExecute.mediaInfo.vDuration);
+ //                LSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/testExecute.mediaInfo.vDuration);
  //        }];
  //
  //        [testExecute setCompletionBlock:^(NSString *dstPath) {
- //            NSLog(@"处理完毕");
+ //            LSLog(@"处理完毕");
  //            dispatch_async(dispatch_get_main_queue(), ^{
  //               [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
  //            });

@@ -16,7 +16,7 @@
     }
     UIImage *image = [UIImage imageNamed:@"lansongbeauty.png"];
     if(image==nil){
-        NSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
+        LSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
     }
     return self;
 }
@@ -47,7 +47,7 @@
             }else{
                 [pen switchFilter:self.beautyFilter];
             }
-            NSLog(@"已增加 美颜");
+            LSLog(@"已增加 美颜");
             self.isBeauting=YES;
         }
     }
@@ -67,7 +67,7 @@
             [pen switchFilter:nil];
             self.beautyFilter=nil;
             self.lookupFilter=nil;
-            NSLog(@"已删除 美颜");
+            LSLog(@"已删除 美颜");
         }
         self.isBeauting=NO;
     }

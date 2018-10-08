@@ -50,7 +50,7 @@ enum {
     
     srcAudio=[LanSongFileUtil copyResourceFile:@"honor30s2" withSubffix:@"m4a" dstDir:[LanSongFileUtil Path]];
     
-    NSLog(@"srcAudio:%@",srcAudio);
+    LSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:
                   [[CommDemoItem alloc] initWithID:ID_DELETE_AUDIO hint:@"删除多媒体中的音频"],
                   [[CommDemoItem alloc] initWithID:ID_DELETE_VIDEO hint:@"删除多媒体中的视频"],
@@ -147,7 +147,7 @@ enum {
     if ([[notification name] isEqualToString:@"LanSongEditorCommonCompletion"]) {
         
         NSString *completePath = [notification object];
-        NSLog(@"返回的字符串是:%@",completePath);
+        LSLog(@"返回的字符串是:%@",completePath);
         
         
         dispatch_async( dispatch_get_main_queue(), ^{

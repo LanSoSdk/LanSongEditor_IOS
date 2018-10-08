@@ -69,7 +69,7 @@
     [drawPadCamera startPreview];
     [beautyMng addBeauty:drawPadCamera.cameraPen];
     
-    NSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
+    LSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
     
     drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
     drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO
@@ -81,7 +81,7 @@
 //
 //    pen.positionX=pen.scaleWidthValue/2;
 //    pen.positionY=pen.scaleHeightValue/2;
-//    NSLog(@"pen x%f, y:%f",pen.positionX,pen.positionY);
+//    LSLog(@"pen x%f, y:%f",pen.positionX,pen.positionY);
     
     
     
@@ -110,11 +110,10 @@
                 if(drawPadCamera.isRecording==NO){
                     [drawPadCamera startRecord];
                     [drawPadCamera setProgressBlock:^(CGFloat progess) {
-                        NSLog(@"progress is :%f",progess);
                         [weakSelf progressBlock:progess];
                     }];
                 }else{
-                    NSLog(@" is recording....");
+                    LSLog(@" is recording....");
                 }
                 break;
             case  103:  //btnOK;
@@ -183,7 +182,7 @@
     }
     filterListVC=nil;
     lansongView=nil;
-    NSLog(@"CameraPenDemoVC  dealloc");
+    LSLog(@"CameraPenDemoVC  dealloc");
 }
 /**
  滑动 效果调节后的相应

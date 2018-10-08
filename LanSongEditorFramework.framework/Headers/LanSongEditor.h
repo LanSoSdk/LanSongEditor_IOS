@@ -87,6 +87,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 
 //*************************辅助, 常见功能处理类**************************
+#import <LanSongEditorFramework/LanSongLog.h>
 //获取音视频的信息;
 #import <LanSongEditorFramework/MediaInfo.h>
 
@@ -96,27 +97,29 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //创建临时 处理文件的头文件
 #import <LanSongEditorFramework/LanSongFileUtil.h>
 
+//处理图片的一些公共fang函数.(持续增加)
+#import <LanSongEditorFramework/LanSongImageUtil.h>
 
 //*************************杂项**************************
 
 //我们用来测试代码的UIViewController
 #import <LanSongEditorFramework/LanSongTESTVC.h>
 //lottie的一些库文件
-#import <LanSongEditorFramework/LOTValueDelegate.h>
-#import <LanSongEditorFramework/LOTAnimatedControl.h>
-#import <LanSongEditorFramework/LOTCacheProvider.h>
-#import <LanSongEditorFramework/LOTKeypath.h>
-#import <LanSongEditorFramework/LOTInterpolatorCallback.h>
-#import <LanSongEditorFramework/LOTAnimatedSwitch.h>
-#import <LanSongEditorFramework/LOTAnimationCache.h>
-#import <LanSongEditorFramework/Lottie.h>
-#import <LanSongEditorFramework/LOTComposition.h>
-#import <LanSongEditorFramework/LOTAnimationTransitionController.h>
-#import <LanSongEditorFramework/LOTAnimationView.h>
-#import <LanSongEditorFramework/LOTAnimationView_Compat.h>
-#import <LanSongEditorFramework/LOTValueCallback.h>
-#import <LanSongEditorFramework/LOTBlockCallback.h>
-#import <LanSongEditorFramework/LanSongLOTInfo.h>
+#import <LanSongEditorFramework/LSOValueDelegate.h>
+#import <LanSongEditorFramework/LSOAnimatedControl.h>
+#import <LanSongEditorFramework/LSOCacheProvider.h>
+#import <LanSongEditorFramework/LSOKeypath.h>
+#import <LanSongEditorFramework/LSOInterpolatorCallback.h>
+#import <LanSongEditorFramework/LSOAnimatedSwitch.h>
+#import <LanSongEditorFramework/LSOAnimationCache.h>
+#import <LanSongEditorFramework/LSOlottie.h>
+#import <LanSongEditorFramework/LSOComposition.h>
+#import <LanSongEditorFramework/LSOAnimationTransitionController.h>
+#import <LanSongEditorFramework/LSOAnimationView.h>
+#import <LanSongEditorFramework/LSOAnimationView_Compat.h>
+#import <LanSongEditorFramework/LSOValueCallback.h>
+#import <LanSongEditorFramework/LSOBlockCallback.h>
+#import <LanSongEditorFramework/LanSongLSOInfo.h>
 
 
 
@@ -156,4 +159,27 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  */
 +(void)unInitSDK;
 
+
+
+/**
+ 设置内部文件创建在哪个文件夹下;
+ 
+ 如果不设置,默认在当前Document/lansongBox下;
+ 举例:
+ NSArray *paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+ NSString *documentsDirectory =[paths objectAtIndex:0];
+ NSString *tmpDir = [documentsDirectory stringByAppendingString:@"/box2"];
+ [LanSongFileUtil setGenTempFileDir:tmpDir];
+ 
+ 建议在initSDK的时候设置;
+ */
++(void)setGenTempFileDir:(NSString *)path;
+/**
+ 我们的内部默认以当前时间为文件名; 比如:20180906094232_092.mp4
+ 你可以在这个时间前面增加一些字符串,比如增加用户名,手机型号等等;
+ 举例:
+ prefix:xiaoming_iphone6s; 则生成的文件名是: xiaoming_iphone6s20180906094232_092.mp4
+ @param prefix
+ */
++(void)setGenTempFilePrefix:(NSString *)prefix;
 @end

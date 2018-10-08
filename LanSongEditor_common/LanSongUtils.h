@@ -19,24 +19,10 @@
 #import "MBProgressHUD.h"
 #import "Masonry.h"
 #import "UIColor+Util.h"
-#import "LSTODOImageUtil.h"
 #import "VideoPlayViewController.h"
 
 
 
-
-#define DEBUG 1
-#define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
-
-
-// 设置Dlog可以打印出类名,方法名,行数.
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define SDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
-#else
-#define DLog(...)
-#define SDKLine ;
-#endif
 
 
 

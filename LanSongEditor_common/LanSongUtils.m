@@ -42,12 +42,10 @@
 +(void)startVideoPlayerVC:(UINavigationController*)nav dstPath:(NSString *)dstPath
 {
     if ([LanSongFileUtil fileExist:dstPath]) {
-        SDKLine
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstPath;
         [nav pushViewController:videoVC animated:YES];
     }else{
-        SDKLine
         NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
         [LanSongUtils showHUDToast:str];
     }
@@ -96,7 +94,7 @@
     {
         BOOL bCreateDir = [fileManager createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
         if(!bCreateDir){
-            NSLog(@"创建图片文件夹失败");
+            LSLog(@"创建图片文件夹失败");
             return NO;
         }
         return YES;
