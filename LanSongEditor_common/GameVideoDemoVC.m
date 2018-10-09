@@ -150,7 +150,7 @@
 {
     switch (sender.tag) {
         case 101 :  //开始录制
-            [drawpadPreview setRecordSize:CGSizeMake(540, 900)];
+           // [drawpadPreview setRecordSize:CGSizeMake(540, 900)];
             [drawpadPreview startRecord];
             break;
         case  102:  //停止录制
