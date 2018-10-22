@@ -90,7 +90,6 @@ enum {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
-//显示处理提示,下一版本可以显示处理进度...(暂时没有增加)
 -(void)showProgressHUD
 {
     if (demoHintHUD!=nil) {

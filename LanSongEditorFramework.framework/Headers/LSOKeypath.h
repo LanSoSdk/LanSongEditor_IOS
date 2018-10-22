@@ -1,6 +1,5 @@
 //
 //  LSOKeypath.h
-//  Lottie_iOS
 //
 //  Created by brandon_withrow on 12/13/17.
 //  Copyright © 2017 Airbnb. All rights reserved.
@@ -18,7 +17,7 @@ extern NSString * _Nonnull const kLSOKeypathEnd;
 
  LSOKeypath can describe a specific object, or can use wildcards for fuzzy matching of objects. Acceptable wildcards are either "*" (star) or "**" (double star). Single star will search a single depth for the next object, double star will search any depth.
 
- Read More at http://airbnb.io/lottie/ios/dynamic.html
+ Read More at
  
  EG:
   @"Layer.Shape Group.Stroke 1.Color"

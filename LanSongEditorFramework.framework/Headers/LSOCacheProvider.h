@@ -1,6 +1,5 @@
 //
 //  LSOCacheProvider.h
-//  Lottie
 //
 //  Created by punmy on 2017/7/8.
 //
@@ -26,10 +25,6 @@
 
 #pragma mark - LSOImageCache
 
-/**
- This protocol represent the interface of a image cache which lottie can use.
- 
- */
 @protocol LSOImageCache <NSObject>
 
 @required

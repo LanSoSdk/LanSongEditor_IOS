@@ -61,13 +61,10 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 
 
 /**
- 内部使用;
- */
-@property BOOL isDecoded;
-/**
- 内部使用.
+ DrawPadCamereaPreview使用时, 相机图层录制时,前置相机是否镜像录制;
  */
 @property BOOL isCamFrontMirror;
+
 /**
  *  在绘制到容器上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
     如果你要获取当前画面的实时尺寸,则可以通过上面的frameBufferSize这个属性来获取. 缩放也是基于frameBufferSize进行的.
@@ -77,14 +74,8 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  
   当前绘制原理是:ViewPen是等比例缩放到容器上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到容器上.
  
-   举例:视频是1280x720的视频, 容器尺寸是480x480,则增加到容器上后, 会自动缩放视频的尺寸,
-      如果是横屏, 则视频的宽度被缩放成480, 高度被缩放成 480 x(视频的宽高比720/1280)=270; 则这里penSize的宽高是480x270,从而保证视频的宽高比一直.
-      如果是竖屏, 则视频的高度被缩放到480, 宽度被缩放成 270, ....
- 
  */
 @property CGSize penSize;
-
-
 /**
  *  定义的容器尺寸
  */
@@ -231,9 +222,7 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
 -(void)removeAllSubPen;
 
 /**
- 获取
-
- @return <#return value description#>
+ 获取子图层的数量;
  */
 -(int)getSubPenSize;
 
@@ -244,6 +233,8 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  ****************** 一下为 内部使用的函数. 请勿调用 ******************************
  */
 - (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
+//视频在容器中是否 以原尺寸增加;
+@property (nonatomic,assign) BOOL videoPenOriginalAdd;
 -(void)releasePen;
 -(BOOL)decodeOneFrame;
 -(void)drawDisplay2;

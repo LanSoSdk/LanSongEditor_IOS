@@ -1,6 +1,6 @@
 //
 //  LSOAnimatedSwitch.h
-//  Lottie
+  
 //
 //  Created by brandon_withrow on 8/25/17.
 //  Copyright © 2017 Airbnb. All rights reserved.

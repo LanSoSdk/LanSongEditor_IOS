@@ -40,6 +40,9 @@
 -(id)initWithURL:(NSURL *)videoPath;
 -(id)initWithPath:(NSString *)videoPath;
 
+-(id)initWithURL:(NSURL *)videoPath drawPadSize:(CGSize)size;
+-(id)initWithPath:(NSString *)videoPath drawPadSize:(CGSize)size;
+
 /**
  增加UI图层;
  @param view UI图层

@@ -29,6 +29,23 @@
  @param videoPath输入的视频路径
  */
 -(id)initWithURL:(NSURL *)videoPath;
+/**
+ 初始化
+ 指定容器大小, 指定后, 视频以原有的尺寸居中放到容器中;
+ 
+ 原尺寸对齐说明如下:
+ 1. 如果视频宽高大于容器宽高,则视频会显示到容器外面,如果小于则显示到内部;
+ 2. 举例:比如视频宽高是1280*720; 如果你设置的iphone 6plus,他的self.view.frame.size是414x736;则只会显示视频居中的414x736的局域画面; 视频的高度是720;但屏幕是736;则会居中显示, 画面的上方和下方有8个像素的黑边;(736-720=16/2=8);
+ 
+ 3.如果要视频的宽度和容器的宽度对齐,则缩放是:videoPen.scaleWH=videoPen.drawPadSize.width/videoPen.penSize.width;
+ 4.如果要视频的高度和容器高度对齐,则缩放是:videoPen.scaleWH=videoPen.drawPadSize.height/videoPen.penSize.height;
+ 5.视频的移动以原视频的尺寸移动; videoPen.penSize等于视频的宽高;
+ 6. 视频在编码时,建议最好是540x960或 1280x720,或640x640,会把容器的画面填满到您设置的编码分辨率.
+ 
+ @param videoPath 视频路径
+ @param size
+ */
+-(id)initWithURL:(NSURL *)videoPath drawPadSize:(CGSize)size;
 
 /**
 初始化
@@ -37,10 +54,19 @@
  */
 -(id)initWithPath:(NSString *)videoPath;
 
+/**
+  初始化
+ 指定容器大小, 指定后, 视频以原有的尺寸居中放到容器中;
+ 
+ 原尺寸对齐说明如
+ @param videoPath 视频路径
+ @param size
+ */
+-(id)initWithPath:(NSString *)videoPath drawPadSize:(CGSize)size;
+
 -(void)addLanSongView:(LanSongView2 *)view;
 
 /**
- 增加UI图层; 举例有增加Lottie
 
  使用:
  //为了保持UI图层不变形,

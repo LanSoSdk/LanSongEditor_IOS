@@ -38,9 +38,6 @@
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    
-    self.view.backgroundColor=[UIColor whiteColor];
     [LanSongUtils setViewControllerPortrait];
     
     beautyLevel=0;
@@ -51,6 +48,8 @@
     [self.view addSubview:lansongView];
     
     drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:YES];
+    
+    
     drawPadCamera.cameraPen.horizontallyMirrorFrontFacingCamera=YES;
     
     //增加图片图层
@@ -58,6 +57,20 @@
     BitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     bmpPen.positionY=bmpPen.penSize.height/2;
+    
+    
+    /*
+     再增加UI图层;
+     先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+     */
+    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+    view.backgroundColor=[UIColor clearColor];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
+    label.text=@"UI图层演示";
+    label.textColor=[UIColor redColor];
+    label.font = [UIFont systemFontOfSize:28.0f];
+    [view addSubview:label];
+    [drawPadCamera addViewPen:view isFromUI:NO];
     
     
     //增加mv图层
@@ -69,7 +82,7 @@
     [drawPadCamera startPreview];
     [beautyMng addBeauty:drawPadCamera.cameraPen];
     
-    LSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
+//    LSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
     
     drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
     drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO

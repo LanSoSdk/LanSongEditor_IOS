@@ -20,6 +20,7 @@
 #import "Masonry.h"
 #import "UIColor+Util.h"
 #import "VideoPlayViewController.h"
+#import "LSOProgressHUD.h"
 
 
 
@@ -36,6 +37,8 @@
 #define color(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
 
 #define VIDEO_FOLDER @"videos"
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 
 @interface LanSongUtils : NSObject

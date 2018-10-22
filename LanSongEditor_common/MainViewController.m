@@ -27,6 +27,7 @@
 #import "AEPreviewDemo.h"
 
 #import "VideoEffectVC.h"
+#import "LSOLocalVideoVC.h"
 
 
 @interface MainViewController ()
@@ -86,7 +87,11 @@
     [LanSongFileUtil deleteAllSDKFiles];
   
     [self initView];
-    
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+     [LanSongUtils setViewControllerPortrait];
+     labPath.text=[AppDelegate getInstance].currentEditVideo;
 }
 /**
  点击后, 进去界面.
@@ -118,8 +123,12 @@
                 break;
             }
         case kSelectVideo:
-            [self pickVideo];
-            sender.backgroundColor=[UIColor yellowColor];
+            {
+                sender.backgroundColor=[UIColor yellowColor];
+                
+                UIViewController  *pushVC2=[[LSOLocalVideoVC alloc] init];
+                [self.navigationController pushViewController:pushVC2 animated:YES];
+            }
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraFullPortVC alloc] init];
@@ -354,58 +363,10 @@
     return UIInterfaceOrientationMaskPortrait;
     
 }
--(void) viewDidAppear:(BOOL)animated
-{
-    [LanSongUtils setViewControllerPortrait];
-}
 
 -(void)showSDKOutTimeWarnning
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
-}
-/**
- 选择视频.
- */
--(void)pickVideo
-{
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    NSString *requiredMediaType1 = ( NSString *)kUTTypeMovie;
-    
-    picker.sourceType =UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    
-    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType1,nil];
-    
-    [picker setMediaTypes: arrMediaTypes];
-    
-    picker.delegate = (id)self;
-    
-    [self presentViewController:picker animated:YES completion:nil];
-}
-#pragma mark  imagePickterControllerDelegate
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-/**
- 得到 选择的视频
- */
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
-{
-    NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:(NSString *)kUTTypeMovie])
-    {
-        //获取视频文件的url
-        NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
-        if(mediaURL!=nil){
-            labPath.text=[NSString stringWithFormat:@"选择的视频是:%@",[mediaURL lastPathComponent]];
-            NSString *path=[LanSongFileUtil urlToFileString:mediaURL];
-            [AppDelegate getInstance].currentEditVideo=path;
-        }else{
-            [LanSongUtils showHUDToast:@"导入视频错误, 系统相册返回nil"];
-        }
-    }
-    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 @end

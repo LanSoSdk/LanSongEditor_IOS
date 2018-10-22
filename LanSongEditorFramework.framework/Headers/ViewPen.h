@@ -25,5 +25,6 @@
 - (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 
-
+/******************一下是内部使用******************************/
+@property BOOL isUsedForAE;
 @end

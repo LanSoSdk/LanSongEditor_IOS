@@ -20,6 +20,8 @@
     CGSize drawpadSize;
     VideoPen *videoPen;
     
+    UISlider *videoProgress;
+    
 }
 @property (nonatomic,assign) NSString *dstPath;
 @end
@@ -49,8 +51,9 @@
     }];
     
     
-    UIView *currslide=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
-            currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
+    videoProgress=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:201 labText:@"进度:"];
+    UISlider *currslide=  [self createSlide:videoProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
+    currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
     currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
     
@@ -68,7 +71,6 @@
     NSString *video=[AppDelegate getInstance].currentEditVideo;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
-    
     
     //创建显示窗口
     CGSize size=self.view.frame.size;
@@ -95,8 +97,8 @@
     
     
     __weak typeof(self) weakSelf = self;
-    [drawpadPreview setProgressBlock:^(CGFloat progess) {
-        [weakSelf progressBlock];
+    [drawpadPreview setProgressBlock:^(CGFloat progress) {
+        [weakSelf progressBlock:progress];
     }];
     
     [drawpadPreview setCompletionBlock:^(NSString *path) {
@@ -126,8 +128,11 @@
     [drawpadPreview start];
     //[drawpadPreview startRecord];
 }
--(void)progressBlock
+-(void)progressBlock:(CGFloat)progress
 {
+    if(videoProgress!=nil){
+        videoProgress.value=progress/drawpadPreview.duration;
+    }
 }
 -(void)stopPreview
 {
@@ -138,21 +143,28 @@
 }
 - (void)slideChanged:(UISlider*)sender
 {
-    if(bmpPen==nil){
-        return ;
-    }
+        if(videoPen==nil){
+            return ;
+        }
     
     CGFloat val=[(UISlider *)sender value];
-    
-    CGFloat posX=drawpadPreview.drawpadSize.width*val;
-    CGFloat posY=drawpadPreview.drawpadSize.height*val;
-    
     switch (sender.tag) {
+            case 201:  //进度
+            {
+                [videoPen seekToPercent:val];
+            }
+            break;
         case 101:  //位置
-            videoPen.positionX=posX;
+            {
+                CGFloat posX=(videoPen.drawPadSize.width +videoPen.penSize.width)*val -videoPen.penSize.width/2;
+                videoPen.positionX=posX;
+            }
             break;
         case 102:  //Y坐标
-            videoPen.positionY=posY;
+            {
+                CGFloat posY=(videoPen.drawPadSize.height +videoPen.penSize.height)*val -videoPen.penSize.height/2;
+                videoPen.positionY=posY;
+            }
             break;
         case 103:  //scale
             videoPen.scaleHeight=val;
@@ -174,8 +186,7 @@
 /**
  初始化一个slide
  */
--(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
-
+-(UISlider *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
 {
     UILabel *labPos=[[UILabel alloc] init];
     labPos.text=text;
@@ -205,7 +216,7 @@
         make.left.mas_equalTo(labPos.mas_right);
         make.size.mas_equalTo(CGSizeMake(size.width-80, 15));
     }];
-    return labPos;
+    return slidePos;
 }
 -(void)viewDidDisappear:(BOOL)animated
 {

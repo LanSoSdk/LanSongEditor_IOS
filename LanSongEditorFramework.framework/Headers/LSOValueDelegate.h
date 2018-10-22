@@ -1,6 +1,6 @@
 //
 //  LSOValueDelegate.h
-//  Lottie
+  
 //
 //  Created by brandon_withrow on 1/5/18.
 //  Copyright © 2018 Airbnb. All rights reserved.

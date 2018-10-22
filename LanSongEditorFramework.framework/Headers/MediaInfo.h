@@ -16,6 +16,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface MediaInfo : NSObject
 
@@ -73,6 +74,8 @@
  如果视频有90或270度的角度,则视频画面本身的宽度则等于高度;
  */
 @property(nonatomic,readonly,getter=getWidth) int width;
+
+@property(nonatomic,readonly,getter=getSize) CGSize size;
 /**
  * 视频的显示高度
  

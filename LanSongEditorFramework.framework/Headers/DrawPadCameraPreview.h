@@ -26,7 +26,7 @@
 
 -(id)initWithPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition  view:(LanSongView2 *)view;
 
--(id)initWithPreset:(LanSongVideoCamera *)camera drawpadSize:(CGSize)size view:(LanSongView2 *)view;
+-(id)initFullScreen:(LanSongView2 *)view isFrontCamera:(BOOL)isFront drawPadSize:(CGSize)size;
 
 @property (nonatomic) CGSize drawpadSize;
 
@@ -73,6 +73,14 @@
 -(BOOL)startPreview;
 
 -(void)stopPreview;
+
+
+/**
+ 设置录制大小,[默认用drawpadsize;不建议调用]
+
+ @param size <#size description#>
+ */
+-(void)setRecordSize:(CGSize)size;
 /**
  开始执行,并实时录制;
  

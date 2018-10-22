@@ -18,7 +18,6 @@
 {
 
     NSString *srcPath;
-    UISlider *slide;
     NSString *dstPath;
     
     
@@ -42,7 +41,13 @@
     DrawPadVideoExecute  *drawpadExecute;
     
     CGSize drawpadSize;
+    
+    
+    UISlider *videoProgress;
+    UISlider *filterAdjust;
+
 }
+@property     LSOProgressHUD *progressHUD;
 @end
 
 @implementation FilterVideoDemoVC
@@ -56,10 +61,24 @@
     
     self.view.backgroundColor=[UIColor whiteColor];
     srcPath=[AppDelegate getInstance].currentEditVideo;
-    /*
-     获取缩略图
-     */
-    [self getThumbnailFilters];
+    
+    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
+    if([info prepare]){
+        CGSize size=self.view.frame.size;
+        
+        lansongView=[LanSongUtils createLanSongView:size drawpadSize:info.size];
+        [self.view addSubview:lansongView];
+        
+        [self initView];
+        
+        /*
+         获取缩略图
+         */
+        [self getThumbnailFilters];
+    }else{
+        [LanSongUtils showDialog:@"输入的视频不存在,退出"];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 /**
  开始前台容器
@@ -71,22 +90,24 @@
     
     drawpadSize=drawpadPreview.drawpadSize;
     drawpadPreview.videoPen.loopPlay=YES;
-    //增加显示窗口
-    CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
-    [self.view addSubview:lansongView];
     [drawpadPreview addLanSongView:lansongView];
     
-    [self initView];
+    __weak typeof(self) weakSelf = self;
+    [drawpadPreview setProgressBlock:^(CGFloat progress) {
+        [weakSelf progressBlock:progress];
+    }];
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
-    filterListVC.filterSlider=slide;
+    filterListVC.filterSlider=filterAdjust;
     filterListVC.filterPen=drawpadPreview.videoPen;
     isSelectFilter=NO;
-    
     [drawpadPreview start];
 }
 
+-(void)progressBlock:(CGFloat)progress
+{
+    videoProgress.value=(progress/drawpadPreview.duration);  //百分比;
+}
 /**
  获取缩略图滤镜, 在获取完毕后, 播放视频.
  */
@@ -97,13 +118,9 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
         filterItemArray=[FilterItem createDemoFilterArray];  //拿到列举的多个滤镜.
-
-        
         NSURL *sampleURL = [LanSongFileUtil filePathToURL:srcPath];
-        
         UIImage *image=[VideoEditor getVideoImageimageWithURL:sampleURL];
         if(image!=nil){
-
             for (FilterItem *item in filterItemArray) {
                 [filterArray addObject:item.filter];
             }
@@ -149,6 +166,7 @@
  */
 -(void)startExecute:(LanSongFilter *)filter
 {
+    _progressHUD=[[LSOProgressHUD alloc] init];
         drawpadExecute=[[DrawPadVideoExecute alloc] initWithPath:srcPath];
         //增加滤镜
         [drawpadExecute.videoPen switchFilter:filter];
@@ -167,13 +185,15 @@
         __weak typeof(self) weakSelf = self;
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
-               // LSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/drawpadExecute.mediaInfo.vDuration);
-                weakSelf.labProgress.text=[NSString stringWithFormat:@"   当前进度 %f",progess];
+                
+                int percent=(int)(progess*100/drawpadExecute.mediaInfo.vDuration);
+                [weakSelf.progressHUD showProgress:[NSString stringWithFormat:@"进度:%d%%",percent]];
             });
         }];
         [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
             dispatch_async(dispatch_get_main_queue(), ^{
                  [weakSelf drawpadCompleted:dstPath];
+                [weakSelf.progressHUD hide];
             });
         }];
         [drawpadExecute start];
@@ -197,6 +217,7 @@
     filterListVC=nil;
     dstPath=nil;
     drawpadPreview=nil;
+    _progressHUD=nil;
     
     if(filterItemArray!=nil){
         [filterItemArray removeAllObjects];
@@ -220,26 +241,11 @@
     //布局其他界面
 -(void)initView
 {
-    if(_labProgress){  //已经初始化
-        return ;
-    }
-    CGSize size=self.view.frame.size;
     
-
-    _labProgress=[[UILabel alloc] init];
-    _labProgress.textColor=[UIColor redColor];
-    
-    CGFloat padding=size.height*0.02;
-    [self.view addSubview:_labProgress];
-    
-    [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
-        make.centerX.mas_equalTo(lansongView.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(size.width, 40));
-    }];
+    videoProgress=  [self createSlide:lansongView min:0.0f max:1.0f value:0.5f tag:101 labText:@"进度:"];
     
     UIButton *btnFilter=[[UIButton alloc] init];
-    [btnFilter setTitle:@"全部滤镜     >>>" forState:UIControlStateNormal];
+    [btnFilter setTitle:@"滤镜>>>" forState:UIControlStateNormal];
     [btnFilter setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     btnFilter.backgroundColor=[UIColor whiteColor];
     btnFilter.tag=601;
@@ -247,37 +253,28 @@
     
     [self.view addSubview:btnFilter];
     [btnFilter mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_labProgress.mas_bottom).offset(padding);
-        make.left.mas_equalTo(_labProgress.mas_left);
-        make.size.mas_equalTo(CGSizeMake(180, 80));
+        make.top.mas_equalTo(videoProgress.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.size.mas_equalTo(CGSizeMake(180, 40));
     }];
     
     //调节.
-    slide=[self createSlide:btnFilter min:0.0f max:1.0f value:0.5f tag:101 labText:@"全部滤镜调节 "];
-    
-    UIBarButtonItem *barItemEdit=[[UIBarButtonItem alloc] initWithTitle:@"后台滤镜" style:UIBarButtonItemStyleDone target:self action:@selector(doButtonClicked:)];
-    barItemEdit.tag=602;
-    self.navigationItem.rightBarButtonItem = barItemEdit;
-    
-    UIView *vline=[[UIView alloc] init];
-    vline.backgroundColor=[UIColor redColor];
-    [self.view addSubview:vline];
-    [vline mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(slide.mas_bottom).offset(6);
-        make.left.mas_equalTo(_labProgress.mas_left);
-        make.size.mas_equalTo(CGSizeMake(size.width, 1));
-    }];
-    
+    filterAdjust=[self createSlide:btnFilter min:0.0f max:1.0f value:0.5f tag:102 labText:@"滤镜调节 "];
     
     UILabel *labHint=[[UILabel alloc] init];
     labHint.text=@"举例常用滤镜";
     [self.view addSubview:labHint];
     [labHint mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(vline.mas_bottom).offset(2);
-        make.left.mas_equalTo(_labProgress.mas_left);
-        make.size.mas_equalTo(CGSizeMake(180, 80));
+        make.top.mas_equalTo(filterAdjust.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.size.mas_equalTo(CGSizeMake(180, 40));
     }];
     _collectionView =[self createUICollectionView];
+    
+    
+    UIBarButtonItem *barItemEdit=[[UIBarButtonItem alloc] initWithTitle:@"后台滤镜" style:UIBarButtonItemStyleDone target:self action:@selector(doButtonClicked:)];
+    barItemEdit.tag=602;
+    self.navigationItem.rightBarButtonItem = barItemEdit;
 }
 
 -(void)doButtonClicked:(UIView *)sender
@@ -325,8 +322,13 @@
 - (void)slideChanged:(UISlider*)sender
 {
     switch (sender.tag) {
-        case 101:  //weizhi
-            [filterListVC updateFilterFromSlider:sender];
+        case 101:  //进度调节;
+            if(drawpadPreview!=nil){
+                [drawpadPreview.videoPen seekToPercent:sender.value];
+            }
+            break;
+        case 102:  //后台滤镜;
+              [filterListVC updateFilterFromSlider:sender];
             break;
         default:
             break;
@@ -345,6 +347,7 @@
         
     }
 }
+
 /**
  初始化一个slide 返回这个UISlider对象
  */
@@ -372,7 +375,7 @@
     
     
     [labPos mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(topView.mas_bottom).offset(2);
+        make.top.mas_equalTo(topView.mas_bottom);
         make.left.mas_equalTo(self.view.mas_left);
         make.size.mas_equalTo(CGSizeMake(120, 40));
     }];

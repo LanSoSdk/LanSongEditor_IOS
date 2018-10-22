@@ -1,6 +1,6 @@
 //
 //  LSOAnimationCache.h
-//  Lottie
+  
 //
 //  Created by Brandon Withrow on 1/9/17.
 //  Copyright © 2017 Brandon Withrow. All rights reserved.

@@ -12,8 +12,6 @@
 
 @interface FilterVideoDemoVC : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property UILabel *labProgress;
-
 @property(nonatomic,strong)UICollectionView *collectionView;
 
 @end

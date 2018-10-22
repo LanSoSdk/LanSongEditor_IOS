@@ -73,9 +73,9 @@
     
     UIView *btn1=[self createButtons];
     
-    UIView *currslide=  [self createSlide:btn1 min:0.0f max:2.0f value:0.5f tag:601 labText:@"速度:"];
-    UIView *currslide2=  [self createSlide:currslide min:0.0f max:2.0f value:0.5f tag:602 labText:@"移动:"];
-    [self createSlide:currslide2 min:0.0f max:2.0f value:0.5f tag:603 labText:@"缩放:"];
+    UIView *currslide=  [self createSlide:btn1 min:0.0f max:1.0f value:0.5f tag:601 labText:@"速度:"];
+    UIView *currslide2=  [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:602 labText:@"移动:"];
+    [self createSlide:currslide2 min:0.0f max:1.0f value:0.5f tag:603 labText:@"缩放:"];
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -106,8 +106,19 @@
     UIImage *image=[UIImage imageNamed:@"mm"];
     bmpPen=[drawpadPreview addBitmapPen:image];
     
-    __weak typeof(self) weakSelf = self;
+        //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+        UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+        view.backgroundColor=[UIColor clearColor];
+        //在view上增加其他ui
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
+        label.text=@"测试文字123abc";
+        label.textColor=[UIColor redColor];
+        [view addSubview:label];
+        [self.view addSubview:view];
+        [drawpadPreview addViewPen:view isFromUI:YES];
     
+    
+    __weak typeof(self) weakSelf = self;
     //设置预览进度;
     [drawpadPreview setProgressBlock:^(CGFloat progress) {
         [weakSelf progressBlock:progress];
@@ -150,7 +161,6 @@
 {
     switch (sender.tag) {
         case 101 :  //开始录制
-           // [drawpadPreview setRecordSize:CGSizeMake(540, 900)];
             [drawpadPreview startRecord];
             break;
         case  102:  //停止录制
@@ -183,6 +193,26 @@
             }else{
                 [LanSongUtils showDialog:@"没有录制的视频"];
             }
+            break;
+        default:
+            break;
+    }
+}
+- (void)slideChanged:(UISlider*)sender
+{
+    CGFloat val=[(UISlider *)sender value];
+    switch (sender.tag) {
+        case 601:
+            videoPen.avplayer.rate=val*2;  //速度在0.0---2.0之间;
+            break;
+        case 602:
+            {  //从屏幕的最左侧,移动到屏幕的最右侧;
+                CGFloat posX=(videoPen.drawPadSize.width +videoPen.penSize.width)*val -videoPen.penSize.width/2;
+                videoPen.positionX=posX;
+            }
+            break;
+        case 603:
+            videoPen.scaleWH=val*4;  //乘以4 是为了放大一些, 方便直观演示而已,实际可任意;
             break;
         default:
             break;
@@ -255,26 +285,6 @@
     [btn addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     return btn;
-}
-- (void)slideChanged:(UISlider*)sender
-{
-    CGFloat val=[(UISlider *)sender value];
-    switch (sender.tag) {
-        case 601:
-            videoPen.avplayer.rate=val;  //速度在0.0---2.0之间;
-            break;
-        case 602:
-            videoPen.positionX=videoPen.positionX+10;  //移动
-            if(videoPen.positionX>(videoPen.drawPadSize.width + videoPen.penSize.width/2)){
-                videoPen.positionX=0;
-            }
-            break;
-        case 603:
-            videoPen.scaleWH=val*2;
-            break;
-        default:
-            break;
-    }
 }
 -(UIView *)createSlide:(UIView *)parentView  min:(CGFloat)min max:(CGFloat)max  value:(CGFloat)value tag:(int)tag labText:(NSString *)text;
 

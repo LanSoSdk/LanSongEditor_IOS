@@ -43,7 +43,6 @@
 - (id)initWithURL:(NSURL *)url padSize:(CGSize)size;
 - (id)initWithAsset:(AVAsset *)asset padSize:(CGSize)size;
 
-
 - (void)yuvConversionSetup;
 
 /// @name Movie processing

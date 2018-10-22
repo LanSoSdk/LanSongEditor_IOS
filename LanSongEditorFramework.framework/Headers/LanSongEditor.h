@@ -17,7 +17,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <LanSongEditor/PublicHeader.h>
 
 
-//**************************容器类(7个)***********************************
+//**************************容器类(8个)***********************************
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
 
@@ -29,6 +29,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //AE模板的前台预览容器
 #import <LanSongEditorFramework/DrawPadAEPreview.h>
+#import <LanSongEditorFramework/BitmapPadPreview.h>
 
 //录制视频容器:录制视频
 #import <LanSongEditorFramework/DrawPadCameraPreview.h>
@@ -85,6 +86,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //音频录制类
 #import <LanSongEditorFramework/LanSongAudioRecorder.h>
 
+//视频转换为编辑模式.
+#import <LanSongEditorFramework/LanSongEditMode.h>
 
 //*************************辅助, 常见功能处理类**************************
 #import <LanSongEditorFramework/LanSongLog.h>
@@ -97,26 +100,21 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //创建临时 处理文件的头文件
 #import <LanSongEditorFramework/LanSongFileUtil.h>
 
-//处理图片的一些公共fang函数.(持续增加)
+//处理图片的一些公共函数.(持续增加)
 #import <LanSongEditorFramework/LanSongImageUtil.h>
 
 //*************************杂项**************************
 
-//我们用来测试代码的UIViewController
-#import <LanSongEditorFramework/LanSongTESTVC.h>
-//lottie的一些库文件
 #import <LanSongEditorFramework/LSOValueDelegate.h>
-#import <LanSongEditorFramework/LSOAnimatedControl.h>
-#import <LanSongEditorFramework/LSOCacheProvider.h>
-#import <LanSongEditorFramework/LSOKeypath.h>
-#import <LanSongEditorFramework/LSOInterpolatorCallback.h>
+//#import <LanSongEditorFramework/LSOAnimatedControl.h>
+//#import <LanSongEditorFramework/LSOCacheProvider.h>
+//#import <LanSongEditorFramework/LSOKeypath.h>
+//#import <LanSongEditorFramework/LSOInterpolatorCallback.h>
 #import <LanSongEditorFramework/LSOAnimatedSwitch.h>
 #import <LanSongEditorFramework/LSOAnimationCache.h>
-#import <LanSongEditorFramework/LSOlottie.h>
 #import <LanSongEditorFramework/LSOComposition.h>
 #import <LanSongEditorFramework/LSOAnimationTransitionController.h>
 #import <LanSongEditorFramework/LSOAnimationView.h>
-#import <LanSongEditorFramework/LSOAnimationView_Compat.h>
 #import <LanSongEditorFramework/LSOValueCallback.h>
 #import <LanSongEditorFramework/LSOBlockCallback.h>
 #import <LanSongEditorFramework/LanSongLSOInfo.h>
@@ -173,7 +171,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  
  建议在initSDK的时候设置;
  */
-+(void)setGenTempFileDir:(NSString *)path;
++(void)setTempFileDir:(NSString *)path;
 /**
  我们的内部默认以当前时间为文件名; 比如:20180906094232_092.mp4
  你可以在这个时间前面增加一些字符串,比如增加用户名,手机型号等等;
@@ -181,5 +179,18 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  prefix:xiaoming_iphone6s; 则生成的文件名是: xiaoming_iphone6s20180906094232_092.mp4
  @param prefix
  */
-+(void)setGenTempFilePrefix:(NSString *)prefix;
++(void)setTempFilePrefix:(NSString *)prefix;
+
+
+
+
+/**
+ 设置在编码的时候, 编码成 编辑模式的视频;
+ 我们内部定义一种视频格式,命名为:编辑模式;
+ 这样的视频: 会极速的定位到指定的一帧;像翻书一样的翻看每一帧视频;
+ 
+ @param as 是否为编辑模式. 默认不是编辑模式;
+ */
++(void)setEncodeVideoAsEditMode:(BOOL)as;
+
 @end

@@ -24,14 +24,20 @@
     
     NSURL *bgVideoURL;
     
-    NSURL *mvColor;
-    NSURL *mvMask;
+    NSURL *mvColorURL;
+    NSURL *mvMaskURL;
     
     NSString *json1Path;
+    NSURL *addAudioURL;
     
     UIImage *json1Image0;
     UIImage *json1Image1;
     UIImage *json1Image2;
+    UIImage *json1Image3;
+    UIImage *json1Image4;
+    UIImage *json1Image5;
+    UIImage *json1Image6;
+    UIImage *json1Image7;
 }
 @end
 
@@ -45,8 +51,8 @@
     json1Image0=nil;
     json1Path=nil;
     bgVideoURL=nil;
-    mvMask=nil;
-    mvColor=nil;
+    mvMaskURL=nil;
+    mvColorURL=nil;
     
     [self createData];
     [self startAEPreview:NO];
@@ -81,9 +87,8 @@
     json1Image0=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
     NSString *jsonName=@"aobama";
     json1Path=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-    mvColor=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
-    mvMask = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
-    
+    mvColorURL=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
+    mvMaskURL = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
 }
 -(void)startAEPreview:(BOOL)isEncode
 {
@@ -98,13 +103,19 @@
     }
     
     //2.增加json图层;
-    LSOAnimationView *lottieView=[aePreview addAEJsonPath:json1Path];
-    [lottieView updateImageWithKey:@"image_0" image:json1Image0];
-    [lottieView updateImageWithKey:@"image_1" image:json1Image1];
-    [lottieView updateImageWithKey:@"image_2" image:json1Image2];
+    LSOAnimationView *aeView=[aePreview addAEJsonPath:json1Path];
+    [aeView updateImageWithKey:@"image_0" image:json1Image0];
+    [aeView updateImageWithKey:@"image_1" image:json1Image1];
+    [aeView updateImageWithKey:@"image_2" image:json1Image2];
+    [aeView updateImageWithKey:@"image_3" image:json1Image3];
+    [aeView updateImageWithKey:@"image_4" image:json1Image4];
+    [aeView updateImageWithKey:@"image_5" image:json1Image5];
+    [aeView updateImageWithKey:@"image_6" image:json1Image6];
+    [aeView updateImageWithKey:@"image_7" image:json1Image7];
     
     
-    drawpadSize=aePreview.drawpadSize;  //容器大小,应该在增加图层后获取;
+    //容器大小,在增加图层后获取;
+    drawpadSize=aePreview.drawpadSize;
     //3.创建显示窗口
     CGSize size=self.view.frame.size;
     if(lansongView==nil){
@@ -114,8 +125,8 @@
     [aePreview addLanSongView:lansongView];
     
     //4.如果有mv图层, 则再增加一层MV
-    if(mvColor!=nil && mvMask!=nil){  //增加mv图层;
-         [aePreview addMVPen:mvColor withMask:mvMask];
+    if(mvColorURL!=nil && mvMaskURL!=nil){
+         [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
      }
     
     //5.增加回调
@@ -163,16 +174,16 @@
     }
     //增加json层
     if(json1Path!=nil){
-        LSOAnimationView *lottieView=[aeExecute addAEJsonPath:json1Path];
+        LSOAnimationView *aeView1=[aeExecute addAEJsonPath:json1Path];
         if(json1Image0!=nil){
-            [lottieView updateImageWithKey:@"image_0" image:json1Image0];
+            [aeView1 updateImageWithKey:@"image_0" image:json1Image0];
         }
-        [lottieView updateImageWithKey:@"image_1" image:json1Image1];  //增加其他各种图片;
+        [aeView1 updateImageWithKey:@"image_1" image:json1Image1];  //增加其他各种图片;
     }
     
     //再增加mv图层;
-    if(mvColor!=nil && mvMask!=nil){
-        [aeExecute addMVPen:mvColor withMask:mvMask];
+    if(mvColorURL!=nil && mvMaskURL!=nil){
+        [aeExecute addMVPen:mvColorURL withMask:mvMaskURL];
     }
     
     //开始执行

@@ -41,6 +41,34 @@
  */
 @property(nonatomic) AVPlayer *avplayer;
 
+
+/**
+ 当前视频的时长;
+ */
+@property(nonatomic) CGFloat duration;
+
+
+/**
+ 定位到指定时间;
+
+ @param timeS 单位秒
+ */
+-(void)seekToTime:(CGFloat)timeS;
+
+
+/**
+ 定位 到 百分比; 比如 percent=0.1--0.5--1.0;
+ 
+ */
+-(void)seekToPercent:(CGFloat)percent;
+
+/**
+ 定位后 暂停;
+ @param timeS 单位秒
+ */
+-(void)seekToTimePause:(CGFloat)timeS;
+
+
 /**
  设置avplayer的播放速度, 范围从0.0--2.0;
  内部等于_avplayer.rate=rate;

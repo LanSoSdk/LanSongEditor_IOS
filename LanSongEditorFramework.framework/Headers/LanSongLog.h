@@ -24,5 +24,8 @@
 #define LANSOSDKLine ;
 #endif
 
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+
 //-------LANSO++  END
 

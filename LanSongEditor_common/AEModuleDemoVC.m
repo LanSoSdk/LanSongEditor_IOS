@@ -1,5 +1,4 @@
 //
-//  TESTLottie2VC.m
 //  LanSongEditor_all
 //
 //  Created by sno on 2018/6/22.
@@ -62,7 +61,7 @@
     }else if(_AeType==AEDEMO_XIANZI){ //紫霞仙子
         [self testZixianXiaZi];
     }else{
-        LSLog(@"AeType unkonw :%d",_AeType);
+        [self testJson];
     }
 }
 -(void)testAobama
@@ -75,13 +74,12 @@
         //增加AE图层, AE=json+image
         jsonImage0=[self createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
         NSString *jsonName=@"aobama";
-        jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-
+        jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
         //开始创建, 先增加一个视频;
         drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
-        //增加lottie层
-        LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
-        [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+        //增加Ae json层
+        LSOAnimationView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
+        [aeView updateImageWithKey:@"image_0" image:jsonImage0];
 
         //再增加mv图层;
         mvColor=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
@@ -98,14 +96,14 @@
     NSString *jsonName=@"zaoan";
     mvColor=[[NSBundle mainBundle] URLForResource:@"zaoan_mvColor" withExtension:@"mp4"];
     mvMask=[[NSBundle mainBundle] URLForResource:@"zaoan_mvMask" withExtension:@"mp4"];
-    jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
+     jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
     jsonImage0=[UIImage imageNamed:@"zaoan"];
     
     drawpadExecute=[[DrawPadAEExecute alloc] init];
-    //增加lottie层;
-    LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
+    //增加Ae json层;
+    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
     if(jsonImage0!=nil){
-        [lottieView updateImageWithKey:@"image_0" image:jsonImage0];
+        [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
     }
     
     //增加mv层;
@@ -122,14 +120,13 @@
         NSString *jsonName=@"zixiaxianzi";
         mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
         mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
-        jsonPath=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-    
+        jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
     //开始创建
         drawpadExecute=[[DrawPadAEExecute alloc] init];
-        //增加lottie层;
-        LSOAnimationView *lottieView=[drawpadExecute addAEJsonPath:jsonPath];
-        [lottieView updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"zixiaxianzi_img0"]];
-        [lottieView updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"zixiaxianzi_img1"]];
+        //增加Ae json层;
+        LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+        [aeView1 updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"zixiaxianzi_img0"]];
+        [aeView1 updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"zixiaxianzi_img1"]];
 
         //增加mv层;
         if(mvColor!=nil && mvMask!=nil){
@@ -214,7 +211,34 @@
     
     return image;
 }
+
 -(void)dealloc{
+}
+-(void)resetData
+{
+    jsonPath=nil;
+    mvMask=nil;
+    mvColor=nil;
+    videoURL=nil;
+    jsonImage0=nil;
+    jsonImage1=nil;
+}
+-(void) testJson
+{
+    [self resetData];
+    
+    NSString *jsonName=@"test_image3";
+    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
+
+    //开始创建
+    drawpadExecute=[[DrawPadAEExecute alloc] init];
+    //增加Ae json层;
+    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+    [aeView1 updateImage:@"image_0" image:[UIImage imageNamed:@"test_image3_img_0"]];
+    [aeView1 updateImage:@"image_1" image:[UIImage imageNamed:@"test_image3_img_1"]];
+    [aeView1 updateImage:@"image_2" image:[UIImage imageNamed:@"test_image3_img_2"]];
+    
+    [self startAE];  //开始执行;
 }
 @end
 

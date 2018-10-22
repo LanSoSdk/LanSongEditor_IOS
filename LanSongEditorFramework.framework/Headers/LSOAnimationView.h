@@ -1,26 +1,23 @@
 //
 //  LSOAnimationView
-//  LottieAnimator
 //
 //  Created by Brandon Withrow on 12/14/15.
 //  Copyright © 2015 Brandon Withrow. All rights reserved.
 //  Dream Big.
 
 #import <Foundation/Foundation.h>
-#import "LSOAnimationView_Compat.h"
+#import <UIKit/UIKit.h>
 #import "LSOComposition.h"
 #import "LSOKeypath.h"
 #import "LSOValueDelegate.h"
 
+
 typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
-//LSOView 在ios系统中, 就是UIView; 等于这个继承自UIView
-@interface LSOAnimationView : LSOView
+@interface LSOAnimationView : UIView
 
-/// Load animation by name from the default bundle, Images are also loaded from the bundle
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(init(name:));
 
-/// Loads animation by name from specified bundle, Images are also loaded from the bundle
 
 /**
  @param animationName json文件
@@ -29,10 +26,8 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 
-/// Creates an animation from the deserialized JSON Dictionary
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 
-/// Loads an animation from a specific file path. WARNING Do not use a web URL for file path.
 /**
  从指定位置 增加动画文件json;
  从main bundle中找images文件夹;
@@ -42,28 +37,20 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 + (nonnull instancetype)animationWithFilePath:(nonnull NSString *)filePath NS_SWIFT_NAME(init(filePath:));
 
-/// Creates an animation from the deserialized JSON Dictionary, images are loaded from the specified bundle
 + (nonnull instancetype)animationFromJSON:(nullable NSDictionary *)animationJSON inBundle:(nullable NSBundle *)bundle NS_SWIFT_NAME(init(json:bundle:));
 
-/// Creates an animation from the LSOComposition, images are loaded from the specified bundle
 - (nonnull instancetype)initWithModel:(nullable LSOComposition *)model inBundle:(nullable NSBundle *)bundle;
 
-/// Loads animation asynchronously from the specified URL
 - (nonnull instancetype)initWithContentsOfURL:(nonnull NSURL *)url;
 
-/// Set animation name from Interface Builder
 @property (nonatomic, strong) IBInspectable NSString * _Nullable animation;
 
-/// Load animation by name from the default bundle. Use when loading LSOAnimationView via Interface Builder.
 - (void)setAnimationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(setAnimation(named:));
 
-/// Flag is YES when the animation is playing
 @property (nonatomic, readonly) BOOL isAnimationPlaying;
 
-/// Tells the animation to loop indefinitely. Defaults to NO.
 @property (nonatomic, assign) BOOL loopAnimation;
 
-/// The animation will play forward and then backwards if loopAnimation is also YES
 @property (nonatomic, assign) BOOL autoReverseAnimation;
 
 /// Sets a progress from 0 - 1 of the animation. If the animation is playing it will stop and the completion block will be called.
@@ -72,7 +59,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /// or negative speed.
 @property (nonatomic, assign) CGFloat animationProgress;
 
-/// Sets the speed of the animation. Accepts a negative value for reversing animation.
 @property (nonatomic, assign) CGFloat animationSpeed;
 
 /// Read only of the duration in seconds of the animation at speed of 1
@@ -220,8 +206,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
  See the documentation for LSOKeypath to learn more about how to create keypaths.
 
- NOTE: The delegate is weakly retained. Be sure that the creator of a delegate is retained.
- Read More at http://airbnb.io/lottie/ios/dynamic.html
  */
 - (void)setValueDelegate:(id<LSOValueDelegate> _Nonnull)delegates
               forKeypath:(LSOKeypath * _Nonnull)keypath;
@@ -258,13 +242,13 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /*!
  @brief Adds a UIView, or NSView, to the renderable layer found at the Keypath
  */
-- (void)addSubview:(nonnull LSOView *)view
+- (void)addSubview:(nonnull UIView *)view
     toKeypathLayer:(nonnull LSOKeypath *)keypath;
 
 /*!
  @brief Adds a UIView, or NSView, to the parentrenderable layer found at the Keypath and then masks the view with layer found at the keypath.
  */
-- (void)maskSubview:(nonnull LSOView *)view
+- (void)maskSubview:(nonnull UIView *)view
      toKeypathLayer:(nonnull LSOKeypath *)keypath;
 
 #if !TARGET_OS_IPHONE && !TARGET_OS_SIMULATOR
@@ -291,8 +275,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
  @param applyTransform If YES the custom view will be animated to move with the specified After Effects layer. If NO the custom view will be masked by the After Effects layer
  */
-- (void)addSubview:(nonnull LSOView *)view
-      toLayerNamed:(nonnull NSString *)layer
+- (void)addSubview:(nonnull UIView *)view toLayerNamed:(nonnull NSString *)layer
     applyTransform:(BOOL)applyTransform __deprecated;
 
 /*!

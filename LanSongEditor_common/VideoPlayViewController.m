@@ -91,6 +91,7 @@
     
     
     layer.frame = CGRectMake(0, 150, [UIScreen mainScreen].bounds.size.width, 300);
+//    layer.frame = CGRectMake(0, 50, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-50);
     layer.backgroundColor = [UIColor whiteColor].CGColor;
     
     layer.videoGravity = AVLayerVideoGravityResizeAspect;

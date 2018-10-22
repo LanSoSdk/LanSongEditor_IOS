@@ -1,6 +1,5 @@
 //
 //  LSOValueCallback.h
-//  Lottie
 //
 //  Created by brandon_withrow on 12/15/17.
 //  Copyright © 2017 Airbnb. All rights reserved.

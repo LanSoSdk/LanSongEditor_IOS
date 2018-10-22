@@ -270,6 +270,25 @@
  */
 +(void)saveUIImageToPhotosAlbum:(UIImage *)image;
 
+
+/**
+ 把UIView保存到相册,支持OpenGL渲染出来的View;
+
+ 不支持包括AVCaptureVideoPreviewLayer 和 AVSampleBufferDisplayLayer的View
+ @param image
+ */
++(void)saveUIViewToPhotosAlbum:(UIView *)image;
+
+
+/**
+ 把UIView保存到默认位置;
+ */
++(NSString *)saveUIView:(UIView *)view;
+
+
+/**
+ 用颜色创建一张图片;
+ */
 + (UIImage *)createImageWithSingleColor:(UIColor *)color size:(CGSize)size;
 
 /**
