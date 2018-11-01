@@ -13,6 +13,8 @@
 
 [更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)
 
+## 架构介绍
+![架构示意图](https://github.com/LanSoSdk/LanSoEditor_advance/blob/master/SDK%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%89%87.png)
 ### 架构1: 图层
 *   类似ios中的UI布局, 或者类似 adobe Affect Effect 动画处理一样, 我们的SDK是基于图层架构设计, 所有的素材,都是一层一层的处理;
 *   我们设计了一个容器概念, 命名为Drawpad, 向内部增加各种图层, 比如视频图层, 图片图层, mv图层等, 既可完成视频处理;
