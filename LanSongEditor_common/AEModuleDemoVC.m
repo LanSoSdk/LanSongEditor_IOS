@@ -231,21 +231,6 @@
 -(void) testJson
 {
     [self resetData];
-    
-//    NSString *jsonName=@"test_image3";
-//    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-//
-//    //开始创建
-//    drawpadExecute=[[DrawPadAEExecute alloc] init];
-//    //增加Ae json层;
-//    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
-//    [aeView1 updateImage:@"image_0" image:[UIImage imageNamed:@"test_image3_img_0"]];
-//    [aeView1 updateImage:@"image_1" image:[UIImage imageNamed:@"test_image3_img_1"]];
-//    [aeView1 updateImage:@"image_2" image:[UIImage imageNamed:@"test_image3_img_2"]];
-//
-//    [self startAE];  //开始执行;
-    [self testZixianXiaZi];
-    
 }
 @end
 
