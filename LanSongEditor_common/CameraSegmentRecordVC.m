@@ -46,7 +46,11 @@
     NSString *dstPath;
     
     Pen *operationPen;  //当前操作的图层
+    
+    
     FilterTpyeList *filterListVC;
+    
+    
     LanSongView2  *lansongView;
     DrawPadCameraPreview *drawPadCamera;
     

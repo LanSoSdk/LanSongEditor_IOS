@@ -10,10 +10,10 @@
 
 #import "LanSongUtils.h"
 #import "VideoPlayViewController.h"
+#import "LSDrawView.h"
 
 @interface GameVideoDemoVC ()
 {
-    
     MediaInfo *mediaInfo;
     DrawPadVideoPreview *drawpadPreview;
     
@@ -106,14 +106,14 @@
     UIImage *image=[UIImage imageNamed:@"mm"];
     bmpPen=[drawpadPreview addBitmapPen:image];
     
-        //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+    //增加UI图层, 这个图层的功能是涂鸦;
         UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
         view.backgroundColor=[UIColor clearColor];
-        //在view上增加其他ui
-        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
-        label.text=@"测试文字123abc";
-        label.textColor=[UIColor redColor];
-        [view addSubview:label];
+        LSDrawView *drawView=[[LSDrawView alloc] initWithFrame:CGRectMake(0, 0, lansongView.frame.size.width, lansongView.frame.size.height)];
+        drawView.brushColor = UIColorFromRGB(255, 255, 0);
+        drawView.shapeType = LSShapeCurve;  //形状是曲线;
+        [view addSubview:drawView];
+
         [self.view addSubview:view];
         [drawpadPreview addViewPen:view isFromUI:YES];
     

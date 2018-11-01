@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, LSShapeType)
 
 @interface LSDrawView : UIView
 
+- (instancetype)initWithFrame:(CGRect)frame;
+
 //颜色
 @property (strong, nonatomic) UIColor *brushColor;
 //是否是橡皮擦

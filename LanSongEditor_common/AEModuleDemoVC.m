@@ -121,12 +121,17 @@
         mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
         mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
         jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-    //开始创建
+        jsonImage0=[UIImage imageNamed:@"zixiaxianzi_img0"];
+        jsonImage1=[UIImage imageNamed:@"zixiaxianzi_img1"];
+    
+    
+    
+        //开始创建
         drawpadExecute=[[DrawPadAEExecute alloc] init];
         //增加Ae json层;
         LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
-        [aeView1 updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"zixiaxianzi_img0"]];
-        [aeView1 updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"zixiaxianzi_img1"]];
+        [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
+        [aeView1 updateImageWithKey:@"image_1" image:jsonImage1];
 
         //增加mv层;
         if(mvColor!=nil && mvMask!=nil){
@@ -227,18 +232,20 @@
 {
     [self resetData];
     
-    NSString *jsonName=@"test_image3";
-    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-
-    //开始创建
-    drawpadExecute=[[DrawPadAEExecute alloc] init];
-    //增加Ae json层;
-    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
-    [aeView1 updateImage:@"image_0" image:[UIImage imageNamed:@"test_image3_img_0"]];
-    [aeView1 updateImage:@"image_1" image:[UIImage imageNamed:@"test_image3_img_1"]];
-    [aeView1 updateImage:@"image_2" image:[UIImage imageNamed:@"test_image3_img_2"]];
+//    NSString *jsonName=@"test_image3";
+//    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
+//
+//    //开始创建
+//    drawpadExecute=[[DrawPadAEExecute alloc] init];
+//    //增加Ae json层;
+//    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+//    [aeView1 updateImage:@"image_0" image:[UIImage imageNamed:@"test_image3_img_0"]];
+//    [aeView1 updateImage:@"image_1" image:[UIImage imageNamed:@"test_image3_img_1"]];
+//    [aeView1 updateImage:@"image_2" image:[UIImage imageNamed:@"test_image3_img_2"]];
+//
+//    [self startAE];  //开始执行;
+    [self testZixianXiaZi];
     
-    [self startAE];  //开始执行;
 }
 @end
 

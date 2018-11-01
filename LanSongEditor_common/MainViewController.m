@@ -27,13 +27,17 @@
 #import "AEPreviewDemo.h"
 
 #import "VideoEffectVC.h"
+#import "BitmapPadPreviewDemoVC.h"
 #import "LSOLocalVideoVC.h"
+#import "LSDrawView.h"
 
 
 @interface MainViewController ()
 {
     UIView  *container;
     UILabel *labPath; // 视频路径.
+    
+    
 }
 @end
 
@@ -78,7 +82,7 @@
     /*
      初始化SDK
      */
-    if([LanSongEditor initSDK:nil]==NO){
+     if([LanSongEditor initSDK:nil]==NO){
         [self showSDKOutTimeWarnning];
     }
     /*
@@ -87,6 +91,8 @@
     [LanSongFileUtil deleteAllSDKFiles];
   
     [self initView];
+    
+    [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -368,5 +374,29 @@
 {
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
+}
+-(void)testFile
+{
+//    NSString *defaultVideo=@"dy_xialu2";
+//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
+//    if(sampleURL!=nil){
+//        labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
+//        [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
+//    }else{
+//        NSLog(@"视频不存在.%@",defaultVideo);
+//    }
+//
+//    UIViewController  *pushVC=[[AEPreviewDemo alloc] init];
+//    [self.navigationController pushViewController:pushVC animated:YES];
+    
+    
+    
+    
+    
+    
+//    LSDrawView *drawView=[[LSDrawView alloc] initWithFrame:self.view.frame];
+//    drawView.brushColor = UIColorFromRGB(255, 255, 0);
+//    drawView.shapeType = LSShapeCurve;  //形状是曲线;
+//    [self.view addSubview:drawView];
 }
 @end

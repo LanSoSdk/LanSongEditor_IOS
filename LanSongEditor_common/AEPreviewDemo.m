@@ -55,7 +55,7 @@
     mvColorURL=nil;
     
     [self createData];
-    [self startAEPreview:NO];
+    [self startAEPreview];
     
     
     UIView *view=[self newButton:lansongView index:201 hint:@"替换图片"];
@@ -83,14 +83,23 @@
  */
 -(void)createData
 {
+    bgVideoURL=nil;
+    
     bgVideoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
     json1Image0=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
     NSString *jsonName=@"aobama";
     json1Path=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
     mvColorURL=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
     mvMaskURL = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
+    
+//    NSString *jsonName=@"zaoan";
+//    mvColorURL=[[NSBundle mainBundle] URLForResource:@"zaoan_mvColor" withExtension:@"mp4"];
+//    mvMaskURL=[[NSBundle mainBundle] URLForResource:@"zaoan_mvMask" withExtension:@"mp4"];
+//    json1Path= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
+//    json1Image0=[UIImage imageNamed:@"zaoan"];
+   
 }
--(void)startAEPreview:(BOOL)isEncode
+-(void)startAEPreview
 {
     [self stopAePreview];
     [self stopAeExecute];
@@ -103,15 +112,17 @@
     }
     
     //2.增加json图层;
-    LSOAnimationView *aeView=[aePreview addAEJsonPath:json1Path];
-    [aeView updateImageWithKey:@"image_0" image:json1Image0];
-    [aeView updateImageWithKey:@"image_1" image:json1Image1];
-    [aeView updateImageWithKey:@"image_2" image:json1Image2];
-    [aeView updateImageWithKey:@"image_3" image:json1Image3];
-    [aeView updateImageWithKey:@"image_4" image:json1Image4];
-    [aeView updateImageWithKey:@"image_5" image:json1Image5];
-    [aeView updateImageWithKey:@"image_6" image:json1Image6];
-    [aeView updateImageWithKey:@"image_7" image:json1Image7];
+    if(json1Path!=nil){
+        LSOAnimationView *aeView=[aePreview addAEJsonPath:json1Path];
+        [aeView updateImageWithKey:@"image_0" image:json1Image0];
+        [aeView updateImageWithKey:@"image_1" image:json1Image1];
+        [aeView updateImageWithKey:@"image_2" image:json1Image2];
+        [aeView updateImageWithKey:@"image_3" image:json1Image3];
+        [aeView updateImageWithKey:@"image_4" image:json1Image4];
+        [aeView updateImageWithKey:@"image_5" image:json1Image5];
+        [aeView updateImageWithKey:@"image_6" image:json1Image6];
+        [aeView updateImageWithKey:@"image_7" image:json1Image7];
+    }
     
     
     //容器大小,在增加图层后获取;
@@ -139,24 +150,14 @@
     }];
     
     [aePreview setCompletionBlock:^(NSString *path) {
-            if(isEncode==NO){
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf startAEPreview:NO];  //如果没有编码,则让他循环播放
-                      });
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf drawpadCompleted:path];
-                });
-            }
+          dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf startAEPreview];  //如果没有编码,则让他循环播放
+              });
     }];
     videoPen=aePreview.videoPen;
     
-    //6.开始执行,并编码
-    if(isEncode){
-       [aePreview startWithEncode];
-    }else{
-        [aePreview start];
-    }
+    //6.开始执行,
+    [aePreview start];
 }
 
 /**
@@ -174,11 +175,9 @@
     }
     //增加json层
     if(json1Path!=nil){
-        LSOAnimationView *aeView1=[aeExecute addAEJsonPath:json1Path];
-        if(json1Image0!=nil){
-            [aeView1 updateImageWithKey:@"image_0" image:json1Image0];
-        }
-        [aeView1 updateImageWithKey:@"image_1" image:json1Image1];  //增加其他各种图片;
+        LSOAnimationView *aeView=[aeExecute addAEJsonPath:json1Path];
+        [aeView updateImageWithKey:@"image_0" image:json1Image0];
+        [aeView updateImageWithKey:@"image_1" image:json1Image1];
     }
     
     //再增加mv图层;
@@ -265,7 +264,7 @@
     
     switch (sender.tag) {
         case 201:  //替换图片
-            [LanSongUtils showDialog:@"为演示代码简洁, 这里暂时省去选择图片的代码"];
+            [LanSongUtils showDialog:@"为演示代码简洁, 暂时不选择图片, 此演示代码公开,请在代码中修改."];
             //  jsonImage0= 图片暂时不变;
              break;
         case 202:  //后台处理

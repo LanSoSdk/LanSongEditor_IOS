@@ -24,6 +24,7 @@
     return ([CAShapeLayer class]);
 }
 
+//Lansong++ 存储每个点;
 - (void)setBrush:(LSBrush *)brush
 {
     CAShapeLayer *shapeLayer = (CAShapeLayer *)self.layer;
@@ -86,6 +87,8 @@
     {
         self.backgroundColor = [UIColor clearColor];
         
+        
+        
         _brushArray = [NSMutableArray new];
         //        _undoArray = [NSMutableArray new];
         //        _redoArray = [NSMutableArray new];
@@ -113,7 +116,6 @@
         //linyl
         _dwawFile = [LSDrawFile new];
         _dwawFile.packageArray = [NSMutableArray new];
-        
     }
     return self;
 }
@@ -262,7 +264,7 @@
     //    brush.endPoint = point;
     
     //画布view与合成view 合成为一张图（使用融合卡）
-    UIImage *img = [self composeBrushToImage];
+//    UIImage *img = [self composeBrushToImage];
     //清空画布
     [_canvasView setBrush:nil];
     //保存到存储，撤销用。
@@ -329,22 +331,22 @@
 
 - (void)save
 {
-    UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0.0);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    [self.layer renderInContext:context];
-    
-    UIImage *getImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIImageWriteToSavedPhotosAlbum(getImage, nil, nil, nil);
-    UIGraphicsEndImageContext();
-    
-    //linyl
-    LSActionModel *actionModel = [LSActionModel new];
-    actionModel.ActionType = LSDrawActionSave;
-    
-    [self addModelToPackage:actionModel];
+//    UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0.0);
+//
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//
+//    [self.layer renderInContext:context];
+//
+//    UIImage *getImage = UIGraphicsGetImageFromCurrentImageContext();
+//
+//    UIImageWriteToSavedPhotosAlbum(getImage, nil, nil, nil);
+//    UIGraphicsEndImageContext();
+//
+//    //linyl
+//    LSActionModel *actionModel = [LSActionModel new];
+//    actionModel.ActionType = LSDrawActionSave;
+//
+//    [self addModelToPackage:actionModel];
     //linyl
 }
 
@@ -743,28 +745,28 @@
 - (void)drawEndPoint:(CGPoint) point
 {
     
-    uint count = ctr;
-    if (count <= 4 && _shapeType == LSShapeCurve)
-    {
-        for (int i = 4; i > count; i--)
-        {
-            [self drawMovePoint:point];
-        }
-        ctr = 0;
-    }
-    else
-    {
-        [self drawMovePoint:point];
-    }
-    
-    //画布view与合成view 合成为一张图（使用融合卡）
-    UIImage *img = [self composeBrushToImage];
-    //清空画布
-    [_canvasView setBrush:nil];
-    //保存到存储，撤销用。
-    //    [self saveTempPic:img];
-    
-    [self drawNextPackage];
+//    uint count = ctr;
+//    if (count <= 4 && _shapeType == LSShapeCurve)
+//    {
+//        for (int i = 4; i > count; i--)
+//        {
+//            [self drawMovePoint:point];
+//        }
+//        ctr = 0;
+//    }
+//    else
+//    {
+//        [self drawMovePoint:point];
+//    }
+//
+//    //画布view与合成view 合成为一张图（使用融合卡）
+////    UIImage *img = [self composeBrushToImage];
+//    //清空画布
+//    [_canvasView setBrush:nil];
+//    //保存到存储，撤销用。
+//    //    [self saveTempPic:img];
+//
+//    [self drawNextPackage];
 }
 
 //录制脚本

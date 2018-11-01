@@ -90,8 +90,6 @@
 		8B3D500920CB7A8F00B67DDC /* CommDemoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3D500820CB7A8F00B67DDC /* CommDemoItem.m */; };
 		8B3D500C20CB7AD400B67DDC /* CommDemoListTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3D500B20CB7AD400B67DDC /* CommDemoListTableVC.m */; };
 		8B610F51214219300079A948 /* GameVideoDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B610F50214219300079A948 /* GameVideoDemoVC.m */; };
-		8B62ECF6217DB62300FB357B /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B62ECF5217DB62300FB357B /* LanSongEditorFramework.framework */; };
-		8B62ECF8217DB6F400FB357B /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8B62ECF7217DB6F400FB357B /* LanSongEditorBundle.bundle */; };
 		8B7000FB21759FC40013BD98 /* LSOProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7000FA21759FC40013BD98 /* LSOProgressHUD.m */; };
 		8B7431B521212FAA0037EE3F /* VideoEffectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7431B421212FAA0037EE3F /* VideoEffectVC.m */; };
 		8B7431B9212158130037EE3F /* zaoan_mvColor.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B7431B7212157FD0037EE3F /* zaoan_mvColor.mp4 */; };
@@ -115,6 +113,9 @@
 		8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383E1D51ABE8007A353C /* OpenGLES.framework */; };
 		8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8638461D51AD0E007A353C /* QuartzCore.framework */; };
 		8B8673EB1F79BB2B008277EE /* SegmentRecordProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8673EA1F79BB2B008277EE /* SegmentRecordProgressView.m */; };
+		8B86F95E218AE47D009C70E2 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86F95D218AE47D009C70E2 /* LanSongEditorFramework.framework */; };
+		8B86F960218AE4C7009C70E2 /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8B86F95F218AE4C7009C70E2 /* LanSongEditorBundle.bundle */; };
+		8B890DD0217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B890DCF217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m */; };
 		8B93547A1FBC50F800014390 /* lookup_amatorka.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF761401F983A9600436073 /* lookup_amatorka.png */; };
 		8BA1B920204F95D300DBA5F0 /* lansongbeauty.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BA1B91F204F95D300DBA5F0 /* lansongbeauty.png */; };
 		8BB05E9C211040C100BDCDE4 /* zaoan.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BB05E98211040C100BDCDE4 /* zaoan.json */; };
@@ -303,8 +304,6 @@
 		8B3D500B20CB7AD400B67DDC /* CommDemoListTableVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommDemoListTableVC.m; sourceTree = "<group>"; };
 		8B610F4F214219300079A948 /* GameVideoDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameVideoDemoVC.h; sourceTree = "<group>"; };
 		8B610F50214219300079A948 /* GameVideoDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameVideoDemoVC.m; sourceTree = "<group>"; };
-		8B62ECF5217DB62300FB357B /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
-		8B62ECF7217DB6F400FB357B /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
 		8B7000F921759FC40013BD98 /* LSOProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LSOProgressHUD.h; sourceTree = "<group>"; };
 		8B7000FA21759FC40013BD98 /* LSOProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LSOProgressHUD.m; sourceTree = "<group>"; };
 		8B7431B321212FAA0037EE3F /* VideoEffectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoEffectVC.h; sourceTree = "<group>"; };
@@ -334,6 +333,10 @@
 		8B8638461D51AD0E007A353C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8B8673E91F79BB2B008277EE /* SegmentRecordProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecordProgressView.h; sourceTree = "<group>"; };
 		8B8673EA1F79BB2B008277EE /* SegmentRecordProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecordProgressView.m; sourceTree = "<group>"; };
+		8B86F95D218AE47D009C70E2 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
+		8B86F95F218AE4C7009C70E2 /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
+		8B890DCE217AF9AA008D8856 /* BitmapPadPreviewDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitmapPadPreviewDemoVC.h; sourceTree = "<group>"; };
+		8B890DCF217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmapPadPreviewDemoVC.m; sourceTree = "<group>"; };
 		8BA1B91F204F95D300DBA5F0 /* lansongbeauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lansongbeauty.png; sourceTree = "<group>"; };
 		8BB05E98211040C100BDCDE4 /* zaoan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zaoan.json; sourceTree = "<group>"; };
 		8BB05E9E21104EFC00BDCDE4 /* zaoan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zaoan.png; sourceTree = "<group>"; };
@@ -461,7 +464,7 @@
 			files = (
 				8BCA93FB1FC2CAEA00D0BC50 /* libc++.tbd in Frameworks */,
 				8BF0E2921D51CA9200F52374 /* libbz2.tbd in Frameworks */,
-				8B62ECF6217DB62300FB357B /* LanSongEditorFramework.framework in Frameworks */,
+				8B86F95E218AE47D009C70E2 /* LanSongEditorFramework.framework in Frameworks */,
 				8BF0E2901D51CA6600F52374 /* libz.tbd in Frameworks */,
 				8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */,
 				8B8638391D51ABCB007A353C /* CoreVideo.framework in Frameworks */,
@@ -613,7 +616,7 @@
 		8B8638061D51AB29007A353C = {
 			isa = PBXGroup;
 			children = (
-				8B62ECF7217DB6F400FB357B /* LanSongEditorBundle.bundle */,
+				8B86F95F218AE4C7009C70E2 /* LanSongEditorBundle.bundle */,
 				8BF0E2931D51CB2F00F52374 /* frameworks */,
 				8B8638111D51AB29007A353C /* LanSongEditor_all */,
 				8B8638101D51AB29007A353C /* Products */,
@@ -654,6 +657,7 @@
 				8BEF7EEF20C8184000DD7B1F /* FilterVideoDemoVC.h */,
 				8BEF7EF020C8184000DD7B1F /* FilterVideoDemoVC.m */,
 				8B8638261D51AB29007A353C /* Info.plist */,
+				8B86381E1D51AB29007A353C /* LanSongEditor_common.xcdatamodeld */,
 				8B8638231D51AB29007A353C /* LaunchScreen.storyboard */,
 				8B86381B1D51AB29007A353C /* Main.storyboard */,
 				8BFC00D91DFE918A005D3BF2 /* MainViewController.h */,
@@ -676,7 +680,8 @@
 				8B2E77B12134E8D40067052B /* AEPreviewDemo.m */,
 				8B610F4F214219300079A948 /* GameVideoDemoVC.h */,
 				8B610F50214219300079A948 /* GameVideoDemoVC.m */,
-				8B86381E1D51AB29007A353C /* LanSongEditor_common.xcdatamodeld */,
+				8B890DCE217AF9AA008D8856 /* BitmapPadPreviewDemoVC.h */,
+				8B890DCF217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m */,
 			);
 			name = LanSongEditor_all;
 			path = LanSongEditor_common;
@@ -794,7 +799,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B62ECF5217DB62300FB357B /* LanSongEditorFramework.framework */,
+				8B86F95D218AE47D009C70E2 /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -993,7 +998,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B62ECF8217DB6F400FB357B /* LanSongEditorBundle.bundle in Resources */,
+				8B86F960218AE4C7009C70E2 /* LanSongEditorBundle.bundle in Resources */,
 				8B29A988215CF5710008AD46 /* dy_xialu2.mp4 in Resources */,
 				8B7431C421218BAC0037EE3F /* aobamaEx.mp4 in Resources */,
 				8B7431B9212158130037EE3F /* zaoan_mvColor.mp4 in Resources */,
@@ -1089,6 +1094,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B1393D61ED2F08D009963C0 /* DeleteButton.m in Sources */,
+				8B890DD0217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m in Sources */,
 				8BFC00D01DFE912B005D3BF2 /* MASViewConstraint.m in Sources */,
 				8B1A0ED220DC9E8B00A97061 /* AEModuleDemoVC.m in Sources */,
 				8BEF7EF420C818A100DD7B1F /* FilterItem.m in Sources */,
