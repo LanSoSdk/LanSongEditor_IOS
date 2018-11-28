@@ -63,6 +63,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+
     CGPoint point = [[touches anyObject] locationInView:self.view];
     BOOL selected = NO;
     

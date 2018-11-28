@@ -32,7 +32,7 @@
 #import "UIPenParticleDemoVC.h"
 #import "AETextVideoDemoVC.h"
 #import "AePreviewListDemoVC.h"
-#import "StoryMakeImageEditorViewController.h"  //LSTODO
+#import "StoryMakeImageEditorViewController.h"
 
 @interface MainViewController ()
 {

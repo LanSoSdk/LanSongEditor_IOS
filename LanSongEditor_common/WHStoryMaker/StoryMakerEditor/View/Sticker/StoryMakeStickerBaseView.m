@@ -38,8 +38,6 @@
 
 - (void)closeBtnAction
 {
-    NSLog(@"---------line :%d",__LINE__);
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(storyMakeStickerBaseViewCloseBtnClicked:)]) {
         [self.delegate storyMakeStickerBaseViewCloseBtnClicked:self];
     }else{
