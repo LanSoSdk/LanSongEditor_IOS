@@ -22,33 +22,29 @@
     
     id _notificationToken;
     BOOL isUpdateSlider;
+    AVPlayer *player;
+    BOOL isPlaying;
+    CGFloat sumPlayOperation;
 }
 //监控进度
 @property (nonatomic,strong)NSTimer *avTimer;
 
 @property (weak, nonatomic) IBOutlet UISlider *progressSlider;
 
-@property (nonatomic,strong)AVPlayer *player;
-@property BOOL isPlaying;
-/**
- *  播放的总时长
- */
-@property (nonatomic,assign)CGFloat sumPlayOperation;
-
 @end
 
 @implementation VideoPlayViewController
 
 - (void)viewDidLoad {
-    // Do any additional setup after loading the view from its nib.
     [super viewDidLoad];
     _notificationToken=0;
     
-  [LanSongUtils setViewControllerPortrait];
+    LSLog(@"-----------start  VideoPlayViewController....");
+    
+    [LanSongUtils setViewControllerPortrait];
     
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
-        
         LSLog(@"获取到的视频信息是:%@",mInfo);
         NSString *str= [NSString stringWithFormat:@"宽度:%d"
                 "高度:%d"
@@ -81,13 +77,9 @@
 {
     NSURL *url=[NSURL fileURLWithPath:_videoPath];
     
-    //设置播放的项目
     AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
-    
-    self.player = [[AVPlayer alloc] initWithPlayerItem:item];  //初始化player对象
-    
-    //设置播放页面
-    layer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    player = [[AVPlayer alloc] initWithPlayerItem:item];
+    layer = [AVPlayerLayer playerLayerWithPlayer:player];
     
     
     layer.frame = CGRectMake(0, 150, [UIScreen mainScreen].bounds.size.width, 300);
@@ -97,14 +89,11 @@
     layer.videoGravity = AVLayerVideoGravityResizeAspect;
     [self.view.layer addSublayer:layer];
     
-    //设置播放进度
     self.progressSlider.value = 0;
-    //设置播放的音量
-    self.player.volume = 1.0f;
-    //增加一个定时器,监听播放进度.
+    player.volume = 1.0f;
     self.avTimer=[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
-    [self.player play];
-    self.isPlaying=YES;
+    [player play];
+    isPlaying=YES;
     [self setPlayerLoop];
     isUpdateSlider=YES;
     //设置最大值最小值音量
@@ -117,36 +106,37 @@
         _notificationToken = nil;
     
     //设置播放结束后的动作
-    _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
-    _notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [_player.currentItem seekToTime:kCMTimeZero];  //这个是循环播放的.
+    _notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [player.currentItem seekToTime:kCMTimeZero];  //这个是循环播放的.
     }];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
+    isUpdateSlider=NO;
+    if (_notificationToken) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_notificationToken name:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem];
+        _notificationToken = nil;
+    }
     if (self.avTimer!=NULL) {
         [self.avTimer invalidate];
         self.avTimer=NULL;
     }
-    if (self.isPlaying) {
-        [self.player replaceCurrentItemWithPlayerItem:nil];
+    if (isPlaying) {
+        [player replaceCurrentItemWithPlayerItem:nil];
+        player=nil;
     }
-    if (_notificationToken) {
-        [[NSNotificationCenter defaultCenter] removeObserver:_notificationToken name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
-        _notificationToken = nil;
-    }
-    
     mInfo=nil;
     layer=nil;
 }
 //监控播放进度方法
 - (void)timer
 {
-    if (self.isPlaying && isUpdateSlider) {
-        float  timepos= (float)self.player.currentItem.currentTime.value;
-        timepos/=(float)self.player.currentItem.currentTime.timescale;  //timescale, 时间刻度.
-       self.progressSlider.value = CMTimeGetSeconds(self.player.currentItem.currentTime) / CMTimeGetSeconds(self.player.currentItem.duration);
+    if (isPlaying && isUpdateSlider) {
+        float  timepos= (float)player.currentItem.currentTime.value;
+        timepos/=(float)player.currentItem.currentTime.timescale;  //timescale, 时间刻度.
+       self.progressSlider.value = CMTimeGetSeconds(player.currentItem.currentTime) /  CMTimeGetSeconds(player.currentItem.duration);
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -154,23 +144,22 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)player:(id)sender {
-    if (self.isPlaying==NO) {
-       // [self.player seekToTime:kCMTimeZero];
-        [self.player play];
-        self.isPlaying=YES;
+    if (isPlaying==NO) {
+        [player play];
+        isPlaying=YES;
     }
 }
 - (IBAction)pause:(id)sender {
-    if (self.isPlaying) {
-        [self.player pause];
-        self.isPlaying=NO;
+    if (isPlaying) {
+        [player pause];
+        isPlaying=NO;
     }
   }
 - (IBAction)stop:(id)sender {
     
-    if (self.isPlaying) {
-        [self.player replaceCurrentItemWithPlayerItem:nil];
-        self.isPlaying=NO;
+    if (isPlaying) {
+        [player replaceCurrentItemWithPlayerItem:nil];
+        isPlaying=NO;
     }
 }
 - (IBAction)slideTouchUp:(id)sender {
@@ -180,22 +169,14 @@
     isUpdateSlider=NO;
 }
 - (IBAction)changeProgress:(id)sender {
-    LSLog(@"self.player.currentItem.duration.value:%lld\n",self.player.currentItem.duration.value);
-    
-    self.sumPlayOperation = self.player.currentItem.duration.value/self.player.currentItem.duration.timescale;
-    [self.player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*self.sumPlayOperation, self.player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
-        [self.player play];
+    sumPlayOperation = player.currentItem.duration.value/player.currentItem.duration.timescale;
+    [player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*sumPlayOperation, player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
+        [player play];
     }];
 }
 - (IBAction)saveToPhotoLibrary:(UIButton *)sender {
     NSURL *url=[NSURL fileURLWithPath:_videoPath];
 
-//    [self snapshot];
-    [self writeVideoToPhotoLibrary:url];
-    
-}
-- (void)writeVideoToPhotoLibrary:(NSURL *)url
-{
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
     
     [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
@@ -207,7 +188,4 @@
         }
     }];
 }
-
-
-
 @end

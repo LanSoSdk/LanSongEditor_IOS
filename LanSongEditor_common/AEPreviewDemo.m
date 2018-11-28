@@ -7,6 +7,7 @@
 //
 
 #import "AEPreviewDemo.h"
+#import "LSOProgressHUD.h"
 
 @interface AEPreviewDemo ()
 {
@@ -30,14 +31,7 @@
     NSString *json1Path;
     NSURL *addAudioURL;
     
-    UIImage *json1Image0;
-    UIImage *json1Image1;
-    UIImage *json1Image2;
-    UIImage *json1Image3;
-    UIImage *json1Image4;
-    UIImage *json1Image5;
-    UIImage *json1Image6;
-    UIImage *json1Image7;
+    NSString *moduleName;
 }
 @end
 
@@ -48,7 +42,6 @@
      self.view.backgroundColor=[UIColor lightGrayColor];
     
     bgVideoURL=nil;
-    json1Image0=nil;
     json1Path=nil;
     bgVideoURL=nil;
     mvMaskURL=nil;
@@ -60,6 +53,8 @@
     
     UIView *view=[self newButton:lansongView index:201 hint:@"替换图片"];
     view=[self newButton:view index:202 hint:@"开始后台处理"];
+    
+    
     
     //显示进度;
     labProgress=[[UILabel alloc] init];
@@ -73,6 +68,11 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+
+}
 -(void)viewDidDisappear:(BOOL)animated
 {
     [self stopAeExecute];
@@ -84,47 +84,42 @@
 -(void)createData
 {
     bgVideoURL=nil;
-    
-    bgVideoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
-    json1Image0=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
-    NSString *jsonName=@"aobama";
-    json1Path=[LanSongFileUtil copyResourceFile:jsonName withSubffix:@"json" dstDir:jsonName];
-    mvColorURL=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
-    mvMaskURL = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
-    
-//    NSString *jsonName=@"zaoan";
-//    mvColorURL=[[NSBundle mainBundle] URLForResource:@"zaoan_mvColor" withExtension:@"mp4"];
-//    mvMaskURL=[[NSBundle mainBundle] URLForResource:@"zaoan_mvMask" withExtension:@"mp4"];
-//    json1Path= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-//    json1Image0=[UIImage imageNamed:@"zaoan"];
-   
+    switch (_AeType) {
+        case kAEDEMO_AOBAMA:
+            moduleName=@"aobama";
+            bgVideoURL=[[NSBundle mainBundle] URLForResource:moduleName withExtension:@"mp4"];
+            break;
+        case kAEDEMO_XIANZI:
+            moduleName=@"zixiaxianzi";
+            break;
+        case kAEDEMO_ZAO_AN:
+            moduleName=@"zaoan";
+            break;
+        case kEDEMO_XIAOHUANGYA:
+            moduleName=@"xiaoYa";
+            break;
+        default:
+            [LanSongUtils showDialog:@"暂时没有这个举例."];
+            return;
+    }
 }
+
 -(void)startAEPreview
 {
     [self stopAePreview];
     [self stopAeExecute];
     
-    //1.创建容器(容器是用来放置图层, 所有素材都是一层一层叠加起来处理)
+//    //1.创建容器(容器是用来放置图层, 所有素材都是一层一层叠加起来处理)
     if(bgVideoURL!=nil){
          aePreview=[[DrawPadAEPreview alloc] initWithURL:bgVideoURL];
     }else{
         aePreview=[[DrawPadAEPreview alloc] init];
     }
-    
+
     //2.增加json图层;
-    if(json1Path!=nil){
-        LSOAnimationView *aeView=[aePreview addAEJsonPath:json1Path];
-        [aeView updateImageWithKey:@"image_0" image:json1Image0];
-        [aeView updateImageWithKey:@"image_1" image:json1Image1];
-        [aeView updateImageWithKey:@"image_2" image:json1Image2];
-        [aeView updateImageWithKey:@"image_3" image:json1Image3];
-        [aeView updateImageWithKey:@"image_4" image:json1Image4];
-        [aeView updateImageWithKey:@"image_5" image:json1Image5];
-        [aeView updateImageWithKey:@"image_6" image:json1Image6];
-        [aeView updateImageWithKey:@"image_7" image:json1Image7];
-    }
-    
-    
+    [self addAeJsonLayer];
+
+
     //容器大小,在增加图层后获取;
     drawpadSize=aePreview.drawpadSize;
     //3.创建显示窗口
@@ -134,19 +129,15 @@
         [self.view addSubview:lansongView];  //显示窗口增加到ui上;
     }
     [aePreview addLanSongView:lansongView];
-    
-    //4.如果有mv图层, 则再增加一层MV
-    if(mvColorURL!=nil && mvMaskURL!=nil){
-         [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
-     }
-    
+
+    [self addMVLayer];
+ //---------------------------------------------------
     //5.增加回调
     __weak typeof(self) weakSelf = self;
     [aePreview setProgressBlock:^(CGFloat progress) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf drawpadProgress:progress];
         });
-       
     }];
     
     [aePreview setCompletionBlock:^(NSString *path) {
@@ -158,6 +149,40 @@
     
     //6.开始执行,
     [aePreview start];
+}
+
+/**
+ 增加Ae json图层;
+ */
+-(void)addAeJsonLayer
+{
+    json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
+    if(json1Path!=nil){
+        LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
+        
+        if([moduleName isEqualToString:@"aobama"]){  //如果是奥巴马模板的话,则直接填入图片;
+            UIImage *value=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
+            [aeView updateImageWithKey:@"image_0" image:value];
+        }else{
+            for (int i=0; i<aeView.imageInfoArray.count; i++) {
+                NSString *key=[NSString stringWithFormat:@"image_%d",i];
+                UIImage *value=[UIImage imageNamed:[NSString stringWithFormat:@"%@_img_%d",moduleName,i]];
+                [aeView updateImageWithKey:key image:value];
+            }
+        }
+    }
+}
+
+/**
+ 增加MV图层;
+ */
+-(void)addMVLayer
+{
+    mvColorURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvColor",moduleName] withExtension:@"mp4"];
+    mvMaskURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvMask",moduleName] withExtension:@"mp4"];
+    if(mvColorURL!=nil && mvMaskURL!=nil){
+        [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
+    }
 }
 
 /**
@@ -173,13 +198,22 @@
     }else{
         aeExecute=[[DrawPadAEExecute alloc] init];
     }
-    //增加json层
-    if(json1Path!=nil){
-        LSOAnimationView *aeView=[aeExecute addAEJsonPath:json1Path];
-        [aeView updateImageWithKey:@"image_0" image:json1Image0];
-        [aeView updateImageWithKey:@"image_1" image:json1Image1];
-    }
     
+    //增加json层
+    json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
+    if(json1Path!=nil){
+        LSOAeView *aeView=[aeExecute addAEJsonPath:json1Path];
+        if([moduleName isEqualToString:@"aobama"]){  //如果是奥巴马模板的话,则直接填入图片;
+            UIImage *value=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
+            [aeView updateImageWithKey:@"image_0" image:value];
+        }else{
+            for (int i=0; i<aeView.imageInfoArray.count; i++) {
+                NSString *key=[NSString stringWithFormat:@"image_%d",i];
+                UIImage *value=[UIImage imageNamed:[NSString stringWithFormat:@"%@_img_%d",moduleName,i]];
+                [aeView updateImageWithKey:key image:value];
+            }
+        }
+    }
     //再增加mv图层;
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aeExecute addMVPen:mvColorURL withMask:mvMaskURL];
@@ -280,6 +314,44 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+-(UIImage *)createImageWithText2:(NSString *)text imageSize:(CGSize)size txtColor:(UIColor *)textColor
+{
+    //文字转图片;
+    NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setAlignment:NSTextAlignmentLeft];
+    [paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
+    [paragraphStyle setLineSpacing:15.f];  //行间距
+    [paragraphStyle setParagraphSpacing:2.f];//字符间距
+    
+    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:60],
+                                 NSForegroundColorAttributeName : textColor,
+                                 NSBackgroundColorAttributeName : [UIColor clearColor],
+                                 NSParagraphStyleAttributeName : paragraphStyle, };
+    
+    UIImage *image  = [self imageFromString:text attributes:attributes size:size];
+    return image;
+}
+/**
+ 把文字转换为图片;
+ @param string 文字,
+ @param attributes 文字的属性
+ @param size 转换后的图片宽高
+ @return 返回图片
+ */
+- (UIImage *)imageFromString:(NSString *)string attributes:(NSDictionary *)attributes size:(CGSize)size
+{
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    //    CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);  //图片底部颜色;
+    CGContextFillRect(context, CGRectMake(0, 0, size.width, 300));
+    
+    [string drawInRect:CGRectMake(0, 0, size.width, size.height) withAttributes:attributes];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 -(void)dealloc
 {
     [self stopAeExecute];

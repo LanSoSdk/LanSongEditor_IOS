@@ -39,14 +39,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor redColor];
+    self.view.backgroundColor=[UIColor whiteColor];
     
     
     //-------------以下是ui操作-----------------------
     CGSize size=self.view.frame.size;
     
     _labProgress=[[UILabel alloc] init];
-    _labProgress.textColor=[UIColor whiteColor];
+    _labProgress.textColor=[UIColor blueColor];
     [self.view addSubview:_labProgress];
     
     [_labProgress mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -54,15 +54,15 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    if(_AeType==AEDEMO_AOBAMA){
-        [self testAobama];
-    }else if(_AeType==AEDEMO_ZAO_AN){  //早安;
-        [self testZaoan];
-    }else if(_AeType==AEDEMO_XIANZI){ //紫霞仙子
-        [self testZixianXiaZi];
-    }else{
+//    if(_AeType==kAEDEMO_AOBAMA){
+//        [self testAobama];
+//    }else if(_AeType==kAEDEMO_ZAO_AN){  //早安;
+//        [self testZaoan];
+//    }else if(_AeType==kAEDEMO_XIANZI){ //紫霞仙子
+//        [self testZixianXiaZi];
+//    }else{
         [self testJson];
-    }
+//    }
 }
 -(void)testAobama
 {
@@ -78,7 +78,7 @@
         //开始创建, 先增加一个视频;
         drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
         //增加Ae json层
-        LSOAnimationView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
+        LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
         [aeView updateImageWithKey:@"image_0" image:jsonImage0];
 
         //再增加mv图层;
@@ -101,7 +101,7 @@
     
     drawpadExecute=[[DrawPadAEExecute alloc] init];
     //增加Ae json层;
-    LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+    LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
     if(jsonImage0!=nil){
         [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
     }
@@ -124,12 +124,10 @@
         jsonImage0=[UIImage imageNamed:@"zixiaxianzi_img0"];
         jsonImage1=[UIImage imageNamed:@"zixiaxianzi_img1"];
     
-    
-    
         //开始创建
         drawpadExecute=[[DrawPadAEExecute alloc] init];
         //增加Ae json层;
-        LSOAnimationView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+        LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
         [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
         [aeView1 updateImageWithKey:@"image_1" image:jsonImage1];
 
@@ -138,6 +136,25 @@
             [drawpadExecute addMVPen:mvColor withMask:mvMask];
         }
         [self startAE];  //开始执行;
+}
+//小鸭子
+-(void)testXiaoYa
+{
+    NSString *jsonName=@"xiaoYa";
+    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
+    mvColor=[[NSBundle mainBundle] URLForResource:@"xiaoYa_mvColor" withExtension:@"mp4"];
+    mvMask = [[NSBundle mainBundle] URLForResource:@"xiaoYa_mvMask" withExtension:@"mp4"];
+    
+    drawpadExecute=[[DrawPadAEExecute alloc] init];
+    LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
+    
+    
+    [view updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"xiaoYa_img_0"]];
+    [view updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"xiaoYa_img_1"]];
+    [view updateImageWithKey:@"image_2" image:[UIImage imageNamed:@"xiaoYa_img_2"]];
+    
+    [drawpadExecute addMVPen:mvColor withMask:mvMask];
+    [self startAE];  //开始执行;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -179,6 +196,13 @@
 }
 
 
+/**
+ 文字转图片
+
+ @param text 文字
+ @param size 创建的图片宽高
+ @return 返回图片;
+ */
 -(UIImage *)createImageWithText:(NSString *)text imageSize:(CGSize)size
 {
     //文字转图片;
@@ -188,7 +212,24 @@
     [paragraphStyle setLineSpacing:15.f];  //行间距
     [paragraphStyle setParagraphSpacing:2.f];//字符间距
     
-    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:30],
+    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:60],
+                                 NSForegroundColorAttributeName : [UIColor blueColor],
+                                 NSBackgroundColorAttributeName : [UIColor clearColor],
+                                 NSParagraphStyleAttributeName : paragraphStyle, };
+    
+    UIImage *image  = [self imageFromString:text attributes:attributes size:size];
+    return image;
+}
+-(UIImage *)createImageWithText2:(NSString *)text imageSize:(CGSize)size
+{
+    //文字转图片;
+    NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setAlignment:NSTextAlignmentLeft];
+    [paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
+    [paragraphStyle setLineSpacing:15.f];  //行间距
+    [paragraphStyle setParagraphSpacing:2.f];//字符间距
+    
+    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:60],
                                  NSForegroundColorAttributeName : [UIColor blueColor],
                                  NSBackgroundColorAttributeName : [UIColor clearColor],
                                  NSParagraphStyleAttributeName : paragraphStyle, };
@@ -207,7 +248,7 @@
 {
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
+    CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);  //图片底部颜色;
     CGContextFillRect(context, CGRectMake(0, 0, size.width, 300));
     
     [string drawInRect:CGRectMake(0, 0, size.width, size.height) withAttributes:attributes];
@@ -231,6 +272,27 @@
 -(void) testJson
 {
     [self resetData];
+    
+    
+//    NSString *jsonName=@"zixiaxianzi";
+//    mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
+//    mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
+//    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
+//    jsonImage0=[UIImage imageNamed:@"zixiaxianzi_img0"];
+//    jsonImage1=[UIImage imageNamed:@"zixiaxianzi_img1"];
+//    
+//    //开始创建
+//    drawpadExecute=[[DrawPadAEExecute alloc] init];
+//    //增加Ae json层;
+//    LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+//    [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
+//    [aeView1 updateImageWithKey:@"image_1" image:jsonImage1];
+//    
+//    //增加mv层;
+//    if(mvColor!=nil && mvMask!=nil){
+//        [drawpadExecute addMVPen:mvColor withMask:mvMask];
+//    }
+//    [self startAE];  //开始执行;
 }
 @end
 

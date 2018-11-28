@@ -10,10 +10,11 @@
 
 #import <UIKit/UIKit.h>
 
-#define AEDEMO_AOBAMA 1
-#define AEDEMO_XIANZI 2
-#define AEDEMO_ZAO_AN 3
 
+
+/**
+ Ae模板的后台处理. 之前版本使用的. 现在不建议使用.
+ */
 @interface AEModuleDemoVC : UIViewController
 
 

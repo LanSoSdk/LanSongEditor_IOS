@@ -22,20 +22,30 @@
 @property (nonatomic,strong)CameraPen2 *cameraPen;
 
 
+
+/**
+ 初始化
+
+ @param view 显示view
+ @param isFront 是否设置为前置
+ */
 -(id)initFullScreen:(LanSongView2 *)view isFrontCamera:(BOOL)isFront;
+/**
+ 初始化
 
--(id)initWithPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition  view:(LanSongView2 *)view;
-
--(id)initFullScreen:(LanSongView2 *)view isFrontCamera:(BOOL)isFront drawPadSize:(CGSize)size;
+ @param sessionPreset 设置分辨率
+ @param cameraPosition 
+ @param view <#view description#>
+ @return <#return value description#>
+ */
+-(id)initWithPreset:(NSString *)sessionPreset isFrontCamera:(BOOL)isFront view:(LanSongView2 *)view;
 
 @property (nonatomic) CGSize drawpadSize;
 
-
 /**
  增加UI图层
-
  @param view 增加UI图层;
- @param from 这个UI是否已经增加到界面上; 如果已经增加,则内部不再渲染到界面;
+ @param from 设置为YES;
  @return 增加成功返回UI图层对象;
  */
 -(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
@@ -115,6 +125,51 @@
  */
 @property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
 
+
+
+/**
+ 在录制的时候, 音频的采样点回调,
+ [可选]
+ 
+ samples: 采样点;指向指针的指针;
+ numSamples: 一帧采样点的数量;
+ 
+ 采样率:44100;单通道,是通过一下代码获取的:
+  AVAudioSession *sharedAudioSession = [AVAudioSession sharedInstance];
+  [sharedAudioSession sampleRate];
+ 
+ 
+ 您操作后, 输入到原来的指针地方, 我们内部则会编码你修改的音频数据.
+ 内部源代码是:
+ audioBuffer:从Camera得到的当前帧的CMSampleBufferRef类型的数据;
+ CMBlockBufferRef buffer = CMSampleBufferGetDataBuffer(audioBuffer);
+ CMItemCount numSamplesInBuffer = CMSampleBufferGetNumSamples(audioBuffer);
+ AudioBufferList audioBufferList;
+ 
+ CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(audioBuffer,
+                                                         NULL,
+                                                         &audioBufferList,
+                                                         sizeof(audioBufferList),
+                                                         NULL,
+                                                         NULL,
+                                                         kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment,
+                                                         &buffer
+                                                         );
+ for (int bufferCount=0; bufferCount < audioBufferList.mNumberBuffers; bufferCount++) {
+     SInt16 *samples = (SInt16 *)audioBufferList.mBuffers[bufferCount].mData;
+     self.audioProcessingCallback(&samples, numSamplesInBuffer); //<---注意.这里是指向指针的指针, 内存还是在我们内部.
+ }
+ 
+ 我们的举例是:
+ [drawPadCamera setAudioProcessingCallback:^(SInt16 **samples, CMItemCount numSamples) {
+         SInt16  *sample1=*samples;
+         for(int i=0;i<numSamples;i++){
+             *sample1=i;  //<---修改声音采样点为数字递增, 录制后的声音就是嘟嘟嘟嘟.
+             sample1++;
+         }
+ }];
+ */
+@property(nonatomic, copy) void(^audioProcessingCallback)(SInt16 **samples, CMItemCount numSamples);
 /**
  当前是否在运行;
  */

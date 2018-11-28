@@ -88,8 +88,8 @@
 
 - (void)filterBtnAction
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(filterBtnDidSelected)]) {
-        [self.delegate filterBtnDidSelected];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clearBtnDidSelected)]) {
+        [self.delegate clearBtnDidSelected];
     }
 }
 
@@ -103,7 +103,8 @@
 {
     if (!_stickerBtn) {
         _stickerBtn = [[UIButton alloc] init];
-        [_stickerBtn setImage:[UIImage imageNamed:@"story_maker_tab_sticker"] forState:UIControlStateNormal];
+//        [_stickerBtn setImage:[UIImage imageNamed:@"story_maker_tab_sticker"] forState:UIControlStateNormal];
+        [_stickerBtn setTitle:@"贴纸" forState:UIControlStateNormal];
         _stickerBtn.layer.shadowColor = UIColorFromRGB(0, 0, 0).CGColor;
         _stickerBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _stickerBtn.layer.shadowRadius = 2;
@@ -131,7 +132,8 @@
 {
     if (!_writeBtn) {
         _writeBtn = [[UIButton alloc] init];
-        [_writeBtn setImage:[UIImage imageNamed:@"story_maker_tab_type"] forState:UIControlStateNormal];
+//        [_writeBtn setImage:[UIImage imageNamed:@"story_maker_tab_type"] forState:UIControlStateNormal];
+           [_writeBtn setTitle:@"文字" forState:UIControlStateNormal];
         _writeBtn.layer.shadowColor = UIColorFromRGB(0, 0, 0).CGColor;
         _writeBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _writeBtn.layer.shadowRadius = 2;
@@ -145,7 +147,8 @@
 {
     if (!_fiterBtn) {
         _fiterBtn = [[UIButton alloc] init];
-        [_fiterBtn setImage:[UIImage imageNamed:@"story_maker_tab_filter"] forState:UIControlStateNormal];
+//        [_fiterBtn setImage:[UIImage imageNamed:@"story_maker_tab_filter"] forState:UIControlStateNormal];
+        [_fiterBtn setTitle:@"清除" forState:UIControlStateNormal];
         _fiterBtn.layer.shadowColor = UIColorFromRGB(0, 0, 0).CGColor;
         _fiterBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _fiterBtn.layer.shadowRadius = 2;

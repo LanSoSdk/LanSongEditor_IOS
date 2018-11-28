@@ -13,7 +13,7 @@
 #import "LanSongView2.h"
 #import "BitmapPen.h"
 #import "MVPen.h"
-#import "LSOAnimationView.h"
+#import "LSOAeView.h"
 
 /**
  Ae模板的前台预览容器
@@ -31,7 +31,6 @@
 /**
  当前容器大小, 创建后,如果用 initWithURL/initWithPath 则等于视频本身的分辨率
  如果用init创建的,则等于第一个增加的json文件或MV的分辨率;
- 
  */
 @property (nonatomic,assign) CGSize drawpadSize;
 
@@ -55,6 +54,36 @@
  容器大小,生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的分辨率;
  */
 -(id)init;
+
+/**
+ 定位到第几帧
+ [当前不可用]
+ @param frame 帧数;
+ */
+-(void)seekToFrame:(int)frame;
+
+/**
+ 播放速度.
+ [当前不可用]
+ 从0.1 到10;
+ 0.1是放慢10倍; 10则是加快10倍; 1.0是正常;
+ */
+-(void)setSpeed:(float)speed;
+/**
+ 停止.
+ [当前不可用]
+ */
+-(void)stop;
+/**
+ 暂停播放
+ [当前不可用]
+ */
+-(void)pause;
+/**
+ 恢复播放
+ [当前不可用]
+ */
+-(void)resume;
 
 
 /**
@@ -98,12 +127,28 @@
  
  在start前增加
  */
--(LSOAnimationView *)addAEJsonPath:(NSString *)jsonPath;
+-(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 
 /**
- 当前容器的总时长;
+ 交换两个图层的位置
+ 在开始前调用;
+ @param first 第一个图层对象
+ @param second 第二个图层对象
+ */
+-(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+
+/**
+ 设置图层的位置
+ [在开始前调用]
  
+ @param pen 图层对象
+ @param index 位置, 最里层是0, 最外层是 getPenSize-1
+ */
+-(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+
+/**
+ 当前容器的总时长;
  */
 @property CGFloat duration;
 
@@ -120,7 +165,6 @@
 
 /**
  开始执行,并实时录制;
- 
  @return
  */
 -(BOOL)startWithEncode;
@@ -141,6 +185,12 @@
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progress);
 
 
+
+/**
+ 文字使用.
+ */
+@property(nonatomic, copy) void(^frameProgressBlock)(int frames);
+
 /**
  编码完成回调, 完成后返回生成的视频路径;
  注意:生成的dstPath目标文件, 我们不会删除.如果你多次调用,就会生成多个视频文件;
@@ -160,5 +210,8 @@
  当前是否在录制
  */
 @property (nonatomic,readonly) BOOL isRecording;
+
+
+@property (nonatomic,readonly) int penCount;
 
 @end

@@ -20,8 +20,6 @@
 #import "CameraSegmentRecordVC.h"
 
 #import "GameVideoDemoVC.h"
-
-
 #import "CommDemoListTableVC.h"
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemo.h"
@@ -29,15 +27,17 @@
 #import "VideoEffectVC.h"
 #import "BitmapPadPreviewDemoVC.h"
 #import "LSOLocalVideoVC.h"
-#import "LSDrawView.h"
-
+#import "UIPenDemoVC.h"
+#import "RecordUIViewDemoVC.h"
+#import "UIPenParticleDemoVC.h"
+#import "AETextVideoDemoVC.h"
+#import "AePreviewListDemoVC.h"
+#import "StoryMakeImageEditorViewController.h"  //LSTODO
 
 @interface MainViewController ()
 {
     UIView  *container;
     UILabel *labPath; // 视频路径.
-    
-    
 }
 @end
 
@@ -45,7 +45,9 @@
 //移动缩放旋转演示
 #define kDemo1PenMothed 3
 #define kVideoUIDemo 4
+#define kUIPenDemo 5
 #define kCommonEditDemo 6
+#define kUIPenParticleDemoVC 7
 #define kDirectPlay 8
 
 //竖屏
@@ -57,14 +59,11 @@
 #define kLanSongExtractFrame 14
 #define kLikeDouYinDemo 15
 
-#define kAEModuleDemo1 16
-#define kAEModuleDemo2 17
-#define kAEModuleDemo3 18
+#define kAEPreviewDemo 16
+#define kGameVideoDemo 17
+#define kAEModuleTextDemo 18
 
 
-#define kAEPreviewDemo 19
-
-#define kGameVideoDemo 20
 
 #define kUseDefaultVideo 801
 #define kSelectVideo 802
@@ -83,15 +82,15 @@
      初始化SDK
      */
      if([LanSongEditor initSDK:nil]==NO){
-        [self showSDKOutTimeWarnning];
-    }
+        [LanSongUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
+     }else{
+         [self showSDKInfo];
+     }
     /*
      删除sdk中所有的临时文件.
      */
     [LanSongFileUtil deleteAllSDKFiles];
-  
     [self initView];
-    
     [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -131,13 +130,12 @@
         case kSelectVideo:
             {
                 sender.backgroundColor=[UIColor yellowColor];
-                
                 UIViewController  *pushVC2=[[LSOLocalVideoVC alloc] init];
                 [self.navigationController pushViewController:pushVC2 animated:YES];
             }
             break;
         case kSegmentRecordFullPort:
-            pushVC=[[CameraFullPortVC alloc] init];
+            pushVC=[[CameraFullPortVC alloc] init];  
             break;
         case kSegmentRecordSegmentRecord:
             pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
@@ -148,36 +146,20 @@
         case kVideoFilterDemo:
             pushVC=[[FilterVideoDemoVC alloc] init];  //滤镜
             break;
+        case kUIPenDemo:
+            pushVC=[[UIPenDemoVC alloc] init];  //UI图层;
+            break;
+        case kUIPenParticleDemoVC:
+            pushVC=[[UIPenParticleDemoVC alloc] init];  //UI图层粒子效果;
+            break;
         case kLikeDouYinDemo:
             pushVC=[[VideoEffectVC alloc] init];
             break;
-        case kAEModuleDemo1:
-            {
-                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
-                push1.AeType=AEDEMO_AOBAMA;
-                pushVC=push1;
-            }
+        case kAEPreviewDemo:
+            pushVC=[[AePreviewListDemoVC alloc] init];
             break;
-        case kAEModuleDemo2:
-            {
-                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
-                push1.AeType=AEDEMO_XIANZI;
-                pushVC=push1;
-            }
-            break;
-        case kAEModuleDemo3:
-            {
-                AEModuleDemoVC *push1=[[AEModuleDemoVC alloc] init];
-                push1.AeType=AEDEMO_ZAO_AN;
-                pushVC=push1;
-            }
-            break;
-            
-            case kAEPreviewDemo:
-            {
-                AEPreviewDemo *push1=[[AEPreviewDemo alloc] init];
-                pushVC=push1;
-            }
+        case kAEModuleTextDemo:  //文字演示.
+            pushVC=[[AETextVideoDemoVC alloc] init];
             break;
         case kCommonEditDemo:
             pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
@@ -214,47 +196,26 @@
     }];
     
     UIView *view=[self newDefaultButton:container];
+    
+    
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层--移动旋转缩放叠加"];
     view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜---图层的方法"];
+    view=[self newButton:view index:kUIPenDemo hint:@"UI图层"];
+    view=[self newButton:view index:kUIPenParticleDemoVC hint:@"UI图层-粒子效果"];
+    
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
-    view=[self newButton:view index:kAEModuleDemo1 hint:@"AE模板特效-1"];
-    view=[self newButton:view index:kAEModuleDemo2 hint:@"AE模板特效-2"];
-    view=[self newButton:view index:kAEModuleDemo3 hint:@"AE模板特效-3"];
-    view=[self newButton:view index:kAEPreviewDemo hint:@"AE模板特效-预览"];
+    view=[self newButton:view index:kAEPreviewDemo hint:@"AE模板特效"];
+    view=[self newButton:view index:kAEModuleTextDemo hint:@"AE模板--文字旋转"];
     
     view=[self newButton:view index:kGameVideoDemo hint:@"游戏视频录制类"];
-    
-    
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
     
     
-    UILabel *versionHint=[[UILabel alloc] init];
-    //自动折行设置
-    //  notUse.lineBreakMode = UILineBreakModeWordWrap;
-    versionHint.numberOfLines=0;
-    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前.欢迎联系我们: QQ:1852600324; email:support@lansongtech.com",
-                         [LanSongEditor getVersion],
-                         [LanSongEditor getLimitedYear],
-                         [LanSongEditor getLimitedMonth]];
-    
-    versionHint.text=available;
-    versionHint.textColor=[UIColor whiteColor];
-    versionHint.backgroundColor=[UIColor redColor];
-    [container addSubview:versionHint];
-    
-    CGSize size=self.view.frame.size;
-    CGFloat padding=size.height*0.03;
-    
-    [versionHint mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(view.mas_bottom).with.offset(padding);
-        make.left.mas_equalTo(container.mas_left);
-        make.size.mas_equalTo(CGSizeMake(size.width, 150));
-    }];
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(versionHint.mas_bottom).with.offset(40);
+        make.bottom.equalTo(view.mas_bottom).with.offset(40);
     }];
 }
 -(BOOL)needCheckBox:(UIView *)sender
@@ -352,6 +313,12 @@
     }
     return btn;
 }
+-(void)showSDKInfo
+{
+    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
+                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
+    [LanSongUtils showDialog:available];  //显示对话框.
+}
 -(void)btnDown:(UIView *)sender
 {
     sender.backgroundColor=[UIColor grayColor];
@@ -369,34 +336,7 @@
     return UIInterfaceOrientationMaskPortrait;
     
 }
-
--(void)showSDKOutTimeWarnning
-{
-    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"SDK已经过期,请更新到最新的版本/或联系我们:" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
-}
 -(void)testFile
 {
-//    NSString *defaultVideo=@"dy_xialu2";
-//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
-//    if(sampleURL!=nil){
-//        labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-//        [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
-//    }else{
-//        NSLog(@"视频不存在.%@",defaultVideo);
-//    }
-//
-//    UIViewController  *pushVC=[[AEPreviewDemo alloc] init];
-//    [self.navigationController pushViewController:pushVC animated:YES];
-    
-    
-    
-    
-    
-    
-//    LSDrawView *drawView=[[LSDrawView alloc] initWithFrame:self.view.frame];
-//    drawView.brushColor = UIColorFromRGB(255, 255, 0);
-//    drawView.shapeType = LSShapeCurve;  //形状是曲线;
-//    [self.view addSubview:drawView];
 }
 @end

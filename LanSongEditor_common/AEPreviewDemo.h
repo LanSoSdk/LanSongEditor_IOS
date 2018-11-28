@@ -10,6 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "LanSongUtils.h"
 
+#define kAEDEMO_AOBAMA 1
+#define kAEDEMO_XIANZI 2
+#define kAEDEMO_ZAO_AN 3
+#define kEDEMO_XIAOHUANGYA 4
+
 @interface AEPreviewDemo : UIViewController
 
+@property int AeType;
 @end

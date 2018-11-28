@@ -385,8 +385,6 @@ willTransitionToViewControllers:(NSArray *)pendingViewControllers{
         self.contentTextView.frame = frame;
         self.contentTextView.center = CGPointMake(SCREENAPPLYHEIGHT(187.5), SCREENAPPLYHEIGHT(180));
     }
-    
-    NSLog(@"StoryMake.ContentTexViewHeight : %f",size.height);
 }
 
 -(CGSize)sizeWithString:(NSString*)string font:(UIFont*)font width:(float)width

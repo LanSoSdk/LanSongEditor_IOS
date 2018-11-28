@@ -25,6 +25,20 @@
 - (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
 
+
+/**
+ 设置: 是否使用了核心动画
+ 默认不使用;
+ 请注意:使用核心动画,则绘制慢, 可以用renderCACoreFrameTime获取当前一帧绘制的时间.
+ 
+ 如 CAEmitterLayer 粒子发射器就是核心动画. 需要设置为YES;
+ 
+ @param is
+ */
+-(void)setUsedCACoreAnimation:(BOOL)is;
+
+-(CGFloat)renderCACoreFrameTime;
+
 /******************一下是内部使用******************************/
 @property BOOL isUsedForAE;
 @end

@@ -24,6 +24,14 @@
 #define LANSOSDKLine ;
 #endif
 
+
+#define LSTODO_CHECK_TIME_START CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+#define LSTODO_CHECK_TIME_END LSLog(@"当前消耗的时间是: %0.3f(秒)", (CFAbsoluteTimeGetCurrent() - start));
+// do something
+;
+
+
+
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 

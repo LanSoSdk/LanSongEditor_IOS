@@ -15,6 +15,7 @@
 #import "StoryMakeSelectColorFooterView.h"
 #import "StoryMakeStickerLabelView.h"
 #import "StoryMakeFilterFooterView.h"
+#import "LanSongUtils.h"
 
 @interface StoryMakeImageEditorViewController ()<StoryMakeToolsViewDelegate, StoryMakeStickerViewDelegate, StoryMakeStickerBaseViewDelegate, StoryMakeSelectColorFooterViewDelegate, StoryMakeFilterFooterViewDelegate>
 
@@ -93,9 +94,9 @@
 - (void)configureView
 {
     [self.view addSubview:self.drawImgView];
-//    [self.drawImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(self.view);
-//    }];
+    [self.drawImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
     
     // up layer tools
     [self.view addSubview:self.cancelBtn];
@@ -224,7 +225,6 @@
     stickerImageView.contentImageView.image = image;
     [self.drawImgView addSubview:stickerImageView];
     
-    NSLog(@"frame sizie :%f,%f",stickerImageView.frame.size.width, stickerImageView.frame.size.height);
     
     [self.stickerViewArray insertObject:stickerImageView atIndex:0];
     
@@ -254,7 +254,6 @@
 
 #pragma mark -
 #pragma mark - StoryMakeSelectColorFooterViewDelegate
-
 - (void)storyMakeSelectColorFooterViewCloseBtnClicked
 {
     [self hideColorFooterView];
@@ -439,8 +438,7 @@
 - (UIImageView *)drawImgView
 {
     if (!_drawImgView) {
-      //  _drawImgView = [[UIImageView alloc] initWithImage:self.contentImage];
-          _drawImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 60, 300, 500)];
+        _drawImgView = [[UIImageView alloc] initWithImage:self.contentImage];
         _drawImgView.contentMode = UIViewContentModeScaleAspectFit;
         _drawImgView.image=self.contentImage;
         _drawImgView.backgroundColor = [UIColor blackColor];

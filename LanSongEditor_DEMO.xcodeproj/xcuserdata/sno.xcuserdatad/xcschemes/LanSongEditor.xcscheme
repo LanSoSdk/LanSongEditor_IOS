@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-               BuildableName = "LanSongEditor_DEMO.app"
+               BuildableName = "LanSongEditor_all.app"
                BlueprintName = "LanSongEditor_DEMO"
                ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.app"
+            BuildableName = "LanSongEditor_all.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.app"
+            BuildableName = "LanSongEditor_all.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.app"
+            BuildableName = "LanSongEditor_all.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>

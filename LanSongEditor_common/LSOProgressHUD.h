@@ -27,4 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
 NS_ASSUME_NONNULL_END
+
+/*
+ 增加流程:
+ LSOProgressHUD *hud;
+ hud=[[LSOProgressHUD alloc] init];
+ [hud showProgress:[NSString stringWithFormat:@"进度:%d",percent]];
+ [hud hide];
+ */

@@ -21,6 +21,11 @@
  @return 创建好的对象
  */
 - (id)initWithDelegate:(id<LanSongMp3ToAACDelegate>)delegate source:(NSString*)srcPath destination:(NSString*)dstPath;
+
+/**
+ 初始化
+ */
+- (id)initWithSource:(NSString*)source dstPath:(NSString*)dstPath;
 /**
  开始运行, 内部会开启一个线程来运行.
  */
@@ -84,7 +89,6 @@
  destination:[[documentsFolders objectAtIndex:0] stringByAppendingPathComponent:@"mytest.m4a"]];
  LSLog(@"开始转换.....");
  [audioConverter start];
- 
  }
  -(void)LanSongMp3ToAACDelegateCompleted:(LanSongMp3ToAAC*)convert;
  {

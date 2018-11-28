@@ -14,7 +14,7 @@
 #import "BitmapPen.h"
 #import "MVPen.h"
 #import "LanSong.h"
-#import "LSOAnimationView.h"
+#import "LSOAeView.h"
 
 
 /**
@@ -23,7 +23,6 @@
  用来Ae的各种素材合成为目标视频;
  */
 @interface DrawPadAEExecute : NSObject
-
 
 /**
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
@@ -42,6 +41,7 @@
 @property (nonatomic)   LanSongMovie *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
 
+@property (nonatomic,readonly) int penCount;
 
 
 /**
@@ -54,7 +54,6 @@
 
 /**
  初始化
-
  @param videoPath
  @return
  */
@@ -77,18 +76,19 @@
 -(ViewPen *)addViewPen:(UIView *)view;
 
 
+
+
 /**
- 增加 AELSOAnimationView对象;
+ 增加AE对象;
  */
--(void)addAEView:(LSOAnimationView *)view;
+-(void)addAEView:(LSOAeView *)view;
 
 /**
  增加AE的json文件;
- 返回LSOAnimationView对象; 拿着对象可以做updateImage或updateVideo;
- 
- 几乎等于:addAEView:(LSOAnimationView *)view
+ 返回LSOAeView对象; 拿着对象可以做updateImage,updateText,updateVideo;
+ 几乎等于:addAEView:(LSOAeView *)view
  */
--(LSOAnimationView *)addAEJsonPath:(NSString *)jsonPath;
+-(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 /**
  增加的图片图层,
@@ -117,6 +117,34 @@
  */
 -(void)cancel;
 
+
+/**
+ 调换两个图层的位置.
+[在开始前调用]
+ @param first 第一个图层
+ @param second 第二个图层
+ @return 交换成功返回YES;
+ */
+-(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+/**
+ 设置图层的位置
+ [在开始前调用]
+ @param pen 图层对象
+ @param index 位置, 最里层是0, 最外层是 getPenSize-1
+ */
+-(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+
+
+/**
+ 设置Aejson图层的播放速度;
+ 范围 0.1--10倍;
+ 
+ 0.1 是比正常速度慢10倍;
+ 10 是比正常速度快10倍;
+ @param speed
+ */
+-(void)setAeJsonSpeed:(CGFloat)speed;
+
 /**
  进度回调,
  此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;
@@ -127,7 +155,10 @@
  */
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progess);
 
-
+/**
+ 文字使用.
+ */
+@property(nonatomic, copy) void(^frameProgressBlock)(int frames);
 /**
  编码完成回调, 完成后返回生成的视频路径;
  工作在其他线程,
@@ -143,12 +174,5 @@
 @property (nonatomic,readonly) BOOL isRunning;
 
 
-/**
- 把原视频的声音替换掉;
- @param video 原视频
- @param audio 要替换的音频
- @param dstFile 替换后的输出文件
- @return 替换成功 返回0;
- */
-+(BOOL)addAudioDirectly:(NSString *)video audio:(NSString*)audio dstFile:(NSString *)dstFile;
+
 @end

@@ -12,8 +12,7 @@
 
 #import "AppDelegate.h"
 
-//包含LanSongSDK所有的库头文件
-#import <LanSongEditorFramework/LanSongEditor.h>
+
 
 //接下来3个demo UI部分使用, 您可以直接删除.
 #import "MBProgressHUD.h"
@@ -74,6 +73,10 @@
  */
 +(LanSongView2 *)createLanSongView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
 
+/**
+ percent : 如果是竖屏的话, 高度占用全屏的多少大小;
+ */
++(LanSongView2 *)createLanSongView:(CGSize)fullSize padSize:(CGSize)size percent:(float)percent;
 /**
 设置当前viewController竖屏
  */

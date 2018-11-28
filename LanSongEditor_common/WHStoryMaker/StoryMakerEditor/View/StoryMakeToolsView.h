@@ -15,7 +15,7 @@
 - (void)stickerBtnDidSelected;
 - (void)drawBtnDidSelected;
 - (void)writeBtnDidSelected;
-- (void)filterBtnDidSelected;
+- (void)clearBtnDidSelected;
 
 @end
 

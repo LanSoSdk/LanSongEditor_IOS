@@ -29,6 +29,10 @@
     
     BeautyManager *beautyMng;
     float beautyLevel;
+    
+    UILabel *label;
+    int testCnt;
+    
 }
 @end
 
@@ -44,13 +48,29 @@
     beautyMng=[[BeautyManager alloc] init];
     
     
-    lansongView = [[LanSongView2 alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //    iphoneX Xs 375 x 812;  (0.5625 则是667);
+    //    ihponeXs-r Xs-max  414 x 896 (0.5625 则是736);
+    CGSize  fullSize=[[UIScreen mainScreen] bounds].size;
+    CGFloat top=0;
+    if(fullSize.width * fullSize.height ==375*812){
+        fullSize.height=667;
+        top=(812-667)/2;
+    }else if(fullSize.width * fullSize.height==414*896){
+        fullSize.height=736;
+        top=(896-736)/2;
+    }
+    
+    CGRect rect=CGRectMake(0, top, fullSize.width, fullSize.height);
+    NSLog(@"full size is :%f %f, full radio:%f, 540 rect is:%f",fullSize.width,fullSize.height, fullSize.width/fullSize.height, rect.size.width/rect.size.height);
+    
+    
+    
+    lansongView = [[LanSongView2 alloc] initWithFrame:rect];
     [self.view addSubview:lansongView];
     
-    drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:YES];
-    
-    
+    drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:NO];
     drawPadCamera.cameraPen.horizontallyMirrorFrontFacingCamera=YES;
+    
     
     //增加图片图层
     UIImage *image=[UIImage imageNamed:@"small"];
@@ -60,17 +80,18 @@
     
     
     /*
-     再增加UI图层;
+     再增加UI图层; LSTODO
      先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
      */
-    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
-    view.backgroundColor=[UIColor clearColor];
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
-    label.text=@"UI图层演示";
-    label.textColor=[UIColor redColor];
-    label.font = [UIFont systemFontOfSize:28.0f];
-    [view addSubview:label];
-    [drawPadCamera addViewPen:view isFromUI:NO];
+//    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+//    view.backgroundColor=[UIColor clearColor];
+//    label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, lansongView.frame.size.width, lansongView.frame.size.height)];
+//    label.text=@"UI图层演示";
+//    label.textColor=[UIColor redColor];
+//    label.font = [UIFont systemFontOfSize:20.0f];
+//    [view addSubview:label];
+//    [self.view addSubview:view];
+//    [drawPadCamera addViewPen:view isFromUI:YES];
     
     
     //增加mv图层
@@ -79,27 +100,13 @@
     [drawPadCamera addMVPen:colorPath withMask:maskPath];
     
     //开始预览
+    drawPadCamera.cameraPen.disableAudio=YES;
+    
     [drawPadCamera startPreview];
-    [beautyMng addBeauty:drawPadCamera.cameraPen];
-    
-//    LSLog(@"scale %f x %f",drawPadCamera.cameraPen.scaleWidth, drawPadCamera.cameraPen.scaleHeight);
-    
-    drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
-    drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO
-    
-    
-//    SubPen *pen=[drawPadCamera.cameraPen addSubPen];
-//    pen.scaleWidth=0.5f;
-//    pen.scaleHeight=0.5;
-//
-//    pen.positionX=pen.scaleWidthValue/2;
-//    pen.positionY=pen.scaleHeightValue/2;
-//    LSLog(@"pen x%f, y:%f",pen.positionX,pen.positionY);
-    
-    
     
     //初始化其他UI界面.
     [self initView];
+    
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
@@ -134,6 +141,7 @@
                     //停止,开始播放;
                     [drawPadCamera stopRecord:^(NSString *path) {
                         dispatch_async(dispatch_get_main_queue(), ^{
+                           // [drawPadCamera stopPreview];
                             [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:path];
                         });
                     }];
@@ -146,7 +154,6 @@
                 break;
             case 201:  //美颜
                 if(beautyLevel==0){  //增加美颜
-                    
                     [beautyMng addBeauty:drawPadCamera.cameraPen];
                     beautyLevel+=0.22;
                 }else{
@@ -199,7 +206,6 @@
 }
 /**
  滑动 效果调节后的相应
- 
  */
 - (void)slideChanged:(UISlider*)sender
 {
@@ -233,7 +239,7 @@
     }];
     
     //滑动按钮
-    filterSlider=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节 "];
+    filterSlider=[self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"效果调节"];
     
     //点击按钮;
     UIButton *btnFilter=[[UIButton alloc] init];
@@ -334,6 +340,7 @@
 {
     UILabel *labPos=[[UILabel alloc] init];
     labPos.text=text;
+    labPos.textColor=[UIColor redColor];
     
     UISlider *slideFilter=[[UISlider alloc] init];
     

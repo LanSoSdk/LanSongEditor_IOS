@@ -42,7 +42,22 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //容器显示,集成UIView
 #import <LanSongEditorFramework/LanSongView2.h>
+
+//前台录制UI
+#import <LanSongEditorFramework/LSORecordUIPreview.h>
+
+//后台录制UI
+#import <LanSongEditorFramework/LSORecordUIExecute.h>
+
+
+#import <LanSongEditorFramework/DrawPadAeText.h>
+#import <LanSongEditorFramework/LSOOneLineText.h>
+
 //********************图层类(6个)*************************************
+
+//处理视频和音频的基本单元.
+#import <LanSongEditorFramework/LSOVideoBody.h>
+#import <LanSongEditorFramework/LSOAudioBody.h>
 
 //图层的父类, 所有的xxxPen 集成这个父类;
 #import <LanSongEditorFramework/Pen.h>
@@ -102,27 +117,14 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //处理图片的一些公共函数.(持续增加)
 #import <LanSongEditorFramework/LanSongImageUtil.h>
+//辅助类, 保存数据到文件;
+#import <LanSongEditorFramework/LSOSaveToFile.h>
 
 //*************************杂项**************************
 
-#import <LanSongEditorFramework/LSOValueDelegate.h>
-//#import <LanSongEditorFramework/LSOAnimatedControl.h>
-//#import <LanSongEditorFramework/LSOCacheProvider.h>
-//#import <LanSongEditorFramework/LSOKeypath.h>
-//#import <LanSongEditorFramework/LSOInterpolatorCallback.h>
-#import <LanSongEditorFramework/LSOAnimatedSwitch.h>
-#import <LanSongEditorFramework/LSOAnimationCache.h>
-#import <LanSongEditorFramework/LSOComposition.h>
-#import <LanSongEditorFramework/LSOAnimationTransitionController.h>
-#import <LanSongEditorFramework/LSOAnimationView.h>
-#import <LanSongEditorFramework/LSOValueCallback.h>
-#import <LanSongEditorFramework/LSOBlockCallback.h>
-#import <LanSongEditorFramework/LanSongLSOInfo.h>
-
-
-
-
-
+#import <LanSongEditorFramework/LSOAeView.h>
+#import <LanSongEditorFramework/LSOAeImage.h>
+#import <LanSongEditorFramework/LSOAeText.h>
 
 @interface LanSongEditor : NSObject
 

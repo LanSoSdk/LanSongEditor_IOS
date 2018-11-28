@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+//包含LanSongSDK所有的库头文件
+#import <LanSongEditorFramework/LanSongEditor.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -24,12 +26,12 @@
 @property int currentFilterIndex;
 @property BOOL gDeviceListFirstShow;
 
-
-
-
++(AppDelegate *)getInstance;
 @property (nonatomic,copy) NSString *currentEditVideo;
 
-+(AppDelegate *)getInstance;
+
+@property (nonatomic) LSOVideoBody *editVideo;
+
 
 @end
 

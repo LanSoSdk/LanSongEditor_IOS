@@ -52,8 +52,8 @@ enum {
     
     LSLog(@"srcAudio:%@",srcAudio);
     mCommonArray=[NSArray arrayWithObjects:
-                  [[CommDemoItem alloc] initWithID:ID_DELETE_AUDIO hint:@"删除多媒体中的音频"],
-                  [[CommDemoItem alloc] initWithID:ID_DELETE_VIDEO hint:@"删除多媒体中的视频"],
+                  [[CommDemoItem alloc] initWithID:ID_DELETE_AUDIO hint:@"删除视频中的声音"],
+                  [[CommDemoItem alloc] initWithID:ID_DELETE_VIDEO hint:@"获取视频中的声音"],
                   [[CommDemoItem alloc] initWithID:ID_MERGE_VIDEO_AUDIO hint:@"合并音视频/增加背景音乐/替换音乐"],
                   [[CommDemoItem alloc] initWithID:ID_CUT_AUDIO hint:@"剪切音频"],
                   [[CommDemoItem alloc] initWithID:ID_CUT_VIDEO hint:@"剪切视频"],

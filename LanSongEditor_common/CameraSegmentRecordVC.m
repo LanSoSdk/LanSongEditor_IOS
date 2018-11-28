@@ -113,8 +113,6 @@
     [drawPadCamera startPreview];
     [beautyMng addBeauty:drawPadCamera.cameraPen];
     
-    drawPadCamera.cameraPen.scaleWidth *=0.75;  //LSTODO
-    drawPadCamera.cameraPen.scaleHeight *=0.75; //LSTODO
     
     //初始化其他UI界面.
     [self initView];

@@ -198,6 +198,29 @@
 }
 
 /**
+ percent : 如果是竖屏的话, 高度占用全屏的多少大小;
+ */
++(LanSongView2 *)createLanSongView:(CGSize)fullSize padSize:(CGSize)size percent:(float)percent
+{
+    if(size.width>0  && size.height>0){
+        LanSongView2  *retView=nil;
+        
+        if (size.width>size.height) {
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, fullSize.width,fullSize.width*(size.height/size.width))];
+        }else{
+            //如果高度大于宽度,则使用屏幕的高度的port大小 作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
+            CGFloat height=fullSize.height*percent;
+            CGFloat width=fullSize.height*(size.width/size.height) *percent;
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, width,height)];
+            retView.center=CGPointMake(fullSize.width/2, retView.center.y);
+        }
+        return retView;
+    }else{
+        return nil;
+    }
+}
+
+/**
  设置当前viewController竖屏
  */
 +(void)setViewControllerPortrait

@@ -1,5 +1,5 @@
 //
-//  MediaEditor.h
+//  VideoEditor.h
 //  LanSongEditorFramework
 //
 //  Created by sno on 16/12/9.
