@@ -334,7 +334,6 @@
 //返回支持的方向
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
-    
 }
 -(void)testFile
 {

@@ -9,6 +9,19 @@
 
 @interface LanSongImageUtil : NSObject
 
+
+/**
+ 图片拷贝.
+ 
+ 可能不是很好的办法;
+ 内部代码是:
+ UIGraphicsBeginImageContext(imageToCopy.size);
+ [imageToCopy drawInRect:CGRectMake(0, 0, imageToCopy.size.width, imageToCopy.size.height)];
+ UIImage *copiedImage =UIGraphicsGetImageFromCurrentImageContext();
+ UIGraphicsEndImageContext();
+ */
++(UIImage *)uiImageCopy:(UIImage *)imageToCopy;
+
 /**
  CVPixelBufferRef 转image
  

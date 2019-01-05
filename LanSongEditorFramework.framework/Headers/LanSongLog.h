@@ -12,9 +12,11 @@
 //显示或注释掉.
 #define LANSONGSDK_DEBUG 1
 
-#define SNOLog(msg...) do{ if(DEUG) printf(msg);}while(0)
-
 #define LSLog(fmt, ...) NSLog((@"LanSongSDK: " fmt), ##__VA_ARGS__);
+
+#define LSLog_i(fmt, ...) NSLog((@"LanSongSDK.info: " fmt), ##__VA_ARGS__);
+#define LSLog_w(fmt, ...) NSLog((@"LanSongSDK.Warning: " fmt), ##__VA_ARGS__);
+#define LSLog_e(fmt, ...) NSLog((@"LanSongSDK.Error: " fmt), ##__VA_ARGS__);
 
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG

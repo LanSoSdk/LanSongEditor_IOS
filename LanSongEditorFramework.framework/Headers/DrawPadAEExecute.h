@@ -175,4 +175,6 @@
 
 
 
+-(void)setAeController:(NSMutableArray *)imageArray;
+
 @end

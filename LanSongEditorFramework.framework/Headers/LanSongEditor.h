@@ -20,7 +20,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //**************************容器类(8个)***********************************
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
-
 //视频后台执行容器
 #import <LanSongEditorFramework/DrawPadVideoExecute.h>
 
@@ -121,7 +120,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOSaveToFile.h>
 
 //*************************杂项**************************
-
 #import <LanSongEditorFramework/LSOAeView.h>
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>

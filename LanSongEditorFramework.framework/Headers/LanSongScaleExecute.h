@@ -15,18 +15,14 @@
 
 /**
  init
- 
  @param path 要缩放的视频完整路径
  @param size 缩放到的大小,
  @param dstPath 缩放后保存到的视频路径, 后缀是mp4
  @return
  */
 -(id)initWithPath:(NSString *)path scaleSize:(CGSize)size dstPath:(NSString *)dstPath;
-
-
 /**
  init
- 
  @param path 要缩放的视频完整路径
  @param size 缩放到的大小,
  @param bitrate 缩放到的码率.

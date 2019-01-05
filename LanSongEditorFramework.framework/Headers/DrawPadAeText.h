@@ -23,41 +23,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DrawPadAeText : NSObject
 
 
-@property (readonly) CGFloat duration;
 
 @property (nonatomic,readonly) CGSize drawpadSize;
-
-
 /**
- 获取当前支持的最大行数;
- */
-@property (nonatomic,readonly) int  maxLine;
-
-//总帧数.
-@property (nonatomic,readonly) int  totalFrames;
-
--(id)initAsExecute;
--(id)initAsPreview;
-
-
-/**
- 预览的时候, 有效;
+ 增加预览窗口
  */
 -(void)addLanSongView2:(LanSongView2 *)view;
 /**
- LSOOneLineText 类型的素组;
- */
-@property (nonatomic,copy)NSArray *textArray;
-
-
-/**
- 每个图层的信息, 有开始帧和结束帧
- */
-@property (nonatomic,readonly)NSArray *aeImageLayerArray;
-/**
  开始执行
  */
--(BOOL)start;
+-(BOOL)startPreview;
+
+-(BOOL)startExport;
 /**
  取消
  */
@@ -65,21 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 定位到哪一帧;
+ 放进去一段文字;
+ 
+ 内部会根据json中每一行的大小来分段.
+ 
+ @param text 文字
+ @param start 文字的开始时间
+ @param endTime 文字的结束时间;
  */
--(void)seekToFrame:(int)frame;
-/**
- 播放速度.
- 从0.1 到10;
- 0.1是放慢10倍; 10则是加快10倍; 1.0是正常;
- */
--(void)setSpeed:(float)speed;
-/**
- 停止.
- */
--(void)stop;
-
-@property (getter=isPaused) BOOL pause;
+-(void)pushText:(NSString *)text  startTime:(float)startTime endTime:(float)endTime;
 
 /**
  进度回调,
@@ -89,11 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
-@property(nonatomic, copy) void(^frameProgressBlock)(int frame);
-
-
-
-@property(nonatomic, copy) void(^willshowFrameBlock)(int frame);
+@property(nonatomic, copy) void(^frameProgressBlock)(BOOL isExport,float percent);
 /**
  编码完成回调, 完成后返回生成的视频路径;
  工作在其他线程,
@@ -101,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
-@property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
+@property(nonatomic, copy) void(^completionBlock)(BOOL isExport,NSString *dstPath);
 
 
 
@@ -110,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,readonly) BOOL isRunning;
 
-
+@property (nonatomic,readonly) BOOL isExporting;
 /**
  增加背景图片
  @param image <#image description#>
@@ -131,57 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(BitmapPen *)addLogoBitmap:(UIImage *)image;
 
-
-
-/**
- 把原视频的声音替换掉;
- @param video 原视频
- @param audio 要替换的音频
- */
-+(NSString *)addAudioDirectly:(NSString *)video audio:(NSString*)audio;
+-(void)addAudioPath:(NSURL *)path;
 
 @end
 NS_ASSUME_NONNULL_END
 
-/*
- 代码使用;
- 
- aeText=[[DrawPadAeText alloc] init];
- __weak typeof(self) weakSelf = self;
- 
- NSMutableArray *textArray=[[NSMutableArray alloc] init];
- for (int i=0; i<15; i++) {   //当前最大15行
- LSOOneLineText *text=[[LSOOneLineText alloc] init];
- text.textColor=[UIColor redColor];  //颜色是红色;
- text.text=[NSString stringWithFormat:@"ONE LINE__%d__",i];
- [textArray addObject:text];
- }
- 
- aeText.textArray=textArray;
- 
- [aeText setProgressBlock:^(CGFloat progess) {
- dispatch_async(dispatch_get_main_queue(), ^{
- [weakSelf drawpadProgress:progess];
- });
- }];
- 
- [aeText setCompletionBlock:^(NSString * _Nonnull dstPath) {
- dispatch_async(dispatch_get_main_queue(), ^{
- [weakSelf drawpadCompleted:dstPath];
- });
- }];
- [aeText start];
- }
- -(void)drawpadProgress:(CGFloat) progress
- {
- int percent=(int)(progress*100/aeText.duration);
- LSLog(@"   当前进度 %f,百分比是:%d",progress,percent);
- }
- -(void)drawpadCompleted:(NSString *)path
- {
- VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
- vce.videoPath=path;
- [self.navigationController pushViewController:vce animated:NO];
- }
- 
- */

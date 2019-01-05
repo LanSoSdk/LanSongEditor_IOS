@@ -91,6 +91,12 @@
  @param size <#size description#>
  */
 -(void)setRecordSize:(CGSize)size;
+
+/**
+ 设置录制的码率
+ 在startRecord前调用;
+ */
+-(void)setRecordBitrate:(int)bitrate;
 /**
  开始执行,并实时录制;
  

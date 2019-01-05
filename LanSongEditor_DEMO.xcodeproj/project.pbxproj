@@ -127,6 +127,7 @@
 		8B86383F1D51ABE8007A353C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86383E1D51ABE8007A353C /* OpenGLES.framework */; };
 		8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8638461D51AD0E007A353C /* QuartzCore.framework */; };
 		8B8673EB1F79BB2B008277EE /* SegmentRecordProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8673EA1F79BB2B008277EE /* SegmentRecordProgressView.m */; };
+		8B86E4C821E035AD00C7D6E3 /* textAudio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B86E4C721E0356100C7D6E3 /* textAudio.m4a */; };
 		8B890DD0217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B890DCF217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m */; };
 		8B93547A1FBC50F800014390 /* lookup_amatorka.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF761401F983A9600436073 /* lookup_amatorka.png */; };
 		8BA1B920204F95D300DBA5F0 /* lansongbeauty.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BA1B91F204F95D300DBA5F0 /* lansongbeauty.png */; };
@@ -370,6 +371,7 @@
 		8B8638461D51AD0E007A353C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8B8673E91F79BB2B008277EE /* SegmentRecordProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentRecordProgressView.h; sourceTree = "<group>"; };
 		8B8673EA1F79BB2B008277EE /* SegmentRecordProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentRecordProgressView.m; sourceTree = "<group>"; };
+		8B86E4C721E0356100C7D6E3 /* textAudio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = textAudio.m4a; sourceTree = "<group>"; };
 		8B890DCE217AF9AA008D8856 /* BitmapPadPreviewDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitmapPadPreviewDemoVC.h; sourceTree = "<group>"; };
 		8B890DCF217AF9AA008D8856 /* BitmapPadPreviewDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmapPadPreviewDemoVC.m; sourceTree = "<group>"; };
 		8BA1B91F204F95D300DBA5F0 /* lansongbeauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lansongbeauty.png; sourceTree = "<group>"; };
@@ -875,6 +877,7 @@
 		8BF0E2A71D51D53600F52374 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				8B86E4C721E0356100C7D6E3 /* textAudio.m4a */,
 				8BFE420D21AA89F50081FACE /* textONLY3.json */,
 				8BFBC7EB21AEA02100613890 /* bgStory.jpg */,
 				8B621C9A21A036E500CFC8B7 /* point_emitter.png */,
@@ -1065,6 +1068,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B86E4C821E035AD00C7D6E3 /* textAudio.m4a in Resources */,
 				8B29A988215CF5710008AD46 /* dy_xialu2.mp4 in Resources */,
 				8BFBC7F421AEAAFD00613890 /* LanSongEditorBundle.bundle in Resources */,
 				8B7431C421218BAC0037EE3F /* aobama.mp4 in Resources */,

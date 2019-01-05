@@ -26,8 +26,6 @@
  用initWithURL/initWithPath 增加的背景视频后, 得到的视频图层对象;
  */
 @property (nonatomic)   VideoPen *videoPen;
-
-
 /**
  当前容器大小, 创建后,如果用 initWithURL/initWithPath 则等于视频本身的分辨率
  如果用init创建的,则等于第一个增加的json文件或MV的分辨率;
@@ -91,6 +89,8 @@
  @param view
  */
 -(void)addLanSongView:(LanSongView2 *)view;
+
+
 
 /**
  增加UI图层;
@@ -184,7 +184,8 @@
  */
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progress);
 
-
+//内部使用
+-(void)setAeController:(NSMutableArray *)imageArray;
 
 /**
  文字使用.

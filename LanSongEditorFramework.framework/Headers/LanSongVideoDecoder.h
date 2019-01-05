@@ -51,4 +51,5 @@
  当前 getOneFrame得到的图片的时间戳;
  */
 -(float)getCurrentFramePts;
+@property (nonatomic,readonly)   NSURL *videoUrl;
 @end

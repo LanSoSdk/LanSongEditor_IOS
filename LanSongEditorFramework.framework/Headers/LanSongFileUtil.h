@@ -59,6 +59,16 @@
 +(NSString *)genTmpMp3Path;
 
 /**
+ 获取mainBundle中的url
+ */
++(nullable NSURL *) URLForResource:(nullable NSString *)name withExtension:(nullable NSString *)ext;
+
+/**
+ 获取mainBundle中的string
+ */
++(nullable NSString *)pathForResource:(nullable NSString *)name ofType:(nullable NSString *)ext;
+
+/**
  *
  *  在当前app下Documents文件夹里,创建一个指定文件名的路径
  *  @param filename 返回该路径的字符串(只是生成一个字符串, 没有真正生成文件)

@@ -30,12 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *imgName;
 
 //图片图层中的图片对应的id号.
-@property (nonatomic, readonly, nullable) NSString *imgID;
+@property (nonatomic, readonly, nullable) NSString *imgId;
 
 //图片的宽高;
 @property (nonatomic, readonly) int imgWidth;
 @property (nonatomic, readonly) int imgHeight;
 
+-(void)setImage:(UIImage *)image;
 
 
 

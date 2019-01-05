@@ -161,20 +161,9 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  */
 -(void)switchFilter:(LanSongOutput<LanSongInput> *)filter;
 /**
-  切换滤镜, 
- 切换到的目标滤镜需要第二个输入源的情况;
-
- @param filter 切换到的滤镜
- @param secondInput filter的第二个输入源, 一般用在各种Blend类型的滤镜中
- */
--(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
-
-
-/**
   切换滤镜, 这里是滤镜级联(滤镜叠加)
 
  只增加两头的;
- 
  举例1:
   3个滤镜级联:视频图层--经过 A滤镜 --->B滤镜--->C滤镜--->DrawPad编码
  则这里应该填写的是 startFilter=A滤镜;
@@ -197,6 +186,16 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
  @param endFilter  切换的最后一个滤镜.
  */
 -(void)switchFilterWithStartFilter:(LanSongOutput<LanSongInput> *)startFilter endFilter:(LanSongOutput<LanSongInput> *)endFilter;
+
+/**
+ 切换滤镜,
+ 切换到的目标滤镜需要第二个输入源的情况;
+ 
+ @param filter 切换到的滤镜
+ @param secondInput filter的第二个输入源, 一般用在各种Blend类型的滤镜中
+ */
+-(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
+
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
 

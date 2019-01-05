@@ -20,6 +20,12 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 +(void)setGLanSongForcePrecomWidth:(CGFloat)w;
 +(void)setGLanSongForcePrecomHeight:(CGFloat)h;
++(void)setLanSongAEWorkForPreview:(BOOL)is;
+/**
+ 但输入的图片和 json中的图片宽高不同时,是否要强制等于输入图片的宽高;
+ */
++(void)setGLanSongForceAdjustLayerSize:(BOOL)is;
+
 
 /**
  从指定位置 增加动画文件json;
@@ -71,7 +77,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  拿到json中所有图片的信息, 一个LSOAeImage对象数组;
  
  比如打印出来:
-     for(LSOAeImage *info in imageInfoArray){
+     for(LSOAeImage *info in aeView.imageInfoArray){
          LSLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
      }
  */
@@ -94,15 +100,15 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  当前json中所有图片图层的信息;
   获取到的是 LSOAeImageLayer对象;
  比如;
- for (LSOAeImageLayer *layer in aeView.imageLayerArray) {
- LSLog(@"id:%@,wxh:%d %d,start frame:%d---%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
+ for (LSOAeImageLayer *layer in view.imageLayerArray) {
+ LSLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
  }
  */
 @property (nonatomic) NSMutableArray *imageLayerArray;
 
 
 /**
- 通过 资源ID更新图片
+不再使用.
  */
 - (void)updateImage:(NSString *)assetID image:(UIImage*)image;
 /**
