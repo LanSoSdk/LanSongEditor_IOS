@@ -63,6 +63,7 @@
  同时这些信息也会返回.
  */
 +(NSString *) checkFile:(NSString*)videoPath;
++(NSString *) checkFileWithURL:(NSURL*)videoUrl;
 
 @property(nonatomic, readonly) NSString *filePath;
 @property(nonatomic, readonly) NSString *fileName;
@@ -71,17 +72,30 @@
 //-------------一下是prepare后得到的信息;
 /**
  * 视频的显示宽度
- 如果视频有90或270度的角度,则视频画面本身的宽度则等于高度;
  */
-@property(nonatomic,readonly,getter=getWidth) int width;
+@property(nonatomic,readonly,getter=getWidth) CGFloat width;
 
 @property(nonatomic,readonly,getter=getSize) CGSize size;
 /**
  * 视频的显示高度
- 
- 如果视频有90或270度的角度,则视频画面本身的高度则等于宽度;
  */
-@property(nonatomic,readonly,getter=getHeight) int height;
+@property(nonatomic,readonly,getter=getHeight) CGFloat height;
+
+
+
+/**
+ 内部编码的实际宽度
+ 注：有些视频是旋转90、270度的，编码的宽度可能就是高度
+ */
+@property(nonatomic,readonly) CGFloat vWidth;
+
+
+/**
+ 内部编码的实际高度
+ 注：有些视频是旋转90、270度的，编码的高度可能就是宽度
+ */
+@property(nonatomic,readonly) CGFloat vHeight;
+
 /**
  * mp4文件中的视频轨道的总时长,
  

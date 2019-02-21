@@ -86,13 +86,14 @@
     
     //演示增加UI图层;
 //    //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
-    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
-    view.backgroundColor=[UIColor clearColor];
-    //在view上增加其他ui
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
-    label.text=@"测试文字123abc";
-    label.textColor=[UIColor redColor];
-    [view addSubview:label];
+//    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+//    view.backgroundColor=[UIColor clearColor];
+//    //在view上增加其他ui
+//    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
+//    label.text=@"测试文字123abc";
+//    label.textColor=[UIColor redColor];
+//    [view addSubview:label];
+//    [drawpadPreview addViewPen:view isFromUI:NO];
     
     
    
@@ -123,6 +124,7 @@
     }];
     
     videoPen=drawpadPreview.videoPen;
+    
     videoPen.loopPlay=YES;
     
     //开始执行,并编码

@@ -21,6 +21,10 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
 
 @property(readonly, nonatomic) dispatch_queue_t contextQueue;
 @property(readwrite, retain, nonatomic) LanSongProgram *currentLanSongProgram;
+
+/**
+ 创建openGL的语境.
+ */
 @property(readonly, retain, nonatomic) EAGLContext *context;
 @property(readonly) CVOpenGLESTextureCacheRef coreVideoTextureCache;
 @property(readonly) LanSongFramebufferCache *framebufferCache;

@@ -162,7 +162,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
-        [self stopPreview];
+    [self stopPreview];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -173,7 +173,7 @@
  */
 -(void)colorEdgeStart{
     colorEdgeFilter = [[LanSongColorEdgeFilter alloc] init];
-     [videoPen switchFilter:colorEdgeFilter];
+    [videoPen switchFilter:colorEdgeFilter];
     
     colorScaleStatus = SCALE_STATUS_ADD;
     colorScaleEnable =YES;
@@ -199,7 +199,7 @@
         if (colorEdgeCnt >= ONESCALE_FRAMES) {
             colorScaleStatus = SCALE_STATUS_DEL;
         } else if (colorEdgeCnt <= 0) { //恢复默认状态
-             [videoPen switchFilter:nil];
+            [videoPen switchFilter:nil];
             
             colorEdgeFilter =nil;
             colorEdgeCnt = 0;
@@ -257,7 +257,7 @@
 {
     if(videoPen!=nil){
         LanSongMirrorFilter *filter=[[LanSongMirrorFilter alloc] init];
-         [videoPen switchFilter:filter];
+        [videoPen switchFilter:filter];
     }
 }
 
@@ -271,7 +271,7 @@
         //放左上;
         videoPen.hidden=YES;
         
-         SubPen *pen0=[videoPen addSubPen];
+        SubPen *pen0=[videoPen addSubPen];
         pen0.scaleWidth=0.25;
         pen0.scaleHeight=0.25;
         pen0.positionX=pen0.scaleWidthValue/2;
@@ -290,8 +290,8 @@
         pen2.scaleHeight=0.25;
         pen2.positionX=pen1.positionX+ pen2.scaleWidthValue;
         pen2.positionY=pen0.positionY;
-
-
+        
+        
         SubPen *pen3=[videoPen addSubPen];
         pen3.scaleWidth=0.25;
         pen3.scaleHeight=0.25;
@@ -366,7 +366,7 @@
 {
     if(videoPen!=nil){
         LanSongColorInvertFilter *filter=[[LanSongColorInvertFilter alloc] init];
-         [videoPen switchFilter:filter];
+        [videoPen switchFilter:filter];
     }
 }
 -(void)videoColorToon
@@ -380,7 +380,7 @@
 {
     if(videoPen!=nil){
         LanSongLaplacianFilter *filter=[[LanSongLaplacianFilter alloc] init];
-         [videoPen switchFilter:filter];
+        [videoPen switchFilter:filter];
     }
 }
 /**
@@ -518,4 +518,5 @@
     dstPath=nil;
 }
 @end
+
 

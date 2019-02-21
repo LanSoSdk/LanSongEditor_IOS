@@ -58,6 +58,11 @@
  */
 +(NSString *)genTmpMp3Path;
 
+
+/**
+ 创建wavg的路径
+ */
++(NSString *)genTmpWAVPath;
 /**
  获取mainBundle中的url
  */

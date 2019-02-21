@@ -93,6 +93,11 @@ NS_ASSUME_NONNULL_END
 
 /*
  测试代码:
+ LSORecordUIExecute *uiExecute;
+ UILabel *label;
+ int labelCnt;
+ -(void)testRecordUI
+ {
  UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 540, 960)];
  label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 400, 120)];
  label.textColor=[UIColor redColor];
@@ -104,6 +109,9 @@ NS_ASSUME_NONNULL_END
  
  uiExecute=[[LSORecordUIExecute alloc] initWithView:view recordSize:CGSizeMake(540, 960) frameRate:15 duration:12.5f];  //临时这样;
  [uiExecute setProgressBlock:^(CGFloat progess) {
+ 
+ label.text=[NSString stringWithFormat:@"测试自:%d",labelCnt];
+ labelCnt++;
  
  dispatch_async(dispatch_get_main_queue(), ^{
  CGPoint point=CGPointMake(label.center.x+2, label.center.y);
@@ -119,6 +127,6 @@ NS_ASSUME_NONNULL_END
  
  }];
  [uiExecute start];
- 
+ }
  */
 @end

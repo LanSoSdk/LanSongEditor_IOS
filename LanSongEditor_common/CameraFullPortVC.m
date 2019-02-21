@@ -99,9 +99,6 @@
     NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
     [drawPadCamera addMVPen:colorPath withMask:maskPath];
     
-    //开始预览
-    drawPadCamera.cameraPen.disableAudio=YES;
-    
     [drawPadCamera startPreview];
     
     //初始化其他UI界面.

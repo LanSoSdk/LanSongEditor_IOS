@@ -37,7 +37,7 @@
 
 #define VIDEO_FOLDER @"videos"
 
-#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define LSOWS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 
 @interface LanSongUtils : NSObject

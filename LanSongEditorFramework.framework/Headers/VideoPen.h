@@ -14,10 +14,6 @@
 
 
 
-/**
- * Source object for filtering movies
- * 解码传递过来的文件路径. 解码
- */
 @interface VideoPen : Pen
 
 
@@ -44,6 +40,7 @@
 
 /**
  当前视频的时长;
+ 单位:秒; 等于视频的
  */
 @property(nonatomic) CGFloat duration;
 

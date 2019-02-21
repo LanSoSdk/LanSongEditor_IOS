@@ -1262,7 +1262,7 @@
             self.filterSlider.hidden = NO;
             
             [self.filterSlider setMinimumValue:0.0];
-            [self.filterSlider setMaximumValue:24.0];
+            [self.filterSlider setMaximumValue:80.0];  //old 24
             [self.filterSlider setValue:2.0];
             
             self.selectedFilter = [[LanSongGaussianBlurFilter alloc] init];
@@ -1309,7 +1309,7 @@
         }; break;
         case LanSong_GAUSSIAN_SELECTIVE:
         {
-            self.title = @"Selective Blur";
+            self.title = @"区域模糊";
             self.filterSlider.hidden = NO;
             
             [self.filterSlider setMinimumValue:0.0];
@@ -1321,7 +1321,7 @@
         }; break;
         case LanSong_GAUSSIAN_POSITION:
         {
-            self.title = @"Selective Blur";
+            self.title = @"指定位置模糊";
             self.filterSlider.hidden = NO;
             
             [self.filterSlider setMinimumValue:0.0];
@@ -1333,7 +1333,7 @@
         }; break;
         case LanSong_BILATERAL:
         {
-            self.title = @"Bilateral Blur";
+            self.title = @"双边模糊Bilateral Blur";
             self.filterSlider.hidden = NO;
             
             [self.filterSlider setMinimumValue:0.0];
@@ -1549,6 +1549,7 @@
             [(LanSongBoxBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_GAUSSIAN:
+//            LSLog(@"lansong gaussian set blurradius:%f",value)
             [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
             

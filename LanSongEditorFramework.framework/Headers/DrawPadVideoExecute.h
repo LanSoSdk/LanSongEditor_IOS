@@ -26,10 +26,17 @@
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
  */
 @property (nonatomic,readonly)MediaInfo *mediaInfo;
-@property (nonatomic)   VideoPen2 *videoPen;
-@property (nonatomic,assign) CGSize drawpadSize;
 
 
+/**
+ 容器运行的总时间;
+ */
+@property (nonatomic,readonly)CGFloat durationS;
+
+/**
+ 当前容器的尺寸, 如果你没有设置,则默认是视频的宽高.
+ */
+@property (nonatomic,readonly) CGSize drawpadSize;
 
 /**
  初始化
@@ -44,17 +51,65 @@
 -(id)initWithPath:(NSString *)videoPath drawPadSize:(CGSize)size;
 
 /**
+ 在initWithXXX后得到的视频图层对象;
+ */
+@property (nonatomic)   VideoPen2 *videoPen;
+/**
  增加UI图层;
  @param view UI图层
  @return 返回对象
  */
 -(ViewPen *)addViewPen:(UIView *)view;
 
+
+/**
+ 增加图片图层
+
+ @param image 图片
+ @return 返回图片图层对象; 或nil;
+ */
 -(BitmapPen *)addBitmapPen:(UIImage *)image;
 
+/**
+ 增加一个mv图层
+
+ @param colorPath mv图层的颜色视频
+ @param maskPath mv图层的黑白视频
+ @return 返回mv对象或nil;
+ */
 -(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
+
+/**
+ 删除图层
+ */
 -(void)removePen:(Pen *)pen;
+
+
+/**
+ 交换两个图层在容器中的上下层位置
+ [在开始前调用]
+
+ @param first 第一个图层
+ @param second 第二个图层
+ @return 成功返回YES;
+ */
+-(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+
+/**
+ 设置图层在容器中的位置;
+ [在开始前调用]
+ 
+ @param pen 图层对象
+ @param index 位置, 最底层是0, 最外层是 getPenSize-1
+ */
+-(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+
+/**
+ 获取当前图层的数量
+ */
+-(int)getPenCount;
+
 /**
  设置录制视频的宽高;
  设置后, 容器宽高不变, 会在编码的时候, 把容器的所有图层缩放到这个宽高上;

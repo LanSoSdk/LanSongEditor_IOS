@@ -26,6 +26,13 @@
 
 
 
+
+/**
+ 替换UIView
+ view的大小要等于init输入的inputView大小.
+ */
+-(void)replaceUIView:(UIView *)view;
+
 /**
  设置: 是否使用了核心动画
  默认不使用;

@@ -32,16 +32,6 @@
 /**
  初始化
  指定容器大小, 指定后, 视频以原有的尺寸居中放到容器中;
- 
- 原尺寸对齐说明如下:
- 1. 如果视频宽高大于容器宽高,则视频会显示到容器外面,如果小于则显示到内部;
- 2. 举例:比如视频宽高是1280*720; 如果你设置的iphone 6plus,他的self.view.frame.size是414x736;则只会显示视频居中的414x736的局域画面; 视频的高度是720;但屏幕是736;则会居中显示, 画面的上方和下方有8个像素的黑边;(736-720=16/2=8);
- 
- 3.如果要视频的宽度和容器的宽度对齐,则缩放是:videoPen.scaleWH=videoPen.drawPadSize.width/videoPen.penSize.width;
- 4.如果要视频的高度和容器高度对齐,则缩放是:videoPen.scaleWH=videoPen.drawPadSize.height/videoPen.penSize.height;
- 5.视频的移动以原视频的尺寸移动; videoPen.penSize等于视频的宽高;
- 6. 视频在编码时,建议最好是540x960或 1280x720,或640x640,会把容器的画面填满到您设置的编码分辨率.
- 
  @param videoPath 视频路径
  @param size
  */
@@ -88,6 +78,29 @@
 
 -(void)removePen:(Pen *)pen;
 
+/**
+ 交换两个图层在容器中的上下层位置
+ [在开始前调用]
+ 
+ @param first 第一个图层
+ @param second 第二个图层
+ @return 成功返回YES;
+ */
+-(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+
+/**
+ 设置图层在容器中的位置;
+ [在开始前调用]
+ 
+ @param pen 图层对象
+ @param index 位置, 最底层是0, 最外层是 getPenSize-1
+ */
+-(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+
+/**
+ 获取当前图层的数量
+ */
+-(int)getPenCount;
 
 /**
  设置录制视频的宽高;

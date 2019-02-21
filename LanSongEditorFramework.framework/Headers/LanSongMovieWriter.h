@@ -58,6 +58,11 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 @property(readwrite, nonatomic) BOOL hasAudioTrack;
 @property(readwrite, nonatomic) BOOL shouldPassthroughAudio;
 @property(readwrite, nonatomic) BOOL shouldInvalidateAudioSampleWhenDone;
+
+/**
+ 忽略endproceing的回调.
+ */
+@property(nonatomic, copy) void(^ingoreEndProcessingBlock)(void);
 @property(nonatomic, copy) void(^completionBlock)(void);
 @property(nonatomic, copy) void(^failureBlock)(NSError*);
 @property(nonatomic, assign) id<LanSongMovieWriterDelegate> delegate;
@@ -76,6 +81,11 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
 //lanso++
 @property(nonatomic, copy) void(^videoProgressBlock)(CGFloat progess);
 
+/**
+ 当有别的target调用到这里后, 是否忽略endProcessing这个方法
+ 在多个视频拼接的时候, 前几个视频要忽略这个方法;
+ */
+@property(nonatomic, assign) BOOL isIngoreEndProcessing;
 
 
 - (id)initWithMovieURL:(NSURL *)newMovieURL size:(CGSize)newSize;

@@ -16,4 +16,5 @@
  用来开发测试用, 外界请不要使用.
  */
 @interface LanSongTESTVC : UIViewController
+@property NSURL *videoPath;
 @end

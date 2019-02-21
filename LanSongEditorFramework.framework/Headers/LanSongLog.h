@@ -20,13 +20,18 @@
 
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG
-#define LSTODO(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
+#define LSDELETE(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
 #define LANSOSDKLine NSLog(@"[LanSoEditor] function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 #else
+#define LSDELETE ;
 #define LANSOSDKLine ;
 #endif
 
 
+#define LSORUN_IN_BACKGLOBAL(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+#define LSORUN_IN_MAIN(block) dispatch_async(dispatch_get_main_queue(),block)
+
+//计算时间.
 #define LSTODO_CHECK_TIME_START CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
 #define LSTODO_CHECK_TIME_END LSLog(@"当前消耗的时间是: %0.3f(秒)", (CFAbsoluteTimeGetCurrent() - start));
 // do something

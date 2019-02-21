@@ -142,7 +142,11 @@
     viewPenRoot=[[UIView alloc] initWithFrame:lansongView.frame];
     [self.view addSubview:viewPenRoot];
     
-
+    //ui上面增加涂鸦功能.
+    drawView=[[LSDrawView alloc] initWithFrame:CGRectMake(0, 0, viewPenRoot.frame.size.width, viewPenRoot.frame.size.height)];
+    drawView.brushColor = UIColorFromRGB(255, 255, 0);
+    drawView.shapeType = LSShapeCurve;  //形状是曲线;
+    [viewPenRoot addSubview:drawView];
     
     
     [self.view addSubview:self.cancelBtn];
@@ -164,14 +168,12 @@
         make.height.mas_equalTo(SCREENAPPLYHEIGHT(74));
     }];
     
-    [self.toolsBtnView configureView:@[@"贴纸",@"暂停",@"文字",@"清除",@"涂鸦"] btnWidth:50 viewWidth:self.view.frame.size.width];
+    [self.toolsBtnView configureView:@[@"贴纸",@"暂停",@"文字",@"清除"] btnWidth:50 viewWidth:self.view.frame.size.width];
     
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-    
     CGPoint point = [[touches anyObject] locationInView:self.view];
     BOOL selected = NO;
     
@@ -189,11 +191,6 @@
 }
 -(void)LSOToolButtonsSelected:(int)index
 {
-    if(drawView!=nil){
-        [drawView removeFromSuperview];
-        drawView=nil;
-        [LanSongUtils showHUDToast:@"删除 涂鸦功能"];
-    }
     switch (index) {
         case 0:  //贴纸
              [self showStickerFooterView];
@@ -211,18 +208,6 @@
             break;
         case 3:  //清除
             [self cleaViews];
-            break;
-        case 4:
-            {
-                //ui上面增加涂鸦功能.
-                if(drawView==nil){
-                    drawView=[[LSDrawView alloc] initWithFrame:CGRectMake(0, 0, viewPenRoot.frame.size.width, viewPenRoot.frame.size.height)];
-                    drawView.brushColor = UIColorFromRGB(255, 255, 0);
-                    drawView.shapeType = LSShapeCurve;  //形状是曲线;
-                    [viewPenRoot addSubview:drawView];
-                    [LanSongUtils showHUDToast:@"增加 涂鸦功能"];
-                }
-            }
             break;
         default:
             break;

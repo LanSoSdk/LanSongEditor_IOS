@@ -52,7 +52,7 @@
     
     
     UIView *view=[self newButton:lansongView index:201 hint:@"替换图片"];
-    view=[self newButton:view index:202 hint:@"开始后台处理"];
+    view=[self newButton:view index:202 hint:@"后台处理(导出)"];
     
     
     

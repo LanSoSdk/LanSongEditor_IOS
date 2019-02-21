@@ -39,7 +39,19 @@
  通过 initWithURL/initWithPath创建的视频对象
  */
 @property (nonatomic)   LanSongMovie *videoPen;
-@property (nonatomic,assign) CGSize drawpadSize;
+
+/**
+ 当前容器的大小
+ */
+@property (nonatomic,readonly) CGSize drawpadSize;
+
+
+/**
+ 设置编码时的码率.
+ 可选;
+ */
+@property (nonatomic,assign) int encoderBitRate;
+
 
 @property (nonatomic,readonly) int penCount;
 

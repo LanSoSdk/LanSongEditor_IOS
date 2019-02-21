@@ -18,14 +18,25 @@
  @param srcInput 音频或视频源
  @param volume 和其他声音混合时的音量; 如不要主视频的声音,则这里等于0;
  */
--(id)initWithPath:(NSURL *)srcInput volume:(CGFloat)volume;
+-(id)initWithURL:(NSURL *)srcInput volume:(CGFloat)volume;
 
+
+/**
+ 音频容器(定义一个时长)
+定义容器的总长度, 然后依次增加声音.
+ 
+ @param durationS 定义容器的总长度
+ */
+-(id)initWithDuration:(CGFloat)durationS;
+
+
+-(id)initWithURL:(NSURL *)srcInput volume:(CGFloat)volume onlyAudio:(BOOL)only;
 /**
  增加音频
 可多次调用
  LSNEW
  @param audio 音频路径.或带有音频的视频路径
- @param volume 混合时的音量
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @return 增加成功,返回YES, 失败返回NO;
  */
 -(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume;
@@ -35,7 +46,7 @@
  可多次调用
  
  @param audio 音频路径.或带有音频的视频路径
- @param volume 混合时的音量
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @param isLoop 是否循环
  @return 增加成功,返回YES, 失败返回NO;
  */
@@ -49,7 +60,7 @@
  @param audio 音频路径.或带有音频的视频路径
  @param start 开始
  @param pos  把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
- @param volume 混合时的音量
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @return 增加成功,返回YES, 失败返回NO;
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start pos:(CGFloat)pos volume:(CGFloat)volume;
@@ -58,7 +69,7 @@
  可多次调用
  @param audio 音频路径.或带有音频的视频路径
  @param start 音频的开始时间段
- @param end 音频的结束时间段
+ @param end 音频的结束时间段 如果增加到结尾, 则可以输入-1
  @param pos 把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
  @param volume 混合时的音量
  @return 增加成功,返回YES, 失败返回NO;
@@ -76,9 +87,15 @@
  */
 -(void)cancel;
 
-
+/**
+ 开始(阻塞执行)
+ 只有执行完毕后,才返回;
+ 使用在比如15s左右的音频,处理很快,可以不异步工作,直接等待执行完毕既可.
+ */
+-(NSString *)startExecute;
 /**
  进度回调,
+ 返回的百分比. 0.0---1.0
  此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;
  比如在:assetWriterPixelBufferInput appendPixelBuffer执行后,
  如要工作在主线程,请使用:
@@ -100,6 +117,7 @@
 
 /*  *************************举例如下************************************
  
+ 举例1.
  NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu1" withExtension:@"mp4"];
  AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithPath:videoURL volume:0];
  
@@ -120,5 +138,32 @@
  NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou" withExtension:@"mp3"];
  [audioPad addAudio:audioURL2 volume:0.1];
  [audioPad start];
+ 
+ 举例2:
+ -(void)testAudioPad
+ {
+     NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
+     NSString *srcVideo=[LanSongFileUtil urlToFileString:videoURL];
+ 
+     NSURL *url=[LanSongFileUtil filePathToURL:srcVideo];
+     AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithURL:url volume:0];
+ 
+     [audioPad setProgressBlock:^(CGFloat progess) {
+     dispatch_async(dispatch_get_main_queue(), ^{
+     LSLog(@"progress  dispatch_get_main_queue  is :%f",progess);
+     });
+     }];
+ 
+     [audioPad setCompletionBlock:^(NSString *dstPath) {
+ 
+     dispatch_async(dispatch_get_main_queue(), ^{
+     LSLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
+     });
+     }];
+     //增加声音
+     //    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"honor30s2" withExtension:@"m4a"];
+     //    [audioPad addAudio:audioURL2 volume:0.1];
+     [audioPad start];
+ }
 */
 @end

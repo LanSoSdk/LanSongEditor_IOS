@@ -193,6 +193,7 @@
         }
         return retView;
     }else{
+        LSLog_e(@"pad size is error !")
         return nil;
     }
 }

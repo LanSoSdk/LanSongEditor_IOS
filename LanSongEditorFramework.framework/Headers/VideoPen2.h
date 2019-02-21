@@ -12,6 +12,7 @@
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
 #import "Pen.h"
+#import "MediaInfo.h"
 
 
 /**
@@ -20,13 +21,12 @@
  */
 @interface VideoPen2 : Pen
 
+@property (readwrite, assign) CGFloat offsetSendTimeS;
+@property(nonatomic,readonly) MediaInfo *mediaInfo;
+//----------------一下方法内部使用-----------------------------
 @property (readwrite, retain) AVAsset *asset;
 @property (readwrite, retain) AVPlayerItem *playerItem;
 @property(readwrite, retain) NSURL *url;
-
-@property(readwrite, nonatomic) BOOL runBenchmark;
-
-@property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
 @property(readwrite, nonatomic) BOOL shouldRepeat;
 
@@ -35,6 +35,8 @@
 @property (readonly, nonatomic) AVAssetReader *assetReader;
 @property (readonly, nonatomic) BOOL audioEncodingIsFinished;
 @property (readonly, nonatomic) BOOL videoEncodingIsFinished;
+
+
 
 /// @name Initialization and teardown
 - (id)initWithPlayerItem:(AVPlayerItem *)playerItem;

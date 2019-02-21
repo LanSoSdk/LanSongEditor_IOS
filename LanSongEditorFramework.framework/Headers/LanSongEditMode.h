@@ -34,7 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
  [不建议使用,
  
  sdk当前默认所有的视频编码后,都是普通视频;]
- 
  开始导出, 导出为普通视频;
  @return
  */
@@ -63,5 +62,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @end
-
+/*
+ 测试代码:
+ LanSongEditMode *editMode;
+ -(void)testEditMode:(NSURL *)sampleURL
+ {
+     editMode=[[LanSongEditMode alloc] initWithURL:sampleURL];
+     [editMode setProgressBlock:^(CGFloat percent) {
+        LSLog(@"edit mode progress :%f",percent);
+     }];
+     [editMode setCompletionBlock:^(NSString * _Nonnull dstPath) {
+        [MediaInfo checkFile:dstPath];
+     }];
+     [editMode startImport];
+ 
+ }
+ */
 NS_ASSUME_NONNULL_END

@@ -85,14 +85,11 @@
     }else{
         self.seperatoeView.layer.borderWidth = 0;
     }
-    
-    
 }
 
 //
 - (void)adjustSizeOfSelect:(CGFloat)scale
 {
-    
     [super adjustSizeOfSelect:scale];
     
     self.seperatoeView.layer.borderColor = UIColorFromRGBA(255, 255, 255, 0.5).CGColor;

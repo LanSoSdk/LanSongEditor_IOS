@@ -39,20 +39,20 @@
     [super viewDidLoad];
     _notificationToken=0;
     
-    LSLog(@"-----------start  VideoPlayViewController....");
+    LSLog(@"-----------start  VideoPlayViewController-------.");
     
     [LanSongUtils setViewControllerPortrait];
     
     mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         LSLog(@"获取到的视频信息是:%@",mInfo);
-        NSString *str= [NSString stringWithFormat:@"宽度:%d"
-                "高度:%d"
+        NSString *str= [NSString stringWithFormat:@"宽度:%f"
+                "高度:%f"
                 "时长:%f"
                "旋转角度:%f"
                 "音频采样率:%d"
                 "音频通道:%d"
-                ,mInfo.getWidth,mInfo.getHeight,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
+                ,mInfo.width,mInfo.height,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
         [self.libInfo setText:str];
         [self playVideo];
         

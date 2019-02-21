@@ -12,6 +12,12 @@
 
 @interface ExecuteCropWaterMark : NSObject
 
+
+/**
+ 强为玩物\||||||||||||||
+
+ @return <#return value description#>
+ */
 - (id)init;
 /**
  *  旋转视频任意高度,因为视频有可能不是正方形, 旋转过程中, 可能出现画面超出原视频的尺寸, 故需要设置视频的宽度和高度.

@@ -1,14 +1,30 @@
 #import "LanSongFilter.h"
 
+
+/**
+ 裁剪滤镜.
+ 内部会根据传入的旋转角度来调整裁剪的大小;
+ */
 @interface LanSongCropFilter : LanSongFilter
 {
     GLfloat cropTextureCoordinates[8];
 }
 
-// The crop region is the rectangle within the image to crop. It is normalized to a coordinate space from 0.0 to 1.0, with 0.0, 0.0 being the upper left corner of the image
+/**
+ 
+ 范围是0--1;
+ x: 0.0---1.0
+ y: 0.0---1.0
+ //可以在任何进度中实时修改;
+ */
 @property(readwrite, nonatomic) CGRect cropRegion;
 
-// Initialization and teardown
+/**
+ 
+ 范围是0--1;
+ x: 0.0---1.0
+ y: 0.0---1.0
+ */
 - (id)initWithCropRegion:(CGRect)newCropRegion;
 
 @end

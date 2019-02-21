@@ -14,10 +14,6 @@
     if(!(self=[super init])){
         return nil;
     }
-    UIImage *image = [UIImage imageNamed:@"lansongbeauty.png"];
-    if(image==nil){
-        LSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
-    }
     return self;
 }
 
@@ -36,6 +32,7 @@
                 [lookupImageSource addTarget:self.lookupFilter atTextureLocation:1];
                 [lookupImageSource processImage];
                 
+                //增加下一级
                 [self.beautyFilter addTarget:self.lookupFilter atTextureLocation:0];
                 
                 [self.lookupFilter setIntensity:0.22];
@@ -45,6 +42,7 @@
                 
                 [pen switchFilterWithStartFilter:self.beautyFilter endFilter:self.lookupFilter];
             }else{
+                 LSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
                 [pen switchFilter:self.beautyFilter];
             }
             LSLog(@"已增加 美颜");

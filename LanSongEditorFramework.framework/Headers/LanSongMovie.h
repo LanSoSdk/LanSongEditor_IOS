@@ -2,6 +2,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
+#import "MediaInfo.h"
 
 /** Protocol for getting Movie played callback.
  */
@@ -10,33 +11,42 @@
 - (void)didCompletePlayingMovie;
 @end
 
-/** Source object for filtering movies
- */
+
+
+
+
+
+
 @interface LanSongMovie : LanSongOutput
+
+
 
 @property (readwrite, retain) AVAsset *asset;
 @property (readwrite, retain) AVPlayerItem *playerItem;
 @property(readwrite, retain) NSURL *url;
 
-/** This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
+@property(readonly, nonatomic)MediaInfo *mediaInfo;
+/**
+ 解码的开始时间
+ 只使用在后台
  */
+@property(readwrite, nonatomic) float startTimeS;
+
+/**
+ 解码的裁剪时长;
+ 只使用在后台
+ */
+@property(readwrite, nonatomic) float durationTimeS;
+
+
 @property(readwrite, nonatomic) BOOL runBenchmark;
 
-/** This determines whether to play back a movie as fast as the frames can be processed, or if the original speed of the movie should be respected. Defaults to NO.
- */
 @property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
-/** This determines whether the video should repeat (loop) at the end and restart from the beginning. Defaults to NO.
- */
 @property(readwrite, nonatomic) BOOL shouldRepeat;
 
-/** This specifies the progress of the process on a scale from 0 to 1.0. A value of 0 means the process has not yet begun, A value of 1.0 means the conversaion is complete.
-    This property is not key-value observable.
- */
 @property(readonly, nonatomic) float progress;
 
-/** This is used to send the delete Movie did complete playing alert
- */
 @property (readwrite, nonatomic, assign) id <LanSongMovieDelegate>delegate;
 
 @property (readonly, nonatomic) AVAssetReader *assetReader;

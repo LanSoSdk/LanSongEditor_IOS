@@ -32,7 +32,6 @@
 #import "UIPenParticleDemoVC.h"
 #import "AETextVideoDemoVC.h"
 #import "AePreviewListDemoVC.h"
-#import "StoryMakeImageEditorViewController.h"
 
 @interface MainViewController ()
 {
@@ -84,19 +83,18 @@
      if([LanSongEditor initSDK:nil]==NO){
         [LanSongUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
      }else{
-         [self showSDKInfo];
+//         [self showSDKInfo];
      }
     /*
      删除sdk中所有的临时文件.
      */
     [LanSongFileUtil deleteAllSDKFiles];
     [self initView];
-    [self testFile];
+      [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
      [LanSongUtils setViewControllerPortrait];
-     labPath.text=[AppDelegate getInstance].currentEditVideo;
 }
 /**
  点击后, 进去界面.
@@ -335,7 +333,20 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+
 -(void)testFile
 {
+    NSString *defaultVideo=@"dy_xialu2";
+    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
+    if(sampleURL!=nil){
+        labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
+        [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
+    }else{
+        [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
+    }
+    
+//    AETextVideoDemoVC *pushvc=[[AETextVideoDemoVC alloc] init];
+//    [self.navigationController pushViewController:pushvc animated:YES];
 }
 @end

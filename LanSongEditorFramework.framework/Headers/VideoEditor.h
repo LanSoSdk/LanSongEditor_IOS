@@ -143,17 +143,40 @@
 +(void)addMusicForVideo:(NSURL *)videoFile music:(NSURL *)music videoVolume:(float)videoV musicVolue:(float)musicV insertPos:(CGFloat )insetPos dstPath:(NSString *)dstPath;
 /**
  * 音频裁剪,截取音频文件中的一段.
- * 需要注意到是: 尽量保持目标文件的后缀名和源音频的后缀名一致.
- 
- [执行较快,不需要进度显示]
- 
  * @param srcFile   源音频,
- * @param dstFile  裁剪后的音频
  * @param startS  开始时间,单位是秒. 可以有小数
  * @param durationS  裁剪的时长.
- * @return 执行成功,返回0, 失败返回错误码
+ * @return
+ */
++(NSString *) executeAudioCutOut:(NSString *)srcFile startS:(float)startS duration:(float)durationS;
+
+
+/**
+ 不建议使用.
  */
 +(int) executeAudioCutOut:(NSString *)srcFile dstFile:(NSString *)dstFile startS:(float)startS duration:(float)durationS;
+
+/**
+ 把音频文件(或包含音频的视频)转换为wav格式. 单通道
+ 
+ @param srcFile 元文件
+ @param startS 开始时间
+ @param durationS 结束时间
+ @param dstSample 要设置的目标音频的采样率. 如要忽略则设为0;
+ @return 执行完毕,返回wav文件路径,
+ */
++(NSString *) executeAudioCutConvertMonoWav:(NSString *)srcFile startS:(float)startS duration:(float)durationS dstSample:(int)dstSample
+;
+
+/**
+ 把音频文件(或包含音频的视频)转换为wav格式
+ 
+ @param srcFile 元文件
+ @param dstSample 要设置的目标音频的采样率. 如要忽略则设为0;
+ @param chnl 通道号, 只能是1(单通道)或2 (双通道);默认双通道
+ @return 执行完毕,返回wav文件路径,
+ */
++(NSString *) executeConvertWav:(NSString *)srcFile dstSample:(int)dstSample dstChannel:(int)chnl;
 
 /**
  *
@@ -383,5 +406,90 @@
 + (void)compressImages:(UIImage *)image frameRate:(int)frameRate duration:(int)duration completion:(void(^)(NSURL *outurl))block;
 
 +(void)createVideoWithSize:(CGSize )size frameRate:(int)frameRate duration:(int)duration completion:(void (^)(NSURL *))block;
+
+
+
+
+
+/**
+ ffmpeg的命令.
+ 特定客户使用;
+阻塞执行
+ 
+ @param videoFile 输入的视频
+ @param startX 开始x
+ @param startY 开始坐标y
+ @param w 要删除的区域宽度
+ @param h 删除的区域高度
+ @param dstFile 处理后的目标文件路径
+ @return 成功返回0; 非零为失败;
+ */
++(int) executeDeleteLogo:(NSString*)videoFile startX:(int)startX startY:(int)startY width:(int)w height:(int)h dstPah:(NSString *)dstFile;
+
+
+
+/**
+ ffmpeg的命令.
+ 特定客户使用;
+阻塞执行
+ 
+ (如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
+ 
+ @param videoPath 输入的视频
+ @param x1 第一个区域开始X坐标
+ @param y1 第一个区域开始Y坐标
+ @param w1 第一个区域宽度
+ @param h1 第一个区域高度
+ @param x2 (以下雷同, 如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
+ 
+ @param y2 <#y2 description#>
+ @param w2 <#w2 description#>
+ @param h2 <#h2 description#>
+ @param x3 <#x3 description#>
+ @param y3 <#y3 description#>
+ @param w3 <#w3 description#>
+ @param h3 <#h3 description#>
+ @param x4 <#x4 description#>
+ @param y4 <#y4 description#>
+ @param w4 <#w4 description#>
+ @param h4 <#h4 description#>
+ @param dstFile 处理后的目标文件路径
+ @return 成功返回0; 非零为失败;
+ */
++(int) executeDeleteLogo:(NSString *) videoPath
+                      x1:(int)x1 y1:(int)y1 width1:(int)w1 height1:(int)h1
+                      x2:(int)x2 y2:(int)y2 width2:(int)w2 height2:(int)h2
+                      x3:(int)x3 y3:(int)y3 width3:(int)w3 height3:(int)h3
+                      x4:(int)x4 y4:(int)y4 width4:(int)w4 height4:(int)h4  dstPah:(NSString *)dstFile;
+
+/**
+ 当ffmpeg运行的时候, 获取当前ffmpeg的进度;
+ */
++(int)getExecuteFFmpegProgress;
+
+/*
+ 特定用户的使用delogo方法, 如下.
+ {
+ 
+  [self performSelector:@selector(delaySelector:) withObject:nil afterDelay:0.1];  //延迟0.1秒后执行的方法.
+ dispatch_async(dispatch_get_global_queue(0, 0), ^{
+ 
+ NSString *str=[LanSongFileUtil urlToFileString:sampleURL];
+ NSString *dst=[LanSongFileUtil genTmpMp4Path];
+ // int ret=[VideoEditor executeDeleteLogo:str startX:0 startY:0 width:540 height:520 dstPah:dst];
+ int ret=[VideoEditor executeDeleteLogo:str x1:0 y1:0 width1:400 height1:20 x2:120 y2:120 width2:50 height2:50 x3:450 y3:450 width3:10 height3:10 x4:0 y4:0 width4:300 height4:800 dstPah:dst];
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [MediaInfo checkFile:dst];
+ });
+ });
+ }
+ 
+ - (void)delaySelector : (id)sender {
+     int progress=[VideoEditor getExecuteFFmpegProgress];
+     if(progress<100){
+     [self performSelector:@selector(delaySelector:) withObject:nil afterDelay:0.1];
+     }
+ }
+ */
 
 @end

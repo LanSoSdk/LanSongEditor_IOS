@@ -267,6 +267,9 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 - (void)addSubview:(nonnull UIView *)view
     toKeypathLayer:(nonnull LSOKeypath *)keypath;
 
+
+- (void)addSubLayer:(nonnull CALayer *)layer;
+
 /*!
  @brief Adds a UIView, or NSView, to the parentrenderable layer found at the Keypath and then masks the view with layer found at the keypath.
  */

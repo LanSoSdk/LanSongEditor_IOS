@@ -24,6 +24,7 @@ void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
 void runSyncOnContextQueue(LanSongContext *context, void (^block)(void));
 void runAsyncOnContextQueue(LanSongContext *context, void (^block)(void));
 void reportAvailableMemoryForLanSong(NSString *tag);
+void runAsyncOnNewQueue(void (^block)(void));
 
 @class LanSongMovieWriter;
 
@@ -48,6 +49,7 @@ void reportAvailableMemoryForLanSong(NSString *tag);
     
     CGSize inputTextureSize, cachedMaximumOutputSize, forcedMaximumSize;
     
+    //覆盖输入尺寸,强制下发对target的尺寸
     BOOL overrideInputSize;
     
     BOOL allTargetsWantMonochromeData;

@@ -170,7 +170,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     
-    LanSongEditMode *editor=[[LanSongEditMode alloc] initWithURL:url];
+    editor=[[LanSongEditMode alloc] initWithURL:url];
     [editor setProgressBlock:^(CGFloat progess) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progess]];

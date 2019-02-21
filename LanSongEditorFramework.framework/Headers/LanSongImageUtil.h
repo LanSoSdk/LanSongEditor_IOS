@@ -22,6 +22,8 @@
  */
 +(UIImage *)uiImageCopy:(UIImage *)imageToCopy;
 
++(UIImage *)uiImageCopy:(UIImage *)imageToCopy scaleSize:(CGSize)scaleSize;
+
 /**
  CVPixelBufferRef 转image
  

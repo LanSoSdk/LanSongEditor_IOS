@@ -167,6 +167,7 @@
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf drawpadProgress:progess];
+                
             });
         }];
         
@@ -272,27 +273,25 @@
 -(void) testJson
 {
     [self resetData];
+ 
+    
+    NSString *jsonName=@"json0218V2";
+    NSString *jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
     
     
-//    NSString *jsonName=@"zixiaxianzi";
-//    mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
-//    mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
-//    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-//    jsonImage0=[UIImage imageNamed:@"zixiaxianzi_img0"];
-//    jsonImage1=[UIImage imageNamed:@"zixiaxianzi_img1"];
-//    
-//    //开始创建
-//    drawpadExecute=[[DrawPadAEExecute alloc] init];
-//    //增加Ae json层;
-//    LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
-//    [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
-//    [aeView1 updateImageWithKey:@"image_1" image:jsonImage1];
-//    
-//    //增加mv层;
-//    if(mvColor!=nil && mvMask!=nil){
-//        [drawpadExecute addMVPen:mvColor withMask:mvMask];
-//    }
-//    [self startAE];  //开始执行;
+    drawpadExecute=[[DrawPadAEExecute alloc] init];
+    LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
+    
+    
+    
+    for (int cnt=0; cnt<111; cnt++) {
+        NSString *imgid=[NSString stringWithFormat:@"image_%d",cnt];
+        NSString *imgName=[NSString stringWithFormat:@"img_%d",cnt];
+        [view updateImage:imgid image:[UIImage imageNamed:imgName]];
+    }
+    
+    [self startAE];  //开始执行;
+    
 }
 @end
 

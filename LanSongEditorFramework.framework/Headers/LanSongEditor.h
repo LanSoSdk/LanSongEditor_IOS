@@ -85,8 +85,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LanSongMp3ToAAC.h>
 //提取视频帧, 异步工作模式
 #import <LanSongEditorFramework/LanSongExtractFrame.h>
+
 //提取视频帧, 同步工作模式
-#import <LanSongEditorFramework/LanSongVideoDecoder.h>
+#import <LanSongEditorFramework/LSOVideoDecoder.h>
 
 //提取MV视频帧, 同步工作模式
 #import <LanSongEditorFramework/LanSongGetMVFrame.h>
@@ -102,6 +103,15 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //视频转换为编辑模式.
 #import <LanSongEditorFramework/LanSongEditMode.h>
+
+//视频的剪切, 裁剪, logo, 文字,滤镜,缩放,码率, 压缩的一次性处理
+#import <LanSongEditorFramework/LSOVideoOneDo.h>
+
+//多个视频拼接.
+#import <LanSongEditorFramework/DrawPadConcatVideoExecute.h>
+
+//多个音频拼接.
+#import <LanSongEditorFramework/AudioConcatExecute.h>
 
 //*************************辅助, 常见功能处理类**************************
 #import <LanSongEditorFramework/LanSongLog.h>
@@ -119,10 +129,20 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //辅助类, 保存数据到文件;
 #import <LanSongEditorFramework/LSOSaveToFile.h>
 
+#import <LanSongEditorFramework/LSOFFmpeg.h>
+
+
+
 //*************************杂项**************************
 #import <LanSongEditorFramework/LSOAeView.h>
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>
+
+
+
+#import <LanSongEditorFramework/LanSongTESTVC.h>
+
+
 
 @interface LanSongEditor : NSObject
 

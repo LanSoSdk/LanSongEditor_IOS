@@ -60,8 +60,6 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-         LSLog(@"-----xxxx:%d",__LINE__)
     CGPoint point = [[touches anyObject] locationInView:self.view];
     BOOL selected = NO;
     
