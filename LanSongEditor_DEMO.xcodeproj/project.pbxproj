@@ -666,7 +666,7 @@
 			children = (
 				8B603258221E572E00B76F32 /* LanSongEditorBundle.bundle */,
 				8BF0E2931D51CB2F00F52374 /* frameworks */,
-				8B8638111D51AB29007A353C /* LanSongEditor_all */,
+				8B8638111D51AB29007A353C /* LanSongEditor_DMEO */,
 				8B8638101D51AB29007A353C /* Products */,
 				8BCA93F91FC2CAEA00D0BC50 /* Frameworks */,
 			);
@@ -680,7 +680,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8B8638111D51AB29007A353C /* LanSongEditor_all */ = {
+		8B8638111D51AB29007A353C /* LanSongEditor_DMEO */ = {
 			isa = PBXGroup;
 			children = (
 				8B8638151D51AB29007A353C /* AppDelegate.h */,
@@ -741,7 +741,7 @@
 				8BF0E2A71D51D53600F52374 /* resources */,
 				8BEB086B1DFCFBF600675BCE /* widgets */,
 			);
-			name = LanSongEditor_all;
+			name = LanSongEditor_DMEO;
 			path = LanSongEditor_common;
 			sourceTree = "<group>";
 		};

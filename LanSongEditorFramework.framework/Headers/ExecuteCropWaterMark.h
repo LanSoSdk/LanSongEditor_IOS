@@ -14,8 +14,6 @@
 
 
 /**
- 强为玩物\||||||||||||||
-
  @return <#return value description#>
  */
 - (id)init;

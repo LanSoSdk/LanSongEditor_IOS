@@ -313,8 +313,7 @@
 }
 -(void)showSDKInfo
 {
-    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
-                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
+    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],[LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
     [LanSongUtils showDialog:available];  //显示对话框.
 }
 -(void)btnDown:(UIView *)sender
@@ -345,8 +344,5 @@
     }else{
         [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
     }
-    
-//    AETextVideoDemoVC *pushvc=[[AETextVideoDemoVC alloc] init];
-//    [self.navigationController pushViewController:pushvc animated:YES];
 }
 @end

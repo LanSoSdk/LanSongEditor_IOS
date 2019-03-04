@@ -111,6 +111,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(BOOL)startPreview;
 
+
+/**
+ 获取预览的视频图层;
+ 在startPreview后调用;
+ 获取视频图层对象后, 可以设置相关的视频效果,比如滤镜.视频预览快慢等;
+ */
+-(VideoPen *)getPreviewVideoPen;
+
 /**
  开始导出.
  */
@@ -157,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) void(^completionBlock)(BOOL isExport,NSString *dstPath);
 
 /**
- 当前是否在运行;
+ 当前是否正在预览
  */
 @property (nonatomic,readonly) BOOL isRunning;
 
@@ -165,6 +173,8 @@ NS_ASSUME_NONNULL_BEGIN
  是否正在导出.
  */
 @property (nonatomic,readonly) BOOL isExporting;
+
+
 /**
  增加背景图片
  如果你的背景是颜色, 则图片大小建议直接等于drawpadSize

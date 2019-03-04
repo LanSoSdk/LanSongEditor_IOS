@@ -254,6 +254,7 @@ typedef enum : NSInteger {
  6. 视频在编码时,建议最好是540x960或 1280x720,或640x640,会把容器的画面填满到您设置的编码分辨率.
 */
 @property (nonatomic,assign) BOOL videoPenOriginalAdd;
+@property (nonatomic,assign) BOOL videoPenfillDraw;
 -(void)releasePen;
 -(BOOL)decodeOneFrame;
 -(void)drawDisplay2;
@@ -279,4 +280,5 @@ typedef enum : NSInteger {
 -(void)resetCurrentFrame;
 -(void)sendToLanSong2:(CMTime)time;
 -(void)sendTolanSong2Finish;
+
 @end
