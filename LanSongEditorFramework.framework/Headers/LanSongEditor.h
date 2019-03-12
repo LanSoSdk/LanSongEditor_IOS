@@ -17,7 +17,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <LanSongEditor/PublicHeader.h>
 
 
-//**************************容器类(8个)***********************************
+//**************************容器类*********************************
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
 //视频后台执行容器
@@ -56,53 +56,47 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //处理视频和音频的基本单元.
 #import <LanSongEditorFramework/LSOVideoBody.h>
-#import <LanSongEditorFramework/LSOAudioBody.h>
 
 //图层的父类, 所有的xxxPen 集成这个父类;
-#import <LanSongEditorFramework/Pen.h>
+#import <LanSongEditorFramework/LSOPen.h>
 
 //视频图层, 用在前台预览容器中
-#import <LanSongEditorFramework/VideoPen.h>
+#import <LanSongEditorFramework/LSOVideoPen.h>
 //视频图层, 用在后台容器中
-#import <LanSongEditorFramework/VideoPen2.h>
+#import <LanSongEditorFramework/LSOVideoPen2.h>
 
 //MV图层
-#import <LanSongEditorFramework/MVPen.h>
+#import <LanSongEditorFramework/LSOMVPen.h>
 
 //UI图层, 用来增加一些UIView到容器中
-#import <LanSongEditorFramework/ViewPen.h>
+#import <LanSongEditorFramework/LSOViewPen.h>
 
 //图片图层;
-#import <LanSongEditorFramework/BitmapPen.h>
+#import <LanSongEditorFramework/LSOBitmapPen.h>
 
 //子图层: 可做灵魂出窍等功能;
-#import <LanSongEditorFramework/SubPen.h>
+#import <LanSongEditorFramework/LSOSubPen.h>
 //******************************滤镜****************************************
 //各种滤镜的头文件;
 #import <LanSongEditorFramework/LanSong.h>
 //***************************独立的音视频功能******************************
-//Mp3 转AAC的类
-#import <LanSongEditorFramework/LanSongMp3ToAAC.h>
 //提取视频帧, 异步工作模式
-#import <LanSongEditorFramework/LanSongExtractFrame.h>
+#import <LanSongEditorFramework/LSOExtractFrame.h>
 
 //提取视频帧, 同步工作模式
 #import <LanSongEditorFramework/LSOVideoDecoder.h>
 
 //提取MV视频帧, 同步工作模式
-#import <LanSongEditorFramework/LanSongGetMVFrame.h>
-
-//视频缩放, 支持任意视频分辨率的缩放
-#import <LanSongEditorFramework/LanSongScaleExecute.h>
+#import <LanSongEditorFramework/LSOGetMVFrame.h>
 
 //视频倒序
-#import <LanSongEditorFramework/LanSongVideoReverse.h>
+#import <LanSongEditorFramework/LSOVideoReverse.h>
 
 //音频录制类
-#import <LanSongEditorFramework/LanSongAudioRecorder.h>
+#import <LanSongEditorFramework/LSOAudioRecorder.h>
 
 //视频转换为编辑模式.
-#import <LanSongEditorFramework/LanSongEditMode.h>
+#import <LanSongEditorFramework/LSOEditMode.h>
 
 //视频的剪切, 裁剪, logo, 文字,滤镜,缩放,码率, 压缩的一次性处理
 #import <LanSongEditorFramework/LSOVideoOneDo.h>
@@ -116,33 +110,24 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //*************************辅助, 常见功能处理类**************************
 #import <LanSongEditorFramework/LanSongLog.h>
 //获取音视频的信息;
-#import <LanSongEditorFramework/MediaInfo.h>
+#import <LanSongEditorFramework/LSOMediaInfo.h>
 
 //列举了一些常见的视频编辑功能
-#import <LanSongEditorFramework/VideoEditor.h>
+#import <LanSongEditorFramework/LSOVideoEditor.h>
 
 //创建临时 处理文件的头文件
-#import <LanSongEditorFramework/LanSongFileUtil.h>
+#import <LanSongEditorFramework/LSOFileUtil.h>
 
 //处理图片的一些公共函数.(持续增加)
-#import <LanSongEditorFramework/LanSongImageUtil.h>
+#import <LanSongEditorFramework/LSOImageUtil.h>
 //辅助类, 保存数据到文件;
 #import <LanSongEditorFramework/LSOSaveToFile.h>
-
-#import <LanSongEditorFramework/LSOFFmpeg.h>
-
-
 
 //*************************杂项**************************
 #import <LanSongEditorFramework/LSOAeView.h>
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>
-
-
-
 #import <LanSongEditorFramework/LanSongTESTVC.h>
-
-
 
 @interface LanSongEditor : NSObject
 
@@ -187,7 +172,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  NSArray *paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
  NSString *documentsDirectory =[paths objectAtIndex:0];
  NSString *tmpDir = [documentsDirectory stringByAppendingString:@"/box2"];
- [LanSongFileUtil setGenTempFileDir:tmpDir];
+ [LSOFileUtil setGenTempFileDir:tmpDir];
  
  建议在initSDK的时候设置;
  */

@@ -6,16 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 
 @interface DrawPadVideoPreview : NSObject
 
-@property (nonatomic)   VideoPen *videoPen;
+@property (nonatomic)   LSOVideoPen *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
 
 /**
@@ -70,13 +70,13 @@
  @param from  这个UI是否来自界面, 如果你已经self.view addSubView增加了这个view,则这里设置为YES;
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
+-(LSOViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 /**
  交换两个图层在容器中的上下层位置
@@ -86,7 +86,7 @@
  @param second 第二个图层
  @return 成功返回YES;
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
  设置图层在容器中的位置;
@@ -95,7 +95,7 @@
  @param pen 图层对象
  @param index 位置, 最底层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
  获取当前图层的数量

@@ -12,19 +12,22 @@
 #import <Foundation/Foundation.h>
 
 #import <Foundation/Foundation.h>
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSong.h"
-#import "VideoPen2.h"
+#import "LSOVideoPen2.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ 多个视频拼接.
+ 如果视频的开始时间不是0; 可以先用LanSongEditMode来转换一下;
+ */
 @interface DrawPadConcatVideoExecute : NSObject
-
-
 /**
  初始化
  初始化后, 输出文件宽高等于第一个视频的宽高
@@ -58,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param view UI图层
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view;
+-(LSOViewPen *)addViewPen:(UIView *)view;
 
 
 
@@ -74,14 +77,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param image
  @return
  */
--(BitmapPen *)addBackgroundBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBackgroundBitmapPen:(UIImage *)image;
 /**
  增加图片图层
  
  @param image 图片
  @return 返回图片图层对象; 或nil;
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 /**
  增加一个mv图层
@@ -90,13 +93,13 @@ NS_ASSUME_NONNULL_BEGIN
  @param maskPath mv图层的黑白视频
  @return 返回mv对象或nil;
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
 /**
  删除图层
  */
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 
 /**
@@ -107,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param second 第二个图层
  @return 成功返回YES;
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
  设置图层在容器中的位置;
@@ -116,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param pen 图层对象
  @param index 位置, 最底层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
  获取当前图层的数量
@@ -185,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
  
      WS(weakSelf);
      [execute setProgressBlock:^(CGFloat progess,CGFloat percent) {
-     LSLog(@"progress  is :%f, percent:%f",progess,percent)
+     LSOLog(@"progress  is :%f, percent:%f",progess,percent)
      }];
  
      //增加一个背景图片

@@ -17,9 +17,9 @@
     DrawPadVideoPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
-    BitmapPen *bmpPen;
+    LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
-    VideoPen *videoPen;
+    LSOVideoPen *videoPen;
     
     UISlider *videoProgress;
     
@@ -107,7 +107,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *original=[AppDelegate getInstance].currentEditVideo;
-            NSString *dstPath=[LanSongFileUtil genTmpMp4Path];
+            NSString *dstPath=[LSOFileUtil genTmpMp4Path];
             
             //增加上原来的声音;
             BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
@@ -232,7 +232,7 @@
     bmpPen=nil;
     drawpadPreview=nil;
     lansongView=nil;
-    LSLog(@"Demo1PenMothedVC VC  dealloc");
+    LSOLog(@"Demo1PenMothedVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

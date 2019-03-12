@@ -15,9 +15,9 @@
     DrawPadAEExecute *aeExecute;
     
     LanSongView2 *lansongView;
-    BitmapPen *bmpPen;
+    LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
-    VideoPen *videoPen;
+    LSOVideoPen *videoPen;
     
     UILabel *labProgress;
     
@@ -161,7 +161,7 @@
         LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
         
         if([moduleName isEqualToString:@"aobama"]){  //如果是奥巴马模板的话,则直接填入图片;
-            UIImage *value=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
+            UIImage *value=[LSOImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
             [aeView updateImageWithKey:@"image_0" image:value];
         }else{
             for (int i=0; i<aeView.imageInfoArray.count; i++) {
@@ -204,7 +204,7 @@
     if(json1Path!=nil){
         LSOAeView *aeView=[aeExecute addAEJsonPath:json1Path];
         if([moduleName isEqualToString:@"aobama"]){  //如果是奥巴马模板的话,则直接填入图片;
-            UIImage *value=[LanSongImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
+            UIImage *value=[LSOImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
             [aeView updateImageWithKey:@"image_0" image:value];
         }else{
             for (int i=0; i<aeView.imageInfoArray.count; i++) {

@@ -62,7 +62,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     srcPath=[AppDelegate getInstance].currentEditVideo;
     
-    MediaInfo *info=[[MediaInfo alloc] initWithPath:srcPath];
+    LSOMediaInfo *info=[[LSOMediaInfo alloc] initWithPath:srcPath];
     if([info prepare]){
         CGSize size=self.view.frame.size;
         
@@ -118,8 +118,8 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
         filterItemArray=[FilterItem createDemoFilterArray];  //拿到列举的多个滤镜.
-        NSURL *sampleURL = [LanSongFileUtil filePathToURL:srcPath];
-        UIImage *image=[VideoEditor getVideoImageimageWithURL:sampleURL];
+        NSURL *sampleURL = [LSOFileUtil filePathToURL:srcPath];
+        UIImage *image=[LSOVideoEditor getVideoImageimageWithURL:sampleURL];
         if(image!=nil){
             for (FilterItem *item in filterItemArray) {
                 [filterArray addObject:item.filter];
@@ -232,8 +232,8 @@
         filterImageArray=nil;
     }
     
-    [LanSongFileUtil deleteFile:dstPath];
-    LSLog(@"Demo3PenFilterVC dealloc");
+    [LSOFileUtil deleteFile:dstPath];
+    LSOLog(@"Demo3PenFilterVC dealloc");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

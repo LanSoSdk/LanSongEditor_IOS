@@ -33,7 +33,7 @@
     lansongView=[LanSongUtils createLanSongView:size drawpadSize:CGSizeMake(540, 960)];
     [self.view addSubview:lansongView];  //显示窗口增加到ui上;
     [self initUI];
-    jsonPath= [[NSBundle mainBundle] pathForResource:@"textVideo1" ofType:@"json"];
+    jsonPath= [[NSBundle mainBundle] pathForResource:@"textVideo1" ofType:@"json"];  //OLD
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -50,7 +50,6 @@
         [aeTextPreview cancel];
         aeTextPreview=nil;
     }
-    
    
     aeTextPreview=[[DrawPadAeText alloc] initWithJsonPath:jsonPath];
     [aeTextPreview addLanSongView2:lansongView];  //增加显示界面;
@@ -73,14 +72,16 @@
         });
     }];
     
-//    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
+    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
 }
 -(void)startAEPreview
 {
     if (aeTextPreview==nil) {
         [self createAePreview];
     }
+    
     [aeTextPreview startPreview];
+    [aeTextPreview getPreviewVideoPen].avplayer.rate=0.5f;
 }
 -(void)loadTextAudio
 {
@@ -91,12 +92,12 @@
     [aeTextPreview setAudioPath:sampleURL volume:1.0f];
 
     //测试视频
-//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
+//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"qingxi_720P_10s" withExtension:@"mp4"];
 //    [aeTextPreview setBgVideoPath:sampleURL volume:1.0f];
     
     //测试增加背景音乐
-//    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
-//    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
+    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
+    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
     
     NSString *allText=@"从一开始的一无所有到人生的第一个30万真的很不容易到后来慢慢发展到120万500万800万甚至1200万我已经对这些数字麻木了";
     [aeTextPreview pushText:allText startTime:170.0/1000.0 endTime:12885.0/1000.0];  //时间暂时不用.
@@ -104,7 +105,7 @@
     [aeTextPreview pushText:allText2 startTime:13260.0/1000.0 endTime:19495.0/1000.0];
     
 //    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
-//        LSLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
+//        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
 //    }
     
     [self replaceText];
@@ -112,9 +113,11 @@
 //测试替换文字
 -(void)replaceText
 {
-    LSOOneLineText *oneText=[aeTextPreview.oneLineTextArray objectAtIndex:5];
-    oneText.text=[NSString stringWithFormat:@"测试测试替换"];
-    [aeTextPreview updateTextArrayWithConvert:NO];
+    if(aeTextPreview.oneLineTextArray.count>5){
+        LSOOneLineText *oneText=[aeTextPreview.oneLineTextArray objectAtIndex:5];
+        oneText.text=[NSString stringWithFormat:@"测试测试替换"];
+        [aeTextPreview updateTextArrayWithConvert:NO];
+    }
 }
 -(void)stopAePreview
 {

@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LSOAeView.h"
 
 @interface LSORecordUIPreview : NSObject
@@ -27,7 +27,7 @@
  @param image 图片对象
  @return 返回图片图层对象
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 
 /**
@@ -40,12 +40,12 @@
  @param maskPath mv效果中的黑白视频路径
  @return MV对象
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 /**
  删除图层;
  */
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 // 开始录制
 -(BOOL)startRecord;

@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "LSOOneLineText.h"
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
 #import "LanSongView2.h"
@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
  在startPreview后调用;
  获取视频图层对象后, 可以设置相关的视频效果,比如滤镜.视频预览快慢等;
  */
--(VideoPen *)getPreviewVideoPen;
+-(LSOVideoPen *)getPreviewVideoPen;
 
 /**
  开始导出.
@@ -182,14 +182,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param image 图片对象
  @return 返回图层对象, 您可以根据这个来做缩放;
  */
--(BitmapPen *)addBackgroundImage:(UIImage *)image;
+-(LSOBitmapPen *)addBackgroundImage:(UIImage *)image;
 /**
  增加logo;
  可以增加多个,默认放到容器的左上角;
  @param image logo图片
  @return 返回图层对象;
  */
--(BitmapPen *)addLogoBitmap:(UIImage *)image;
+-(LSOBitmapPen *)addLogoBitmap:(UIImage *)image;
 
 
 
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param view view 大小要等于DrawPadSize;
  @return UI对象;
  */
--(ViewPen *)addViewPen:(UIView *)view;
+-(LSOViewPen *)addViewPen:(UIView *)view;
 /**
  增加一个图片
  可以增加多个.
@@ -208,12 +208,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param position 位置
  @return 返回图层对象;
  */
-- (BitmapPen *)addLogoBitmap:(UIImage *)image position:(LSOPosition)position;
+- (LSOBitmapPen *)addLogoBitmap:(UIImage *)image position:(LSOPosition)position;
 
 /**
  清除指定的图层;
  */
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 /**
  交换两个图层的位置
@@ -221,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param first 第一个图层对象
  @param second 第二个图层对象
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
  设置图层的位置
@@ -230,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param pen 图层对象
  @param index 位置, 最里层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
  设置语音识别的视频路径;

@@ -66,7 +66,7 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
 //        return;
 //    }
     
-    //将LSLog打印信息保存到Document目录下的Log文件夹下
+    //将LSOLog打印信息保存到Document目录下的Log文件夹下
     //将crash日志保存到Document目录下的Log文件夹下
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *logDirectory = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Log"];

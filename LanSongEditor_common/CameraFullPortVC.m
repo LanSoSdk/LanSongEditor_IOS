@@ -18,7 +18,7 @@
     
     UISegmentedControl *segmentSpeed;
     UISlider *filterSlider;
-    BitmapPen *bmpPen;
+    LSOBitmapPen *bmpPen;
     
     BOOL isPaused;
     CGFloat padWidth;
@@ -74,13 +74,13 @@
     
     //增加图片图层
     UIImage *image=[UIImage imageNamed:@"small"];
-    BitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
+    LSOBitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     bmpPen.positionY=bmpPen.penSize.height/2;
     
     
     /*
-     再增加UI图层; LSTODO
+     再增加UI图层;
      先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
      */
 //    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
@@ -130,7 +130,7 @@
                         [weakSelf progressBlock:progess];
                     }];
                 }else{
-                    LSLog(@" is recording....");
+                    LSOLog(@" is recording....");
                 }
                 break;
             case  103:  //btnOK;
@@ -199,7 +199,7 @@
     }
     filterListVC=nil;
     lansongView=nil;
-    LSLog(@"CameraPenDemoVC  dealloc");
+    LSOLog(@"CameraPenDemoVC  dealloc");
 }
 /**
  滑动 效果调节后的相应

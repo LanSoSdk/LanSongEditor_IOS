@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSongVideoCamera.h"
-#import "CameraPen2.h"
+#import "LSOCameraPen.h"
 
 @interface DrawPadCameraPreview : NSObject
 
-@property (nonatomic,strong)CameraPen2 *cameraPen;
+@property (nonatomic,strong)LSOCameraPen *cameraPen;
 
 
 
@@ -48,7 +48,7 @@
  @param from 设置为YES;
  @return 增加成功返回UI图层对象;
  */
--(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
+-(LSOViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
 
 /**
@@ -57,7 +57,7 @@
  @param image 图片
  @return 返回图片图层对象
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 
 /**
@@ -67,13 +67,13 @@
  @param maskPath mv图层的灰度视频
  @return 返回mv图层对象
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
 /**
  删除图层
  */
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 /**
  开始执行

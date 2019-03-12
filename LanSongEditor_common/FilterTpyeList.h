@@ -138,7 +138,7 @@ typedef enum {
 @property LanSongOutput <LanSongInput> *selectedFilter;
 
 
-@property Pen *filterPen;
+@property LSOPen *filterPen;
 /**
  当slider滑动时调用这里,更改相关效果.
  */

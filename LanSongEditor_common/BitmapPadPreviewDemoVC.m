@@ -14,12 +14,12 @@
 
 @interface BitmapPadPreviewDemoVC ()
 {
-    MediaInfo *mediaInfo;
+    LSOMediaInfo *mediaInfo;
     BitmapPadPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
-    BitmapPen *bmpPen;
-    VideoPen *videoPen;
+    LSOBitmapPen *bmpPen;
+    LSOVideoPen *videoPen;
     
     UIView *viewPenView;
 }
@@ -36,7 +36,7 @@
     
     //布局视频宽高
     NSString *video=[AppDelegate getInstance].currentEditVideo;
-    mediaInfo=[[MediaInfo alloc] initWithPath:video];
+    mediaInfo=[[LSOMediaInfo alloc] initWithPath:video];
     if([mediaInfo prepare] && [mediaInfo hasVideo]){
         //        CGSize size=self.view.frame.size;
         //        CGSize viewSize=CGSizeMake([mediaInfo getWidth], [mediaInfo getHeight]);
@@ -128,8 +128,8 @@
     switch (sender.tag) {
         case 101 :  //开始录制
             
-            [LanSongFileUtil saveUIViewToPhotosAlbum:lansongView];
-            LSLog(@"已保存到相册")
+            [LSOFileUtil saveUIViewToPhotosAlbum:lansongView];
+            LSOLog(@"已保存到相册")
             break;
         case  102:  //停止录制
 //            [drawpadPreview stopRecord];
@@ -245,7 +245,7 @@
         [_videoArray removeAllObjects];
         _videoArray=nil;
     }
-    LSLog(@"GameVideoDemoVC VC  dealloc");
+    LSOLog(@"GameVideoDemoVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

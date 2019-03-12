@@ -41,7 +41,7 @@
  */
 +(void)startVideoPlayerVC:(UINavigationController*)nav dstPath:(NSString *)dstPath
 {
-    if ([LanSongFileUtil fileExist:dstPath]) {
+    if ([LSOFileUtil fileExist:dstPath]) {
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstPath;
         [nav pushViewController:videoVC animated:YES];
@@ -94,7 +94,7 @@
     {
         BOOL bCreateDir = [fileManager createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
         if(!bCreateDir){
-            LSLog(@"创建图片文件夹失败");
+            LSOLog(@"创建图片文件夹失败");
             return NO;
         }
         return YES;
@@ -193,7 +193,7 @@
         }
         return retView;
     }else{
-        LSLog_e(@"pad size is error !")
+        LSOLog_e(@"pad size is error !")
         return nil;
     }
 }

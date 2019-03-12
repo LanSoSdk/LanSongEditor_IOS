@@ -29,7 +29,7 @@
     UIImage *jsonImage0;
     UIImage *jsonImage1;
     
-    MediaInfo *mediaInfo;
+    LSOMediaInfo *mediaInfo;
 }
 @property UILabel *labProgress;
 
@@ -68,7 +68,7 @@
 {
 //    //奥巴马这个模板, 是先视频层, 再AE层, 最后mv;
     videoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
-    mediaInfo=[[MediaInfo alloc] initWithPath:[LanSongFileUtil urlToFileString:videoURL]];
+    mediaInfo=[[LSOMediaInfo alloc] initWithPath:[LSOFileUtil urlToFileString:videoURL]];
     if([mediaInfo prepare]){
 
         //增加AE图层, AE=json+image

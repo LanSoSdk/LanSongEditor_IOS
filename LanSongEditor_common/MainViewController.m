@@ -20,7 +20,6 @@
 #import "CameraSegmentRecordVC.h"
 
 #import "GameVideoDemoVC.h"
-#import "CommDemoListTableVC.h"
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemo.h"
 
@@ -32,6 +31,7 @@
 #import "UIPenParticleDemoVC.h"
 #import "AETextVideoDemoVC.h"
 #import "AePreviewListDemoVC.h"
+#import "CommonEditListVC.h"
 
 @interface MainViewController ()
 {
@@ -73,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"蓝松短视频SDK";
+    self.title = @"蓝松短视频SDK--专业版";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -88,13 +88,13 @@
     /*
      删除sdk中所有的临时文件.
      */
-    [LanSongFileUtil deleteAllSDKFiles];
+    [LSOFileUtil deleteAllSDKFiles];
     [self initView];
       [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-     [LanSongUtils setViewControllerPortrait];
+    [LanSongUtils setViewControllerPortrait];
 }
 /**
  点击后, 进去界面.
@@ -106,7 +106,7 @@
     
     if([self needCheckBox:sender]){
         //检查是否正常.
-        if([LanSongFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
+        if([LSOFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
             [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
             return ;
         }
@@ -118,7 +118,7 @@
                 NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
                 if(sampleURL!=nil){
                     labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-                    [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
+                    [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:sampleURL];
                 }else{
                     [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
                 }
@@ -160,7 +160,7 @@
             pushVC=[[AETextVideoDemoVC alloc] init];
             break;
         case kCommonEditDemo:
-            pushVC=[[CommDemoListTableVC alloc] init];  //普通功能演示
+             pushVC=[[CommonEditListVC alloc] init];  //普通功能演示
             break;
         case kDirectPlay:
             {
@@ -258,7 +258,6 @@
     CGSize size=self.view.frame.size;
     CGFloat padding=size.height*0.04;
     
-    
     [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(container.mas_top).with.offset(padding);
             make.left.mas_equalTo(container.mas_left).with.offset(10);
@@ -313,7 +312,8 @@
 }
 -(void)showSDKInfo
 {
-    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],[LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
+    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
+                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
     [LanSongUtils showDialog:available];  //显示对话框.
 }
 -(void)btnDown:(UIView *)sender
@@ -340,7 +340,7 @@
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
     if(sampleURL!=nil){
         labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-        [AppDelegate getInstance].currentEditVideo=[LanSongFileUtil urlToFileString:sampleURL];
+        [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:sampleURL];
     }else{
         [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
     }

@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LanSongContext.h"
-#import "Pen.h"
+#import "LSOPen.h"
 
 
 
@@ -52,6 +52,6 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 -(void)updateDraw:(NSMutableArray *)mPenArray;
 -(void)setPenArray:(NSMutableArray *)array;
--(void)setDrivePen:(Pen *)pen;
+-(void)setDrivePen:(LSOPen *)pen;
 @property (nonatomic)BOOL forceUpdate;
 @end

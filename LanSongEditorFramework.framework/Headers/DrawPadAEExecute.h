@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
 
@@ -28,7 +28,7 @@
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
  如果用init创建的DrawPadAEExecute则此对象为nil;
  */
-@property (nonatomic,readonly)MediaInfo *videoPenInfo;
+@property (nonatomic,readonly)LSOMediaInfo *videoPenInfo;
 
 /**
  当前进度的最终长度;, 进度/duration等于百分比;
@@ -85,7 +85,7 @@
  @param view UI图层
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view;
+-(LSOViewPen *)addViewPen:(UIView *)view;
 
 
 
@@ -107,7 +107,7 @@
 
  在容器开始运行前增加
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 
 /**
@@ -118,7 +118,7 @@
  @param maskPath mv效果中的黑白视频路径
  @return 增加后,返回mv图层对象
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 /**
  开始执行
@@ -137,14 +137,14 @@
  @param second 第二个图层
  @return 交换成功返回YES;
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 /**
  设置图层的位置
  [在开始前调用]
  @param pen 图层对象
  @param index 位置, 最里层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 
 /**

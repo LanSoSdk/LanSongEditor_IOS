@@ -173,26 +173,26 @@
 
 #import "LanSongBeautyFilter.h"
 
-#import "IFLanSongFilter.h"  //IFLanSongFilter是所有IF开头的类的父类, 只是用来被继承, 不能直接使用.
+#import "LanSongIFFilter.h"  //LanSongIFFilter是所有IF开头的类的父类, 只是用来被继承, 不能直接使用.
 
 
-#import "IF1977Filter.h"
-#import "IFAmaroFilter.h"
-#import "IFBrannanFilter.h"
-#import "IFEarlybirdFilter.h"
-#import "IFHefeFilter.h"
-#import "IFHudsonFilter.h"
-#import "IFInkwellFilter.h"
-#import "IFLomofiFilter.h"
-#import "IFNashvilleFilter.h"
-#import "IFRiseFilter.h"
-#import "IFSierraFilter.h"
-#import "IFSutroFilter.h"
-#import "IFToasterFilter.h"
-#import "IFValenciaFilter.h"
-#import "IFWaldenFilter.h"
-#import "IFXproIIFilter.h"
-#import "IFLordKelvinFilter.h"
+#import "LanSongIF1977Filter.h"
+#import "LanSongIFAmaroFilter.h"
+#import "LanSongIFBrannanFilter.h"
+#import "LanSongIFEarlybirdFilter.h"
+#import "LanSongIFHefeFilter.h"
+#import "LanSongIFHudsonFilter.h"
+#import "LanSongIFInkwellFilter.h"
+#import "LanSongIFLomofiFilter.h"
+#import "LanSongIFNashvilleFilter.h"
+#import "LanSongIFRiseFilter.h"
+#import "LanSongIFSierraFilter.h"
+#import "LanSongIFSutroFilter.h"
+#import "LanSongIFToasterFilter.h"
+#import "LanSongIFValenciaFilter.h"
+#import "LanSongIFWaldenFilter.h"
+#import "LanSongIFXproIIFilter.h"
+#import "LanSongIFLordKelvinFilter.h"
 
 
 //2018年03月07日11:23:12 增加

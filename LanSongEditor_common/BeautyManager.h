@@ -28,12 +28,12 @@
 /**
  增加美颜
  */
--(void)addBeauty:(Pen *)pen;
-
+-(void)addBeauty:(LSOPen *)pen;
+-(void)addBeautyWithVideoOneDo:(LSOVideoOneDo *)videoOneDo;
 /**
  删除美颜
  */
--(void)deleteBeauty:(Pen *)pen;
+-(void)deleteBeauty:(NSObject *)object;
 /**
  当增加美颜后, 调节冷暖色;
  0.0为暖色;

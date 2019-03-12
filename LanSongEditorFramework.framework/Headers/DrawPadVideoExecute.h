@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import <Foundation/Foundation.h>
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSong.h"
-#import "VideoPen2.h"
+#import "LSOVideoPen2.h"
 
 
 @interface DrawPadVideoExecute : NSObject
@@ -25,7 +25,7 @@
 /**
  当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
  */
-@property (nonatomic,readonly)MediaInfo *mediaInfo;
+@property (nonatomic,readonly)LSOMediaInfo *mediaInfo;
 
 
 /**
@@ -53,13 +53,13 @@
 /**
  在initWithXXX后得到的视频图层对象;
  */
-@property (nonatomic)   VideoPen2 *videoPen;
+@property (nonatomic)   LSOVideoPen2 *videoPen;
 /**
  增加UI图层;
  @param view UI图层
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view;
+-(LSOViewPen *)addViewPen:(UIView *)view;
 
 
 /**
@@ -68,7 +68,7 @@
  @param image 图片
  @return 返回图片图层对象; 或nil;
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 /**
  增加一个mv图层
@@ -77,13 +77,13 @@
  @param maskPath mv图层的黑白视频
  @return 返回mv对象或nil;
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
 /**
  删除图层
  */
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 
 /**
@@ -94,7 +94,7 @@
  @param second 第二个图层
  @return 成功返回YES;
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
  设置图层在容器中的位置;
@@ -103,7 +103,7 @@
  @param pen 图层对象
  @param index 位置, 最底层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
  获取当前图层的数量
@@ -171,26 +171,26 @@
  //        [testExecute.videoPen switchFilter:filter];
  //
  //
- //    SubPen *pen1=[testExecute.videoPen addSubPen];
+ //    LSOSubPen *pen1=[testExecute.videoPen addSubPen];
  //    pen1.scaleHeight=0.5;
  //    pen1.scaleWidth=0.5;
  //    pen1.positionX=pen1.scaleWidthValue/2;
  //    pen1.positionY=pen1.scaleHeightValue/2;
  //
- //    SubPen *pen2=[testExecute.videoPen addSubPen];
+ //    LSOSubPen *pen2=[testExecute.videoPen addSubPen];
  //    pen2.scaleHeight=0.5;
  //    pen2.scaleWidth=0.5;
  //    pen2.positionX=pen1.scaleWidthValue +pen2.scaleWidthValue/2;
  //    pen2.positionY=pen2.scaleHeightValue/2;
  //
- //    SubPen *pen3=[testExecute.videoPen addSubPen];
+ //    LSOSubPen *pen3=[testExecute.videoPen addSubPen];
  //    pen3.scaleHeight=0.5;
  //    pen3.scaleWidth=0.5;
  //    pen3.positionX=pen3.scaleWidthValue/2;
  //    pen3.positionY=pen1.scaleHeightValue + pen3.scaleHeightValue/2;
  //
  //
- //    SubPen *pen4=[testExecute.videoPen addSubPen];
+ //    LSOSubPen *pen4=[testExecute.videoPen addSubPen];
  //    pen4.scaleHeight=0.5;
  //    pen4.scaleWidth=0.5;
  //    pen4.positionX=pen3.scaleWidthValue +pen4.scaleWidthValue/2;
@@ -209,11 +209,11 @@
  //
  //        __weak typeof(self) weakSelf = self;
  //        [testExecute setProgressBlock:^(CGFloat progess) {
- //                LSLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/testExecute.mediaInfo.vDuration);
+ //                LSOLog(@"即将处理时间(进度)是:%f,百分比是:%f",progess,progess/testExecute.mediaInfo.vDuration);
  //        }];
  //
  //        [testExecute setCompletionBlock:^(NSString *dstPath) {
- //            LSLog(@"处理完毕");
+ //            LSOLog(@"处理完毕");
  //            dispatch_async(dispatch_get_main_queue(), ^{
  //               [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
  //            });

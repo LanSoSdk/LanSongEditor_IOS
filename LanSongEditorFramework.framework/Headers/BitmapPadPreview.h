@@ -6,12 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 
 
 /**
@@ -42,13 +42,13 @@
 /**
  initWithVideo时得到的videoPen对象
  */
-@property (nonatomic,readonly)   VideoPen *videoPen;
+@property (nonatomic,readonly)   LSOVideoPen *videoPen;
 
 
 /**
  initWithUIImage 得到的BitmapPen对象;
  */
-@property (nonatomic,readonly)   BitmapPen *bitmapPen;
+@property (nonatomic,readonly)   LSOBitmapPen *bitmapPen;
 
 @property (nonatomic,assign) CGSize drawpadSize;
 
@@ -57,11 +57,11 @@
 
 -(void)addLanSongView:(LanSongView2 *)view;
 
--(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
+-(LSOViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 
 /**

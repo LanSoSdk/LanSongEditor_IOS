@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MediaInfo.h"
+#import "LSOMediaInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,readonly) NSString *videoPath;
 
-@property (nonatomic,readonly)  MediaInfo *mediaInfo;
+@property (nonatomic,readonly)  LSOMediaInfo *mediaInfo;
 
 /**
  * 在布局的时候, 当前视频的左上角0,0布局到输出尺寸的 横向坐标X位置

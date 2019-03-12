@@ -16,7 +16,7 @@
 
 @interface VideoPlayViewController ()
 {
-    MediaInfo *mInfo;
+    LSOMediaInfo *mInfo;
     AVPlayerLayer *layer;
       CGContextRef   context;        //绘制layer的context
     
@@ -39,13 +39,13 @@
     [super viewDidLoad];
     _notificationToken=0;
     
-    LSLog(@"-----------start  VideoPlayViewController-------.");
+    LSOLog(@"-----------start  VideoPlayViewController-------.");
     
     [LanSongUtils setViewControllerPortrait];
     
-    mInfo=[[MediaInfo alloc] initWithPath:self.videoPath];
+    mInfo=[[LSOMediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
-        LSLog(@"获取到的视频信息是:%@",mInfo);
+        LSOLog(@"获取到的视频信息是:%@",mInfo);
         NSString *str= [NSString stringWithFormat:@"宽度:%f"
                 "高度:%f"
                 "时长:%f"
@@ -57,7 +57,7 @@
         [self playVideo];
         
 //         //显示第一张图片
-//        UIImage *image=[VideoEditor getVideoImageimageWithURL:[LanSongFileUtil filePathToURL:self.videoPath]];
+//        UIImage *image=[VideoEditor getVideoImageimageWithURL:[LSOFileUtil filePathToURL:self.videoPath]];
 //        float ratio=[mInfo getHeight]*1.0/([mInfo getWidth]*1.0);
 //        UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 300, 100, 100*ratio)];
 //        imgView.image=image;
@@ -181,7 +181,7 @@
     
     [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
         if (error) {
-            LSLog(@"Video could not be saved");
+            LSOLog(@"Video could not be saved");
             [LanSongUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
         }else{
             [LanSongUtils showHUDToast:@"已导出到相册"];

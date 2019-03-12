@@ -268,104 +268,104 @@
         {
             self.title = @"IF1977";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IF1977Filter alloc] init];
+            self.selectedFilter = [[LanSongIF1977Filter alloc] init];
         }; break;
             
         case LanSong_IFAmaro:
         {
             self.title = @"IFAmaro";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFAmaroFilter alloc] init];
+            self.selectedFilter = [[LanSongIFAmaroFilter alloc] init];
         }; break;
         case LanSong_IFBrannan:
         {
             self.title = @"IFBrannan";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFBrannanFilter alloc] init];
+            self.selectedFilter = [[LanSongIFBrannanFilter alloc] init];
         }; break;
         case LanSong_IFEarlybird:
         {
             self.title = @"IFEarlybird";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFEarlybirdFilter alloc] init];
+            self.selectedFilter = [[LanSongIFEarlybirdFilter alloc] init];
         }; break;
         case LanSong_IFHefe:
         {
             self.title = @"IFHefe";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFHefeFilter alloc] init];
+            self.selectedFilter = [[LanSongIFHefeFilter alloc] init];
         }; break;
         case LanSong_IFHudson:
         {
             self.title = @"IFHudson";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFHudsonFilter alloc] init];
+            self.selectedFilter = [[LanSongIFHudsonFilter alloc] init];
         }; break;
         case LanSong_IFInkwell:
         {
             self.title = @"IFInkwell";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFInkwellFilter alloc] init];
+            self.selectedFilter = [[LanSongIFInkwellFilter alloc] init];
         }; break;
         case LanSong_IFLomofi:
         {
             self.title = @"IFLomofi";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFLomofiFilter alloc] init];
+            self.selectedFilter = [[LanSongIFLomofiFilter alloc] init];
         }; break;
         case LanSong_IFNashville:
         {
             self.title = @"IFNashville";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFNashvilleFilter alloc] init];
+            self.selectedFilter = [[LanSongIFNashvilleFilter alloc] init];
         }; break;
         case LanSong_IFRise:
         {
             self.title = @"IFRise";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFRiseFilter alloc] init];
+            self.selectedFilter = [[LanSongIFRiseFilter alloc] init];
         }; break;
         case LanSong_IFSierra:
         {
             self.title = @"IFSierra";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFSierraFilter alloc] init];
+            self.selectedFilter = [[LanSongIFSierraFilter alloc] init];
         }; break;
         case LanSong_IFSutro:
         {
             self.title = @"IFSutro";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFSutroFilter alloc] init];
+            self.selectedFilter = [[LanSongIFSutroFilter alloc] init];
         }; break;
         case LanSong_IFToaster:
         {
             self.title = @"IFToaster";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFToasterFilter alloc] init];
+            self.selectedFilter = [[LanSongIFToasterFilter alloc] init];
         }; break;
         case LanSong_IFValencia:
         {
             self.title = @"IFValencia";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFValenciaFilter alloc] init];
+            self.selectedFilter = [[LanSongIFValenciaFilter alloc] init];
         }; break;
         case LanSong_IFWalden:
         {
             self.title = @"IFWalden";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFWaldenFilter alloc] init];
+            self.selectedFilter = [[LanSongIFWaldenFilter alloc] init];
         }; break;
         case LanSong_IFXproII:
         {
             self.title = @"IFXproII";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFXproIIFilter alloc] init];
+            self.selectedFilter = [[LanSongIFXproIIFilter alloc] init];
         }; break;
         case LanSong_IFLordKelvin:
         {
             self.title = @"IFLordKelvin";
             self.filterSlider.hidden = YES;
-            self.selectedFilter = [[IFLordKelvinFilter alloc] init];
+            self.selectedFilter = [[LanSongIFLordKelvinFilter alloc] init];
         }; break;
             //sno++  end
             
@@ -664,7 +664,7 @@
             self.title = @"Histogram Equalization";
             self.filterSlider.hidden = NO;
             
-            LSLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
+            LSOLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
             [self.filterSlider setMinimumValue:4.0];
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
@@ -1446,7 +1446,7 @@
             [(LanSongHistogramFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_HISTOGRAM_EQUALIZATION:
-            LSLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
+            LSOLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
             [(LanSongHistogramEqualizationFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_UNSHARPMASK:
@@ -1549,7 +1549,7 @@
             [(LanSongBoxBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_GAUSSIAN:
-//            LSLog(@"lansong gaussian set blurradius:%f",value)
+//            LSOLog(@"lansong gaussian set blurradius:%f",value)
             [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
             
@@ -1608,7 +1608,7 @@
 {
     _filterPen=nil;
     _selectedFilter=nil;
-    //    LSLog(@"Filter TypeList dealloc");
+    //    LSOLog(@"Filter TypeList dealloc");
 }
 
 @end

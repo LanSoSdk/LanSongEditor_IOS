@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
-//LSTODO 这里这个类;
 @interface RecordUIViewDemoVC  : UIViewController
 
 - (instancetype)initWithImage:(UIImage *)image;

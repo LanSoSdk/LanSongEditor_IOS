@@ -10,7 +10,7 @@
 
 #define CRSetError(__ERROR__, __ERROR_CODE__, __DESC__, ...) do { \
 NSString *message = [NSString stringWithFormat:__DESC__, ##__VA_ARGS__]; \
-LSLog(@"%@", message); \
+LSOLog(@"%@", message); \
 if (__ERROR__) *__ERROR__ = [NSError errorWithDomain:CRErrorDomain code:__ERROR_CODE__ \
 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:message, NSLocalizedDescriptionKey,  \
 nil]]; \
@@ -19,7 +19,7 @@ nil]]; \
 #ifndef NDEBUG
 
 #define DLOG(format, ...)                   \
-LSLog(@"\n%s:%d\n%@",               \
+LSOLog(@"\n%s:%d\n%@",               \
 __PRETTY_FUNCTION__, __LINE__,      \
 [NSString stringWithFormat:format, ## __VA_ARGS__])
 
@@ -32,7 +32,7 @@ __PRETTY_FUNCTION__, __LINE__,      \
 
 #define DOBJ(obj)  DLOG(@"%s: %@", #obj, [(obj) description])
 
-#define MARK    LSLog(@"\nMARK: %s, %d", __PRETTY_FUNCTION__, __LINE__)
+#define MARK    LSOLog(@"\nMARK: %s, %d", __PRETTY_FUNCTION__, __LINE__)
 
 #define START_TIMER                 \
 NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
@@ -52,9 +52,9 @@ DLOG([NSString stringWithFormat:"%@ Time = %f", msg, \
 
 #ifdef DEBUG
 
-#define LOG(...) LSLog(__VA_ARGS__)
+#define LOG(...) LSOLog(__VA_ARGS__)
 #define LOG_METHOD \
-LSLog(@"\nLine:%d\nFunction:%s\n", __LINE__, __FUNCTION__)
+LSOLog(@"\nLine:%d\nFunction:%s\n", __LINE__, __FUNCTION__)
 #else
 #define LOG(...)
 #define LOG_METHOD

@@ -18,8 +18,8 @@
 {
     LanSongView2 *lansongView;
     DrawPadVideoPreview *drawpadPreview;
-    VideoPen *videoPen;
-    ViewPen *viewPen;
+    LSOVideoPen *videoPen;
+    LSOViewPen *viewPen;
     UIView *viewPenRoot; //UI图层上的父类UI;
     LSOToolButtonsView *toolsBtnView;
     
@@ -94,7 +94,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *original=[AppDelegate getInstance].currentEditVideo;
-            NSString *dstPath=[LanSongFileUtil genTmpMp4Path];
+            NSString *dstPath=[LSOFileUtil genTmpMp4Path];
             
             //增加上原来的声音;
             BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
@@ -541,6 +541,6 @@
     [self stopPreview];
     drawpadPreview=nil;
     lansongView=nil;
-    LSLog(@"Demo1PenMothedVC VC  dealloc");
+    LSOLog(@"Demo1PenMothedVC VC  dealloc");
 }
 @end

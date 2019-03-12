@@ -45,7 +45,7 @@
     
     NSString *dstPath;
     
-    Pen *operationPen;  //当前操作的图层
+    LSOPen *operationPen;  //当前操作的图层
     
     
     FilterTpyeList *filterListVC;
@@ -99,7 +99,7 @@
     
     //增加图片图层
     UIImage *image=[UIImage imageNamed:@"small"];
-    BitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
+    LSOBitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     bmpPen.positionY=bmpPen.penSize.height/2;
     
@@ -126,7 +126,7 @@
 }
 -(void)drawpadProgress:(CGFloat)currentPts
 {
-    LSLog(@"录制进度...%f",currentPts);
+    LSOLog(@"录制进度...%f",currentPts);
     //更新时间戳.
     if(self.progressBar!=nil){
         [self.progressBar setLastSegmentPts:currentPts];
@@ -171,7 +171,7 @@
     if(drawPadCamera.isRecording && currentSegmentDuration>0)
     {
         [drawPadCamera stopRecord:^(NSString *path) {
-            if([LanSongFileUtil fileExist:path])
+            if([LSOFileUtil fileExist:path])
             {
                 SegmentFile *file=[[SegmentFile alloc] init];
                 file.segmentPath=path;
@@ -180,7 +180,7 @@
                 [segmentArray addObject:file];
                 totalDuration+=currentSegmentDuration;
             }else{
-                LSLog(@"当前段文件不存在....");
+                LSOLog(@"当前段文件不存在....");
             }
         }];
     }
@@ -198,7 +198,7 @@
         [drawPadCamera stopRecord:^(NSString *path) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if([LanSongFileUtil fileExist:path])
+                if([LSOFileUtil fileExist:path])
                 {
                     SegmentFile *file=[[SegmentFile alloc] init];
                     file.segmentPath=path;
@@ -207,7 +207,7 @@
                     [segmentArray addObject:file];
                     totalDuration+=currentSegmentDuration;
                 }else{
-                    LSLog(@"当前段文件不存在....");
+                    LSOLog(@"当前段文件不存在....");
                 }
                 [weakSelf concatVideos];
             });
@@ -225,7 +225,7 @@
         SegmentFile *path=[segmentArray objectAtIndex:segmentArray.count-1];
         
         [segmentArray removeObject:path];
-        [LanSongFileUtil deleteFile:path.segmentPath];
+        [LSOFileUtil deleteFile:path.segmentPath];
         
         if(totalDuration>=path.duration){
             totalDuration-=path.duration;
@@ -253,15 +253,15 @@
         }
         //开始拼接起来;
         
-        dstPath=[LanSongFileUtil genTmpMp4Path];
-        [VideoEditor executeConcatMP4:fileArray dstFile:dstPath];  //耗时很少;
+        dstPath=[LSOFileUtil genTmpMp4Path];
+        [LSOVideoEditor executeConcatMP4:fileArray dstFile:dstPath];  //耗时很少;
         [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else if(segmentArray.count==1){
         SegmentFile *data=[segmentArray objectAtIndex:0];
         dstPath=data.segmentPath;
         [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else{  //为空.
-        LSLog(@"segment array is empty");
+        LSOLog(@"segment array is empty");
     }
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -463,10 +463,10 @@
     }
     drawPadCamera=nil;
     
-    [LanSongFileUtil deleteAllFiles:fileArray];
+    [LSOFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
     
-    LSLog(@"CameraPenDemoVC  dealloc");
+    LSOLog(@"CameraPenDemoVC  dealloc");
 }
 ///**
 // 把多个视频合并
@@ -484,7 +484,7 @@
 //    //第一步:拿到所有的assetTrack,放到数组里.
 //    for (NSString *filePath in filePathArray)
 //    {
-//        AVAsset *asset = [AVAsset assetWithURL:[LanSongFileUtil filePathToURL:filePath]];
+//        AVAsset *asset = [AVAsset assetWithURL:[LSOFileUtil filePathToURL:filePath]];
 //        if (!asset) {
 //            continue;
 //        }
@@ -503,14 +503,14 @@
 //                                atTime:durationSum
 //                                 error:&error];
 //        if(error!=nil){
-//            LSLog(@"error is :%@",error);
+//            LSOLog(@"error is :%@",error);
 //        }
 //        //总时间累积;
 //        durationSum = CMTimeAdd(durationSum, asset.duration);
 //    }
 //
 //    //get save path
-//    NSURL *mergeFileURL =[LanSongFileUtil filePathToURL:dstVideo];
+//    NSURL *mergeFileURL =[LSOFileUtil filePathToURL:dstVideo];
 //
 //    //export
 //    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPreset960x540];
@@ -529,13 +529,13 @@
 //            }
 //                break;
 //            case AVAssetExportSessionStatusFailed:
-//                LSLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
+//                LSOLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //            case AVAssetExportSessionStatusCancelled:
-//                LSLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
+//                LSOLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
 //                break;
 //            default:
-//                LSLog(@"Export Failed: %@", [exporter.error localizedDescription]);
+//                LSOLog(@"Export Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //        }
 //    }];

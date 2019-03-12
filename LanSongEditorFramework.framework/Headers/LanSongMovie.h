@@ -2,7 +2,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
-#import "MediaInfo.h"
+#import "LSOMediaInfo.h"
 
 /** Protocol for getting Movie played callback.
  */
@@ -25,7 +25,7 @@
 @property (readwrite, retain) AVPlayerItem *playerItem;
 @property(readwrite, retain) NSURL *url;
 
-@property(readonly, nonatomic)MediaInfo *mediaInfo;
+@property(readonly, nonatomic)LSOMediaInfo *mediaInfo;
 /**
  解码的开始时间
  只使用在后台

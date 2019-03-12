@@ -34,7 +34,6 @@
 /**
  增加音频
 可多次调用
- LSNEW
  @param audio 音频路径.或带有音频的视频路径
  @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @return 增加成功,返回YES, 失败返回NO;
@@ -82,6 +81,13 @@
  */
 -(BOOL)start;
 
+
+
+/**
+ 等待异步执行完毕;
+ @return 执行完毕,返回结果字符串;
+ */
+-(NSString *)waitForCompleted;
 /**
  取消
  */
@@ -102,7 +108,7 @@
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
-@property(nonatomic, copy) void(^progressBlock)(CGFloat progess);
+@property(nonatomic, copy) void(^progressBlock)(CGFloat percent);
 
 
 /**
@@ -118,46 +124,49 @@
 /*  *************************举例如下************************************
  
  举例1.
- NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu1" withExtension:@"mp4"];
- AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithPath:videoURL volume:0];
+ -(void)testAudioPad
+ {
+ NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
+ AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithURL:videoURL volume:0.5f onlyAudio:YES];
  
  [audioPad setProgressBlock:^(CGFloat progess) {
  dispatch_async(dispatch_get_main_queue(), ^{
- LSLog(@"progress  dispatch_get_main_queue  is :%f",progess);
+ LSOLog(@"progress  dispatch_get_main_queue  is :%f",progess);
  });
  }];
  
  [audioPad setCompletionBlock:^(NSString *dstPath) {
  
  dispatch_async(dispatch_get_main_queue(), ^{
- LSLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
+ [MediaInfo checkFile:dstPath];
  });
  }];
  
  //增加声音
- NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou" withExtension:@"mp3"];
+ NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
  [audioPad addAudio:audioURL2 volume:0.1];
  [audioPad start];
+ }
  
  举例2:
  -(void)testAudioPad
  {
      NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
-     NSString *srcVideo=[LanSongFileUtil urlToFileString:videoURL];
+     NSString *srcVideo=[LSOFileUtil urlToFileString:videoURL];
  
-     NSURL *url=[LanSongFileUtil filePathToURL:srcVideo];
+     NSURL *url=[LSOFileUtil filePathToURL:srcVideo];
      AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithURL:url volume:0];
  
      [audioPad setProgressBlock:^(CGFloat progess) {
      dispatch_async(dispatch_get_main_queue(), ^{
-     LSLog(@"progress  dispatch_get_main_queue  is :%f",progess);
+     LSOLog(@"progress  dispatch_get_main_queue  is :%f",progess);
      });
      }];
  
      [audioPad setCompletionBlock:^(NSString *dstPath) {
  
      dispatch_async(dispatch_get_main_queue(), ^{
-     LSLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
+     LSOLog(@"medaiInfo is:%@",[MediaInfo checkFile:dstPath]);
      });
      }];
      //增加声音

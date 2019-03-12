@@ -134,7 +134,7 @@
 - (void)confirmBtnAction
 {
     [recordUI stopWithCompletion:^(NSString *dst) {
-        [MediaInfo checkFile:dst];
+        [LSOMediaInfo checkFile:dst];
     }];
 }
 

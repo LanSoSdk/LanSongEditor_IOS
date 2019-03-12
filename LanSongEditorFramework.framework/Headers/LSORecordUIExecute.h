@@ -15,10 +15,10 @@ NS_ASSUME_NONNULL_END
 
 #import <Foundation/Foundation.h>
 
-#import "ViewPen.h"
-#import "Pen.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
 
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_END
  [可选]
  在容器开始运行前增加
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 /**
  增加mv图层;
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_END
  @param maskPath mv效果中的黑白视频路径
  @return 增加后,返回mv图层对象
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 /**
  开始执行
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_END
  dispatch_async(dispatch_get_main_queue(), ^{
  CGPoint point=CGPointMake(label.center.x+2, label.center.y);
  label.center=point;
- LSLog(@"progress is %f",progess);
+ LSOLog(@"progress is %f",progess);
  });
  
  }];

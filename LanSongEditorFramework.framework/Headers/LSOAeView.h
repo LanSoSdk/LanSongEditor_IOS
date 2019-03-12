@@ -78,7 +78,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  
  比如打印出来:
      for(LSOAeImage *info in aeView.imageInfoArray){
-         LSLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
+         LSOLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
      }
  */
 @property (nonatomic) NSMutableArray *imageInfoArray;
@@ -101,7 +101,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
   获取到的是 LSOAeImageLayer对象;
  比如;
  for (LSOAeImageLayer *layer in view.imageLayerArray) {
- LSLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
+ LSOLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
  }
  */
 @property (nonatomic) NSMutableArray *imageLayerArray;

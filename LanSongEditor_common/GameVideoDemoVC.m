@@ -14,13 +14,13 @@
 
 @interface GameVideoDemoVC ()
 {
-    MediaInfo *mediaInfo;
+    LSOMediaInfo *mediaInfo;
     DrawPadVideoPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
-    BitmapPen *bmpPen;
+    LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
-    VideoPen *videoPen;
+    LSOVideoPen *videoPen;
 }
 @property (nonatomic,retain) NSMutableArray *videoArray;
 @end
@@ -35,7 +35,7 @@
     
     //布局视频宽高
     NSString *video=[AppDelegate getInstance].currentEditVideo;
-    mediaInfo=[[MediaInfo alloc] initWithPath:video];
+    mediaInfo=[[LSOMediaInfo alloc] initWithPath:video];
      if([mediaInfo prepare] && [mediaInfo hasVideo]){
          CGSize size=self.view.frame.size;
          CGSize viewSize=CGSizeMake([mediaInfo getWidth], [mediaInfo getHeight]);
@@ -180,8 +180,8 @@
             break;
         case 107:
             if([_videoArray count]>1){
-                NSString *dstPath=[LanSongFileUtil genTmpMp4Path];
-                 [VideoEditor executeConcatMP4:_videoArray dstFile:dstPath];
+                NSString *dstPath=[LSOFileUtil genTmpMp4Path];
+                 [LSOVideoEditor executeConcatMP4:_videoArray dstFile:dstPath];
                 VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
                 vce.videoPath=dstPath;
                 [self.navigationController pushViewController:vce animated:NO];
@@ -329,7 +329,7 @@
         [_videoArray removeAllObjects];
         _videoArray=nil;
     }
-    LSLog(@"GameVideoDemoVC VC  dealloc");
+    LSOLog(@"GameVideoDemoVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

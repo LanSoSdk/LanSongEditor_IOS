@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VideoPen.h"
-#import "ViewPen.h"
-#import "Pen.h"
+#import "LSOVideoPen.h"
+#import "LSOViewPen.h"
+#import "LSOPen.h"
 #import "LanSongView2.h"
-#import "BitmapPen.h"
-#import "MVPen.h"
+#import "LSOBitmapPen.h"
+#import "LSOMVPen.h"
 #import "LSOAeView.h"
 
 /**
@@ -25,7 +25,7 @@
 /**
  用initWithURL/initWithPath 增加的背景视频后, 得到的视频图层对象;
  */
-@property (nonatomic)   VideoPen *videoPen;
+@property (nonatomic)   LSOVideoPen *videoPen;
 /**
  当前容器大小, 创建后,如果用 initWithURL/initWithPath 则等于视频本身的分辨率
  如果用init创建的,则等于第一个增加的json文件或MV的分辨率;
@@ -99,7 +99,7 @@
  @param from  这个UI是否来自界面, 如果你已经self.view addSubView增加了这个view,则这里设置为YES;
  @return 返回对象
  */
--(ViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
+-(LSOViewPen *)addViewPen:(UIView *)view isFromUI:(BOOL)from;
 
 
 /**
@@ -108,7 +108,7 @@
  @param image 图片对象
  @return 返回图片图层对象
  */
--(BitmapPen *)addBitmapPen:(UIImage *)image;
+-(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 
 
 /**
@@ -119,7 +119,7 @@
  @param maskPath mv效果中的黑白视频路径
  @return MV对象
  */
--(MVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
 /**
@@ -136,7 +136,7 @@
  @param first 第一个图层对象
  @param second 第二个图层对象
  */
--(BOOL)exchangePenPosition:(Pen *)first second:(Pen *)second;
+-(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
  设置图层的位置
@@ -145,7 +145,7 @@
  @param pen 图层对象
  @param index 位置, 最里层是0, 最外层是 getPenSize-1
  */
--(BOOL)setPenPosition:(Pen *)pen index:(int)index;
+-(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
  当前容器的总时长;
@@ -153,7 +153,7 @@
 @property CGFloat duration;
 
 
--(void)removePen:(Pen *)pen;
+-(void)removePen:(LSOPen *)pen;
 
 /**
  开始执行

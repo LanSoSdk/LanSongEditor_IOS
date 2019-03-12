@@ -57,9 +57,9 @@
  
  //多个滤镜
  NSMutableArray *array=[[NSMutableArray alloc] init];
- [array addObject:[[IF1977Filter alloc]init]];
- [array addObject:[[IFHefeFilter alloc]init]];
- [array addObject:[[IFXproIIFilter alloc]init]];
+ [array addObject:[[LanSongIF1977Filter alloc]init]];
+ [array addObject:[[LanSongIFHefeFilter alloc]init]];
+ [array addObject:[[LanSongIFXproIIFilter alloc]init]];
  
  
  //单张图片
@@ -84,6 +84,6 @@
  view.image=imgItem;
  [self.view  addSubview:view];
  }
- LSLog(@"获取得到的 array个数是:%lu",(unsigned long)retArray.count);
+ LSOLog(@"获取得到的 array个数是:%lu",(unsigned long)retArray.count);
  */
 @end

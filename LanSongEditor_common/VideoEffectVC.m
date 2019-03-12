@@ -18,9 +18,9 @@
     DrawPadVideoPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
-    BitmapPen *bmpPen;
+    LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
-    VideoPen *videoPen;
+    LSOVideoPen *videoPen;
     
     
     NSString *dstPath;
@@ -38,7 +38,7 @@
     
     
     //灵活出窍
-    SubPen *outbodyPen;
+    LSOSubPen *outbodyPen;
     int outBodyCnt;
     float outBodySacle;
 }
@@ -240,13 +240,13 @@
         videoPen.hidden=YES;
         
         
-        SubPen *pen0=[videoPen addSubPen];
+        LSOSubPen *pen0=[videoPen addSubPen];
         
         pen0.scaleHeight=0.5;
         pen0.scaleWidth=0.5;
         pen0.positionX=pen0.scaleWidthValue/2;
         
-        SubPen *pen=[videoPen addSubPen];
+        LSOSubPen *pen=[videoPen addSubPen];
         pen.scaleHeight=0.5;
         pen.scaleWidth=0.5;
         pen.positionX=pen0.positionX + pen.scaleWidthValue;
@@ -271,28 +271,28 @@
         //放左上;
         videoPen.hidden=YES;
         
-        SubPen *pen0=[videoPen addSubPen];
+        LSOSubPen *pen0=[videoPen addSubPen];
         pen0.scaleWidth=0.25;
         pen0.scaleHeight=0.25;
         pen0.positionX=pen0.scaleWidthValue/2;
         pen0.positionY=pen0.scaleHeightValue/2;
         
         
-        SubPen *pen1=[videoPen addSubPen];
+        LSOSubPen *pen1=[videoPen addSubPen];
         pen1.scaleWidth=0.25;
         pen1.scaleHeight=0.25;
         pen1.positionX=pen0.positionX + pen0.scaleWidthValue;
         pen1.positionY=pen0.positionY;
         
         
-        SubPen *pen2=[videoPen addSubPen];
+        LSOSubPen *pen2=[videoPen addSubPen];
         pen2.scaleWidth=0.25;
         pen2.scaleHeight=0.25;
         pen2.positionX=pen1.positionX+ pen2.scaleWidthValue;
         pen2.positionY=pen0.positionY;
         
         
-        SubPen *pen3=[videoPen addSubPen];
+        LSOSubPen *pen3=[videoPen addSubPen];
         pen3.scaleWidth=0.25;
         pen3.scaleHeight=0.25;
         pen3.positionX=pen2.positionX+ pen3.scaleWidthValue;
@@ -305,13 +305,13 @@
 /**
  把剩余的12个列出来;
  */
--(void)video12ImageLayout:(SubPen *)first
+-(void)video12ImageLayout:(LSOSubPen *)first
 {
-    SubPen *penLast=first;
+    LSOSubPen *penLast=first;
     
     for (int i=0; i<3; i++)
     {
-        SubPen *pen0=[videoPen addSubPen];
+        LSOSubPen *pen0=[videoPen addSubPen];
         pen0.scaleHeight=0.25;
         pen0.scaleWidth=0.25;
         pen0.positionX=pen0.scaleWidthValue/2;
@@ -319,21 +319,21 @@
         
         
         
-        SubPen *pen1=[videoPen addSubPen];
+        LSOSubPen *pen1=[videoPen addSubPen];
         pen1.scaleHeight=0.25;
         pen1.scaleWidth=0.25;
         pen1.positionX=pen0.positionX + pen1.scaleWidthValue;
         pen1.positionY=penLast.positionY +pen1.scaleHeightValue;
         
         
-        SubPen *pen2=[videoPen addSubPen];
+        LSOSubPen *pen2=[videoPen addSubPen];
         pen2.scaleHeight=0.25;
         pen2.scaleWidth=0.25;
         pen2.positionX=pen1.positionX +pen2.scaleWidthValue;
         pen2.positionY=penLast.positionY + pen2.scaleHeightValue;
         
         
-        SubPen *pen3=[videoPen addSubPen];
+        LSOSubPen *pen3=[videoPen addSubPen];
         pen3.scaleHeight=0.25;
         pen3.scaleWidth=0.25;
         pen3.positionX=pen2.positionX +pen3.scaleWidthValue;
@@ -350,13 +350,13 @@
 {
     if(videoPen!=nil){
         
-        SubPen *pen=[videoPen addSubPen];
+        LSOSubPen *pen=[videoPen addSubPen];
         pen.positionX=videoPen.positionX -20;  //Y不变;
         pen.positionY=videoPen.positionY;
         [pen setRGBAPercent:0.3];
         
         
-        SubPen *pen2=[videoPen addSubPen];
+        LSOSubPen *pen2=[videoPen addSubPen];
         pen2.positionX=videoPen.positionX +20;
         pen2.positionY=videoPen.positionY;
         [pen2 setRGBAPercent:0.3];

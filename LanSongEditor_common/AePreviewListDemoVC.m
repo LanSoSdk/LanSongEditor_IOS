@@ -23,7 +23,6 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor grayColor];
     
-    
     LSOFullWidthButtonsView *scrollView=[LSOFullWidthButtonsView new];
     [self.view  addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
