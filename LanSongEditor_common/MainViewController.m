@@ -21,7 +21,7 @@
 
 #import "GameVideoDemoVC.h"
 #import "AEModuleDemoVC.h"
-#import "AEPreviewDemo.h"
+#import "AEPreviewDemoVC.h"
 
 #import "VideoEffectVC.h"
 #import "BitmapPadPreviewDemoVC.h"
@@ -73,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"蓝松短视频SDK--专业版";
+    self.title = @"蓝松短视频SDK";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -333,6 +333,7 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+extern int lansongffmpeg_main(int argc, char **argv);
 
 -(void)testFile
 {

@@ -190,7 +190,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return 返回图层对象;
  */
 -(LSOBitmapPen *)addLogoBitmap:(UIImage *)image;
-
+/**
+ 增加一个图片
+ 可以增加多个.
+ 
+ @param image 图片对象
+ @param position 位置
+ @return 返回图层对象;
+ */
+- (LSOBitmapPen *)addLogoBitmap:(UIImage *)image position:(LSOPosition)position;
 
 
 /**
@@ -200,15 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return UI对象;
  */
 -(LSOViewPen *)addViewPen:(UIView *)view;
-/**
- 增加一个图片
- 可以增加多个.
 
- @param image 图片对象
- @param position 位置
- @return 返回图层对象;
- */
-- (LSOBitmapPen *)addLogoBitmap:(UIImage *)image position:(LSOPosition)position;
 
 /**
  清除指定的图层;
@@ -261,13 +261,14 @@ NS_ASSUME_NONNULL_END
  2, (一下两步可选任一个既可.)
    可选1: 多次pushText. 把所有的识别出来的一段连续的文字和时间段都放进来. 我们内部分割文字,转换为图片,放到oneLineTextArray中.
    可选2: 直接你们自己按照我们pushText的形式来分离文字, 然后放到oneLineTextArray数组里.
-   注意:我们内部的分离文字, 是以填满当前图片的宽高为准的, 您也可以不用填满,可以一行只放一个或几个文字.
+ 注意:我们内部的分离文字, 流程是:先判断当前图片高度,找到最接近这个高度的字号,然后计算出字号的宽度,根据图片的宽度来判断能最大放多少个字,从而填满当前图片的宽高.
+     您也可以不用填满,可以一行只放一个或几个文字.
  
  3, 设置监听,完成回调等.startPreview开始预览/startExport开始导出.
  ----基本操作完毕----
  
  4, 如果你要再次修改oneLineTextArray中的任意一行的文字/颜色/字体/文字背景等, 则循环找到这一行的OneLineText对象.直接修改.
-    修改完毕后, 调用updateTextArrayWithConvert,更新json中的图片,再次预览会导出既可.
+    修改完毕后, 调用updateTextArrayWithConvert,更新json中的图片,再次预览/导出既可.
  
  5, 如果你要更新背景图片,增加logo, 增加声音,则有对应的addXXX方法, 直接增加. 增加图片后, 会得到图片图层对象,可以对这个对象设置滤镜,调整亮暗,切换图片等.
  6, 导出,则直接调用startExport.

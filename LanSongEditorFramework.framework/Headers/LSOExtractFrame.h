@@ -82,11 +82,11 @@
  if(img==nil){
  }else{
  }
- LSDELETE(@"-----time   is :%f",CMTimeGetSeconds(frameTime))
+ LSLog(@"-----time   is :%f",CMTimeGetSeconds(frameTime))
  frameCount++;
  if(frameCount>=50){  //时间到后, 停止;
  dispatch_async(dispatch_get_main_queue(), ^{
- LSDELETE(@"----停止....")
+ LSLog(@"----停止....")
  [extractFrame stop];
  });
  }

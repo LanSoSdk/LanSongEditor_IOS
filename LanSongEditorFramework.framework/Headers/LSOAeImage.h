@@ -11,6 +11,7 @@
 
 @interface LSOAeImage : NSObject
 
+//内部使用;
 - (instancetype _Nonnull)initWithString:(NSString *)refId width:(NSNumber *)width height:(NSNumber *) height
                                    name:(NSString *)name imagedir:(NSString *)imagedir;
 /**

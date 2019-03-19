@@ -80,6 +80,14 @@
  */
 -(id)init;
 
+
+/**
+ 不增加背景视频的初始化方法;
+ 生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的帧率或时长;
+
+ @param size 我们的SDK是图层和容器思想; 这里是设置容器的大小,请务必等于当前容器的宽高;
+ */
+-(id)initWithDrawPadSize:(CGSize)size;
 /**
  增加UI图层;
  @param view UI图层
@@ -88,10 +96,10 @@
 -(LSOViewPen *)addViewPen:(UIView *)view;
 
 
-
-
 /**
  增加AE对象;
+ [不建议使用]
+ 增加后, 作为一个图层叠加在其他层的上面;
  */
 -(void)addAEView:(LSOAeView *)view;
 
@@ -103,13 +111,22 @@
 -(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 /**
- 增加的图片图层,
+ 增加一个图片图层,
+ 可以增加多个.
 
  在容器开始运行前增加
  */
 -(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
-
-
+/**
+ 增加一个图片图层
+ 
+ 可以增加多个.
+ 在容器开始运行前,
+ @param image 图片对象
+ @param position 位置
+ @return 返回图层对象;
+ */
+- (LSOBitmapPen *)addBitmapPen:(UIImage *)image position:(LSOPosition)position;
 /**
  增加mv图层;
 
@@ -146,17 +163,6 @@
  */
 -(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
-
-/**
- 设置Aejson图层的播放速度;
- 范围 0.1--10倍;
- 
- 0.1 是比正常速度慢10倍;
- 10 是比正常速度快10倍;
- @param speed
- */
--(void)setAeJsonSpeed:(CGFloat)speed;
-
 /**
  进度回调,
  此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;
@@ -186,7 +192,56 @@
 @property (nonatomic,readonly) BOOL isRunning;
 
 
+/**
+ 设置Ae模板中的视频的音量大小.
+ 在需要增加其他声音前调用(addAudio后调用无效).
+ 不调用默认是原来的声音大小;
+ 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ 设置为0, 则删除Ae模板中的音频;
+ */
+@property(readwrite, nonatomic) float aeAudioVolume;
 
--(void)setAeController:(NSMutableArray *)imageArray;
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ @param audio 音频路径.或带有音频的视频路径
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume;
 
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ 
+ @param audio 音频路径.或带有音频的视频路径
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @param isLoop 是否循环
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume loop:(BOOL)isLoop;
+
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 把音频的哪部分 增加到主视频的指定位置上;
+ 可多次调用
+ 
+ @param audio 音频路径.或带有音频的视频路径
+ @param start 开始
+ @param pos  把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start pos:(CGFloat)pos volume:(CGFloat)volume;
+/**
+  增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ @param audio 音频路径.或带有音频的视频路径
+ @param start 音频的开始时间段
+ @param end 音频的结束时间段 如果增加到结尾, 则可以输入-1
+ @param pos 把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param volume 混合时的音量
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 @end

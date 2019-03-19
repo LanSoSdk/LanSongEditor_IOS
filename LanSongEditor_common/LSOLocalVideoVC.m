@@ -71,7 +71,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 @implementation LSOLocalVideoVC
 {
-    LSOEditMode *importVideo;
+    LSOEditMode *editor;
     LSOProgressHUD *progressHUD;
 }
 
@@ -169,39 +169,27 @@ static NSString * const reuseIdentifier = @"Cell";
         url = [pAsset movieURL];
     }
     
-    NSString *version= [UIDevice currentDevice].systemVersion;
-    LSOLog(@"version.doubleValue is :%f",version.doubleValue)
-    if (version.doubleValue >= 12.0) {
-        [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:url];
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    } else {
-        importVideo=[[LSOEditMode alloc] initWithURL:url];
-        WS(weakSelf);
-        
-        [importVideo setProgressBlock:^(CGFloat progess) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf importProgress:progess];
-            });
-        }];
-        [importVideo setCompletionBlock:^(NSString * _Nonnull dstPath) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf importCompleted:dstPath];
-            });
-        }];
-        [importVideo startImport];
-    }
+    [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:url];  //LSTODO
+    [self.navigationController popViewControllerAnimated:YES];  //LSTODO
+    
+    //暂时不用转换;
+//    editor=[[LSOEditMode alloc] initWithURL:url];
+//    [editor setProgressBlock:^(CGFloat progess) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progess]];
+//        });
+//    }];
+//    [editor setCompletionBlock:^(NSString * _Nonnull dstPath) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [progressHUD hide];
+//            [AppDelegate getInstance].currentEditVideo=dstPath;
+//            [self.navigationController popViewControllerAnimated:YES];
+//        });
+//    }];
+//
+//    [editor startImport];
 }
--(void)importProgress:(CGFloat)progess
-{
-    [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progess]];
-}
--(void)importCompleted:(NSString *)dstPath
-{
-    [progressHUD hide];
-    [AppDelegate getInstance].currentEditVideo=dstPath;
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 - (void)fetchAssetsWithMediaType:(PHAssetMediaType)mediaType {
     
@@ -235,4 +223,3 @@ static NSString * const reuseIdentifier = @"Cell";
     });
 }
 @end
-

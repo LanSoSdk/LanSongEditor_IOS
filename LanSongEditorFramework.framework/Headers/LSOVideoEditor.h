@@ -189,7 +189,31 @@
 
 +(void)createVideoWithSize:(CGSize )size frameRate:(int)frameRate duration:(int)duration completion:(void (^)(NSURL *))block;
 
-
+/**
+ 把音频文件(或包含音频的视频)转换为单通道的wav格式. 
+ 
+ @param srcFile 元文件
+ @param startS 开始时间
+ @param durationS 结束时间
+ @param dstSample 要设置的目标音频的采样率. 如要忽略则设为0;
+ @return 执行完毕,返回wav文件路径,
+ */
++(NSString *) executeAudioCutConvertMonoWav:(NSString *)srcFile startS:(float)startS duration:(float)durationS dstSample:(int)dstSample;
+/**
+ *  [已废弃.请不要使用]
+ 直接用LSOVideoOneDo.h来做
+ */
++(int) executeVideoCutOut:(NSString*)videoFile dstFile:(NSString *)dstFile start:(float)startS durationS:(float)durationS;
+/**
+ * 音频裁剪,截取音频文件中的一段.
+ * 需要注意到是: 尽量保持目标文件的后缀名和源音频的后缀名一致.
+ * @param srcFile   源音频,
+ * @param dstFile  裁剪后的音频
+ * @param startS  开始时间,单位是秒. 可以有小数
+ * @param durationS  裁剪的时长.
+ * @return 执行成功,返回0, 失败返回错误码
+ */
++(NSString *) executeAudioCutOut:(NSString *)srcFile startS:(float)startS duration:(float)durationS;
 //--------------------一下是异步执行的ffmpeg中的功能.
 
 /**
@@ -242,12 +266,8 @@
  异步执行,同一时刻只能有一个在执行;
  
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
+ [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
+ [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
  @param videoFile 输入的视频
  @param startX 开始x
@@ -261,12 +281,8 @@
  ffmpeg的命令.
  特定客户使用;
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为你们增加, 我们普通发布的版本不支持这个功能]
+ [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
+ [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
  异步执行,同一时刻只能有一个在执行;
  
@@ -330,6 +346,43 @@
  [cmdArray addObject:@"ffmpeg"];
  [cmdArray addObject:@"-version"];
  [self startCmd:cmdArray];
+ 
+ 再举例视频叠加并调速:
+ NSString *filter=[NSString stringWithFormat:@"[0:v][1:v]overlay=%d:%d[overlay];[overlay]setpts=%f*PTS[v];[0:a]atempo=%f[a]",x,y, 1 / speed,speed];
+ 
+ NSString *dstPath=[LSOFileUtil genTmpMp4Path];
+ 
+ NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
+ [cmdArray addObject:@"ffmpeg"];
+ 
+ [cmdArray addObject:@"-i"];
+ [cmdArray addObject:videoPath];
+ [cmdArray addObject:@"-i"];
+ [cmdArray addObject:pngPath];
+ 
+ [cmdArray addObject:@"-filter_complex"];
+ [cmdArray addObject:filter];
+ 
+ 
+ [cmdArray addObject:@"-map"];
+ [cmdArray addObject:@"[v]"];
+ 
+ [cmdArray addObject:@"-map"];
+ [cmdArray addObject:@"[a]"];
+ 
+ 
+ [cmdArray addObject:@"-acodec"];
+ [cmdArray addObject:@"copy"];
+ 
+ [cmdArray addObject:@"-vcodec"];
+ [cmdArray addObject:@"h264_videotoolbox"];
+ [cmdArray addObject:@"-b:v"];
+ [cmdArray addObject:[NSString stringWithFormat:@"%d",1024*1024*2]];
+ 
+ [cmdArray addObject:@"-y"];
+ [cmdArray addObject:dstPath];
+ 
+ return [self startCmd:cmdArray];  //开启成功返回YES,  失败返回NO
  @return 开始异步处理返回YES, 失败返回NO;
  */
 -(BOOL)startCmd:(NSMutableArray *)cmdArray;
@@ -374,5 +427,71 @@
  [ffmpeg startAdjustVideoSpeed:videoPath2 speed:0.5f];
  }
  
+ */
+
+//-----------关于外面直接调用ffmpeg的main方法的说明----------
+/*
+ 
+ ffmpeg.c中的main函数;
+ 此方法是C语言命令.
+ 您可以在自己的C语言中用 extern 声明一下, 然后使用;
+ 
+ ffmpeg_main中有退出当前线程的功能,当出错的时候,可能不会执行main后面的代码;
+int lansongffmpeg_main(int argc, char **argv);  <--------方法
+
+ ffmpeg.c的进度, 当有进度改变时,返回当前百分数(0--100),没有改变,返回0;
+ 
+ int lansongGet_ffmpeg_progress();  <-------进度;
+ -----一下是举例:
+ extern int lansongffmpeg_main(int argc, char **argv);
+ 
+ -(void)testFile
+ {
+ [[[NSThread alloc] initWithBlock:^{
+ NSString *videoPath=[LSOFileUtil pathForResource:@"dy_xialu2" ofType:@"mp4"];
+ NSString *filter=[NSString stringWithFormat:@"[0:v]setpts=%f*PTS[v];[0:a]atempo=%f[a]",2.0,0.5];
+ 
+ NSString *dstPath=[LSOFileUtil genTmpMp4Path];
+ 
+ NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
+ [cmdArray addObject:@"ffmpeg"];
+ 
+ 
+ [cmdArray addObject:@"-i"];
+ [cmdArray addObject:videoPath];
+ 
+ 
+ [cmdArray addObject:@"-filter_complex"];
+ [cmdArray addObject:filter];
+ 
+ [cmdArray addObject:@"-map"];
+ [cmdArray addObject:@"[v]"];
+ 
+ [cmdArray addObject:@"-map"];
+ [cmdArray addObject:@"[a]"];
+ 
+ 
+ [cmdArray addObject:@"-acodec"];
+ [cmdArray addObject:@"aac"];
+ 
+ [cmdArray addObject:@"-vcodec"];
+ [cmdArray addObject:@"h264_videotoolbox"];
+ [cmdArray addObject:@"-b:v"];
+ [cmdArray addObject:[NSString stringWithFormat:@"%d",1024*1024*2]];
+ 
+ [cmdArray addObject:@"-y"];
+ [cmdArray addObject:dstPath];
+ 
+ char argc=cmdArray.count;
+ char *argv[argc];
+ for (int i=0; i<argc; i++) {
+ NSString *str=[cmdArray objectAtIndex:i];
+ argv[i]= (char *)[str UTF8String];
+ }
+ lansongffmpeg_main(argc, argv);
+ [LSOMediaInfo checkFile:dstPath];
+ }] start];
+ 
+ }
  */
 @end

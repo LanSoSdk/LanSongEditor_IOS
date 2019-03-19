@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LanSongLog.h"
+#import "LSOImageUtil.h"
 
 @interface LSOFileUtil : NSObject
 

@@ -79,8 +79,10 @@
 		8B1B9E6B2157B24E008A3DF0 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9E522157B24E008A3DF0 /* YYClassInfo.m */; };
 		8B1B9E6C2157B24E008A3DF0 /* LSDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9E552157B24E008A3DF0 /* LSDrawView.m */; };
 		8B22616E219AB9630094A686 /* RecordUIViewDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B22616D219AB9630094A686 /* RecordUIViewDemoVC.m */; };
+		8B23C6BD223F7E1D0043BD9B /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B23C6BC223F7E1D0043BD9B /* LanSongEditorFramework.framework */; };
+		8B23C6BF223F7E2B0043BD9B /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8B23C6BE223F7E2B0043BD9B /* LanSongEditorBundle.bundle */; };
 		8B29A988215CF5710008AD46 /* dy_xialu2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B29A986215CF54B0008AD46 /* dy_xialu2.mp4 */; };
-		8B2E77B22134E8D40067052B /* AEPreviewDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E77B12134E8D40067052B /* AEPreviewDemo.m */; };
+		8B2E77B22134E8D40067052B /* AEPreviewDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E77B12134E8D40067052B /* AEPreviewDemoVC.m */; };
 		8B2EF7BA1E238A1D0013C39C /* honor30s2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B2EF7B91E238A010013C39C /* honor30s2.m4a */; };
 		8B34BDEF1E14C08200DC3751 /* mm.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B34BDEE1E14C08200DC3751 /* mm.png */; };
 		8B36C33F20E3B1360069A28F /* aobama.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B36C33E20E3B1360069A28F /* aobama.json */; };
@@ -150,8 +152,6 @@
 		8BD429022234F3FE00345606 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD429012234F3FE00345606 /* cover1.png */; };
 		8BD67E3220C7C2790000EF43 /* CameraFullPortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD67E3120C7C2790000EF43 /* CameraFullPortVC.m */; };
 		8BD7588E223758F4003B10EA /* CommonEditListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7588D223758F4003B10EA /* CommonEditListVC.m */; };
-		8BD75C1D223798FA003B10EA /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD75C1C223798FA003B10EA /* LanSongEditorFramework.framework */; };
-		8BD75C1F22379907003B10EA /* LanSongEditorBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8BD75C1E22379907003B10EA /* LanSongEditorBundle.bundle */; };
 		8BDB9A3B1F7A5A6F00F991F9 /* small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDB9A3A1F7A5A6F00F991F9 /* small.png */; };
 		8BE102B22174A5C200BA01AD /* LSOPhotoAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE102AB2174A5C100BA01AD /* LSOPhotoAlbumCell.xib */; };
 		8BE102B42174A5C200BA01AD /* LSOLocalVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE102AD2174A5C100BA01AD /* LSOLocalVideoVC.m */; };
@@ -312,9 +312,11 @@
 		8B1B9E552157B24E008A3DF0 /* LSDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSDrawView.m; sourceTree = "<group>"; };
 		8B22616C219AB9630094A686 /* RecordUIViewDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordUIViewDemoVC.h; sourceTree = "<group>"; };
 		8B22616D219AB9630094A686 /* RecordUIViewDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordUIViewDemoVC.m; sourceTree = "<group>"; };
+		8B23C6BC223F7E1D0043BD9B /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
+		8B23C6BE223F7E2B0043BD9B /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
 		8B29A986215CF54B0008AD46 /* dy_xialu2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dy_xialu2.mp4; sourceTree = "<group>"; };
-		8B2E77B02134E8D40067052B /* AEPreviewDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEPreviewDemo.h; sourceTree = "<group>"; };
-		8B2E77B12134E8D40067052B /* AEPreviewDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEPreviewDemo.m; sourceTree = "<group>"; };
+		8B2E77B02134E8D40067052B /* AEPreviewDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEPreviewDemoVC.h; sourceTree = "<group>"; };
+		8B2E77B12134E8D40067052B /* AEPreviewDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AEPreviewDemoVC.m; sourceTree = "<group>"; };
 		8B2EF7B91E238A010013C39C /* honor30s2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = honor30s2.m4a; sourceTree = "<group>"; };
 		8B34BDEE1E14C08200DC3751 /* mm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mm.png; sourceTree = "<group>"; };
 		8B36C33E20E3B1360069A28F /* aobama.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = aobama.json; sourceTree = "<group>"; };
@@ -357,7 +359,7 @@
 		8B8042CE21A7E47700F691A8 /* hongdou10s.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hongdou10s.mp3; sourceTree = "<group>"; };
 		8B8173CC20DDDA89002D724F /* aobama_mvMask.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = aobama_mvMask.mp4; sourceTree = "<group>"; };
 		8B8173CD20DDDA8B002D724F /* aobama_mvColor.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = aobama_mvColor.mp4; sourceTree = "<group>"; };
-		8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.temp_caseinsensitive_rename.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanSongEditor_DEMO.temp_caseinsensitive_rename.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B8638131D51AB29007A353C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8B8638151D51AB29007A353C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8B8638161D51AB29007A353C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -402,8 +404,6 @@
 		8BD67E3120C7C2790000EF43 /* CameraFullPortVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraFullPortVC.m; sourceTree = "<group>"; };
 		8BD7588C223758F4003B10EA /* CommonEditListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonEditListVC.h; sourceTree = "<group>"; };
 		8BD7588D223758F4003B10EA /* CommonEditListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonEditListVC.m; sourceTree = "<group>"; };
-		8BD75C1C223798FA003B10EA /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
-		8BD75C1E22379907003B10EA /* LanSongEditorBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LanSongEditorBundle.bundle; sourceTree = "<group>"; };
 		8BDB9A3A1F7A5A6F00F991F9 /* small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small.png; sourceTree = "<group>"; };
 		8BE102AB2174A5C100BA01AD /* LSOPhotoAlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSOPhotoAlbumCell.xib; sourceTree = "<group>"; };
 		8BE102AD2174A5C100BA01AD /* LSOLocalVideoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSOLocalVideoVC.m; sourceTree = "<group>"; };
@@ -517,7 +517,7 @@
 			files = (
 				8BCA93FB1FC2CAEA00D0BC50 /* libc++.tbd in Frameworks */,
 				8BF0E2921D51CA9200F52374 /* libbz2.tbd in Frameworks */,
-				8BD75C1D223798FA003B10EA /* LanSongEditorFramework.framework in Frameworks */,
+				8B23C6BD223F7E1D0043BD9B /* LanSongEditorFramework.framework in Frameworks */,
 				8BF0E2901D51CA6600F52374 /* libz.tbd in Frameworks */,
 				8B8638471D51AD0E007A353C /* QuartzCore.framework in Frameworks */,
 				8B8638391D51ABCB007A353C /* CoreVideo.framework in Frameworks */,
@@ -669,7 +669,7 @@
 		8B8638061D51AB29007A353C = {
 			isa = PBXGroup;
 			children = (
-				8BD75C1E22379907003B10EA /* LanSongEditorBundle.bundle */,
+				8B23C6BE223F7E2B0043BD9B /* LanSongEditorBundle.bundle */,
 				8BF0E2931D51CB2F00F52374 /* frameworks */,
 				8B8638111D51AB29007A353C /* LanSongEditor_DEMO */,
 				8B8638101D51AB29007A353C /* Products */,
@@ -680,7 +680,7 @@
 		8B8638101D51AB29007A353C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */,
+				8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.temp_caseinsensitive_rename.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -690,8 +690,8 @@
 			children = (
 				8B1A0ED020DC9E8B00A97061 /* AEModuleDemoVC.h */,
 				8B1A0ED120DC9E8B00A97061 /* AEModuleDemoVC.m */,
-				8B2E77B02134E8D40067052B /* AEPreviewDemo.h */,
-				8B2E77B12134E8D40067052B /* AEPreviewDemo.m */,
+				8B2E77B02134E8D40067052B /* AEPreviewDemoVC.h */,
+				8B2E77B12134E8D40067052B /* AEPreviewDemoVC.m */,
 				8BAC300D21AE372D001A0F28 /* AePreviewListDemoVC.h */,
 				8BAC300E21AE372D001A0F28 /* AePreviewListDemoVC.m */,
 				8B43FF4621A4FB050048C6F0 /* AETextVideoDemoVC.h */,
@@ -870,7 +870,7 @@
 		8BF0E2931D51CB2F00F52374 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8BD75C1C223798FA003B10EA /* LanSongEditorFramework.framework */,
+				8B23C6BC223F7E1D0043BD9B /* LanSongEditorFramework.framework */,
 				8B8638461D51AD0E007A353C /* QuartzCore.framework */,
 				8BF0E2911D51CA9200F52374 /* libbz2.tbd */,
 				8BF0E28F1D51CA6600F52374 /* libz.tbd */,
@@ -1026,9 +1026,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8B86380E1D51AB29007A353C /* LanSongEditor_DEMO */ = {
+		8B86380E1D51AB29007A353C /* LanSongEditor_demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEMO" */;
+			buildConfigurationList = 8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_demo" */;
 			buildPhases = (
 				8B86380B1D51AB29007A353C /* Sources */,
 				8B86380C1D51AB29007A353C /* Frameworks */,
@@ -1038,9 +1038,9 @@
 			);
 			dependencies = (
 			);
-			name = LanSongEditor_DEMO;
+			name = LanSongEditor_demo;
 			productName = LanSongEditor_common;
-			productReference = 8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.app */;
+			productReference = 8B86380F1D51AB29007A353C /* LanSongEditor_DEMO.temp_caseinsensitive_rename.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1072,7 +1072,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8B86380E1D51AB29007A353C /* LanSongEditor_DEMO */,
+				8B86380E1D51AB29007A353C /* LanSongEditor_demo */,
 			);
 		};
 /* End PBXProject section */
@@ -1090,12 +1090,12 @@
 				8BB05E9C211040C100BDCDE4 /* zaoan.json in Resources */,
 				8B8173CE20DDDA9B002D724F /* aobama_mvColor.mp4 in Resources */,
 				8B8173CF20DDDA9B002D724F /* aobama_mvMask.mp4 in Resources */,
+				8B23C6BF223F7E2B0043BD9B /* LanSongEditorBundle.bundle in Resources */,
 				8B13BE4C221D392A00342AE7 /* textVideo1.json in Resources */,
 				8B93547A1FBC50F800014390 /* lookup_amatorka.png in Resources */,
 				8B1B9E572157B24E008A3DF0 /* StoryMaker.xcassets in Resources */,
 				8BF761471F983A9600436073 /* lookup_soft_elegance_1.png in Resources */,
 				8B7B0E501FC6C23400E952BE /* t14.jpg in Resources */,
-				8BD75C1F22379907003B10EA /* LanSongEditorBundle.bundle in Resources */,
 				8BB81E011F43E829006D0D22 /* pic3.png in Resources */,
 				8B621C89219FB34900CFC8B7 /* xiaoYa_mvColor.mp4 in Resources */,
 				8B1394491ED2F211009963C0 /* record_icon_hook_highlighted_bg@2x.png in Resources */,
@@ -1220,7 +1220,7 @@
 				8B1B9E582157B24E008A3DF0 /* StoryMakerFontManager.m in Sources */,
 				8B38427E20C7BFBC003D5B38 /* FilterTpyeList.m in Sources */,
 				8B1B9E602157B24E008A3DF0 /* StoryMakeToolsView.m in Sources */,
-				8B2E77B22134E8D40067052B /* AEPreviewDemo.m in Sources */,
+				8B2E77B22134E8D40067052B /* AEPreviewDemoVC.m in Sources */,
 				8B1B9E6C2157B24E008A3DF0 /* LSDrawView.m in Sources */,
 				8BEF484B1E1A0E5800EC1D05 /* BlazeicePlist.m in Sources */,
 				8B1B9E642157B24E008A3DF0 /* StoryMakeStickerFootSingleViewController.m in Sources */,
@@ -1408,7 +1408,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "-FR7WV929V.com.lansongsdk.lansongeditor";
-				PRODUCT_NAME = LanSongEditor_DEMO;
+				PRODUCT_NAME = LanSongEditor_DEMO.temp_caseinsensitive_rename;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1435,7 +1435,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "-FR7WV929V.com.lansongsdk.lansongeditor";
-				PRODUCT_NAME = LanSongEditor_DEMO;
+				PRODUCT_NAME = LanSongEditor_DEMO.temp_caseinsensitive_rename;
 			};
 			name = Release;
 		};
@@ -1451,7 +1451,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_DEMO" */ = {
+		8B8638291D51AB29007A353C /* Build configuration list for PBXNativeTarget "LanSongEditor_demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B86382A1D51AB29007A353C /* Debug */,

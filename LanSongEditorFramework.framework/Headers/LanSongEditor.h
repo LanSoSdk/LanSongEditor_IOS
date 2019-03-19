@@ -47,8 +47,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //后台录制UI
 #import <LanSongEditorFramework/LSORecordUIExecute.h>
-
-
 #import <LanSongEditorFramework/DrawPadAeText.h>
 #import <LanSongEditorFramework/LSOOneLineText.h>
 
@@ -127,6 +125,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOAeView.h>
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>
+#import <LanSongEditorFramework/LSOAEVideoSetting.h>
+
+
 #import <LanSongEditorFramework/LanSongTESTVC.h>
 
 @interface LanSongEditor : NSObject
@@ -185,10 +186,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  @param prefix
  */
 +(void)setTempFilePrefix:(NSString *)prefix;
-
-
-
-
 /**
  设置在编码的时候, 编码成 编辑模式的视频;
  我们内部定义一种视频格式,命名为:编辑模式;

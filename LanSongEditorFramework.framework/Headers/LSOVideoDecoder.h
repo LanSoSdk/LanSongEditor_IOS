@@ -14,7 +14,6 @@
 
 /**
  提取视频帧, 同步模式;
- 
  */
 @interface LSOVideoDecoder : LanSongOutput
 

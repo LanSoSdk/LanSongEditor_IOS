@@ -9,7 +9,7 @@
 #import "AePreviewListDemoVC.h"
 #include "LSOFullWidthButtonsView.h"
 #import "AEModuleDemoVC.h"
-#import "AEPreviewDemo.h"
+#import "AEPreviewDemoVC.h"
 
 @interface AePreviewListDemoVC () <LSOFullWidthButtonsViewDelegate>
 {
@@ -35,7 +35,7 @@
 
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
-    AEPreviewDemo *pushVC=[[AEPreviewDemo alloc] init];
+    AEPreviewDemoVC *pushVC=[[AEPreviewDemoVC alloc] init];
     switch (index) {
         case 0:
             pushVC.AeType=kAEDEMO_AOBAMA;

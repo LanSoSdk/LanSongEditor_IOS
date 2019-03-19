@@ -197,7 +197,7 @@
     
     [videoOneDo setVideoProgressBlock:^(CGFloat currentFramePts, CGFloat percent) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            LSDELETE(@"currentFramePts: %f, percent:%f",currentFramePts,percent)
+            LSOLog_d(@"currentFramePts: %f, percent:%f",currentFramePts,percent)
             [weakSelf.hud showProgress:[NSString stringWithFormat:@"进度:%f",percent]];
         });
     }];
@@ -211,7 +211,7 @@
 }
 - (void)LSOFullWidthSwitchsViewSelected:(int)index isOn:(BOOL)isOn
 {
-    LSDELETE(@"index is -----:%d, isOn:%d",index,isOn);
+    LSOLog_d(@"index is -----:%d, isOn:%d",index,isOn);
 }
 -(UIView *)addTextLogo
 {

@@ -2,6 +2,7 @@
 #import "LanSongFramebuffer.h"
 #import "LanSongFramebufferCache.h"
 #import "LanSongLog.h"
+#import "LSOFileUtil.h"
 
 
 #define LanSongRotationSwapsWidthAndHeight(rotation) ((rotation) == kLanSongRotateLeft || (rotation) == kLanSongRotateRight || (rotation) == kLanSongRotateRightFlipVertical || (rotation) == kLanSongRotateRightFlipHorizontal)

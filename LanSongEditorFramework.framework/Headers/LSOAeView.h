@@ -8,10 +8,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LSOKeypath.h"
-#import "LSOValueDelegate.h"
+//#import "LSOValueDelegate.h"  //LSTODO
 #import "LSOAeText.h"
 #import "LSOAeImage.h"
 #import "LSOAeImageLayer.h"
+#import "LSOAEVideoSetting.h"
+
+
 
 
 typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
@@ -57,7 +60,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 @property (nonatomic, readonly) CGFloat animationDuration;
 
-/// Enables or disables caching of the backing animation model. Defaults to YES
 @property (nonatomic, assign) BOOL cacheEnable;
 
 @property (nonatomic, copy, nullable) LSOAnimationCompletionBlock completionBlock;
@@ -99,6 +101,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  当前json中所有图片图层的信息;
   获取到的是 LSOAeImageLayer对象;
+ 里面放了一个LSOXLayerContainer对象;
  比如;
  for (LSOAeImageLayer *layer in view.imageLayerArray) {
  LSOLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
@@ -112,22 +115,44 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 - (void)updateImage:(NSString *)assetID image:(UIImage*)image;
 /**
- lansong++
  在开始执行前调用, 替换指定key的图片
 
- @param key "imag_0","image_1",这样的图片
+ @param key "json中的图片ID号, image_0 image_1等;
  @param image 图片对象
  @return 替换成功返回YES
  */
 -(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image;
 
+
+/**
+ 替换图片
+ json中的每个图片有一个唯一的ID, 根据id来替换指定json中的图片.
+
+ @param key "json中的图片ID号, image_0 image_1等;
+ @param image 图片对象
+ @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
+ @return 替换成功返回YES
+ */
+-(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image needCrop:(BOOL)needCrop;
+
 /**
  替换指定图片的视频;
- @param key json中的refId, image_0 image_1等;
+ @param key json中的图片ID号, image_0 image_1等;
  @param url 视频文件路径
  @return 可以替换返回YES;
  */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url;
+
+
+/**
+ 替换指定图片中的视频
+
+ @param key json中的图片ID号, image_0 image_1等;
+ @param url 视频文件路径
+ @param setting 视频文件在处理中的选项设置;
+ @return 可以替换返回YES;
+ */
+-(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url setting:(LSOAEVideoSetting *)setting;
 
 /**
  当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
@@ -165,45 +190,19 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 - (BOOL) updateFontWithText:(NSString *)text font:(NSString *)font;
 
+
+/**********************************以下不要使用********************************************************************/
 - (void)playToProgress:(CGFloat)toProgress
         withCompletion:(nullable LSOAnimationCompletionBlock)completion;
 
-/*
- * Plays the animation from specific progress to a specific progress
- * The animation will start from its current position..
- * If loopAnimation is YES the animation will loop from the startProgress to the endProgress indefinitely
- * If loopAnimation is NO the animation will stop and the completion block will be called.
- */
 - (void)playFromProgress:(CGFloat)fromStartProgress
               toProgress:(CGFloat)toEndProgress
           withCompletion:(nullable LSOAnimationCompletionBlock)completion;
-
-/*
- * Plays the animation from its current position to a specific frame.
- * The animation will start from its current position.
- * If loopAnimation is YES the animation will loop from beginning to toFrame indefinitely.
- * If loopAnimation is NO the animation will stop and the completion block will be called.
- */
 - (void)playToFrame:(nonnull NSNumber *)toFrame
      withCompletion:(nullable LSOAnimationCompletionBlock)completion;
-
-/*
- * Plays the animation from specific frame to a specific frame.
- * The animation will start from its current position.
- * If loopAnimation is YES the animation will loop start frame to end frame indefinitely.
- * If loopAnimation is NO the animation will stop and the completion block will be called.
- */
 - (void)playFromFrame:(nonnull NSNumber *)fromStartFrame
               toFrame:(nonnull NSNumber *)toEndFrame
        withCompletion:(nullable LSOAnimationCompletionBlock)completion;
-
-
-/**
- * Plays the animation from its current position to the end of the animation.
- * The animation will start from its current position.
- * If loopAnimation is YES the animation will loop from beginning to end indefinitely.
- * If loopAnimation is NO the animation will stop and the completion block will be called.
- **/
 - (void)playWithCompletion:(nullable LSOAnimationCompletionBlock)completion;
 
 - (void)play;
@@ -212,105 +211,29 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 - (void)setProgressWithFrame:(nonnull NSNumber *)currentFrame;
 - (void)forceDrawingUpdate;
 - (void)logHierarchyKeypaths;
-
-/*!
- @brief Sets a LSOValueDelegate for each animation property returned from the LSOKeypath search. LSOKeypath matches views inside of LSOAnimationView to their After Effects counterparts. The LSOValueDelegate is called every frame as the animation plays to override animation values. A delegate can be any object that conforms to the LSOValueDelegate protocol, or one of the prebuilt delegate classes found in LSOBlockCallback, LSOInterpolatorCallback, and LSOValueCallback.
-
- @discussion
- Example that sets an animated stroke to Red using a LSOColorValueCallback.
- @code
- LSOKeypath *keypath = [LSOKeypath keypathWithKeys:@"Layer 1", @"Ellipse 1", @"Stroke 1", @"Color", nil];
- LSOColorValueCallback *colorCallback = [LSOColorBlockCallback withColor:[UIColor redColor]];
- [animationView setValueCallback:colorCallback forKeypath:keypath];
- @endcode
-
- See the documentation for LSOValueDelegate to see how to create LSOValueCallbacks. A delegate can be any object that conforms to the LSOValueDelegate protocol, or one of the prebuilt delegate classes found in LSOBlockCallback, LSOInterpolatorCallback, and LSOValueCallback.
-
- See the documentation for LSOKeypath to learn more about how to create keypaths.
-
- */
-- (void)setValueDelegate:(id<LSOValueDelegate> _Nonnull)delegates
-              forKeypath:(LSOKeypath * _Nonnull)keypath;
-
-/*!
- @brief returns the string representation of every keypath matching the LSOKeypath search.
- */
+//- (void)setValueDelegate:(id<LSOValueDelegate> _Nonnull)delegates
+//              forKeypath:(LSOKeypath * _Nonnull)keypath;
 - (nullable NSArray *)keysForKeyPath:(nonnull LSOKeypath *)keypath;
-
-/*!
- @brief Converts a CGPoint from the Animation views top coordinate space into the coordinate space of the specified renderable animation node.
- */
 - (CGPoint)convertPoint:(CGPoint)point
          toKeypathLayer:(nonnull LSOKeypath *)keypath;
+- (CGRect)convertRect:(CGRect)rect  toKeypathLayer:(nonnull LSOKeypath *)keypath;
+- (CGPoint)convertPoint:(CGPoint)point fromKeypathLayer:(nonnull LSOKeypath *)keypath;
+- (CGRect)convertRect:(CGRect)rect fromKeypathLayer:(nonnull LSOKeypath *)keypath;
 
-/*!
- @brief Converts a CGRect from the Animation views top coordinate space into the coordinate space of the specified renderable animation node.
- */
-- (CGRect)convertRect:(CGRect)rect
-       toKeypathLayer:(nonnull LSOKeypath *)keypath;
-
-/*!
- @brief Converts a CGPoint to the Animation views top coordinate space from the coordinate space of the specified renderable animation node.
- */
-- (CGPoint)convertPoint:(CGPoint)point
-       fromKeypathLayer:(nonnull LSOKeypath *)keypath;
-
-/*!
- @brief Converts a CGRect to the Animation views top coordinate space from the coordinate space of the specified renderable animation node.
- */
-- (CGRect)convertRect:(CGRect)rect
-     fromKeypathLayer:(nonnull LSOKeypath *)keypath;
-
-/*!
- @brief Adds a UIView, or NSView, to the renderable layer found at the Keypath
- */
-- (void)addSubview:(nonnull UIView *)view
-    toKeypathLayer:(nonnull LSOKeypath *)keypath;
-
-
+- (void)addSubview:(nonnull UIView *)view toKeypathLayer:(nonnull LSOKeypath *)keypath;
 - (void)addSubLayer:(nonnull CALayer *)layer;
-
-/*!
- @brief Adds a UIView, or NSView, to the parentrenderable layer found at the Keypath and then masks the view with layer found at the keypath.
- */
-- (void)maskSubview:(nonnull UIView *)view
-     toKeypathLayer:(nonnull LSOKeypath *)keypath;
+- (void)maskSubview:(nonnull UIView *)view toKeypathLayer:(nonnull LSOKeypath *)keypath;
 
 #if !TARGET_OS_IPHONE && !TARGET_OS_SIMULATOR
 @property (nonatomic) LSOViewContentMode contentMode;
 #endif
 
-/*!
- @brief Sets the keyframe value for a specific After Effects property at a given time. NOTE: Deprecated. Use setValueDelegate:forKeypath:
- @discussion NOTE: Deprecated and non functioning. Use setValueCallback:forKeypath:
- @param value Value is the color, point, or number object that should be set at given time
- @param keypath NSString . separate keypath The Keypath is a dot separated key path that specifies the location of the key to be set from the After Effects file. This will begin with the Layer Name. EG "Layer 1.Shape 1.Fill 1.Color"
- @param frame The frame is the frame to be set. If the keyframe exists it will be overwritten, if it does not exist a new linearly interpolated keyframe will be added
- */
-- (void)setValue:(nonnull id)value
-      forKeypath:(nonnull NSString *)keypath
-         atFrame:(nullable NSNumber *)frame __deprecated;
+- (void)setValue:(nonnull id)value forKeypath:(nonnull NSString *)keypath atFrame:(nullable NSNumber *)frame __deprecated;
 
-/*!
- @brief Adds a custom subview to the animation using a LayerName from After Effect as a reference point.
- @discussion NOTE: Deprecated. Use addSubview:toKeypathLayer: or maskSubview:toKeypathLayer:
- @param view The custom view instance to be added
-
- @param layer The string name of the After Effects layer to be referenced.
-
- @param applyTransform If YES the custom view will be animated to move with the specified After Effects layer. If NO the custom view will be masked by the After Effects layer
- */
 - (void)addSubview:(nonnull UIView *)view toLayerNamed:(nonnull NSString *)layer
     applyTransform:(BOOL)applyTransform __deprecated;
 
-/*!
- @brief Converts the given CGRect from the receiving animation view's coordinate space to the supplied layer's coordinate space If layerName is null then the rect will be converted to the composition coordinate system. This is helpful when adding custom subviews to a LSOAnimationView
- @discussion NOTE: Deprecated. Use convertRect:fromKeypathLayer:
- */
-- (CGRect)convertRect:(CGRect)rect
-         toLayerNamed:(NSString *_Nullable)layerName __deprecated;
-
-
+- (CGRect)convertRect:(CGRect)rect toLayerNamed:(NSString *_Nullable)layerName __deprecated;
 + (nonnull instancetype)animationFromJSON:(nullable NSDictionary *)animationJSON inBundle:(nullable NSBundle *)bundle NS_SWIFT_NAME(init(json:bundle:));
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(init(name:));
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));

@@ -54,37 +54,6 @@
 -(id)init;
 
 /**
- 定位到第几帧
- [当前不可用]
- @param frame 帧数;
- */
--(void)seekToFrame:(int)frame;
-
-/**
- 播放速度.
- [当前不可用]
- 从0.1 到10;
- 0.1是放慢10倍; 10则是加快10倍; 1.0是正常;
- */
--(void)setSpeed:(float)speed;
-/**
- 停止.
- [当前不可用]
- */
--(void)stop;
-/**
- 暂停播放
- [当前不可用]
- */
--(void)pause;
-/**
- 恢复播放
- [当前不可用]
- */
--(void)resume;
-
-
-/**
  增加预览的显示创建;
  @param view
  */
@@ -215,4 +184,58 @@
 
 @property (nonatomic,readonly) int penCount;
 
+
+
+/**
+ 设置Ae模板中的视频的音量大小.
+ 在需要增加其他声音前调用(addAudio后调用无效).
+ 不调用默认是原来的声音大小;
+ 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ 设置为0, 则删除Ae模板中的音频;
+ */
+@property(readwrite, nonatomic) float aeAudioVolume;
+
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ @param audio 音频路径.或带有音频的视频路径
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume;
+
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ 
+ @param audio 音频路径.或带有音频的视频路径
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @param isLoop 是否循环
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio volume:(CGFloat)volume loop:(BOOL)isLoop;
+
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 把音频的哪部分 增加到主视频的指定位置上;
+ 可多次调用
+ 
+ @param audio 音频路径.或带有音频的视频路径
+ @param start 开始
+ @param pos  把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start pos:(CGFloat)pos volume:(CGFloat)volume;
+/**
+ 增加音频图层, 在增加完图层后调用;
+ 可多次调用
+ @param audio 音频路径.或带有音频的视频路径
+ @param start 音频的开始时间段
+ @param end 音频的结束时间段 如果增加到结尾, 则可以输入-1
+ @param pos 把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param volume 混合时的音量
+ @return 增加成功,返回YES, 失败返回NO;
+ */
+-(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 @end

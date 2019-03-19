@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "LSOAEVideoSetting.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,15 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) int imgWidth;
 @property (nonatomic, readonly) int imgHeight;
 
+
+
+//内部使用;
 -(void)setImage:(UIImage *)image;
-
-
-
-
-
-
-
-
+-(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;
 @end
 
 NS_ASSUME_NONNULL_END
