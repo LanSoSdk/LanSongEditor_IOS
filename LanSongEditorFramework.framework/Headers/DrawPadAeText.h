@@ -59,6 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  json文件在init或switch后, 会更新json文件,从而更新这个AeView;
  根据AeView,得到当前json中的所有图片图层:imageLayerArray
+ 
+ LSoAeView继承自UIView, 你可以增加在这个UIview上增加你自己的UI画面,增加后, 会自动随模板更新;
+ 用 [aeView addSubView:xxx]; 既可
  */
 @property (nonatomic,readonly) LSOAeView *aeView;
 /**

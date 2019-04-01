@@ -100,9 +100,10 @@
 
 /**
  把多个视频拼接在一起. 
- 适用在分段录制的场合中.
+ 仅仅在分段录制的场合中.
+ 仅仅在分段录制的场合中.
  
- 请注意,这里的拼接是完全没有做解码. 请确保拼接的多段视频各种参数一致.
+ 如果你要拼接不同来源的视频, 请用DrawPadConcatVideoExecute;
 
  [执行较快,不需要进度显示]
  
@@ -151,7 +152,6 @@
  @return 合并后的视频;
  */
 +(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
-
 /**
  从视频的指定位置获取一帧图片, 
  [源代码是]:
@@ -426,72 +426,6 @@
  }];
  [ffmpeg startAdjustVideoSpeed:videoPath2 speed:0.5f];
  }
- 
  */
 
-//-----------关于外面直接调用ffmpeg的main方法的说明----------
-/*
- 
- ffmpeg.c中的main函数;
- 此方法是C语言命令.
- 您可以在自己的C语言中用 extern 声明一下, 然后使用;
- 
- ffmpeg_main中有退出当前线程的功能,当出错的时候,可能不会执行main后面的代码;
-int lansongffmpeg_main(int argc, char **argv);  <--------方法
-
- ffmpeg.c的进度, 当有进度改变时,返回当前百分数(0--100),没有改变,返回0;
- 
- int lansongGet_ffmpeg_progress();  <-------进度;
- -----一下是举例:
- extern int lansongffmpeg_main(int argc, char **argv);
- 
- -(void)testFile
- {
- [[[NSThread alloc] initWithBlock:^{
- NSString *videoPath=[LSOFileUtil pathForResource:@"dy_xialu2" ofType:@"mp4"];
- NSString *filter=[NSString stringWithFormat:@"[0:v]setpts=%f*PTS[v];[0:a]atempo=%f[a]",2.0,0.5];
- 
- NSString *dstPath=[LSOFileUtil genTmpMp4Path];
- 
- NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
- [cmdArray addObject:@"ffmpeg"];
- 
- 
- [cmdArray addObject:@"-i"];
- [cmdArray addObject:videoPath];
- 
- 
- [cmdArray addObject:@"-filter_complex"];
- [cmdArray addObject:filter];
- 
- [cmdArray addObject:@"-map"];
- [cmdArray addObject:@"[v]"];
- 
- [cmdArray addObject:@"-map"];
- [cmdArray addObject:@"[a]"];
- 
- 
- [cmdArray addObject:@"-acodec"];
- [cmdArray addObject:@"aac"];
- 
- [cmdArray addObject:@"-vcodec"];
- [cmdArray addObject:@"h264_videotoolbox"];
- [cmdArray addObject:@"-b:v"];
- [cmdArray addObject:[NSString stringWithFormat:@"%d",1024*1024*2]];
- 
- [cmdArray addObject:@"-y"];
- [cmdArray addObject:dstPath];
- 
- char argc=cmdArray.count;
- char *argv[argc];
- for (int i=0; i<argc; i++) {
- NSString *str=[cmdArray objectAtIndex:i];
- argv[i]= (char *)[str UTF8String];
- }
- lansongffmpeg_main(argc, argv);
- [LSOMediaInfo checkFile:dstPath];
- }] start];
- 
- }
- */
 @end

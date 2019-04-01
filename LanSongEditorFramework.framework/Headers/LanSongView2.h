@@ -50,7 +50,6 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 
 
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
--(void)updateDraw:(NSMutableArray *)mPenArray;
 -(void)setPenArray:(NSMutableArray *)array;
 -(void)setDrivePen:(LSOPen *)pen;
 @property (nonatomic)BOOL forceUpdate;

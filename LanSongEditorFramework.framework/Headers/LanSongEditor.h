@@ -121,6 +121,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //辅助类, 保存数据到文件;
 #import <LanSongEditorFramework/LSOSaveToFile.h>
 
+//特定用户使用. 
+#import <LanSongEditorFramework/LSOFFmpegManager.h>
+
 //*************************杂项**************************
 #import <LanSongEditorFramework/LSOAeView.h>
 #import <LanSongEditorFramework/LSOAeImage.h>

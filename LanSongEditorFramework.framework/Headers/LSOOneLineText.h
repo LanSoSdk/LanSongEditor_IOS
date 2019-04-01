@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOOneLineText : NSObject
 
@@ -89,4 +88,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSObject *reserved;
 @end
 
-NS_ASSUME_NONNULL_END

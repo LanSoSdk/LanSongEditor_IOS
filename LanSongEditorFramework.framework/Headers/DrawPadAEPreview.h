@@ -153,9 +153,6 @@
  */
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progress);
 
-//内部使用
--(void)setAeController:(NSMutableArray *)imageArray;
-
 /**
  文字使用.
  */

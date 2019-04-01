@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface LanSongDebug : NSObject
-
-
 /**
  打印出一些log信息.
  比如常见的,当前类有没有被释放: xxx dealloc;

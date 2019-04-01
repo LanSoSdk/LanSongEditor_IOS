@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LSOKeypath.h"
-//#import "LSOValueDelegate.h"  //LSTODO
 #import "LSOAeText.h"
 #import "LSOAeImage.h"
 #import "LSOAeImageLayer.h"
@@ -20,54 +19,6 @@
 typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 @interface LSOAeView : UIView
-
-+(void)setGLanSongForcePrecomWidth:(CGFloat)w;
-+(void)setGLanSongForcePrecomHeight:(CGFloat)h;
-+(void)setLanSongAEWorkForPreview:(BOOL)is;
-/**
- 但输入的图片和 json中的图片宽高不同时,是否要强制等于输入图片的宽高;
- */
-+(void)setGLanSongForceAdjustLayerSize:(BOOL)is;
-
-
-/**
- 从指定位置 增加动画文件json;
- 从main bundle中找images文件夹;
- @param filePath json完整路径
- @return return value description
- */
-+ (nonnull instancetype)animationWithFilePath:(nonnull NSString *)filePath NS_SWIFT_NAME(init(filePath:));
-
-- (nonnull instancetype)initWithContentsOfURL:(nonnull NSURL *)url;
-
-@property (nonatomic, strong) IBInspectable NSString * _Nullable animation;
-
-- (void)setAnimationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(setAnimation(named:));
-
-@property (nonatomic, readonly) BOOL isAnimationPlaying;
-
-@property (nonatomic, assign) BOOL loopAnimation;
-
-@property (nonatomic, assign) BOOL autoReverseAnimation;
-
-/// Sets a progress from 0 - 1 of the animation. If the animation is playing it will stop and the completion block will be called.
-/// The current progress of the animation in absolute time.
-/// e.g. a value of 0.75 always represents the same point in the animation, regardless of positive
-/// or negative speed.
-@property (nonatomic, assign) CGFloat animationProgress;
-
-@property (nonatomic, assign) CGFloat animationSpeed;
-
-@property (nonatomic, readonly) CGFloat animationDuration;
-
-@property (nonatomic, assign) BOOL cacheEnable;
-
-@property (nonatomic, copy, nullable) LSOAnimationCompletionBlock completionBlock;
-
-
-
-@property (nonatomic, assign) BOOL shouldRasterizeWhenIdle;
-
 
 @property (nonatomic) CGFloat jsonWidth;
 @property (nonatomic) CGFloat jsonHeight;
@@ -114,6 +65,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 不再使用.
  */
 - (void)updateImage:(NSString *)assetID image:(UIImage*)image;
+
 /**
  在开始执行前调用, 替换指定key的图片
 
@@ -192,9 +144,25 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 
 /**********************************以下不要使用********************************************************************/
++(void)setGLanSongForcePrecomWidth:(CGFloat)w;
++(void)setGLanSongForcePrecomHeight:(CGFloat)h;
++(void)setLanSongAEWorkForPreview:(BOOL)is;
++ (nonnull instancetype)animationWithFilePath:(nonnull NSString *)filePath NS_SWIFT_NAME(init(filePath:));
+- (nonnull instancetype)initWithContentsOfURL:(nonnull NSURL *)url;
+@property (nonatomic, strong) IBInspectable NSString * _Nullable animation;
+
+- (void)setAnimationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(setAnimation(named:));
+@property (nonatomic, readonly) BOOL isAnimationPlaying;
+@property (nonatomic, assign) BOOL loopAnimation;
+@property (nonatomic, assign) BOOL autoReverseAnimation;
+@property (nonatomic, assign) CGFloat animationProgress;
+@property (nonatomic, assign) CGFloat animationSpeed;
+@property (nonatomic, readonly) CGFloat animationDuration;
+@property (nonatomic, assign) BOOL cacheEnable;
+@property (nonatomic, copy, nullable) LSOAnimationCompletionBlock completionBlock;
+@property (nonatomic, assign) BOOL shouldRasterizeWhenIdle;
 - (void)playToProgress:(CGFloat)toProgress
         withCompletion:(nullable LSOAnimationCompletionBlock)completion;
-
 - (void)playFromProgress:(CGFloat)fromStartProgress
               toProgress:(CGFloat)toEndProgress
           withCompletion:(nullable LSOAnimationCompletionBlock)completion;

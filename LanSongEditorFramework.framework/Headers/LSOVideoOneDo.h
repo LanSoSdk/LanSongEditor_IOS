@@ -105,8 +105,6 @@
  */
 -(void)setFilterWithStart:(LanSongFilter *)startFilter end:(LanSongFilter *)endFilter;
 
-
-
 /**
 在视频的指定时间范围内覆盖一张图片. 类似增加封面的效果.
  

@@ -94,11 +94,6 @@
 //    [drawPadCamera addViewPen:view isFromUI:YES];
     
     
-    //增加mv图层
-    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
-    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
-    [drawPadCamera addMVPen:colorPath withMask:maskPath];
-    
     [drawPadCamera startPreview];
     
     //初始化其他UI界面.

@@ -38,9 +38,6 @@
 
 
 
-/// @name Initialization and teardown
-- (id)initWithPlayerItem:(AVPlayerItem *)playerItem;
-
 //lansong++
 - (id)initWithURL:(NSURL *)url padSize:(CGSize)size;
 - (id)initWithAsset:(AVAsset *)asset padSize:(CGSize)size;
