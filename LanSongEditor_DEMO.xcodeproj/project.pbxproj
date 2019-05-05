@@ -153,7 +153,6 @@
 		8BD429022234F3FE00345606 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD429012234F3FE00345606 /* cover1.png */; };
 		8BD67E3220C7C2790000EF43 /* CameraFullPortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD67E3120C7C2790000EF43 /* CameraFullPortVC.m */; };
 		8BD7588E223758F4003B10EA /* CommonEditListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7588D223758F4003B10EA /* CommonEditListVC.m */; };
-		8BDAE97E22545B2100F59559 /* VCFFmpegCompositeLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDAE97822545B2100F59559 /* VCFFmpegCompositeLoading.m */; };
 		8BDAE9882254D57400F59559 /* LanSongEditorFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDAE9872254D57400F59559 /* LanSongEditorFramework.framework */; };
 		8BDB9A3B1F7A5A6F00F991F9 /* small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDB9A3A1F7A5A6F00F991F9 /* small.png */; };
 		8BE102B22174A5C200BA01AD /* LSOPhotoAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE102AB2174A5C100BA01AD /* LSOPhotoAlbumCell.xib */; };
@@ -409,8 +408,6 @@
 		8BD67E3120C7C2790000EF43 /* CameraFullPortVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraFullPortVC.m; sourceTree = "<group>"; };
 		8BD7588C223758F4003B10EA /* CommonEditListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonEditListVC.h; sourceTree = "<group>"; };
 		8BD7588D223758F4003B10EA /* CommonEditListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonEditListVC.m; sourceTree = "<group>"; };
-		8BDAE97822545B2100F59559 /* VCFFmpegCompositeLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCFFmpegCompositeLoading.m; sourceTree = "<group>"; };
-		8BDAE97D22545B2100F59559 /* VCFFmpegCompositeLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCFFmpegCompositeLoading.h; sourceTree = "<group>"; };
 		8BDAE9872254D57400F59559 /* LanSongEditorFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LanSongEditorFramework.framework; sourceTree = "<group>"; };
 		8BDB9A3A1F7A5A6F00F991F9 /* small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small.png; sourceTree = "<group>"; };
 		8BE102AB2174A5C100BA01AD /* LSOPhotoAlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSOPhotoAlbumCell.xib; sourceTree = "<group>"; };
@@ -699,8 +696,6 @@
 			children = (
 				8B0CBFD22256104300D1ADA8 /* AEModuleAutoSearchVC.h */,
 				8B0CBFD32256104300D1ADA8 /* AEModuleAutoSearchVC.m */,
-				8BDAE97D22545B2100F59559 /* VCFFmpegCompositeLoading.h */,
-				8BDAE97822545B2100F59559 /* VCFFmpegCompositeLoading.m */,
 				8B1A0ED020DC9E8B00A97061 /* AEModuleDemoVC.h */,
 				8B1A0ED120DC9E8B00A97061 /* AEModuleDemoVC.m */,
 				8B2E77B02134E8D40067052B /* AEPreviewDemoVC.h */,
@@ -1278,7 +1273,6 @@
 				8B1B9E5C2157B24E008A3DF0 /* StoryMakeSelectColorFooterView.m in Sources */,
 				8BE3AE001E07DAC700EB26B8 /* LanSongUtils.m in Sources */,
 				8BEF7EEA20C802A500DD7B1F /* Demo1PenMothedVC.m in Sources */,
-				8BDAE97E22545B2100F59559 /* VCFFmpegCompositeLoading.m in Sources */,
 				8BEF484C1E1A0E5800EC1D05 /* BlazeiceUtils.m in Sources */,
 				8BEF48501E1A0E5800EC1D05 /* NSTimer+Blocks.m in Sources */,
 				8B8638141D51AB29007A353C /* main.m in Sources */,
