@@ -12,7 +12,9 @@
 
 @interface CommonEditListVC () <LSOFullWidthButtonsViewDelegate>
 {
-     UIView *container;
+    UIView *container;
+    NSString *srcVideoPath;
+    LSOProgressHUD *hud;
 }
 @end
 
@@ -28,6 +30,9 @@
         make.edges.equalTo(self.view);
     }];
     
+    hud=[[LSOProgressHUD alloc] init];
+    srcVideoPath=[AppDelegate getInstance].currentEditVideo;
+    
     scrollView.delegate=self;
     [scrollView configureView:@[
                                 @"1.背景音乐/裁剪/缩放/压缩/logo等10个功能>>",
@@ -41,8 +46,7 @@
                                 @"9.多个视频时长拼接",
                                 @"10.单张图片变视频",
                                 @"11.多张图片变视频",
-                                @"12.视频转Gif",
-                                @"13.更多常见功能处理"] width:self.view.frame.size.width];
+                                @"12.视频转Gif(暂无)"] width:self.view.frame.size.width];
 }
 
 - (void)LSOFullWidthButtonsViewSelected:(int)index
@@ -51,10 +55,89 @@
         UIViewController *pushVC=[[CommonEditVC alloc] init];
         [self.navigationController pushViewController:pushVC animated:YES];
     }else {
-        [LanSongUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
+        switch (index) {
+            case 1:
+                [self testAdjustSpeed];
+                break;
+            case 4:
+                [self testAdjustFrameRate];
+                break;
+            case 5:
+                [self testReverseVideo];
+                break;
+            default:
+                [LanSongUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
+                break;
+        }
     }
 }
 
+/**
+ 调速,  这里把速度放慢一倍;
+ */
+-(void)testAdjustSpeed
+{
+    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    WS(weakSelf)
+    [ffmpeg setProgressBlock:^(int percent) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            LSDELETE(@"percent  is :%d",percent)
+            [weakSelf showProgress:percent];
+        });
+    }];
+    
+    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            [hud hide];
+        });
+    }];
+    [ffmpeg startAdjustVideoSpeed:srcVideoPath speed:0.5f];  //这里用速度放慢一倍来演示;
+}
+-(void)testAdjustFrameRate
+{
+    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    WS(weakSelf)
+    [ffmpeg setProgressBlock:^(int percent) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showProgress:percent];
+        });
+    }];
+    
+    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            [hud hide];
+        });
+    }];
+    [ffmpeg startAdjustFrameRate:srcVideoPath frameRate:15];
+}
+/**
+ 倒序
+ */
+-(void)testReverseVideo
+{
+    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    WS(weakSelf)
+    [ffmpeg setProgressBlock:^(int percent) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showProgress:percent];
+        });
+    }];
+    
+    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+            [hud hide];
+        });
+    }];
+    [ffmpeg startAVReverse:srcVideoPath];
+    
+}
+-(void)showProgress:(int)percnet
+{
+    [hud showProgress:[NSString stringWithFormat:@"进度:%d",percnet]];
+}
 /*
  #pragma mark - Navigation
  
@@ -65,3 +148,4 @@
  }
  */
 @end
+

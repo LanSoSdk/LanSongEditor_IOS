@@ -1,6 +1,11 @@
 #import "LanSongTwoInputFilter.h"
 
 /** Selectively replaces a color in the first image with the second image
+ 
+ 把第一个图像中的指定颜色扣掉,
+ 
+ 然后用第二个图像中的替换;
+ 
  */
 @interface LanSongChromaKeyBlendFilter : LanSongTwoInputFilter
 {

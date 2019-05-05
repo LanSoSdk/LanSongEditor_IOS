@@ -16,6 +16,11 @@
     LSOProgressHUD *hud;
     UILabel *labHint;
     NSString *jsonPath;
+    
+    
+    UIView *rootJsonView;
+    UIImageView *commonTextImageView;
+    int lsDeleteCnt;
 }
 @end
 
@@ -24,8 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor lightGrayColor];
-     [self addRightBtn];
-    
+    [self addRightBtn];
     
     hud=[[LSOProgressHUD alloc] init];
     
@@ -33,7 +37,8 @@
     lansongView=[LanSongUtils createLanSongView:size drawpadSize:CGSizeMake(540, 960)];
     [self.view addSubview:lansongView];  //显示窗口增加到ui上;
     [self initUI];
-    jsonPath= [[NSBundle mainBundle] pathForResource:@"textVideo1" ofType:@"json"];  //OLD
+    jsonPath= [[NSBundle mainBundle] pathForResource:@"textONLY3" ofType:@"json"];  //OK
+    
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -50,16 +55,32 @@
         [aeTextPreview cancel];
         aeTextPreview=nil;
     }
-   
+    
     aeTextPreview=[[DrawPadAeText alloc] initWithJsonPath:jsonPath];
     [aeTextPreview addLanSongView2:lansongView];  //增加显示界面;
     [self loadTextAudio];
     
+    
+    
+    rootJsonView=[[UIView alloc] initWithFrame:aeTextPreview.aeView.frame];
+    
+    
+//    UIImage *image=[self createImageWithText:@"这是切换的第0张图片" imageSize:CGSizeMake(400, 76) txtColor:[UIColor redColor] fontSize:25];
+//    commonTextImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 800, 400  )];
+//    commonTextImageView.image=image;
+//    commonTextImageView.backgroundColor=[UIColor whiteColor];
+//    [rootJsonView addSubview:commonTextImageView];
+//    [aeTextPreview.aeView addSubview:rootJsonView];
+    
+    lsDeleteCnt=0;
+    
     __weak typeof(self) weakSelf = self;
     [aeTextPreview setFrameProgressBlock:^(BOOL isExport,CGFloat progress, float percent) {
-       // dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf aeProgress:isExport  progress:progress percent:percent];
-       // });
+        // dispatch_async(dispatch_get_main_queue(), ^{
+        
+        
+        [weakSelf aeProgress:isExport  progress:progress percent:percent];
+        // });
     }];
     
     [aeTextPreview setCompletionBlock:^(BOOL isExport,NSString *path) {
@@ -72,7 +93,7 @@
         });
     }];
     
-    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
+    //    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
 }
 -(void)startAEPreview
 {
@@ -85,30 +106,29 @@
 }
 -(void)loadTextAudio
 {
-   // [DrawPadAeText showDebugInfo:YES];
+    // [DrawPadAeText showDebugInfo:YES];
     
     //增加原声音
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"recognitionAudio1" withExtension:@"m4a"];
     [aeTextPreview setAudioPath:sampleURL volume:1.0f];
-
+    
     //测试视频
-//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"qingxi_720P_10s" withExtension:@"mp4"];
-//    [aeTextPreview setBgVideoPath:sampleURL volume:1.0f];
+    //    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"iphone_front_180du" withExtension:@"mov"];
+    //    [aeTextPreview setBgVideoPath:sampleURL volume:1.0f];
     
     //测试增加背景音乐
-    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
-    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
+    //    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
+    //    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
     
     NSString *allText=@"从一开始的一无所有到人生的第一个30万真的很不容易到后来慢慢发展到120万500万800万甚至1200万我已经对这些数字麻木了";
     [aeTextPreview pushText:allText startTime:170.0/1000.0 endTime:12885.0/1000.0];  //时间暂时不用.
     NSString *allText2=@"不管手机像素的高低为什么就拍不出我这该死又无处安放的魅力呢？";
     [aeTextPreview pushText:allText2 startTime:13260.0/1000.0 endTime:19495.0/1000.0];
     
-//    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
-//        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
-//    }
-    
-    [self replaceText];
+    //    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
+    //        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
+    //    }
+    //    [self replaceText];
 }
 //测试替换文字
 -(void)replaceText
@@ -127,6 +147,12 @@
 }
 -(void)aeProgress:(BOOL)isExport progress:(CGFloat)progress percent:(float) percent
 {
+//    NSString *str=[NSString stringWithFormat:@"这是切换的第:%d张图片",lsDeleteCnt];
+//    lsDeleteCnt++;
+//    UIImage *image=[self createImageWithText:str imageSize:CGSizeMake(400, 76) txtColor:[UIColor redColor] fontSize:25];
+//    commonTextImageView.image=image;
+    
+    
     if(isExport){
         [hud showProgress:[NSString stringWithFormat:@"进度:%d",(int)(percent*100)]];
     }
@@ -141,11 +167,12 @@
 }
 
 - (void)addRightBtn {
-    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"导出" style:UIBarButtonItemStylePlain target:self action:@selector(onClickedOKbtn)];
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"导出" style:UIBarButtonItemStylePlain target:self action:@selector(exportVideo)];
     self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 
-- (void)onClickedOKbtn {
+- (void)exportVideo {
+    lsDeleteCnt=0;
     [aeTextPreview startExport];
 }
 - (void)didReceiveMemoryWarning {
@@ -194,4 +221,43 @@
 {
     [self stopAePreview];
 }
+
+-(UIImage *)createImageWithText:(NSString *)text imageSize:(CGSize)size txtColor:(UIColor *)textColor fontSize:(CGFloat)fontSize;
+{
+    //文字转图片;
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineBreakMode = NSLineBreakByWordWrapping;
+    style.alignment = NSTextAlignmentLeft;
+    style.lineBreakMode=NSLineBreakByTruncatingTail;
+    
+    //获取高度.
+    NSDictionary *attributes = @{NSFontAttributeName            : [UIFont systemFontOfSize:fontSize],
+                                 NSForegroundColorAttributeName : textColor,
+                                 NSBackgroundColorAttributeName : [UIColor clearColor],
+                                 NSParagraphStyleAttributeName : style, };
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    
+    [text drawInRect:CGRectMake(0, 0, size.width, size.height) withAttributes:attributes];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return image;
+}
+-(UIImage *)createImageWithSize:(CGSize)size
+{
+    //文字转图片;
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineBreakMode = NSLineBreakByWordWrapping;
+    style.alignment = NSTextAlignmentLeft;
+    style.lineBreakMode=NSLineBreakByTruncatingTail;
+    
+    //获取高度.
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return image;
+}
 @end
+

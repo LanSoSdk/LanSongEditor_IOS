@@ -42,8 +42,8 @@
     [self addRightBtn];
     self.title=@"视频编辑常见功能演示";
     
-   srcVideoPath=[AppDelegate getInstance].currentEditVideo;
-   videoOneDo=[[LSOVideoOneDo alloc] initWithNSURL:[LSOFileUtil filePathToURL:srcVideoPath]];
+    srcVideoPath=[AppDelegate getInstance].currentEditVideo;
+    videoOneDo=[[LSOVideoOneDo alloc] initWithNSURL:[LSOFileUtil filePathToURL:srcVideoPath]];
     if(videoOneDo==nil){
         [LanSongUtils showDialog:@"视频错误,请选择视频"];
     }
@@ -112,46 +112,52 @@
             isOn=YES;
             switch (uiswitch.tag) {
                 case 0:  //增加背景音乐
-                    {
-                        NSURL *audio1=[LSOFileUtil URLForResource:@"hongdou10s" withExtension:@"mp3"];
-                        videoOneDo.videoUrlVolume=1.0f;
-                        [videoOneDo addAudio:audio1 volume:3.0f loop:YES];
-                    }
+                {
+                    NSURL *audio1=[LSOFileUtil URLForResource:@"hongdou10s" withExtension:@"mp3"];
+                    videoOneDo.videoUrlVolume=1.0f;
+                    [videoOneDo addAudio:audio1 volume:3.0f loop:YES];
+                }
                     break;
                 case 1:  //裁剪时长; 这里裁剪时长的2/3;
-                    {
-                        videoOneDo.cutStartTimeS=0;
-                        videoOneDo.cutDurationTimeS=videoOneDo.mediaInfo.vDuration*2.0f/3.0f;
-                    }
+                {
+                    videoOneDo.cutStartTimeS=0;
+                    videoOneDo.cutDurationTimeS=videoOneDo.mediaInfo.vDuration*2.0f/3.0f;
+                    LSOLog_d(@"videoOneDo.cutDurationTimeS:%f",videoOneDo.cutDurationTimeS);
+                }
                     break;
                 case 2:  //裁剪画面, 裁剪为原来的2/3;即从1/6处开始裁剪;
-                    {
-                        CGFloat x=videoOneDo.mediaInfo.width/6;
-                        CGFloat y=videoOneDo.mediaInfo.height/6;
-                        CGFloat width=videoOneDo.mediaInfo.width*2.0f/3.0f;
-                        CGFloat height=videoOneDo.mediaInfo.height*2.0f/3.0f;
-                        videoOneDo.cropRect=CGRectMake(x, y, width, height);
-                        videoWidth=width;
-                        videoHeight=height;
-                    }
+                {
+                    CGFloat x=videoOneDo.mediaInfo.width/6;
+                    CGFloat y=videoOneDo.mediaInfo.height/6;
+                    CGFloat width=videoOneDo.mediaInfo.width*2.0f/3.0f;
+                    CGFloat height=videoOneDo.mediaInfo.height*2.0f/3.0f;
+                    videoOneDo.cropRect=CGRectMake(x, y, width, height);
+                    videoWidth=width;
+                    videoHeight=height;
+                    
+                    LSOLog_d(@"videoOneDo.cutDurationTimeS:%f, %f: %f X %f",videoOneDo.cropRect.origin.x,videoOneDo.cropRect.origin.y,
+                             videoOneDo.cropRect.size.width,videoOneDo.cropRect.size.height);
+                    
+                }
                     break;
-                case 3: //4.缩放, 缩放1.5倍;
-                    {
-                        videoWidth*=1.5f;
-                        videoHeight*=1.5f;
-                        
-                        //最大是1080P的视频
-                        if(videoWidth>videoHeight){  //横屏;
-                            if(videoWidth>1920)videoWidth=1920;
-                            if(videoHeight>1088)videoHeight=1088;
-                        }else{  //竖屏
-                            if(videoHeight>1920)videoHeight=1920;
-                            if(videoWidth>1088)videoWidth=1088;
-                        }
-                        
-                        
-                        videoOneDo.scaleSize=CGSizeMake(videoWidth,videoHeight);
+                case 3: //4.缩放, 缩放0.8倍;
+                {
+                    videoWidth*=0.8f;
+                    videoHeight*=0.8f;
+                    
+                    //最大是1080P的视频
+                    if(videoWidth>videoHeight){  //横屏;
+                        if(videoWidth>1920)videoWidth=1920;
+                        if(videoHeight>1088)videoHeight=1088;
+                    }else{  //竖屏
+                        if(videoHeight>1920)videoHeight=1920;
+                        if(videoWidth>1088)videoWidth=1088;
                     }
+                    
+                    videoOneDo.scaleSize=CGSizeMake(videoWidth,videoHeight);
+                    LSOLog_d("video scale size :%f x %f",videoWidth,videoHeight);
+                    
+                }
                     break;
                 case 4: //增加logo
                     isAddLogo=YES;
@@ -160,27 +166,27 @@
                     isAddText=YES;
                     break;
                 case 6:  //设置滤镜
-                    {
-                        LanSongFilter *filter=[[LanSongIF1977Filter alloc]init];
-                        [videoOneDo setFilter:filter];
-                    }
+                {
+                    LanSongFilter *filter=[[LanSongIF1977Filter alloc]init];
+                    [videoOneDo setFilter:filter];
+                }
                     break;
                 case 7:  //设置码率, 压缩;
-                    {
-                        videoOneDo.bitrate=[self getMinBitRate:videoWidth *videoHeight];
-                    }
+                {
+                    videoOneDo.bitrate=[self getMinBitRate:videoWidth *videoHeight];
+                }
                     break;
                 case 8:  //设置美颜;
-                    {
-                        beautyMng=[[BeautyManager alloc] init];
-                        [beautyMng addBeautyWithVideoOneDo:videoOneDo];
-                    }
+                {
+                    beautyMng=[[BeautyManager alloc] init];
+                    [beautyMng addBeautyWithVideoOneDo:videoOneDo];
+                }
                     break;
                 case 9:  //增加封面
-                    {
-                        UIImage *image=[UIImage imageNamed:@"cover1"];
-                        [videoOneDo setCoverPicture:image startTime:0 endTime:0.5f];
-                    }
+                {
+                    UIImage *image=[UIImage imageNamed:@"cover1"];
+                    [videoOneDo setCoverPicture:image startTime:0 endTime:0.5f];
+                }
                     break;
                 default:
                     return;
@@ -197,15 +203,14 @@
     
     [videoOneDo setVideoProgressBlock:^(CGFloat currentFramePts, CGFloat percent) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            LSOLog_d(@"currentFramePts: %f, percent:%f",currentFramePts,percent)
             [weakSelf.hud showProgress:[NSString stringWithFormat:@"进度:%f",percent]];
         });
     }];
     [videoOneDo setCompletionBlock:^(NSString * _Nonnull video) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.hud hide];
-                [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:video];
-            });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.hud hide];
+            [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:video];
+        });
     }];
     [videoOneDo start];
 }
@@ -215,18 +220,18 @@
 }
 -(UIView *)addTextLogo
 {
-    if(!isAddLogo && !isAddText){
+    if(!isAddLogo && !isAddText){  //没有增加.
         return nil;
     }
-        UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, videoWidth,videoHeight)];
-        rootView.backgroundColor = [UIColor clearColor];
+    UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, videoWidth,videoHeight)];
+    rootView.backgroundColor = [UIColor clearColor];
     
     if(isAddLogo){
         UIImage *image = [UIImage imageNamed:@"small"];
         UIImageView *imageView=[[UIImageView alloc] initWithImage:image];
-       [rootView addSubview:imageView];
+        [rootView addSubview:imageView];
     }
-   
+    
     if(isAddText){
         UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, videoWidth, 120)];
         label.text=@"杭州蓝松科技测试例子";
@@ -258,3 +263,4 @@
     }
 }
 @end
+

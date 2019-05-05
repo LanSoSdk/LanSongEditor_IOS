@@ -11,6 +11,7 @@
 #import "LanSongLog.h"
 #import "LSOImageUtil.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface LSOFileUtil : NSObject
 
 
@@ -101,20 +102,27 @@
  */
 +(NSURL *)filePathToURL:(NSString *)path;
 
-+(NSString *) copyResourceFile:(NSString *)name withSubffix:(NSString *)fix;
+
+
 /**
- *  拷贝资源文件到Documents文件夹下的指定的文件夹;
+ 拷贝Bumdle中的文件到lansongBox文件夹下;
+ @param name bundle中的文件名字
+ @param ext bundle中文件的后缀
+ @return 返回拷贝后的完整路径
+ */
++(NSString *) copyResourceFile:(NSString *)name ofType:(NSString *)ext;
+/**
+ *  拷贝资源文件到目标文件夹
  * 资源文件是这样的:
  NSString * srcPath = [[NSBundle mainBundle] pathForResource:@"aobama" ofType:@"json"];
  目标文件夹是创建在:Documents的子文件夹;如拷贝到Documents下, 则dstDir=@"";
- 
  *  @param name   资源名字
  *  @param fix    后缀
- *  @param dstDir 目标文件夹 可以是@"" 或者 @"image" 或者@"img/2/2/3/"
- *
+ *  @param dstDir 目标文件夹的名字;
  *  @return 拷贝成功,返回目标文件名;失败返回NULL
  */
-+(NSString *) copyResourceFile:(NSString *)name withSubffix:(NSString *)fix dstDir:(NSString *)dstDir;
++(NSString *) copyResourceFile:(NSString *)name ofType:(NSString *)ext dstDirName:(NSString *)dstDirName;
+
 
 /**
  *  拷贝文件
@@ -126,6 +134,17 @@
  *  @return 如果拷贝成功,返回YES,失败返回NO, (可能是内存不足导致失败)
  */
 + (BOOL)copyFile:(NSString *)sourcePath toPath:(NSString *)toPath;
+
+/**
+ 拷贝文件
+ 从绝对路径,拷贝到lansongBox文件夹下的新创建一个文件夹,然后指定名字;
+ 
+ @param srcPath 源文件的绝对路径
+ @param dstDirName 拷贝到的文件夹名字, 比如ae1:则在lansongBox下创建ae1文件夹, 然后
+ @param dstName 拷贝后的文件名字,
+ @return 返回拷贝后的目标文件的完整路径;
+ */
+-(NSString *)copyFileWithSourcePath:(NSString *)srcPath dstDirName:(NSString *)dstDirName dstFileName:(NSString *)dstName;
 
 /**
  *  判断文件是否存在
@@ -336,3 +355,4 @@
  9=2013_50
  */
 @end
+NS_ASSUME_NONNULL_END

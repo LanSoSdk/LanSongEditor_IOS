@@ -103,6 +103,12 @@
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     bmpPen.positionY=bmpPen.penSize.height/2;
     
+    
+    //增加mv图层
+    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
+    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
+    [drawPadCamera addMVPen:colorPath withMask:maskPath];
+    
     //开始预览
     [drawPadCamera startPreview];
     [beautyMng addBeauty:drawPadCamera.cameraPen];

@@ -94,6 +94,12 @@
 //    [drawPadCamera addViewPen:view isFromUI:YES];
     
     
+    //增加mv图层
+//    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"daomengxing_mvColor" withExtension:@"mp4"];
+//    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"daomengxing_mvMask" withExtension:@"mp4"];
+//    LSOMVPen *mvpen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
+    
+    
     [drawPadCamera startPreview];
     
     //初始化其他UI界面.

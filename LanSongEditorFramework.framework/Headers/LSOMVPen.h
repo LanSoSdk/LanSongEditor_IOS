@@ -30,34 +30,24 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
 @interface LSOMVPen : LSOPen
 
 /**
- 内部使用.
- */
-@property(readwrite, nonatomic) BOOL playAtActualSpeed;
-
-
-
-/**
  MV当播放到最后一帧时, 采用何种方式.
   有, 循环播放/停留在最后一帧/消失三种方法.
  默认是循环
  */
-@property MVEndMode mvMode;
-
-
-/**
- *  初始化
- *
- *  @param url    url路径
- *  @param size   容器的尺寸
- *  @param target 目标
- *
- *  @return
- */
-- (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
-
-
-/**
- 读取属性
- */
+@property (nonatomic) MVEndMode mvMode;
 @property(nonatomic,readonly) LSOMediaInfo *mediaInfo;
+
+
+/**
+ 设置使用MV的原始尺寸显示.
+ 默认是放到到当前容器的尺寸;
+ */
+-(void)setUseOriginalSize:(BOOL)is;
+
+
+/*********一下是内部使用*******************/
+- (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+-(void)setPlayerId:(id)player;
+@property(readwrite, nonatomic) BOOL playAtActualSpeed;
+
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
+NS_ASSUME_NONNULL_BEGIN
 @interface LSOAeImage : NSObject
 
 //内部使用;
@@ -21,14 +22,15 @@
 /**
  图片的宽度
  */
-@property (nonatomic, readonly) int imgWidth;
+@property (nonatomic, readonly) float imgWidth;
 /**
  图片的高度
  */
-@property (nonatomic, readonly) int imgHeight;
+@property (nonatomic, readonly) float imgHeight;
 /**
- 图片在用bodymovin导出的时候, 放在images中的名字
+ 放在images中的名字
  */
 @property (nonatomic, readonly, nullable) NSString *imgName;
 
 @end
+NS_ASSUME_NONNULL_END

@@ -24,6 +24,8 @@
 // Image rendering
 - (void)processImage;
 - (CGSize)outputImageSize;
+- (BOOL)updateUIImage:(UIImage *)image2;
+
 
 /**
  * Process image with all targets and filters asynchronously

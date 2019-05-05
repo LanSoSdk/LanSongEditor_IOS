@@ -145,7 +145,6 @@
  */
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progess);
 
-
 /**
  编码完成回调, 完成后返回生成的视频路径;
  工作在其他线程,

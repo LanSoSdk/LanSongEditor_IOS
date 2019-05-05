@@ -143,7 +143,7 @@ typedef enum : NSInteger {
 
 /**
  调节当前画面中的RGBA 4个分量的百分比;
- 如果你设置了redPercenet=0.8则表示把当前像素中的红色分量降低80%;
+ 如果你设置了redPercenet=0.8则表示把当前像素中的红色分量降低到80%;
  */
 @property(readwrite, nonatomic) CGFloat redPercent;
 @property(readwrite, nonatomic) CGFloat greenPercent;
@@ -254,6 +254,7 @@ typedef enum : NSInteger {
 */
 @property (nonatomic,assign) BOOL videoPenOriginalAdd;
 @property (nonatomic,assign) BOOL videoPenfillDraw;
+@property (nonatomic,assign) BOOL mvPenOriginalAdd;
 -(void)releasePen;
 -(BOOL)decodeOneFrame;
 -(void)drawDisplay2;
@@ -279,5 +280,6 @@ typedef enum : NSInteger {
 -(void)resetCurrentFrame;
 -(void)sendToLanSong2:(CMTime)time;
 -(void)sendTolanSong2Finish;
+
 
 @end

@@ -147,6 +147,11 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  */
 +(int)getLimitedMonth;
 
+/*  获取当前sdk的key可升级制时间中的年份 */
++(int)getUpdateLimitedYear;
+/*  获取当前sdk的key可升级制时间中的月份 */
++(int)getUpdateLimitedMonth;
+
 /**
  返回当前sdk的版本号.
 

@@ -70,8 +70,6 @@
 @property(readwrite, nonatomic) CGFloat greenPercent;
 @property(readwrite, nonatomic) CGFloat bluePercent;
 @property(readwrite, nonatomic) CGFloat alphaPercent;
-
-
 /**
  同时设置 RGBA的百分比;
  */

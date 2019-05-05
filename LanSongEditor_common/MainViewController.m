@@ -32,6 +32,8 @@
 #import "AETextVideoDemoVC.h"
 #import "AePreviewListDemoVC.h"
 #import "CommonEditListVC.h"
+#import "AEModuleAutoSearchVC.h"
+
 
 @interface MainViewController ()
 {
@@ -73,7 +75,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"蓝松短视频SDK";
+    self.title = @"蓝松专业版DEMO";  //LS
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -90,7 +92,7 @@
      */
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
-      [self testFile];
+    [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -333,7 +335,6 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-extern int lansongffmpeg_main(int argc, char **argv);
 
 -(void)testFile
 {

@@ -20,9 +20,7 @@
     LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
     LSOVideoPen *videoPen;
-    
     UISlider *videoProgress;
-    
 }
 @property (nonatomic,assign) NSString *dstPath;
 @end

@@ -54,4 +54,22 @@
 - (void)cancelProcessing;
 - (void)processMovieFrame:(CMSampleBufferRef)movieSampleBuffer;
 
+
+
+/**
+ 增加d第二个黑白动画视频
+ [特定客户使用]
+ 
+ @param secondVideo 第二个视频路径
+ @param isLoop 是否循环
+ @param volume 第二个视频如果有声音,则声音大小;
+ @return 成功返回YES;
+ */
+-(BOOL)setSecondVideo:(NSURL *)secondVideo loop:(BOOL)isLoop volume:(float)volume;
+
+/**
+ [特定客户使用]
+ */
+-(void)removeSecondVideo;
+
 @end

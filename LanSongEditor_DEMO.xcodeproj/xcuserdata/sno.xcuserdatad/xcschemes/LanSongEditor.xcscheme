@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-               BuildableName = "LanSongEditor_DEMO.temp_caseinsensitive_rename.app"
-               BlueprintName = "LanSongEditor_demo"
+               BuildableName = "LanSongEditor_DEMO.app"
+               BlueprintName = "LanSongEditor_DEMO"
                ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.temp_caseinsensitive_rename.app"
-            BlueprintName = "LanSongEditor_demo"
+            BuildableName = "LanSongEditor_DEMO.app"
+            BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.temp_caseinsensitive_rename.app"
-            BlueprintName = "LanSongEditor_demo"
+            BuildableName = "LanSongEditor_DEMO.app"
+            BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "LanSongEditor_DEMO.temp_caseinsensitive_rename.app"
-            BlueprintName = "LanSongEditor_demo"
+            BuildableName = "LanSongEditor_DEMO.app"
+            BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

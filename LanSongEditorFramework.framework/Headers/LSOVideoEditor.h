@@ -261,12 +261,11 @@
  */
 -(BOOL)startAdjustSpeedAndOverLay:(NSString *)videoPath pngPath:(NSString *)pngPath x:(int)x y:(int)y speed:(float)speed;
 /**
- ffmpeg的命令.
+  模糊视频中的指定区域;
  特定客户使用;
  异步执行,同一时刻只能有一个在执行;
  
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
  @param videoFile 输入的视频
@@ -278,10 +277,11 @@
  */
 -(BOOL) startDeleteLogo:(NSString*)videoFile startX:(int)startX startY:(int)startY width:(int)w height:(int)h;
 /**
+ 模糊视频中的指定区域;
+ 
  ffmpeg的命令.
  特定客户使用;
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
  异步执行,同一时刻只能有一个在执行;
@@ -339,6 +339,14 @@
  * @return
  */
 -(BOOL)startAddPitureAtXYTime:(NSString *)videoPath picPath:(NSString *)picPath x:(int)x y:(int)y startTimeS:(float)startTimeS endTimeS:(float)endTimeS;
+
+
+
+
+/**
+ 临时测试
+ */
+-(BOOL)startVideoMask:(NSString *)videoPath bgPath:(NSString *)bgPath mask:(NSString *)maskPath;
 /**
  执行ffmpeg的命令.
  格式举例:
@@ -407,6 +415,7 @@
  });
  */
 @property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
+
 
 
 /*

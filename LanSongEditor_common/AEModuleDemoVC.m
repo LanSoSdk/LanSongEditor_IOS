@@ -270,60 +270,34 @@
     jsonImage0=nil;
     jsonImage1=nil;
 }
+-(NSString *)copyAEAssetToSandBox:(NSString *)srcPath dstName:(NSString *)dstName
+{
+    if(srcPath==nil){
+        LSOLog_e(@"copyAEAssetToSandBox error  srcPath is nil");
+        return nil;
+    }
+    NSString *jsonDir=[LSOFileUtil Path];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:jsonDir]){  //文件夹不存在则创建这个文件夹;
+        [fileManager createDirectoryAtPath:jsonDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString * dstPath = [jsonDir stringByAppendingPathComponent:dstName];
+    LSDELETE(@"dst path is :%@",dstPath);
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dstPath])  //如果文件不存在,则拷贝.
+    {
+        BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:dstPath error:NULL];
+        if (!retVal) {
+            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
+        }
+    }
+    return jsonDir;
+}
 -(void) testJson
 {
     [self resetData];
-    
-//    NSString *jsonName=@"image1_2";
-//    NSString *jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-//
-//    drawpadExecute=[[DrawPadAEExecute alloc] init];
-//    LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
-//
-//    LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
-//    setting.isLooping=NO;
-//
-//    NSURL *url=[LSOFileUtil URLForResource:@"d1" withExtension:@"mp4"];
-//    [view updateVideoImageWithKey:@"image_0" url:url];
-//
-////    UIImage *image=[UIImage imageNamed:@"pic1"];
-////    [view updateImageWithKey:@"image_0" image:image];
-//
-//    NSURL *audio=[LSOFileUtil URLForResource:@"hongdou10s" withExtension:@"mp3"];
-//    [drawpadExecute addAudio:audio volume:0.5f loop:YES];
-//
-//
-//    UIImage *image2=[UIImage imageNamed:@"small"];
-//    [drawpadExecute addBitmapPen:image2 position:LSOPenLeftTop];
-
-    
-    NSString *jsonName=@"zixiaxianzi";
-    mvColor=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvColor" withExtension:@"mp4"];
-    mvMask=[[NSBundle mainBundle] URLForResource:@"zixiaxianzi_mvMask" withExtension:@"mp4"];
-    jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
-    jsonImage0=[UIImage imageNamed:@"zixiaxianzi_img_0"];
-    jsonImage1=[UIImage imageNamed:@"zixiaxianzi_img_1"];
-    
-    //开始创建
-    drawpadExecute=[[DrawPadAEExecute alloc] init];
-    //增加Ae json层;
-    LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
-    [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
-    [aeView1 updateImageWithKey:@"image_1" image:jsonImage1];
-    
-    //增加mv层;
-        if(mvColor!=nil && mvMask!=nil){
-            [drawpadExecute addMVPen:mvColor withMask:mvMask];
-        }
-    
-        drawpadExecute.aeAudioVolume=0.5f;
-        NSURL *audio=[LSOFileUtil URLForResource:@"hongdou10s" withExtension:@"mp3"];
-        [drawpadExecute addAudio:audio volume:0.5f loop:YES];
-    
-        UIImage *image2=[UIImage imageNamed:@"small"];
-        [drawpadExecute addBitmapPen:image2 position:LSOPenLeftTop];
-    
-    [self startAE];  //开始执行;
 }
 @end
 

@@ -89,8 +89,6 @@ xxxxx的设置.
 + (BOOL)isBackFacingCameraPresent;
 + (BOOL)isFrontFacingCameraPresent;
 
-
-
 /**************************一下内部使用****************************************************/
 - (id)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition padSize:(CGSize)size;
 - (BOOL)addAudioInputsAndOutputs;

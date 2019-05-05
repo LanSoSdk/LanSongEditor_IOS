@@ -100,6 +100,7 @@
             break;
         default:
             [LanSongUtils showDialog:@"暂时没有这个举例."];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
     }
 }
@@ -165,9 +166,16 @@
             [jsonView updateImageWithKey:@"image_0" image:value];
         }else{ //给解析到的json替换图片
             for (int i=0; i<jsonView.imageInfoArray.count; i++) {
+                
+                
+                //因为我们提供的模板文件名和图片ID是一一对应的. 比如图片ID="image_0"的图片, 他对应的替换图片是xxx_img_0, 则我们有规律
+                //所有这里可以用for循环来替换;
                 NSString *key=[NSString stringWithFormat:@"image_%d",i];
                 UIImage *value=[UIImage imageNamed:[NSString stringWithFormat:@"%@_img_%d",moduleName,i]];
                 [jsonView updateImageWithKey:key image:value];
+                
+                
+                
             }
         }
     }
@@ -232,6 +240,7 @@
             [weakSelf drawpadCompleted:dstPath];
         });
     }];
+    
     [aeExecute start];
 }
 -(void)stopAePreview

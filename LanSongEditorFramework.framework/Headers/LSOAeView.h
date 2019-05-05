@@ -15,6 +15,7 @@
 
 
 
+NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
@@ -34,7 +35,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
          LSOLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
      }
  */
-@property (nonatomic) NSMutableArray *imageInfoArray;
+@property (nonatomic, readonly) NSMutableArray *imageInfoArray;
 
 
 /**
@@ -45,7 +46,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
         NSLog(@"text is :%@", tex.textContents);
      }
  */
-@property (nonatomic) NSMutableArray *textInfoArray;
+@property (nonatomic,readonly) NSMutableArray *textInfoArray;
 
 
 
@@ -60,11 +61,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 @property (nonatomic) NSMutableArray *imageLayerArray;
 
-
-/**
-不再使用.
- */
-- (void)updateImage:(NSString *)assetID image:(UIImage*)image;
 
 /**
  在开始执行前调用, 替换指定key的图片
@@ -95,7 +91,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url;
 
-
 /**
  替换指定图片中的视频
 
@@ -106,6 +101,47 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url setting:(LSOAEVideoSetting *)setting;
 
+/**
+ 替换图片
+ 根据Ae中的图片名字替换对应的图片;
+ 
+ @param name "json中的图片名字;
+ @param image 图片对象
+ @return 替换成功返回YES
+ */
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image;
+
+
+/**
+ 替换图片
+ 根据Ae中的图片名字替换对应的图片;
+ 
+ @param name "json中的图片名字;
+ @param image 图片对象
+ @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
+ @return 替换成功返回YES
+ */
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop;
+
+/**
+ 根据名字 把原来显示图片的地方替换为视频;
+ 
+ @param name "json中的图片名字;
+ @param url 视频文件路径
+ @return 可以替换返回YES;
+ */
+-(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url;
+
+
+/**
+ 根据名字 把原来显示图片的地方替换为视频;
+ 
+  @param name "json中的图片名字;
+ @param url 视频文件路径
+ @param setting 视频文件在处理中的选项设置;
+ @return 可以替换返回YES;
+ */
+-(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url setting:(LSOAEVideoSetting *)setting;
 /**
  当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
 
@@ -179,6 +215,8 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 - (void)setProgressWithFrame:(nonnull NSNumber *)currentFrame;
 - (void)forceDrawingUpdate;
 - (void)logHierarchyKeypaths;
+-(void)clearAllLayerImage;
+
 //- (void)setValueDelegate:(id<LSOValueDelegate> _Nonnull)delegates
 //              forKeypath:(LSOKeypath * _Nonnull)keypath;
 - (nullable NSArray *)keysForKeyPath:(nonnull LSOKeypath *)keypath;
@@ -207,3 +245,4 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 @end
+NS_ASSUME_NONNULL_END
