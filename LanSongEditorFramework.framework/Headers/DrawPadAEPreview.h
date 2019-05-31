@@ -22,36 +22,33 @@
 @interface DrawPadAEPreview : NSObject
 
 
+
 /**
- 用initWithURL/initWithPath 增加的背景视频后, 得到的视频图层对象;
- */
-@property (nonatomic)   LSOVideoPen *videoPen;
-/**
- 当前容器大小, 创建后,如果用 initWithURL/initWithPath 则等于视频本身的分辨率
- 如果用init创建的,则等于第一个增加的json文件或MV的分辨率;
+ 当前容器大小,
+ 等于第一个增加的json文件或 视频或MV的分辨率;
  */
 @property (nonatomic,assign) CGSize drawpadSize;
 
-
 /**
  初始化
- @param videoPath输入的视频路径
- */
--(id)initWithURL:(NSURL *)videoPath;
-
-/**
- 初始化
- @param videoPath 输入的视频路径
- @return
- */
--(id)initWithPath:(NSString *)videoPath;
-
-
-/**
- 不增加背景视频的初始化方法;
  容器大小,生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的分辨率;
  */
 -(id)init;
+
+/**
+ 增加背景视频层
+ [AE模板中背景视频只有一个,故最多只能调用一次]
+ @param videoPath 背景视频
+ @return 成功返回YES
+ */
+-(BOOL)addBgVideoWithPath:(NSString *)videoPath;
+/**
+ 增加背景视频层
+ [AE模板中背景视频只有一个,故最多只能调用一次]
+ @param videoPath 背景视频
+ @return 成功返回YES
+ */
+-(BOOL)addBgVideoWithURL:(NSURL *)videoUrl;
 
 /**
  增加预览的显示创建;
@@ -235,4 +232,10 @@
  @return 增加成功,返回YES, 失败返回NO;
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
+
+
+//--------------------------一下不再使用-------------------------------
+-(id)initWithURL:(NSURL *)videoPath;
+-(id)initWithPath:(NSString *)videoPath;
+@property (nonatomic)   LSOVideoPen *videoPen;
 @end

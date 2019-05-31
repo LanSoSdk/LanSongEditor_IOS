@@ -3,7 +3,6 @@
 // Base classes
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
-#import "LanSongView.h"
 #import "LanSongVideoCamera.h"
 #import "LanSongStillCamera.h"
 #import "LanSongMovie.h"

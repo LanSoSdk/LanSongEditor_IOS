@@ -14,7 +14,6 @@
 
 @interface BitmapPadPreviewDemoVC ()
 {
-    LSOMediaInfo *mediaInfo;
     BitmapPadPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
@@ -35,17 +34,9 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     //布局视频宽高
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
-    mediaInfo=[[LSOMediaInfo alloc] initWithPath:video];
-    if([mediaInfo prepare] && [mediaInfo hasVideo]){
-        //        CGSize size=self.view.frame.size;
-        //        CGSize viewSize=CGSizeMake([mediaInfo getWidth], [mediaInfo getHeight]);
-        //        lansongView=[LanSongUtils createLanSongView:size drawpadSize:viewSize];
-        
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
         lansongView=[[LanSongView2 alloc] initWithFrame:self.view.frame];
-        
         [self.view addSubview:lansongView];
-    }
     
     
     viewPenView=[[UIView alloc] initWithFrame:lansongView.frame];
@@ -69,7 +60,7 @@
     [self stopPreview];
     
     //创建容器
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[BitmapPadPreview alloc] initWithVideo:video];
 
     

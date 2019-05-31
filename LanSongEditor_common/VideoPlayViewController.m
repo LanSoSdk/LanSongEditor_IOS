@@ -40,7 +40,6 @@
     _notificationToken=0;
     
     LSOLog(@"-----------start  VideoPlayViewController-------.");
-    
     [LanSongUtils setViewControllerPortrait];
     
     mInfo=[[LSOMediaInfo alloc] initWithPath:self.videoPath];
@@ -64,6 +63,8 @@
 //        [self.view addSubview:imgView];
         
     }else{
+        [LSOMediaInfo checkFile:self.videoPath];
+        
         [LanSongUtils showHUDToast:@"当前视频错误, 退出"];
         [self.navigationController popViewControllerAnimated:YES];
     }

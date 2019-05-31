@@ -21,6 +21,9 @@
     UIView *rootJsonView;
     UIImageView *commonTextImageView;
     int lsDeleteCnt;
+    CALayer *_wrapperLayer;
+    
+    
 }
 @end
 
@@ -55,13 +58,13 @@
         [aeTextPreview cancel];
         aeTextPreview=nil;
     }
-    
+   
     aeTextPreview=[[DrawPadAeText alloc] initWithJsonPath:jsonPath];
     [aeTextPreview addLanSongView2:lansongView];  //增加显示界面;
     [self loadTextAudio];
     
-    
-    
+
+
     rootJsonView=[[UIView alloc] initWithFrame:aeTextPreview.aeView.frame];
     
     
@@ -72,15 +75,17 @@
 //    [rootJsonView addSubview:commonTextImageView];
 //    [aeTextPreview.aeView addSubview:rootJsonView];
     
+    
+    
     lsDeleteCnt=0;
     
     __weak typeof(self) weakSelf = self;
     [aeTextPreview setFrameProgressBlock:^(BOOL isExport,CGFloat progress, float percent) {
-        // dispatch_async(dispatch_get_main_queue(), ^{
+       // dispatch_async(dispatch_get_main_queue(), ^{
+       
         
-        
-        [weakSelf aeProgress:isExport  progress:progress percent:percent];
-        // });
+            [weakSelf aeProgress:isExport  progress:progress percent:percent];
+       // });
     }];
     
     [aeTextPreview setCompletionBlock:^(BOOL isExport,NSString *path) {
@@ -93,7 +98,7 @@
         });
     }];
     
-    //    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
+//    [aeTextPreview addBackgroundImage:[UIImage imageNamed:@"pic5"]];
 }
 -(void)startAEPreview
 {
@@ -106,36 +111,36 @@
 }
 -(void)loadTextAudio
 {
-    // [DrawPadAeText showDebugInfo:YES];
+   // [DrawPadAeText showDebugInfo:YES];
     
     //增加原声音
     NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"recognitionAudio1" withExtension:@"m4a"];
     [aeTextPreview setAudioPath:sampleURL volume:1.0f];
-    
+
     //测试视频
-    //    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"iphone_front_180du" withExtension:@"mov"];
-    //    [aeTextPreview setBgVideoPath:sampleURL volume:1.0f];
+//    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:@"iphone_front_180du" withExtension:@"mov"];
+//    [aeTextPreview setBgVideoPath:sampleURL volume:1.0f];
     
     //测试增加背景音乐
-    //    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
-    //    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
+//    NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
+//    [aeTextPreview  addBackgroundAudio:audioURL2 volume:0.8f loop:YES];
     
     NSString *allText=@"从一开始的一无所有到人生的第一个30万真的很不容易到后来慢慢发展到120万500万800万甚至1200万我已经对这些数字麻木了";
     [aeTextPreview pushText:allText startTime:170.0/1000.0 endTime:12885.0/1000.0];  //时间暂时不用.
     NSString *allText2=@"不管手机像素的高低为什么就拍不出我这该死又无处安放的魅力呢？";
     [aeTextPreview pushText:allText2 startTime:13260.0/1000.0 endTime:19495.0/1000.0];
     
-    //    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
-    //        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
-    //    }
-    //    [self replaceText];
+//    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
+//        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
+//    }
+//    [self replaceText];
 }
 //测试替换文字
 -(void)replaceText
 {
     if(aeTextPreview.oneLineTextArray.count>5){
         LSOOneLineText *oneText=[aeTextPreview.oneLineTextArray objectAtIndex:5];
-        oneText.text=[NSString stringWithFormat:@"测试测试替换"];
+        oneText.text=[NSString stringWithFormat:@"测试测试替换"];  //同样你可以修改字体, 文字颜色, 字号, 甚至自己设计文字图片.
         [aeTextPreview updateTextArrayWithConvert:NO];
     }
 }
@@ -147,12 +152,14 @@
 }
 -(void)aeProgress:(BOOL)isExport progress:(CGFloat)progress percent:(float) percent
 {
-//    NSString *str=[NSString stringWithFormat:@"这是切换的第:%d张图片",lsDeleteCnt];
+    
+    //如果你另外增加了一个UI,则UI可以随进度变动;(测试用)
+//    NSString *str=[NSString stringWithFormat:@"这是切换的第%d张图片",lsDeleteCnt];
 //    lsDeleteCnt++;
 //    UIImage *image=[self createImageWithText:str imageSize:CGSizeMake(400, 76) txtColor:[UIColor redColor] fontSize:25];
 //    commonTextImageView.image=image;
-    
-    
+
+
     if(isExport){
         [hud showProgress:[NSString stringWithFormat:@"进度:%d",(int)(percent*100)]];
     }
@@ -260,4 +267,3 @@
     return image;
 }
 @end
-

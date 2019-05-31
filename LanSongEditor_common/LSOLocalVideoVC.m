@@ -169,7 +169,10 @@ static NSString * const reuseIdentifier = @"Cell";
         url = [pAsset movieURL];
     }
     
-    [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:url];  //LSTODO
+    
+    NSLog(@"select video is :(url):%@",url);
+    
+    [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithURL:url];
     [self.navigationController popViewControllerAnimated:YES];  //LSTODO
     
     //暂时不用转换;

@@ -89,6 +89,39 @@ xxxxx的设置.
 + (BOOL)isBackFacingCameraPresent;
 + (BOOL)isFrontFacingCameraPresent;
 
+
+
+/**
+ 从ios的Camera回调拿到的相机实时图像;
+ 
+ 
+ 使用举例:
+ [drawPadCamera.cameraPen setCameraSampleBufferBlock:^(CMSampleBufferRef sampleBuffer) {
+ 
+ 
+ CVImageBufferRef cameraFrame = CMSampleBufferGetImageBuffer(sampleBuffer);
+ int bufferWidth = (int) CVPixelBufferGetWidth(cameraFrame);
+ int bufferHeight = (int) CVPixelBufferGetHeight(cameraFrame);
+ LSOLog(@"cameraFrame---:%@, width:%d, height:%d",cameraFrame,bufferWidth,bufferHeight);
+ 
+ }];
+ 
+内部代码如下: captureOutput是AVCaptureOutput的代理回调;
+  - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+ {
+     //if(isVideoSample){
+            CFRetain(sampleBuffer);  //计数加一
+            异步进入我们的线程{ (我们线程是一个queue,你也可以跳出我们的线程)
+                cameraSampleBufferBlock(sampleBuffer);  //<------调用设置的回调
+                 [self processVideoSampleBuffer:sampleBuffer]; <-----我们自己的处理;
+                CFRelease(sampleBuffer);  //计数减一;
+            }
+      }
+ }
+ */
+@property(nonatomic, copy) void(^cameraSampleBufferBlock)(CMSampleBufferRef sampleBuffer);
+
+
 /**************************一下内部使用****************************************************/
 - (id)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition padSize:(CGSize)size;
 - (BOOL)addAudioInputsAndOutputs;

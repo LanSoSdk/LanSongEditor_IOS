@@ -44,7 +44,7 @@
     if ([LSOFileUtil fileExist:dstPath]) {
         VideoPlayViewController *videoVC=[[VideoPlayViewController alloc] initWithNibName:@"VideoPlayViewController" bundle:nil];
         videoVC.videoPath=dstPath;
-        [nav pushViewController:videoVC animated:YES];
+        [nav pushViewController:videoVC animated:NO];
     }else{
         NSString *str=[NSString stringWithFormat:@"文件不存在:%@",dstPath];
         [LanSongUtils showHUDToast:str];

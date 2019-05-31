@@ -57,6 +57,8 @@
 - (id)initWithAsset:(AVAsset *)asset;
 - (id)initWithPlayerItem:(AVPlayerItem *)playerItem;
 - (id)initWithURL:(NSURL *)url;
+- (id)initWithURL:(NSURL *)url rotation:(CGFloat) angle;
+
 - (void)yuvConversionSetup;
 
 /// @name Movie processing

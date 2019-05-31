@@ -53,7 +53,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  当前json中所有图片图层的信息;
   获取到的是 LSOAeImageLayer对象;
- 里面放了一个LSOXLayerContainer对象;
  比如;
  for (LSOAeImageLayer *layer in view.imageLayerArray) {
  LSOLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
@@ -64,7 +63,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 /**
  在开始执行前调用, 替换指定key的图片
-
+[图片请不要大于720x1280]
  @param key "json中的图片ID号, image_0 image_1等;
  @param image 图片对象
  @return 替换成功返回YES
@@ -75,7 +74,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  替换图片
  json中的每个图片有一个唯一的ID, 根据id来替换指定json中的图片.
-
+[图片请不要大于720x1280]
  @param key "json中的图片ID号, image_0 image_1等;
  @param image 图片对象
  @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
@@ -85,6 +84,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 /**
  替换指定图片的视频;
+ 
  @param key json中的图片ID号, image_0 image_1等;
  @param url 视频文件路径
  @return 可以替换返回YES;
@@ -104,7 +104,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  替换图片
  根据Ae中的图片名字替换对应的图片;
- 
+ [图片请不要大于720x1280]
  @param name "json中的图片名字;
  @param image 图片对象
  @return 替换成功返回YES
@@ -115,7 +115,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  替换图片
  根据Ae中的图片名字替换对应的图片;
- 
+ [图片请不要大于720x1280]
  @param name "json中的图片名字;
  @param image 图片对象
  @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
@@ -145,13 +145,12 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 /**
  当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
 
+ [此方法运行在SDK的渲染线程.]
  @param key json中的refId, image_0 image_1等, 给哪个id设置回调
- @param frameUpdateBlock 视频每更新一帧, 会直接执行这里的回调, 注意回调返回的是UIImage * 类型
+ @param frameUpdateBlock 视频每更新一帧, 会直接执行这里的回调, 注意回调返回的是:图片id, 当前帧的时间戳, UIImage图片.您在处理返回的图片,尽量给您的大小一直,或等比例.
  @return 可以设置返回YES
  */
 - (BOOL)setVideoImageFrameBlock:(NSString *)key updateblock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
-
-
 /**
  更新文字, 用图层的名字来更新;
 
@@ -167,8 +166,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @return 更新成功返回YES;
  */
 - (BOOL) updateTextWithOldText:(NSString *)text newText:(NSString *)newText;
-
-
 /**
  设置文本的字体库;
  

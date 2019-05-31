@@ -7,11 +7,12 @@
 *  支持AE模板,你可以直接把设计师做好的视频动画工程,输入到我们SDK中,从而直接实现各种个性化的视频效果.
 * . 可做类似微商视频, 小柿饼的效果等
  
- ### 当前版本是3.4.0
-- 优化Ae模板功能, 兼容更多的解码器
-- 优化AE模板的内存效率.
-- 优化VideoOnedo和LSOVideoEditor
-
+ ### 当前版本是3.5.0
+- 子图层增加滤镜功能
+- 父类图层增加可视区域功能和全局缩放功能. 
+- 优化AE替换视频功能
+- 优化倒序等其他功能. 
+ 
 
 [更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)
 
@@ -53,6 +54,24 @@
 *	android系统SDK--基本免费版本：https://github.com/LanSoSdk/LanSoEditor_common
 *	android系统SDK--专业版本：https://github.com/LanSoSdk/LanSoEditor_advance
 
+### 集成方式
+- 1. 拖动LanSongEditorFramework.framework到你的项目中, 并在工程的Build Phases标签页的Link Binary With Libraries中把我们的framework放到最上面.
+2. 在Build Phases的<Link Binary With Libraries>中增加libz.tbd , libbz2.tbd, libc++.tbd, libiconv.tbd
+3. 在你代码中包括头文件： #import <LanSongEditorFramework/ LanSongEditor.h>
+4. LanSongEditorBundle.bundle 是我们sdk中 以LanSongIFxxx开头用到的一些滤镜图片,如果没用到LanSongIFxxx开头的滤镜，则不用增加此文件。如用到则把LanSongEditorBundle.bundle 拖动到你项目的 copy Bundle Resources中
+5. **其他的代码，各种资源，各种视频素材等均为演示所用，不属于sdk的一部分。**
+6. 如果您选择ios设备中的视频,则应该先拷贝到沙盒里,然后再用我们SDK处理.我们SDK提供了拷贝的方法LSOEditMode. 拷贝后再处理.
+7. 代码使用
+ ```
+初始化
+ 1.  [LanSongEditor initSDK:nil]//初始化SDK [必须]
+ 2.  [LanSongEditor setTempFileDir:@"xxx"]; //设置SDK的临时文件路径 [可选]
+
+使用流程[仅参考]:
+ 1.  明白我们SDK的各种DrawPad/Layer的意思. 我们每个公开类的注释,都在对应的.h头文件里, 您可以简单看下.
+ 2.  先在我们demo上 运行您要的各种演示功能, 然后拷贝我们的相关demo代码,各种Activity.java, 在您的工程里运行一遍.
+ 3.  我们每个Activity.java都有注释, 并尽量简单清晰. 您明白大概流程后, 整合归纳成您自己的代码. 
+ ```
 ### 联系方式:
 *   QQ 1852600324 
 *   Email:support@lansongtech.com

@@ -43,14 +43,13 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
  预览进度;
  */
 @property(nonatomic, copy) void(^previewProgressBlock)(CGFloat progess);
-/**
- 设置背景色
- */
+
+
+//----------一下为内部使用, 外界不要使用--------------
 - (void)setBackgroundColorRed:(GLfloat)redComponent green:(GLfloat)greenComponent blue:(GLfloat)blueComponent alpha:(GLfloat)alphaComponent;
-
-
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 -(void)setPenArray:(NSMutableArray *)array;
 -(void)setDrivePen:(LSOPen *)pen;
+-(void)resetDriver;
 @property (nonatomic)BOOL forceUpdate;
 @end

@@ -30,9 +30,8 @@
     }];
     
     scrollView.delegate=self;
-    [scrollView configureView:@[@"奥巴马举牌",@"紫霞仙子",@"早安",@"小黄鸭"] width:self.view.frame.size.width];
+    [scrollView configureView:@[@"奥巴马举牌",@"紫霞仙子",@"早安(替换视频)",@"小黄鸭",@"多个图片合成",@"图片替换视频演示"] width:self.view.frame.size.width];
 }
-
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
     AEPreviewDemoVC *pushVC=[[AEPreviewDemoVC alloc] init];
@@ -49,11 +48,17 @@
         case 3:
             pushVC.AeType=kEDEMO_XIAOHUANGYA;
             break;
+        case 4:
+            pushVC.AeType=kEDEMO_MORE_PICTURE;
+            break;
+        case 5:
+            pushVC.AeType=kEDEMO_REPLACE_VIDEO;
+            break;
         default:
             [LanSongUtils showDialog:@"暂时没有这个举例."];
             return;
     }
-    [self.navigationController pushViewController:pushVC animated:YES];
+    [self.navigationController pushViewController:pushVC animated:NO];
 }
 
 /*

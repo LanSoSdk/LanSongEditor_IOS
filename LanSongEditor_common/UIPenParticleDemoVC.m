@@ -76,7 +76,7 @@
     //创建容器
     
     [self removeAllEmitterLayer];
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     [drawpadPreview addLanSongView:lansongView];
     
@@ -93,7 +93,7 @@
     [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSString *original=[AppDelegate getInstance].currentEditVideo;
+            NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
             NSString *dstPath=[LSOFileUtil genTmpMp4Path];
             
             //增加上原来的声音;
@@ -118,9 +118,8 @@
 - (void)createView
 {
     CGSize size=self.view.frame.size;
-    CGSize padSize=CGSizeMake(540, 960);
     
-    lansongView=[LanSongUtils createLanSongView:size padSize:padSize percent:0.9f];
+    lansongView=[LanSongUtils createLanSongView:size padSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize percent:0.9f];
     lansongView.backgroundColor=[UIColor blackColor];
     [self.view addSubview:lansongView];
     

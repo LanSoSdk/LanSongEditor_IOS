@@ -20,8 +20,10 @@
     LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
     LSOVideoPen *videoPen;
+    
     UISlider *videoProgress;
 }
+
 @property (nonatomic,assign) NSString *dstPath;
 @end
 
@@ -34,9 +36,14 @@
     self.view.backgroundColor=[UIColor whiteColor];
 
   
-    [self startPreview]; //开启预览
+   
     //-------------以下是ui操作-----------------------
-     CGSize size=self.view.frame.size;
+    
+    CGSize size=self.view.frame.size;
+    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    [self.view addSubview:lansongView];
+    
+    
     CGFloat padding=size.height*0.01;
     
     _labProgress=[[UILabel alloc] init];
@@ -55,32 +62,23 @@
     currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
     currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
-    
-    
-//    [self performSelector:@selector(delaySelector:) withObject:nil afterDelay:3];  //延迟0.1秒后执行的方法.
 }
-- (void)delaySelector : (id)sender {
-   
+- (void)viewDidAppear:(BOOL)animated
+{
+     [self startPreview]; //开启预览
 }
 -(void)startPreview
 {
     [self stopPreview];
     
     //创建容器
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
     
-    //创建显示窗口
-    CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
-    [self.view addSubview:lansongView];
+    
+    //增加显示窗口
     [drawpadPreview addLanSongView:lansongView];
-    
-    
-    //增加Bitmap图层
-    UIImage *image=[UIImage imageNamed:@"mm"];
-    bmpPen=[drawpadPreview addBitmapPen:image];
     
     //演示增加UI图层;
 //    //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
@@ -104,7 +102,7 @@
     [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSString *original=[AppDelegate getInstance].currentEditVideo;
+            NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
             NSString *dstPath=[LSOFileUtil genTmpMp4Path];
             
             //增加上原来的声音;
@@ -122,12 +120,12 @@
     }];
     
     videoPen=drawpadPreview.videoPen;
-    
     videoPen.loopPlay=YES;
+    
+    
     
     //开始执行,并编码
     [drawpadPreview start];
-//    [drawpadPreview startRecord];
 }
 -(void)progressBlock:(CGFloat)progress
 {
@@ -226,11 +224,12 @@
 
 -(void)dealloc
 {
-     [self stopPreview];
+    [self stopPreview];
     bmpPen=nil;
     drawpadPreview=nil;
+    videoPen=nil;
     lansongView=nil;
-    LSOLog(@"Demo1PenMothedVC VC  dealloc");
+    LSOLog(@"Demo1PenMothedVC dealloc");
 }
 /*
  #pragma mark - Navigation

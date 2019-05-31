@@ -16,7 +16,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <LanSongEditor/PublicHeader.h>
 
-
+#import <LanSongEditorFramework/LSOObject.h>
 //**************************容器类*********************************
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
@@ -53,7 +53,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //********************图层类(6个)*************************************
 
 //处理视频和音频的基本单元.
-#import <LanSongEditorFramework/LSOVideoBody.h>
+#import <LanSongEditorFramework/LSOVideoAsset.h>
 
 //图层的父类, 所有的xxxPen 集成这个父类;
 #import <LanSongEditorFramework/LSOPen.h>
@@ -112,6 +112,10 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //列举了一些常见的视频编辑功能
 #import <LanSongEditorFramework/LSOVideoEditor.h>
+
+//多个视频布局的例子;
+#import <LanSongEditorFramework/LSOLayoutParam.h>
+#import <LanSongEditorFramework/LSOVideoLayout.h>
 
 //创建临时 处理文件的头文件
 #import <LanSongEditorFramework/LSOFileUtil.h>

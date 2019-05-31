@@ -84,14 +84,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor blackColor];
     [LanSongUtils setViewControllerPortrait];
     
     beautyLevel=0;
     beautyMng=[[BeautyManager alloc] init];
     
     
-    lansongView = [[LanSongView2 alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //    iphoneX Xs 375 x 812;  (0.5625 则是667);
+    //    ihponeXs-r Xs-max  414 x 896 (0.5625 则是736);
+    CGSize  fullSize=[[UIScreen mainScreen] bounds].size;
+    CGFloat top=0;
+    if(fullSize.width * fullSize.height ==375*812){
+        fullSize.height=667;
+        top=(812-667)/2;
+    }else if(fullSize.width * fullSize.height==414*896){
+        fullSize.height=736;
+        top=(896-736)/2;
+    }
+    
+    CGRect rect=CGRectMake(0, top, fullSize.width, fullSize.height);
+    NSLog(@"full size is :%f %f, full radio:%f, 540 rect is:%f",fullSize.width,fullSize.height, fullSize.width/fullSize.height, rect.size.width/rect.size.height);
+    
+    lansongView = [[LanSongView2 alloc] initWithFrame:rect];
     [self.view addSubview:lansongView];
     
     drawPadCamera=[[DrawPadCameraPreview alloc] initFullScreen:lansongView isFrontCamera:YES];
@@ -418,9 +433,9 @@
     
     
     //关闭按钮
-    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 60, 60)];
+    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 90, 90)];
     [btnClose setTitle:@"关闭" forState:UIControlStateNormal];
-    [btnClose setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnClose setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btnClose.titleLabel.font=[UIFont systemFontOfSize:20];
     btnClose.tag=301;
     [btnClose addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];

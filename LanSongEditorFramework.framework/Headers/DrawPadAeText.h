@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  init方法,
 
+ Ae动画做好后,根据我们的导出文件, 得到json. 在这里输入SDK
  @param jsonPath json的完整路径
  @return
  */
@@ -46,8 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
  这个是一个容器, drawpadSize是容器的宽高; 等于你设置的json高度.
  */
 @property (nonatomic,readonly) CGSize drawpadSize;
-
-
 
 /**
  设置编码时的宽高.
@@ -132,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)cancel;
 /**
  外部修改后,通过这个方法来更新json中的图片信息;
-  在更新的时候, 外面的视频是否已经保存到LSOOneLineText.textImage
+  在更新的时候, 外面的文字是否已经保存到LSOOneLineText.textImage
  @param converted 已经保存,这里是YES;没有保存这里是NO, 没有保存,我们会内部会全部转换一遍;并更新文字动画.
  */
 -(void)updateTextArrayWithConvert:(BOOL)converted;

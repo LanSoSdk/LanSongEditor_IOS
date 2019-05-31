@@ -719,6 +719,7 @@
             self.title = @"Transform (3-D)";
             self.filterSlider.hidden = NO;
             
+           
             [self.filterSlider setMinimumValue:0.0];
             [self.filterSlider setMaximumValue:6.28];
             [self.filterSlider setValue:0.75];

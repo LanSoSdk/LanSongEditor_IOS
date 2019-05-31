@@ -16,7 +16,7 @@
  视频的常见处理:
  当前可以完成:
  1.增加多个背景音乐+调节音量,2.裁剪时长,3.裁剪画面,4.缩放,5.增加Logo,6.增加文字,7.设置滤镜,8.设置码率(压缩),
- 9.增加美颜,10.增加封面,11增加UI界面,12,增加马赛克.
+ 9.增加美颜,10.增加封面,11增加UI界面,12,增加马赛克.13,旋转视频.
  
  调用流程是:
  init--->setXXX--->设置进度完成回调--->start;
@@ -57,6 +57,15 @@
 @property(readwrite, nonatomic) float cutDurationTimeS;
 
 
+
+/**
+ 设置旋转角度;
+ 当前仅支持 90/180/270;
+ 此角度以0角度为参考.
+ 如果视频本身有旋转角度,则我们内部会自动旋转过来,然后再根据您设置的角度来旋转;
+ */
+@property(readwrite, nonatomic) float rotationAngle;
+
 /**
  恢复所有默认值;
  [清除所有设置的参数]
@@ -67,6 +76,7 @@
  注意:
  1.CGRect中的x,y如是小数,则调整为整数;
  2.CGRect中的width,height如是奇数,则调整为偶数.(能被2整除的数)
+ 3.如果您设置了rotationAngle, 则先旋转,再裁剪;
  */
 @property (readwrite,nonatomic)CGRect cropRect;
 
@@ -100,7 +110,7 @@
  如果没有,则等于视频的宽高;
  
  UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, encoderSize.width, encoderSize.height)];
- 执行流程是: 先裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
+ 执行流程是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
  */
 -(void)setUIView:(UIView *)view;
 
@@ -182,7 +192,7 @@
 
 /**
  开始执行
-  执行流程是: 先裁剪--->执行各种滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
+  执行流程是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
  */
 -(BOOL) start;
 

@@ -24,7 +24,8 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
     kCameraPen,
     kMVPen,
     kCALayerPen,
-    kDataPen
+    kDataPen,
+    kSubPen
 };
 
 typedef enum : NSInteger {
@@ -140,7 +141,13 @@ typedef enum : NSInteger {
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidthValue,scaleHeightValue;
 
+//填充满整个drawpad;
+@property(readwrite, nonatomic) BOOL  fillScale;
 
+//------------mirror(镜像)--------------
+//在绘制的时候, 横向图像镜像, 左边的在右边, 右边的在左边;
+@property (nonatomic,assign)BOOL mirrorDrawX;
+//---------------alpha(透明)----------
 /**
  调节当前画面中的RGBA 4个分量的百分比;
  如果你设置了redPercenet=0.8则表示把当前像素中的红色分量降低到80%;
@@ -149,13 +156,49 @@ typedef enum : NSInteger {
 @property(readwrite, nonatomic) CGFloat greenPercent;
 @property(readwrite, nonatomic) CGFloat bluePercent;
 @property(readwrite, nonatomic) CGFloat alphaPercent;
-
-
-
 /**
  同时设置 RGBA的百分比;
  */
 -(void) setRGBAPercent:(CGFloat)value;
+
+//----------------visible rect(可视区域设置)------------------------
+/**
+ 设置当前图层画面的可见区域: 四方形
+ 此操作不变化画面本身的宽高,只是设置一部分显示, rect范围外的图像透明;
+ 
+ 区域的坐标是:左上角是0,0;
+ @param rect 显示区域;
+ */
+-(void)setVisibleRect:(CGRect) rect;
+/**
+ 设置当前图层画面的可见区域:圆形
+ 此操作不变化画面本身的宽高,只是设置一部分显示, rect范围外的图像透明;
+ @param radius 圆的半径. 范围:0.0--1.0; 默认是0.2f;
+ @param center 圆的中心点. 范围是0.0---1.0f;默认是中间:(0.5,0.5)
+ */
+-(void)setVisibleCircle:(CGFloat) radius center:(CGPoint) center;
+
+/**
+ 当设置四方形的可见区域后, 可以给四方形增加边缘颜色;
+ 
+ @param width 边缘的宽度
+ @param red   RGBA分量中的Red 范围是0.0f---1.0f
+ @param green 绿色
+ @param blue 蓝色分量
+ @param alpha 透明分量  颜色的透明度,建议是1.0;
+ */
+-(void)setVisibleRectBorder:(float) width red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
+/**
+ *当设置圆形的可见区域后, 可以给圆增加边缘颜色;
+ * @param width 厚度,最大是1.0, 最小是0.0, 推荐是0.01f
+ * @param r     RGBA分量中的Red 范围是0.0f---1.0f
+ * @param g
+ * @param b
+ * @param a  颜色的透明度,建议是1.0;
+ */
+-(void)setVisibleCircleBorder:(float) width red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
+
+//-------------------------FILTER(滤镜)----------------------------
 /**
  删除所有滤镜;
  */
@@ -201,6 +244,7 @@ typedef enum : NSInteger {
  @param secondInput filter的第二个输入源, 一般用在各种Blend类型的滤镜中
  */
 -(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
+
 
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
@@ -280,6 +324,7 @@ typedef enum : NSInteger {
 -(void)resetCurrentFrame;
 -(void)sendToLanSong2:(CMTime)time;
 -(void)sendTolanSong2Finish;
+-(void)updatePenTask;
 
 
 @end

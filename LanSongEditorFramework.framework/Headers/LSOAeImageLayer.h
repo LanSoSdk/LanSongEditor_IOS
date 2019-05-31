@@ -21,17 +21,24 @@ NS_ASSUME_NONNULL_BEGIN
 //图层名字
 @property (nonatomic,  readonly, strong, nullable) NSString *layerName;
 
-//图层的开始帧数
-@property (nonatomic, readonly) int startFrame;
+/**
+ 在当前合成里的开始帧
+ [如果图层在预合成里,则是相对于预合成的开始帧]
+ */
+@property (nonatomic, readonly) CGFloat startFrame;
 
-//图层的结束帧数;
-@property (nonatomic, readonly) int endFrame;
+/**
+  在当前合成里的结束帧
+ [如果图层在预合成里,则是相对于预合成的开始帧]
+ */
+@property (nonatomic, readonly) CGFloat endFrame;
 
 
 /**
- 当前图片图层的时长.
+ 当前图片图层的时长.单位:秒;
+ 计算原理是:_endFrame - _startFrame/frameRate
  */
-@property (nonatomic, readonly) CGFloat duration;
+@property (nonatomic, readonly) CGFloat durationS;
 
 
 //图片图层中的图片名字
@@ -44,9 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) CGFloat imgWidth;
 @property (nonatomic, readonly) CGFloat imgHeight;
 
+//当前json的帧率
+@property (nonatomic, readonly) CGFloat jsonFrameRate;
 
 
-//内部使用;
+
+/**********************一下为内部使用******************************************/
 - (instancetype _Nonnull)initWithID:(CALayer *)refId jsonFrameRate:(float)frameRate;
 -(void)setImage:(UIImage *)image;
 -(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;

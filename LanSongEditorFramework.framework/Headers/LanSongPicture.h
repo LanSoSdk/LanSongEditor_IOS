@@ -10,7 +10,7 @@
     dispatch_semaphore_t imageUpdateSemaphore;
 }
 
-// Initialization and teardown
+// ---------内部使用,外界请不要调用
 - (id)initWithURL:(NSURL *)url;
 - (id)initWithImage:(UIImage *)newImageSource;
 - (id)initWithCGImage:(CGImageRef)newImageSource;
@@ -23,6 +23,8 @@
 
 // Image rendering
 - (void)processImage;
+- (BOOL)processImageSync;
+
 - (CGSize)outputImageSize;
 - (BOOL)updateUIImage:(UIImage *)image2;
 

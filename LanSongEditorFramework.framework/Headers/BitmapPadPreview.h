@@ -15,6 +15,9 @@
 
 
 /**
+ 
+ 图片容器, 您可以把很多图片一层一层的调进来, 然后截取得到一张叠加后的图片.
+ 
  整理自 DrawPadVideoPreview;
  
  如果DrawPadVideoPreview已经满足你们的使用场景;只需要得到画面,则

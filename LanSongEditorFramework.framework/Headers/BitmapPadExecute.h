@@ -11,10 +11,17 @@
 #import "LanSongPicture.h"
 #import "LanSongFilterPipeline.h"
 
+/**
+ 图片后台容器.
+ 当前仅是滤镜.
+ 
+ BitmapPadPreview,你可以直接在预览的时候, 生成图片, 无需后台.
+ */
 @interface BitmapPadExecute : NSObject
 /**
  用一张图片,一个滤镜; 转换成一张滤镜后的图片.
  如果filter为nil,则返回他本身.
+ 如果有一个滤镜失败, 则增加原图片. 您可以用 [得到的图片 isEqual:原来的图片 ]来判断当前图片是否有效.(常用图片几乎都有效)
  */
 +(UIImage *)getOneImage:(UIImage *)image filter:(LanSongFilter *)filter;
 /**
@@ -22,6 +29,7 @@
  原理是:
  图片--->滤镜1--->滤镜2--->....->滤镜后的图片返回.
  如果filter为nil,则返回他本身.
+ 如果有一个滤镜失败, 则增加原图片. 您可以用 [得到的图片 isEqual:原来的图片 ]来判断当前图片是否有效.(常用图片几乎都有效)
  */
 +(UIImage *)getOneImage:(UIImage *)image filterArray:(NSArray *)filters;
 
@@ -29,11 +37,12 @@
  从一张图片 多个滤镜, 分别每个滤镜得到一张图片.
  原理是:
  一个图片--->滤镜1-->滤镜后的图片1
- 一个图片--->滤镜2-->滤镜后的图片2
- 一个图片--->滤镜3-->滤镜后的图片3
- 一个图片--->滤镜4-->滤镜后的图片4
+        --->滤镜2-->滤镜后的图片2
+        --->滤镜3-->滤镜后的图片3
+        --->滤镜4-->滤镜后的图片4
  
  如果其中有一个filter为nil,则增加原image本身.
+ 如果有一个滤镜失败, 则增加原图片. 您可以用 [得到的图片 isEqual:原来的图片 ]来判断当前图片是否有效.(常用图片几乎都有效)
  */
 +(NSMutableArray *)getMoreImageFromOneImage:(UIImage *)image filterArray:(NSMutableArray *)filters;
 /*

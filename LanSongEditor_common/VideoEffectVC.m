@@ -29,8 +29,8 @@
     
     CGFloat  drawPadWidth;
     CGFloat  drawPadHeight;
-    //抖动
     
+    //抖动
     int colorEdgeCnt;
     int colorScaleStatus;
     BOOL colorScaleEnable;
@@ -41,7 +41,12 @@
     LSOSubPen *outbodyPen;
     int outBodyCnt;
     float outBodySacle;
+    
+    //后台导出
+    DrawPadVideoExecute *videoExecute;
+  
 }
+@property (nonatomic,retain)  LSOProgressHUD *hud;
 @end
 
 @implementation VideoEffectVC
@@ -59,8 +64,11 @@
     self.view.backgroundColor=[UIColor blackColor];
     
     
-    [self startPreview];
     //----------------一下是各种参数设置;
+    //创建路径;
+    CGSize size=self.view.frame.size;
+    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    [self.view addSubview:lansongView];
     //抖动
     colorEdgeCnt = 0;
     colorScaleStatus = SCALE_STATUS_NONE;
@@ -73,22 +81,28 @@
     outBodySacle = 1.0f;
     
     [self initButtonView];  //布局其他界面;
+    
+    _hud=[[LSOProgressHUD alloc] init];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self startPreview];
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self stopPreview];
 }
 -(void)startPreview
 {
     [self stopPreview];
     
     //创建容器
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
     
-    //创建显示窗口
-    CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
-    [self.view addSubview:lansongView];
+    //增加显示窗口
     [drawpadPreview addLanSongView:lansongView];
-    
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progess) {
@@ -151,19 +165,14 @@
         case 109:  //卡通
             [self videoColorToon];
             break;
+        case 110:  //后台执行
+            [self exportSubPenExecute];
+            break;
         default:
             break;
     }
 }
 //--------------------一下是ui界面.
--(void)viewDidAppear:(BOOL)animated
-{
-    
-}
--(void)viewDidDisappear:(BOOL)animated
-{
-    [self stopPreview];
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -246,10 +255,18 @@
         pen0.scaleWidth=0.5;
         pen0.positionX=pen0.scaleWidthValue/2;
         
-        LSOSubPen *pen=[videoPen addSubPen];
-        pen.scaleHeight=0.5;
-        pen.scaleWidth=0.5;
-        pen.positionX=pen0.positionX + pen.scaleWidthValue;
+        LanSongIFRiseFilter *filter=[[LanSongIFRiseFilter alloc] init];
+        [pen0 switchFilter:filter];
+        
+        
+        LSOSubPen *pen1=[videoPen addSubPen];
+        pen1.scaleHeight=0.5;
+        pen1.scaleWidth=0.5;
+        pen1.positionX=pen0.positionX + pen1.scaleWidthValue;
+        
+        LanSongIF1977Filter *filter2=[[LanSongIF1977Filter alloc] init];
+        [pen1 switchFilter:filter2];
+        
     }
 }
 
@@ -284,13 +301,11 @@
         pen1.positionX=pen0.positionX + pen0.scaleWidthValue;
         pen1.positionY=pen0.positionY;
         
-        
         LSOSubPen *pen2=[videoPen addSubPen];
         pen2.scaleWidth=0.25;
         pen2.scaleHeight=0.25;
         pen2.positionX=pen1.positionX+ pen2.scaleWidthValue;
         pen2.positionY=pen0.positionY;
-        
         
         LSOSubPen *pen3=[videoPen addSubPen];
         pen3.scaleWidth=0.25;
@@ -317,14 +332,11 @@
         pen0.positionX=pen0.scaleWidthValue/2;
         pen0.positionY=penLast.positionY + pen0.scaleHeightValue;
         
-        
-        
         LSOSubPen *pen1=[videoPen addSubPen];
         pen1.scaleHeight=0.25;
         pen1.scaleWidth=0.25;
         pen1.positionX=pen0.positionX + pen1.scaleWidthValue;
         pen1.positionY=penLast.positionY +pen1.scaleHeightValue;
-        
         
         LSOSubPen *pen2=[videoPen addSubPen];
         pen2.scaleHeight=0.25;
@@ -332,13 +344,11 @@
         pen2.positionX=pen1.positionX +pen2.scaleWidthValue;
         pen2.positionY=penLast.positionY + pen2.scaleHeightValue;
         
-        
         LSOSubPen *pen3=[videoPen addSubPen];
         pen3.scaleHeight=0.25;
         pen3.scaleWidth=0.25;
         pen3.positionX=pen2.positionX +pen3.scaleWidthValue;
         pen3.positionY=penLast.positionY + pen3.scaleHeightValue;
-        
         penLast=pen3;
     }
 }
@@ -362,6 +372,10 @@
         [pen2 setRGBAPercent:0.3];
     }
 }
+
+/**
+ 颜色反转
+ */
 -(void)videoColorInvert
 {
     if(videoPen!=nil){
@@ -369,6 +383,9 @@
         [videoPen switchFilter:filter];
     }
 }
+/**
+ 卡通
+ */
 -(void)videoColorToon
 {
     if(videoPen!=nil){
@@ -376,6 +393,7 @@
         [videoPen switchFilter:filter];
     }
 }
+
 -(void)videoColorLaplacian
 {
     if(videoPen!=nil){
@@ -407,7 +425,7 @@
     CGFloat padding=size.height*0.01;
     
     UILabel *hint=[[UILabel alloc] init];
-    hint.text=@"以下效果开源,您可举一反三";
+    hint.text=@"效果开源,可举一反三";
     hint.textColor=[UIColor redColor];
     [self.view addSubview:hint];
     
@@ -426,13 +444,22 @@
     UIButton *fudiao=[self createButton:@"浮雕" WithTag:108];
     UIButton *toon=[self createButton:@"卡通" WithTag:109];
     
+    UIButton *bgExecute=[self createButton:@"后台举例" WithTag:110];
+     [bgExecute setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    
     int btnW=120;
     int btnH=60;
     
     [hint mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
         make.left.mas_equalTo(self.view.mas_left).offset(padding);
-        make.size.mas_equalTo(CGSizeMake(size.width, btnH));
+        make.size.mas_equalTo(CGSizeMake(size.width/2, btnH));
+    }];
+    
+    [bgExecute mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(lansongView.mas_bottom).offset(padding);
+        make.left.mas_equalTo(hint.mas_right).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(size.width/2, btnH));
     }];
     
     
@@ -494,9 +521,6 @@
         make.left.mas_equalTo(fudiao.mas_right).offset(padding);
         make.size.mas_equalTo(CGSizeMake(btnW, btnH));
     }];
-    
-    
-    
 }
 -(UIButton *)createButton:(NSString *)name WithTag:(int)tag
 {
@@ -511,6 +535,54 @@
     
     return btn1;
 }
+/**
+ 演示后台执行
+ */
+-(void)exportSubPenExecute
+{
+    [self stopPreview];
+    
+    
+    videoExecute=[[DrawPadVideoExecute alloc] initWithPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
+    
+    //----演示左右两个画面(就是增加两个子图层);
+    LSOSubPen *pen0=[videoExecute.videoPen addSubPen];
+    videoExecute.videoPen.hidden=YES;
+    pen0.scaleHeight=0.5;
+    pen0.scaleWidth=0.5;
+    pen0.positionX=pen0.scaleWidthValue/2;
+    
+    LanSongIFRiseFilter *filter=[[LanSongIFRiseFilter alloc] init];
+    [pen0 switchFilter:filter];
+    
+    
+    LSOSubPen *pen1=[videoExecute.videoPen addSubPen];
+    pen1.scaleHeight=0.5;
+    pen1.scaleWidth=0.5;
+    pen1.positionX=pen0.positionX + pen1.scaleWidthValue;
+    
+    LanSongIF1977Filter *filter2=[[LanSongIF1977Filter alloc] init];
+    [pen1 switchFilter:filter2];
+    
+    
+    //-----------------增加其他
+    WS(weakSelf)
+    [videoExecute setProgressBlock:^(CGFloat progess) {
+        LSOLog_d(@"progress  is :%f",progess);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.hud showProgress:[NSString stringWithFormat:@"时间戳:%f",progess]];
+        });
+    }];
+    [videoExecute setCompletionBlock:^(NSString *dstPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf.hud hide];
+            [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+        });
+    }];
+    
+    [videoExecute start];
+}
+
 -(void)dealloc
 {
     [self stopPreview];
@@ -518,5 +590,3 @@
     dstPath=nil;
 }
 @end
-
-

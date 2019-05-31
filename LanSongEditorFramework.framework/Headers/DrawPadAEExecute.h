@@ -25,27 +25,14 @@
 @interface DrawPadAEExecute : NSObject
 
 /**
- 当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
- 如果用init创建的DrawPadAEExecute则此对象为nil;
- */
-@property (nonatomic,readonly)LSOMediaInfo *videoPenInfo;
-
-/**
  当前进度的最终长度;, 进度/duration等于百分比;
  */
 @property (readonly) CGFloat duration;
 
 /**
- 通过 initWithURL/initWithPath创建的视频对象
- */
-@property (nonatomic)   LanSongMovie *videoPen;
-
-/**
  当前容器的大小
  */
 @property (nonatomic,readonly) CGSize drawpadSize;
-
-
 /**
  设置编码时的码率.
  可选;
@@ -53,49 +40,38 @@
 @property (nonatomic,assign) int encoderBitRate;
 
 
+/**
+ 图层数量
+ */
 @property (nonatomic,readonly) int penCount;
 
-
+//----------------一下为具体方法-------------------------
 /**
- 初始化
- 
- @param videoPath 输入的视频文件
- @return 返回构造对象
- */
--(id)initWithURL:(NSURL *)videoPath;
-
-/**
- 初始化
- @param videoPath
- @return
- */
--(id)initWithPath:(NSString *)videoPath;
-
-
-/**
- 不增加背景视频的初始化方法;
+ 初始化;
  容器大小,生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的分辨率;
- 
  @return
  */
 -(id)init;
-
-
 /**
- 不增加背景视频的初始化方法;
- 生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的帧率或时长;
-
- @param size 我们的SDK是图层和容器思想; 这里是设置容器的大小,请务必等于当前容器的宽高;
+ 增加背景视频层
+ [AE模板中背景视频只有一个,故最多只能调用一次]
+ @param videoPath 背景视频
+ @return 成功返回YES
  */
--(id)initWithDrawPadSize:(CGSize)size;
+-(BOOL)addBgVideoWithPath:(NSString *)videoPath;
+/**
+增加背景视频层
+[AE模板中背景视频只有一个,故最多只能调用一次]
+@param videoPath 背景视频
+@return 成功返回YES
+*/
+-(BOOL)addBgVideoWithURL:(NSURL *)videoUrl;
 /**
  增加UI图层;
  @param view UI图层
  @return 返回对象
  */
 -(LSOViewPen *)addViewPen:(UIView *)view;
-
-
 /**
  增加AE对象;
  [不建议使用]
@@ -244,4 +220,26 @@
  @return 增加成功,返回YES, 失败返回NO;
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
+
+/**
+ 在addBgVideo后, 得到视频的信息
+ [不建议用]
+ */
+@property (nonatomic,readonly)LSOMediaInfo *videoPenInfo;
+/**
+ 在addBgVideo后, 得到视频的对象
+ [不建议用]
+ */
+@property (nonatomic)   LanSongMovie *videoPen;
+//-----------一下不再使用
+-(id)initWithDrawPadSize:(CGSize)size;
+/**
+ 不再使用
+ */
+-(id)initWithURL:(NSURL *)videoPath ;
+
+/**
+ 不再使用
+ */
+-(id)initWithPath:(NSString *)videoPath;
 @end

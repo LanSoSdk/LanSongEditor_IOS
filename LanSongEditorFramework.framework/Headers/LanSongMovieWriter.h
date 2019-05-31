@@ -53,6 +53,7 @@ extern NSString *const kLanSongColorSwizzlingFragmentShaderString;
     
     BOOL isRecording;
     int   encodeBitrate;  //新增码率设置.
+    BOOL firstBuffer;
 }
 
 @property(readwrite, nonatomic) BOOL hasAudioTrack;

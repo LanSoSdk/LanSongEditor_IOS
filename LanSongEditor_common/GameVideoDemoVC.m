@@ -14,7 +14,6 @@
 
 @interface GameVideoDemoVC ()
 {
-    LSOMediaInfo *mediaInfo;
     DrawPadVideoPreview *drawpadPreview;
     
     LanSongView2 *lansongView;
@@ -34,23 +33,15 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     //布局视频宽高
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
-    mediaInfo=[[LSOMediaInfo alloc] initWithPath:video];
-     if([mediaInfo prepare] && [mediaInfo hasVideo]){
-         CGSize size=self.view.frame.size;
-         CGSize viewSize=CGSizeMake([mediaInfo getWidth], [mediaInfo getHeight]);
-         lansongView=[LanSongUtils createLanSongView:size drawpadSize:viewSize];
-         [self.view addSubview:lansongView];
-     }
+     CGSize size=self.view.frame.size;
+     lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+     [self.view addSubview:lansongView];
     
     _videoArray=[[NSMutableArray alloc] init];
-    
-    
     
     //-------------以下是ui操作-----------------------
     
     
-     CGSize size=self.view.frame.size;
     _labProgress=[[UILabel alloc] init];
     _labProgress.textColor=[UIColor redColor];
     [self.view addSubview:_labProgress];
@@ -90,16 +81,12 @@
     [self stopPreview];
     
     //创建容器
-    NSString *video=[AppDelegate getInstance].currentEditVideo;
+    NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     drawpadSize=drawpadPreview.drawpadSize;
     
-    //创建显示窗口
-    if(lansongView==nil){ //创建后,不再创建
-        lansongView=[LanSongUtils createLanSongView:self.view.frame.size drawpadSize:drawpadSize];
-         [self.view addSubview:lansongView];
-    }
     
+    //增加显示窗口
     [drawpadPreview addLanSongView:lansongView];
     
     //增加Bitmap图层

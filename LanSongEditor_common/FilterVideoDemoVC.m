@@ -55,30 +55,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+  
+    
+    
     filterImageArray =[[NSMutableArray alloc] init];
     filterArray=[[NSMutableArray alloc] init];
     filterItemArray=[[NSMutableArray alloc] init];
     
     self.view.backgroundColor=[UIColor whiteColor];
-    srcPath=[AppDelegate getInstance].currentEditVideo;
+    srcPath=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     
-    LSOMediaInfo *info=[[LSOMediaInfo alloc] initWithPath:srcPath];
-    if([info prepare]){
-        CGSize size=self.view.frame.size;
-        
-        lansongView=[LanSongUtils createLanSongView:size drawpadSize:info.size];
-        [self.view addSubview:lansongView];
-        
-        [self initView];
-        
-        /*
-         获取缩略图
-         */
-        [self getThumbnailFilters];
-    }else{
-        [LanSongUtils showDialog:@"输入的视频不存在,退出"];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    CGSize size=self.view.frame.size;
+    
+    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    
+    
+    [self.view addSubview:lansongView];
+    [self initView];
+    [self getThumbnailFilters];
 }
 /**
  开始前台容器
@@ -146,7 +141,8 @@
     dstPath=path;
     isSelectFilter=NO;
     drawpadExecute=nil;
-    [self showIsPlayDialog];
+    
+  [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
 }
 /**
  停止drawpad的执行.
@@ -182,21 +178,24 @@
 //        [drawpad addMVPen:colorPath withMask:maskPath];
     
     
-        __weak typeof(self) weakSelf = self;
+       WS(weakSelf)
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 int percent=(int)(progess*100/drawpadExecute.mediaInfo.vDuration);
                 [weakSelf.progressHUD showProgress:[NSString stringWithFormat:@"进度:%d%%",percent]];
             });
         }];
         [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [weakSelf drawpadCompleted:dstPath];
-                [weakSelf.progressHUD hide];
+                [weakSelf startPreview:dstPath];
             });
         }];
         [drawpadExecute start];
+}
+-(void) startPreview:(NSString *)dstPath
+{
+    [self drawpadCompleted:dstPath];
+    [self.progressHUD hide];
 }
 //--------------------一下是ui界面.
 -(void)viewDidAppear:(BOOL)animated
@@ -244,6 +243,15 @@
     
     videoProgress=  [self createSlide:lansongView min:0.0f max:1.0f value:0.5f tag:101 labText:@"进度:"];
     
+    UIButton *export=[[UIButton alloc] init];
+    [export setTitle:@"点击执行" forState:UIControlStateNormal];
+    [export setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    export.titleLabel.font=[UIFont systemFontOfSize:25];
+    export.tag=105;
+    [export addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:export];
+    
+    
     UIButton *btnFilter=[[UIButton alloc] init];
     [btnFilter setTitle:@"滤镜>>>" forState:UIControlStateNormal];
     [btnFilter setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -271,7 +279,6 @@
     }];
     _collectionView =[self createUICollectionView];
     
-    
     UIBarButtonItem *barItemEdit=[[UIBarButtonItem alloc] initWithTitle:@"后台滤镜" style:UIBarButtonItemStyleDone target:self action:@selector(doButtonClicked:)];
     barItemEdit.tag=602;
     self.navigationItem.rightBarButtonItem = barItemEdit;
@@ -282,7 +289,7 @@
     if(sender.tag==601)
     {
         isSelectFilter=YES;
-        [self.navigationController pushViewController:filterListVC animated:YES];
+        [self.navigationController pushViewController:filterListVC animated:NO];
     }else if(sender.tag==602){  //后台滤镜.
         [self stopDrawpad];  //先停止预览drawpad
         
@@ -418,5 +425,6 @@
         [drawpadPreview.videoPen switchFilter:currentFilter]; //切换滤镜.
     }
 }
+//-----------测试客户的
 @end
 

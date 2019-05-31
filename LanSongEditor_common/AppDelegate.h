@@ -27,11 +27,12 @@
 @property BOOL gDeviceListFirstShow;
 
 +(AppDelegate *)getInstance;
-@property (nonatomic,copy) NSString *currentEditVideo;
+//@property (nonatomic,copy) NSString *currentEditVideo;
 
 
-@property (nonatomic) LSOVideoBody *editVideo;
+@property (nonatomic) LSOVideoAsset *currentEditVideoAsset;
 
 
 @end
+
 

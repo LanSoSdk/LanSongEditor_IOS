@@ -29,7 +29,6 @@
     UIImage *jsonImage0;
     UIImage *jsonImage1;
     
-    LSOMediaInfo *mediaInfo;
 }
 @property UILabel *labProgress;
 
@@ -68,27 +67,30 @@
 {
 //    //奥巴马这个模板, 是先视频层, 再AE层, 最后mv;
     videoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
-    mediaInfo=[[LSOMediaInfo alloc] initWithPath:[LSOFileUtil urlToFileString:videoURL]];
-    if([mediaInfo prepare]){
-
         //增加AE图层, AE=json+image
         jsonImage0=[self createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
         NSString *jsonName=@"aobama";
         jsonPath= [[NSBundle mainBundle] pathForResource:jsonName ofType:@"json"];
         //开始创建, 先增加一个视频;
-        drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
+    
+    
+    
+    
+        drawpadExecute=[[DrawPadAEExecute alloc] init];
+    
+        //增加背景视频
+        [drawpadExecute addBgVideoWithURL:videoURL];
         //增加Ae json层
         LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
         [aeView updateImageWithKey:@"image_0" image:jsonImage0];
 
         //再增加mv图层;
-        mvColor=[[NSBundle mainBundle] URLForResource:@"ao_color" withExtension:@"mp4"];
-        mvMask = [[NSBundle mainBundle] URLForResource:@"ao_mask" withExtension:@"mp4"];
+        mvColor=[[NSBundle mainBundle] URLForResource:@"ao_mvColor" withExtension:@"mp4"];
+        mvMask = [[NSBundle mainBundle] URLForResource:@"ao_mvMask" withExtension:@"mp4"];
         [drawpadExecute addMVPen:mvColor withMask:mvMask];
 
         //开始执行
         [self startAE];
-    }
 }
 -(void)testZaoan
 {
@@ -270,6 +272,7 @@
     jsonImage0=nil;
     jsonImage1=nil;
 }
+//测试使用.
 -(NSString *)copyAEAssetToSandBox:(NSString *)srcPath dstName:(NSString *)dstName
 {
     if(srcPath==nil){
@@ -284,8 +287,6 @@
     }
     
     NSString * dstPath = [jsonDir stringByAppendingPathComponent:dstName];
-    LSDELETE(@"dst path is :%@",dstPath);
-    
     if (![[NSFileManager defaultManager] fileExistsAtPath:dstPath])  //如果文件不存在,则拷贝.
     {
         BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:dstPath error:NULL];
@@ -295,9 +296,32 @@
     }
     return jsonDir;
 }
+
+
 -(void) testJson
 {
     [self resetData];
+
+   //第二步:从沙盒里读取文件,并开始AE;
+    drawpadExecute=[[DrawPadAEExecute alloc] init];
+    
+    
+    jsonPath=[LSOFileUtil pathForResource:@"data_picture" ofType:@"json"];
+    LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
+    
+    [view updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"img_0"]];
+    [view updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"img_1"]];
+    [view updateImageWithKey:@"image_2" image:[UIImage imageNamed:@"img_2"]];
+    [view updateImageWithKey:@"image_3" image:[UIImage imageNamed:@"img_3"]];
+    [view updateImageWithKey:@"image_4" image:[UIImage imageNamed:@"img_4"]];
+    [view updateImageWithKey:@"image_5" image:[UIImage imageNamed:@"img_5"]];
+    [view updateImageWithKey:@"image_6" image:[UIImage imageNamed:@"img_6"]];
+    [view updateImageWithKey:@"image_7" image:[UIImage imageNamed:@"img_7"]];
+    [view updateImageWithKey:@"image_8" image:[UIImage imageNamed:@"img_8"]];
+    [view updateImageWithKey:@"image_9" image:[UIImage imageNamed:@"img_9"]];
+  
+    [self startAE];  //开始执行;
 }
+
 @end
 

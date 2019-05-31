@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import "LanSongLog.h"
-#import "LSOLayoutParam.h"
+#import "LSOObject.h"
 
 /*
  一些执行很快,不需要异步执行即可完成的功能.
  */
-@interface LSOVideoEditor : NSObject
+@interface LSOVideoEditor : LSOObject
 
 /**
  打印所有解码器
@@ -231,15 +230,6 @@
                     cropRect:(CGRect)rect scaleSize:(CGSize)scaleSize frameRate:(float)frameRate;
 
 /**
- 把两个视频画面拼接在一起,
- @param outW 合成后的视频宽度
- @param outH 合成后的视频高度
- @param p1 视频1的参数
- @param p2 视频2的参数
- */
--(BOOL)startLayout2Video:(int)outW height:(int)outH params1:(LSOLayoutParam *)p1 params2:(LSOLayoutParam *)p2;
-
-/**
  视频调速;
  
  如果速度设置0.5, 则慢一倍. 假如原来时长是5秒, 慢一倍后,目标视频的时长是10秒;
@@ -268,6 +258,20 @@
  
  [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
+ VideoOneDo和这个功能有些不兼容, 你可以执行得到dstPath后, 用如下代码中转一下;
+ LSOEditMode *editrmode=[[LSOEditMode alloc] initWithURL:url];
+ [editrmode setProgressBlock:^(CGFloat percent) {
+ //        NSLog(@"---percent  is :%f",percent)
+ }];
+ [editrmode setCompletionBlock:^(NSString * _Nonnull dstPath) {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ NSLog(@"---completion oK  ")
+ [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithPath:dstPath];
+ });
+ }];
+ [editrmode startImport];
+ 
+ 
  @param videoFile 输入的视频
  @param startX 开始x
  @param startY 开始坐标y
@@ -288,6 +292,19 @@
  
  (如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
  
+ VideoOneDo和这个功能有些不兼容, 你可以执行得到dstPath后, 用如下代码中转一下;
+ LSOEditMode *editrmode=[[LSOEditMode alloc] initWithURL:url];
+ [editrmode setProgressBlock:^(CGFloat percent) {
+ //        NSLog(@"---percent  is :%f",percent)
+ }];
+ [editrmode setCompletionBlock:^(NSString * _Nonnull dstPath) {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ NSLog(@"---completion oK  ")
+ [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithPath:dstPath];
+ });
+ }];
+ [editrmode startImport];
+ 
  @param videoPath 输入的视频
  @param x1 第一个区域开始X坐标
  @param y1 第一个区域开始Y坐标
@@ -305,19 +322,30 @@
 //-------------------------
 /**
  旋转视频角度
+ 此角度是为ffmpeg的画面旋转功能,
  @param videoPath 完整视频
  @param angle 角度
  */
 -(BOOL) startRotateAngle:(NSString *)videoPath angle:(float)angle;
 /**
  视频倒序,只倒序视频部分,音频不倒序;
+ [不再使用 已废弃]
  */
--(BOOL)startOnlyVideoReverse:(NSString *)videoPath;
+-(BOOL)startOnlyVideoReverse:(NSString *)videoPath DEPRECATED_ATTRIBUTE;
 
 /**
  把整个文件中的音频和视频都倒序.
+ [不再使用 已废弃]
  */
--(BOOL)startAVReverse:(NSString *)videoPath;
+-(BOOL)startAVReverse:(NSString *)videoPath DEPRECATED_ATTRIBUTE;
+
+/**
+ 视频和音频倒序
+
+ @param videoPath 视频完整路径
+ @param isReverse 是否倒序音频
+ */
+-(BOOL)startAVReverse:(NSString *)videoPath isReverseAudio:(BOOL)isReverse;
 /**
  调节视频帧率
  
@@ -398,10 +426,7 @@
 
 /**
  进度回调,
- 
  percent 百分比, 是一个整数.
- 此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;
- 比如在:assetWriterPixelBufferInput appendPixelBuffer执行后,
  如要工作在主线程,请使用:
  dispatch_async(dispatch_get_main_queue(), ^{
  });

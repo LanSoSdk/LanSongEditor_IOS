@@ -14,6 +14,8 @@
 #define kAEDEMO_XIANZI 2
 #define kAEDEMO_ZAO_AN 3
 #define kEDEMO_XIAOHUANGYA 4
+#define kEDEMO_MORE_PICTURE 5
+#define kEDEMO_REPLACE_VIDEO 6
 
 @interface AEPreviewDemoVC : UIViewController
 

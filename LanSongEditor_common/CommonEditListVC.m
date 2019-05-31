@@ -12,9 +12,10 @@
 
 @interface CommonEditListVC () <LSOFullWidthButtonsViewDelegate>
 {
-    UIView *container;
+     UIView *container;
     NSString *srcVideoPath;
     LSOProgressHUD *hud;
+    LSOVideoEditor *videoEditor;
 }
 @end
 
@@ -30,43 +31,49 @@
         make.edges.equalTo(self.view);
     }];
     
-    hud=[[LSOProgressHUD alloc] init];
-    srcVideoPath=[AppDelegate getInstance].currentEditVideo;
+     hud=[[LSOProgressHUD alloc] init];
+     srcVideoPath=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     
     scrollView.delegate=self;
     [scrollView configureView:@[
-                                @"1.背景音乐/裁剪/缩放/压缩/logo等10个功能>>",
-                                @"2.加减速",
-                                @"3.旋转90度",
-                                @"4.删除logo",
-                                @"5.调整帧率",
-                                @"6.倒序",
-                                @"7.镜像",
-                                @"8.多个视频画面拼接",
-                                @"9.多个视频时长拼接",
-                                @"10.单张图片变视频",
-                                @"11.多张图片变视频",
-                                @"12.视频转Gif(暂无)"] width:self.view.frame.size.width];
+                                @"0.背景音乐/裁剪/缩放/压缩/logo等11个功能>>",
+                                @"1.加减速",
+                                @"2.删除logo",
+                                @"3.调整帧率",
+                                @"4.倒序",
+                                @"5.多个视频画面拼接",
+                                @"6.多个视频时长拼接",
+                                @"7.多张图片变视频",
+                                @"8.视频转Gif(暂无)"] width:self.view.frame.size.width];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
 }
 
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
     if(index==0){
         UIViewController *pushVC=[[CommonEditVC alloc] init];
-        [self.navigationController pushViewController:pushVC animated:YES];
+        [self.navigationController pushViewController:pushVC animated:NO];
     }else {
         switch (index) {
             case 1:
                 [self testAdjustSpeed];
                 break;
-            case 4:
+            case 2:
+                [self testDelogo];
+                break;
+            case 3:
                 [self testAdjustFrameRate];
                 break;
-            case 5:
+            case 4:
                 [self testReverseVideo];
                 break;
             default:
-                [LanSongUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
+                 [LanSongUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
                 break;
         }
     }
@@ -77,75 +84,85 @@
  */
 -(void)testAdjustSpeed
 {
-    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    videoEditor=[[LSOVideoEditor alloc] init];
     WS(weakSelf)
-    [ffmpeg setProgressBlock:^(int percent) {
+    [videoEditor setProgressBlock:^(int percent) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            LSDELETE(@"percent  is :%d",percent)
             [weakSelf showProgress:percent];
         });
     }];
     
-    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+    [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-            [hud hide];
+           [weakSelf completedBlock:dstPath];
         });
     }];
-    [ffmpeg startAdjustVideoSpeed:srcVideoPath speed:0.5f];  //这里用速度放慢一倍来演示;
+    [videoEditor startAdjustVideoSpeed:srcVideoPath speed:0.5f];  //这里用速度放慢一倍来演示;
 }
 -(void)testAdjustFrameRate
 {
-    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    videoEditor=[[LSOVideoEditor alloc] init];
     WS(weakSelf)
-    [ffmpeg setProgressBlock:^(int percent) {
+    [videoEditor setProgressBlock:^(int percent) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf showProgress:percent];
         });
     }];
     
-    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+    [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-            [hud hide];
+           [weakSelf completedBlock:dstPath];
         });
     }];
-    [ffmpeg startAdjustFrameRate:srcVideoPath frameRate:15];
+    [videoEditor startAdjustFrameRate:srcVideoPath frameRate:20];
 }
 /**
  倒序
  */
 -(void)testReverseVideo
 {
-    LSOVideoEditor *ffmpeg=[[LSOVideoEditor alloc] init];
+    videoEditor=[[LSOVideoEditor alloc] init];
     WS(weakSelf)
-    [ffmpeg setProgressBlock:^(int percent) {
+    [videoEditor setProgressBlock:^(int percent) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf showProgress:percent];
         });
     }];
     
-    [ffmpeg setCompletionBlock:^(NSString *dstPath) {
+    [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-            [hud hide];
+            [weakSelf completedBlock:dstPath];
         });
     }];
-    [ffmpeg startAVReverse:srcVideoPath];
+    [videoEditor startAVReverse:srcVideoPath isReverseAudio:YES];
+}
+
+-(void)testDelogo
+{
+    videoEditor=[[LSOVideoEditor alloc] init];
+    WS(weakSelf)
+    [videoEditor setProgressBlock:^(int percent) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showProgress:percent];
+        });
+    }];
     
+    [videoEditor setCompletionBlock:^(NSString *dstPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf completedBlock:dstPath];
+        });
+    }];
+    [videoEditor startDeleteLogo:srcVideoPath startX:0 startY:0 width:200 height:200];
+}
+
+//------------一下是完成+进度回调;
+-(void)completedBlock:(NSString *)dst
+{
+      [hud hide];
+    [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dst];
 }
 -(void)showProgress:(int)percnet
 {
     [hud showProgress:[NSString stringWithFormat:@"进度:%d",percnet]];
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 @end
-

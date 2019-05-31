@@ -14,6 +14,7 @@
 #define LSOLog_w(fmt, ...) NSLog((@"LanSongSDK.Warning: " fmt), ##__VA_ARGS__);
 #define LSOLog_e(fmt, ...) NSLog((@"LanSongSDK.Error: " fmt), ##__VA_ARGS__);
 
+#define LSOERROR_RELEASE  LSOLog_e(@"Execution object maybe already dealloced(对象或许已经被释放.)")
 // 设置Dlog可以打印出类名,方法名,行数.
 #ifdef LANSONGSDK_DEBUG
     #define LSDELETE(fmt, ...) NSLog((@"" fmt), ##__VA_ARGS__);
@@ -44,6 +45,8 @@
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
+
+#define LSO_DELPRECATED  __attribute__((deprecated))
 
 //-------LANSO++  END
 

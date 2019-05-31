@@ -33,7 +33,8 @@
 #import "AePreviewListDemoVC.h"
 #import "CommonEditListVC.h"
 #import "AEModuleAutoSearchVC.h"
-
+#import "Demo2PenMothedVC.h"
+#import "UIView+UIImage.h"
 
 @interface MainViewController ()
 {
@@ -63,6 +64,7 @@
 #define kAEPreviewDemo 16
 #define kGameVideoDemo 17
 #define kAEModuleTextDemo 18
+#define kDemo2PenMothedVC 19
 
 
 
@@ -75,7 +77,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"蓝松专业版DEMO";  //LS
+    self.title = @"蓝松视频SDK-DEMO";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -108,7 +110,7 @@
     
     if([self needCheckBox:sender]){
         //检查是否正常.
-        if([LSOFileUtil fileExist:[AppDelegate getInstance].currentEditVideo]==NO){
+        if([LSOFileUtil fileExist:[AppDelegate getInstance].currentEditVideoAsset.videoPath]==NO){
             [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
             return ;
         }
@@ -120,7 +122,9 @@
                 NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
                 if(sampleURL!=nil){
                     labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-                    [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:sampleURL];
+                    
+                    LSOVideoAsset *videoAsset=[[LSOVideoAsset alloc] initWithURL:sampleURL];
+                    [AppDelegate getInstance].currentEditVideoAsset=videoAsset;
                 }else{
                     [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
                 }
@@ -131,11 +135,11 @@
             {
                 sender.backgroundColor=[UIColor yellowColor];
                 UIViewController  *pushVC2=[[LSOLocalVideoVC alloc] init];
-                [self.navigationController pushViewController:pushVC2 animated:YES];
+                [self.navigationController pushViewController:pushVC2 animated:NO];
             }
             break;
         case kSegmentRecordFullPort:
-            pushVC=[[CameraFullPortVC alloc] init];  
+            pushVC=[[CameraFullPortVC alloc] init];  //LSTODO
             break;
         case kSegmentRecordSegmentRecord:
             pushVC=[[CameraSegmentRecordVC alloc] init];  //分段录制.
@@ -166,17 +170,21 @@
             break;
         case kDirectPlay:
             {
-                 [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideo];
+                 [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
             }
             break;
         case kGameVideoDemo:
             pushVC=[[GameVideoDemoVC alloc] init];  //游戏录制类演示
             break;
+        case kDemo2PenMothedVC:
+            pushVC=[[Demo2PenMothedVC alloc] init];  //区域显示的演示.
+            break;
+            
         default:
             break;
     }
     if (pushVC!=nil) {
-        [self.navigationController pushViewController:pushVC animated:YES];
+        [self.navigationController pushViewController:pushVC animated:NO];
     }
 }
 
@@ -200,8 +208,11 @@
     
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
-    view=[self newButton:view index:kDemo1PenMothed hint:@"图层--移动旋转缩放叠加"];
-    view=[self newButton:view index:kVideoFilterDemo hint:@"滤镜---图层的方法"];
+    view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];
+    view=[self newButton:view index:kDemo2PenMothedVC hint:@"图层---区域显示"];
+    view=[self newButton:view index:kVideoFilterDemo hint:@"图层---滤镜"];
+    
+    
     view=[self newButton:view index:kUIPenDemo hint:@"UI图层"];
     view=[self newButton:view index:kUIPenParticleDemoVC hint:@"UI图层-粒子效果"];
     
@@ -338,13 +349,7 @@
 
 -(void)testFile
 {
-    NSString *defaultVideo=@"dy_xialu2";
-    NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
-    if(sampleURL!=nil){
-        labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-        [AppDelegate getInstance].currentEditVideo=[LSOFileUtil urlToFileString:sampleURL];
-    }else{
-        [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
-    }
+    
 }
+
 @end

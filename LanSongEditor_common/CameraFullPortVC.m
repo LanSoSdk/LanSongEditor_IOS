@@ -31,8 +31,7 @@
     float beautyLevel;
     
     UILabel *label;
-    int testCnt;
-    
+    LSOMVPen *mvPen;
 }
 @end
 
@@ -41,12 +40,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor=[UIColor whiteColor];
+   self.view.backgroundColor=[UIColor blackColor];
     [LanSongUtils setViewControllerPortrait];
     
     beautyLevel=0;
     beautyMng=[[BeautyManager alloc] init];
     
+    
+    mvPen=nil;
     
     //    iphoneX Xs 375 x 812;  (0.5625 则是667);
     //    ihponeXs-r Xs-max  414 x 896 (0.5625 则是736);
@@ -83,32 +84,58 @@
      再增加UI图层;
      先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
      */
-//    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
-//    view.backgroundColor=[UIColor clearColor];
-//    label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, lansongView.frame.size.width, lansongView.frame.size.height)];
-//    label.text=@"UI图层演示";
-//    label.textColor=[UIColor redColor];
-//    label.font = [UIFont systemFontOfSize:20.0f];
-//    [view addSubview:label];
-//    [self.view addSubview:view];
-//    [drawPadCamera addViewPen:view isFromUI:YES];
+    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+    view.backgroundColor=[UIColor clearColor];
+    label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, lansongView.frame.size.width, lansongView.frame.size.height)];
+    label.text=@"UI图层演示";
+    label.textColor=[UIColor redColor];
+    label.font = [UIFont systemFontOfSize:20.0f];
+    [view addSubview:label];
+    [self.view addSubview:view];
+    [drawPadCamera addViewPen:view isFromUI:YES];
     
     
     //增加mv图层
-//    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"daomengxing_mvColor" withExtension:@"mp4"];
-//    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"daomengxing_mvMask" withExtension:@"mp4"];
-//    LSOMVPen *mvpen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
     
-    
+    //播放
     [drawPadCamera startPreview];
     
     //初始化其他UI界面.
     [self initView];
-    
+
+    //如果你有对camera数据的要求, 用一下代码引出, 详细介绍点击见.h文件 
+//    [drawPadCamera.cameraPen setCameraSampleBufferBlock:^(CMSampleBufferRef sampleBuffer) {
+//
+//
+//        CVImageBufferRef cameraFrame = CMSampleBufferGetImageBuffer(sampleBuffer);
+//        int bufferWidth = (int) CVPixelBufferGetWidth(cameraFrame);
+//        int bufferHeight = (int) CVPixelBufferGetHeight(cameraFrame);
+//        LSOLog(@"cameraFrame---:%@, width:%d, height:%d",cameraFrame,bufferWidth,bufferHeight);
+//
+//    }];
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
     filterListVC.filterPen=drawPadCamera.cameraPen;
+    
+}
+int cntLsdelete=0;
+-(void)addMVPen
+{
+    cntLsdelete++;
+    if(cntLsdelete%3==0){
+        [drawPadCamera removePen:mvPen];
+        NSURL *colorPath=[LSOFileUtil URLForResource:@"young_mvcolor" withExtension:@"mp4"];
+        NSURL *maskPath=[LSOFileUtil URLForResource:@"young_mvcolor" withExtension:@"mp4"];
+        mvPen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
+    }else if(cntLsdelete%2==0){
+        NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"test_mvColor" withExtension:@"mp4"];
+        NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"test_mvMask" withExtension:@"mp4"];
+        mvPen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
+    }else if(cntLsdelete%5==0){
+        [drawPadCamera removePen:mvPen];
+        mvPen=nil;
+    }
 }
 -(void)progressBlock:(CGFloat)currentPts
 {
@@ -121,8 +148,10 @@
      __weak typeof(self) weakSelf = self;
         switch (sender.tag) {
             case 101 :  //filter
-                isSelectFilter=YES;
-                [self.navigationController pushViewController:filterListVC animated:YES];
+                [self addMVPen];
+                
+//                isSelectFilter=YES;
+//                [self.navigationController pushViewController:filterListVC animated:NO];
                 break;
             case  102:  //btnStart;
                 if(drawPadCamera.isRecording==NO){
@@ -172,12 +201,12 @@
         }
 }
 - (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
@@ -274,10 +303,9 @@
     btnBeauty.titleLabel.font=[UIFont systemFontOfSize:25];
     btnBeauty.tag=201;
     
-    
-    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 60, 60)];
+    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 90, 90)];
     [btnClose setTitle:@"关闭" forState:UIControlStateNormal];
-    [btnClose setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnClose setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btnClose.titleLabel.font=[UIFont systemFontOfSize:20];
     btnClose.tag=301;
     [btnClose addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];

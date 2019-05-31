@@ -54,15 +54,15 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    //        if(_AeType==kAEDEMO_AOBAMA){
-    //            [self testAobama];
-    //        }else if(_AeType==kAEDEMO_ZAO_AN){  //早安;
-    //            [self testZaoan];
-    //        }else if(_AeType==kAEDEMO_XIANZI){ //紫霞仙子
-    //            [self testZixianXiaZi];
-    //        }else{
+//        if(_AeType==kAEDEMO_AOBAMA){
+//            [self testAobama];
+//        }else if(_AeType==kAEDEMO_ZAO_AN){  //早安;
+//            [self testZaoan];
+//        }else if(_AeType==kAEDEMO_XIANZI){ //紫霞仙子
+//            [self testZixianXiaZi];
+//        }else{
     [self testJson];
-    //        }
+//        }
 }
 -(void)testAobama
 {
@@ -86,6 +86,7 @@
                 [weakSelf drawpadCompleted:dstPath];
             });
         }];
+        
         [drawpadExecute start];
     }else{
         [LanSongUtils showDialog:@"您没有创建Ae容器对象"];
@@ -187,39 +188,38 @@
     //-------------一下是正式开始...
     
     //第一步, z先找到文件;
-    NSString *dirPath=[NSString stringWithFormat:@"%@/aobama",[LSOFileUtil Path]];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *contents = [fileManager contentsOfDirectoryAtPath:dirPath error:NULL];
-    NSEnumerator *e = [contents objectEnumerator];
-    NSString *filename;
-    while ((filename = [e nextObject])) {  //列出当前文件夹下的所有文件;
-        LSDELETE(@"----------file name is :%@",filename)
-        [self parseFileName:filename dirPath:dirPath];
-    }
+        NSString *dirPath=[NSString stringWithFormat:@"%@/aobama",[LSOFileUtil Path]];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSArray *contents = [fileManager contentsOfDirectoryAtPath:dirPath error:NULL];
+        NSEnumerator *e = [contents objectEnumerator];
+        NSString *filename;
+        while ((filename = [e nextObject])) {  //列出当前文件夹下的所有文件;
+            [self parseFileName:filename dirPath:dirPath];
+        }
     
     
     
-    //开始创建, 先增加一个视频;
-    if(videoURL!=nil){
-        drawpadExecute=[[DrawPadAEExecute alloc] initWithURL:videoURL];
-    }else{
+        //开始创建, 先增加一个视频;
         drawpadExecute=[[DrawPadAEExecute alloc] init];
-    }
     
-    //增加Ae json层
-    LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
+        if(videoURL!=nil){
+            [drawpadExecute addBgVideoWithURL:videoURL];
+        }
     
-    //        for(LSOAeImage *info in aeView.imageInfoArray){
-    //            LSOLog(@"id:%@, width:%d %d, name:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
-    //        }
+        //增加Ae json层
+        LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
     
+//        for(LSOAeImage *info in aeView.imageInfoArray){
+//            LSOLog(@"id:%@, width:%d %d, name:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
+//        }
+
     [aeView updateImageByName:@"img_0.png" image:jsonImage0];  //<----通过名字来替换图片.
-    
-    //再增加mv图层;
-    [drawpadExecute addMVPen:mvColor withMask:mvMask];
-    
-    //开始执行
-    [self startAE];
+        
+        //再增加mv图层;
+        [drawpadExecute addMVPen:mvColor withMask:mvMask];
+        
+        //开始执行
+        [self startAE];
 }
 
 /**
@@ -238,13 +238,14 @@
     dirPath=[self copyAEAssetToDir:@"aobama" srcPath:mvMask dstFileName:@"aobama_c3_mvMask.mp4"];
     NSData *dataForPNGFile = UIImagePNGRepresentation(jsonImage0);
     NSString *path=[dirPath stringByAppendingPathComponent:@"/img_0.png"];
-    LSDELETE(@"path is:%@",path)
+
+    
     NSError *error = nil;
     [dataForPNGFile writeToFile:path options:NSAtomicWrite error:&error];
 }
 -(void)parseFileName:(NSString *)fileName dirPath:(NSString *)dir
 {
-    NSString *filePath=[NSString stringWithFormat:@"%@/%@",dir,fileName];
+     NSString *filePath=[NSString stringWithFormat:@"%@/%@",dir,fileName];
     if(fileName==nil || [LSOFileUtil  fileExist:filePath]==NO){
         return ;
     }
@@ -260,11 +261,11 @@
         if(image!=nil){
             jsonImage0=image;
         }else{
-            LSDELETE(@"image is nil---------");
+            LSOLog_d(@"image is nil---------");
         }
         
     }else if([fileSuffix isEqualToString:@"mp3"] ||[fileSuffix isEqualToString:@"m4a"]){
-        LSDELETE(@"暂时没有单独声音的演示.")
+        LSOLog_d(@"暂时没有单独声音的演示.")
     }else if([fileName containsString:@"_c"]){
         
         NSRange range=[fileName rangeOfString:@"_c"];
@@ -274,7 +275,7 @@
         LSOLog_i(@"当前在第 %d 层",index);
         if([fileSuffix isEqualToString:@"mp4"]){
             if([fileName containsString:@"mvColor"]){
-                mvColor=[LSOFileUtil filePathToURL:filePath];
+                 mvColor=[LSOFileUtil filePathToURL:filePath];
             }else if([fileName containsString:@"mvMask"]){
                 mvMask=[LSOFileUtil filePathToURL:filePath];
             }else{
@@ -305,7 +306,30 @@
     {
         BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:finalLocation error:NULL];
         if (!retVal) {
-            LSOLog_e(@"copy %@ asset file Error!,return NULL.may be iphone memory is not enough",srcPath);
+            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
+        }
+    }
+    return jsonDir;
+}
+-(NSString *)copyAEAssetToSandBox:(NSString *)srcPath dstFileName:(NSString *)dstName
+{
+    if(srcPath==nil){
+        LSOLog_e(@"copyAEAssetToSandBox error  srcPath is nil");
+        return nil;
+    }
+    NSString *jsonDir=[LSOFileUtil Path];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:jsonDir]){  //文件夹不存在则创建这个文件夹;
+        [fileManager createDirectoryAtPath:jsonDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString * dstPath = [jsonDir stringByAppendingPathComponent:dstName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dstPath])  //如果文件不存在,则拷贝.
+    {
+        BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:dstPath error:NULL];
+        if (!retVal) {
+            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
         }
     }
     return jsonDir;
