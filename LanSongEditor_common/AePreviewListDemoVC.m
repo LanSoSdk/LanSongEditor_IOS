@@ -7,7 +7,7 @@
 //
 
 #import "AePreviewListDemoVC.h"
-#include "LSOFullWidthButtonsView.h"
+#include "DemoFullWidthButtonsView.h"
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemoVC.h"
 
@@ -23,7 +23,7 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor grayColor];
     
-    LSOFullWidthButtonsView *scrollView=[LSOFullWidthButtonsView new];
+    DemoFullWidthButtonsView *scrollView=[DemoFullWidthButtonsView new];
     [self.view  addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -55,7 +55,7 @@
             pushVC.AeType=kEDEMO_REPLACE_VIDEO;
             break;
         default:
-            [LanSongUtils showDialog:@"暂时没有这个举例."];
+            [DemoUtils showDialog:@"暂时没有这个举例."];
             return;
     }
     [self.navigationController pushViewController:pushVC animated:NO];

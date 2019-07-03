@@ -181,4 +181,15 @@
  */
 @property (nonatomic,readonly) BOOL isRunning;
 @property (nonatomic,readonly) BOOL isRecording;
+
+
+
+/**
+ 特定用户使用;
+ */
+-(void)pauseMVPenAudioPlayer;
+/**
+ 特定用户使用
+ */
+-(void)resumeMVPenAudioPlayer;
 @end

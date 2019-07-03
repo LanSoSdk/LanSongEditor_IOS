@@ -12,7 +12,7 @@
 
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 @interface VideoPlayViewController ()
 {
@@ -40,7 +40,7 @@
     _notificationToken=0;
     
     LSOLog(@"-----------start  VideoPlayViewController-------.");
-    [LanSongUtils setViewControllerPortrait];
+    [DemoUtils setViewControllerPortrait];
     
     mInfo=[[LSOMediaInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
@@ -65,7 +65,7 @@
     }else{
         [LSOMediaInfo checkFile:self.videoPath];
         
-        [LanSongUtils showHUDToast:@"当前视频错误, 退出"];
+        [DemoUtils showHUDToast:@"当前视频错误, 退出"];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -84,7 +84,6 @@
     
     
     layer.frame = CGRectMake(0, 150, [UIScreen mainScreen].bounds.size.width, 300);
-//    layer.frame = CGRectMake(0, 50, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-50);
     layer.backgroundColor = [UIColor whiteColor].CGColor;
     
     layer.videoGravity = AVLayerVideoGravityResizeAspect;
@@ -97,9 +96,7 @@
     isPlaying=YES;
     [self setPlayerLoop];
     isUpdateSlider=YES;
-    //设置最大值最小值音量
-    //    self.volume.maximumValue =10.0f;
-    //    self.volume.minimumValue =0.0f;
+    
 }
 - (void)setPlayerLoop
 {
@@ -108,7 +105,6 @@
     
     //设置播放结束后的动作
     player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-    
     _notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [player.currentItem seekToTime:kCMTimeZero];  //这个是循环播放的.
     }];
@@ -183,9 +179,9 @@
     [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
         if (error) {
             LSOLog(@"Video could not be saved");
-            [LanSongUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
+            [DemoUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
         }else{
-            [LanSongUtils showHUDToast:@"已导出到相册"];
+            [DemoUtils showHUDToast:@"已导出到相册"];
         }
     }];
 }

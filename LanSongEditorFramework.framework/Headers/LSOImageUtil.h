@@ -10,6 +10,8 @@
 @interface LSOImageUtil : NSObject
 
 
++(UIImage*)pixelBufferToImage:(CVPixelBufferRef) pixelBufffer;
+
 /**
  图片拷贝.
  
@@ -22,7 +24,7 @@
  */
 +(UIImage *)uiImageCopy:(UIImage *)imageToCopy;
 
-+(UIImage *)uiImageCopy:(UIImage *)imageToCopy scaleSize:(CGSize)scaleSize;
++(UIImage *)uiImageCopy:(UIImage *)image scaleSize:(CGSize)scaleSize;
 
 /**
  字符串转图片

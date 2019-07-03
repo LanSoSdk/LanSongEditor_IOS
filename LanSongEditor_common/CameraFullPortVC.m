@@ -41,7 +41,7 @@
     [super viewDidLoad];
     
    self.view.backgroundColor=[UIColor blackColor];
-    [LanSongUtils setViewControllerPortrait];
+    [DemoUtils setViewControllerPortrait];
     
     beautyLevel=0;
     beautyMng=[[BeautyManager alloc] init];
@@ -102,17 +102,6 @@
     
     //初始化其他UI界面.
     [self initView];
-
-    //如果你有对camera数据的要求, 用一下代码引出, 详细介绍点击见.h文件 
-//    [drawPadCamera.cameraPen setCameraSampleBufferBlock:^(CMSampleBufferRef sampleBuffer) {
-//
-//
-//        CVImageBufferRef cameraFrame = CMSampleBufferGetImageBuffer(sampleBuffer);
-//        int bufferWidth = (int) CVPixelBufferGetWidth(cameraFrame);
-//        int bufferHeight = (int) CVPixelBufferGetHeight(cameraFrame);
-//        LSOLog(@"cameraFrame---:%@, width:%d, height:%d",cameraFrame,bufferWidth,bufferHeight);
-//
-//    }];
     
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
@@ -169,7 +158,7 @@ int cntLsdelete=0;
                     [drawPadCamera stopRecord:^(NSString *path) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                            // [drawPadCamera stopPreview];
-                            [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:path];
+                            [DemoUtils startVideoPlayerVC:self.navigationController dstPath:path];
                         });
                     }];
                 }

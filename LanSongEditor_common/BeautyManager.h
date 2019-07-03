@@ -9,7 +9,7 @@
 #import "BeautyManager.h"
 
 #import <Foundation/Foundation.h>
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 
 @interface BeautyManager : NSObject
@@ -23,7 +23,6 @@
 
 
 
-//-----------方法
 
 /**
  增加美颜

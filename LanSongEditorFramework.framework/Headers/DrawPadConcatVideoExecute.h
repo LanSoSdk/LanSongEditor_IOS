@@ -197,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
  
      [execute setCompletionBlock:^(NSString *dstPath) {
      dispatch_async(dispatch_get_main_queue(), ^{
-     [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+     [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
      });
      }];
      [execute start];

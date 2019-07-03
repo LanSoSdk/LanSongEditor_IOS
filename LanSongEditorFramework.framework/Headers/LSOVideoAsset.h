@@ -32,31 +32,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly) CGSize videoSize;
 
 
-/**
- 替换视频中的音频, 如原视频没有音频,等于直接增加音频;
-  [替换后, 视频中的音频将不存在]
- 全局函数.
- 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
-
- @param video 视频完整路径
- @param audio 音频完整路径
- @return 合并后的视频.
- */
-+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio;
-
-
-/**
- 替换视频中的音频
- [替换后, 视频中的音频将不存在]
- 全局函数.
- 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
- @param video 视频完整路径
- @param audio 音频完整路径
- @param videoRange 截取视频的哪部分, 如果不截取,则设置为kCMTimeRangeZero
- @param audioRange 截取音频的哪部分; 建议音频和视频的长度一致; 不截取则设置为kCMTimeRangeZero
- @return 合并后的视频;
- */
-+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
+///**
+// 替换视频中的音频, 如原视频没有音频,等于直接增加音频;
+//  [替换后, 视频中的音频将不存在]
+// 全局函数.
+// 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
+//
+// @param video 视频完整路径
+// @param audio 音频完整路径
+// @return 合并后的视频.
+// */
+//+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio;
+//
+//
+///**
+// 替换视频中的音频
+// [替换后, 视频中的音频将不存在]
+// 全局函数.
+// 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
+// @param video 视频完整路径
+// @param audio 音频完整路径
+// @param videoRange 截取视频的哪部分, 如果不截取,则设置为kCMTimeRangeZero
+// @param audioRange 截取音频的哪部分; 建议音频和视频的长度一致; 不截取则设置为kCMTimeRangeZero
+// @return 合并后的视频;
+// */
+//+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
 
 @end
 

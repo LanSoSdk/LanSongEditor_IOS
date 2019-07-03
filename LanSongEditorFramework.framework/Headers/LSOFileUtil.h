@@ -327,6 +327,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)createImageWithSingleColor:(UIColor *)color size:(CGSize)size;
 
+
+//返回当前bundle中的文件名字的完整路径
++(NSString *)bundlePath:(NSString *)fileName;
+//返回在当前APP下Document文件夹下的一个路径,fileName是这个路径名字;
++(NSString *)documentsPath:(NSString *)fileName;
+
 /**
  关于获取文件名:
  NSString* index=@"/Users/junzoo/Library/Application Support/iPhone Simulator/7.0.3/Applications/63925F20-AF97-4610-AF1C-B6B4157D1D92/Documents/DownLoad/books/2013_50.zip";

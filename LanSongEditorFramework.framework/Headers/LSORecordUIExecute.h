@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_END
  }];
  [uiExecute setCompletionBlock:^(NSString *dstPath) {
  dispatch_async(dispatch_get_main_queue(), ^{
- [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+ [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
  });
  
  }];

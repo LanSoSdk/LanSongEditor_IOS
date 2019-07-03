@@ -8,7 +8,7 @@
 
 #import "Demo1PenMothedVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "VideoPlayViewController.h"
 #import "LSDrawView.h"
 
@@ -40,7 +40,7 @@
     //-------------以下是ui操作-----------------------
     
     CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
     [self.view addSubview:lansongView];
     
     
@@ -81,7 +81,7 @@
     [drawpadPreview addLanSongView:lansongView];
     
     //演示增加UI图层;
-//    //先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+//    先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
 //    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
 //    view.backgroundColor=[UIColor clearColor];
 //    //在view上增加其他ui
@@ -92,7 +92,9 @@
 //    [drawpadPreview addViewPen:view isFromUI:NO];
     
     
-   
+    NSURL *color=[LSOFileUtil URLForResource:@"kd_mvColor" withExtension:@"mp4"];
+    NSURL *mask=[LSOFileUtil URLForResource:@"kd_mvMask" withExtension:@"mp4"];
+    [drawpadPreview addMVPen:color withMask:mask];
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progress) {
@@ -103,26 +105,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
-            NSString *dstPath=[LSOFileUtil genTmpMp4Path];
-            
-            //增加上原来的声音;
-            BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
-            if(ret){
-                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-                vce.videoPath=dstPath;
-                [weakSelf.navigationController pushViewController:vce animated:NO];
-            }else{
-                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-                vce.videoPath=path;
-                [weakSelf.navigationController pushViewController:vce animated:NO];
-            }
+            NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];
+            [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
     
     videoPen=drawpadPreview.videoPen;
     videoPen.loopPlay=YES;
-    
-    
     
     //开始执行,并编码
     [drawpadPreview start];

@@ -37,14 +37,16 @@
  */
 @property(nonatomic) AVPlayer *avplayer;
 
+/**
+ 是否正在播放
+ */
+@property(nonatomic,readonly) BOOL isPlaying;
 
 /**
  当前视频的时长;
  单位:秒; 等于视频的
  */
 @property(nonatomic) CGFloat duration;
-
-
 /**
  定位到指定时间;
 

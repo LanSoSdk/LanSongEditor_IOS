@@ -9,9 +9,9 @@
 #import "UIPenParticleDemoVC.h"
 
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "UIImage+imageWithColor.h"
-#import "LSOToolButtonsView.h"
+#import "DemoToolButtonsView.h"
 
 
 @interface UIPenParticleDemoVC ()<LSOToolButtonsViewDelegate>
@@ -21,7 +21,7 @@
     LSOVideoPen *videoPen;
     LSOViewPen *viewPen;
     UIView *viewPenRoot; //UI图层上的父类UI;
-    LSOToolButtonsView *toolsBtnView;
+    DemoToolButtonsView *toolsBtnView;
     
     
     
@@ -94,13 +94,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
-            NSString *dstPath=[LSOFileUtil genTmpMp4Path];
-            
-            //增加上原来的声音;
-            BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
-            VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-            vce.videoPath=ret? dstPath: path;
-            [weakSelf.navigationController pushViewController:vce animated:NO];
+            NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];
+            [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
     
@@ -119,7 +114,7 @@
 {
     CGSize size=self.view.frame.size;
     
-    lansongView=[LanSongUtils createLanSongView:size padSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize percent:0.9f];
+    lansongView=[DemoUtils createLanSongView:size padSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize percent:0.9f];
     lansongView.backgroundColor=[UIColor blackColor];
     [self.view addSubview:lansongView];
     
@@ -135,7 +130,7 @@
     }];
     
     // up layer tools
-    toolsBtnView = [[LSOToolButtonsView alloc] init];
+    toolsBtnView = [[DemoToolButtonsView alloc] init];
     toolsBtnView.delegate = self;
     
     [self.view addSubview:toolsBtnView];
@@ -160,7 +155,7 @@
             break;
         case 2:  //火焰
             isFlameMode=YES;
-            [LanSongUtils showDialog:@"滑动屏幕，游动火焰"];
+            [DemoUtils showDialog:@"滑动屏幕，游动火焰"];
             break;
         case 3:  //烟花
             [self setupYanHua];

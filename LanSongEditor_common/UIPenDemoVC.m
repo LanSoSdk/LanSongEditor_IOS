@@ -8,7 +8,7 @@
 
 #import "UIPenDemoVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "LSDrawView.h"
 
 
@@ -19,22 +19,26 @@
 #import "StoryMakeSelectColorFooterView.h"
 #import "StoryMakeStickerLabelView.h"
 #import "StoryMakeFilterFooterView.h"
-#import "LSOToolButtonsView.h"
+#import "DemoToolButtonsView.h"
 
 
 @interface UIPenDemoVC ()<LSOToolButtonsViewDelegate, StoryMakeStickerViewDelegate, StoryMakeStickerBaseViewDelegate, StoryMakeSelectColorFooterViewDelegate>
 {
     LanSongView2 *lansongView;
-     DrawPadVideoPreview *drawpadPreview;
+    DrawPadVideoPreview *drawpadPreview;
     LSOVideoPen *videoPen;
     LSDrawView *drawView;  //涂鸦;
     LSOViewPen *viewPen;
     UIView *viewPenRoot; //UI图层上的父类UI;
     
-    CAEmitterLayer *emitter;
+    
+    LSOVideoOneDo *videoOneDo;
+    DemoProgressHUD *hud;
+    
 }
 @property (nonatomic, strong) UIButton *cancelBtn;
-@property (nonatomic, strong) LSOToolButtonsView *toolsBtnView;
+@property (nonatomic, strong) UIButton *exportBtn;
+@property (nonatomic, strong) DemoToolButtonsView *toolsBtnView;
 @property (nonatomic, strong) StoryMakeStickerView *stickerFooterView;  //贴纸界面;
 @property (nonatomic, strong) StoryMakeSelectColorFooterView *colorFooterView;  //文字
 
@@ -51,6 +55,8 @@
         self.stickerViewArray = [NSMutableArray array];
         self.stickerTags = 0;
     }
+    _isRecordDrawPadMode=NO;
+    
     return self;
 }
 
@@ -62,6 +68,7 @@
 - (void)viewDidLoad {
     self.view.backgroundColor=[UIColor blackColor];
     [super viewDidLoad];
+    hud=[[DemoProgressHUD alloc] init];
     
     [self createView];
 }
@@ -94,11 +101,8 @@
     NSString *video=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     drawpadPreview=[[DrawPadVideoPreview alloc] initWithPath:video];
     
-    
     //增加显示窗口
     [drawpadPreview addLanSongView:lansongView];
-    
-    
     
     //增加UI图层;
     viewPen=[drawpadPreview addViewPen:viewPenRoot isFromUI:YES];
@@ -111,13 +115,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
                 NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
-                NSString *dstPath=[LSOFileUtil genTmpMp4Path];
-    
                 //增加上原来的声音;
-                BOOL ret=[DrawPadVideoPreview addAudioDirectly:path audio:original dstFile:dstPath];
-                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-                vce.videoPath=ret? dstPath: path;
-                [weakSelf.navigationController pushViewController:vce animated:NO];
+                NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];;
+                [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
     
@@ -126,17 +126,22 @@
     
     //开始执行,并编码
     [drawpadPreview start];
-    [drawpadPreview startRecord];
+    if(_isRecordDrawPadMode){  //如果是录屏模式,则开启录制.
+      [drawpadPreview startRecord];
+    }
 }
 -(void)progressBlock:(CGFloat)progress
 {
 }
 
+/**
+ 创建view
+ */
 - (void)createView
 {
     CGSize size=self.view.frame.size;
     
-    lansongView=[LanSongUtils createLanSongView:size padSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize percent:0.9f];
+    lansongView=[DemoUtils createLanSongView:size padSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize percent:0.9f];
     lansongView.backgroundColor=[UIColor blackColor];
     [self.view addSubview:lansongView];
     
@@ -152,6 +157,22 @@
     
     
     [self.view addSubview:self.cancelBtn];
+    if(!_isRecordDrawPadMode){
+          [self.view addSubview:self.exportBtn];
+    }else{
+        UILabel *label=[[UILabel alloc] init];
+        label.text=@"当前是: 录制模式";
+        label.textColor=[UIColor whiteColor];
+        
+        [self.view addSubview:label];
+        
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.view.mas_top).offset(SCREENAPPLYHEIGHT(31));
+            make.right.mas_equalTo(self.view.mas_right).offset(- SCREENAPPLYHEIGHT(48));
+            make.width.mas_equalTo(SCREENAPPLYHEIGHT(200));
+        }];
+    }
+    
     
     [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.view.mas_top).offset(SCREENAPPLYHEIGHT(31));
@@ -159,9 +180,16 @@
         make.height.width.mas_equalTo(SCREENAPPLYHEIGHT(48));
     }];
     
+    if(!_isRecordDrawPadMode){  //如果不是录屏模式;
+        [self.exportBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.view.mas_top).offset(SCREENAPPLYHEIGHT(31));
+            make.right.mas_equalTo(self.view.mas_right).offset(- SCREENAPPLYHEIGHT(48));
+            make.height.width.mas_equalTo(SCREENAPPLYHEIGHT(48));
+        }];
+    }
+    
     // up layer tools
     [self.view addSubview:self.toolsBtnView];
-    
     [self.view addSubview:self.stickerFooterView]; //贴纸弹出
     [self.view addSubview:self.colorFooterView]; //文字提出;
     
@@ -171,9 +199,7 @@
     }];
     
     [self.toolsBtnView configureView:@[@"贴纸",@"暂停",@"文字",@"清除"] btnWidth:50 viewWidth:self.view.frame.size.width];
-    
 }
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint point = [[touches anyObject] locationInView:self.view];
@@ -361,10 +387,10 @@
                      }];
 }
 
-- (LSOToolButtonsView *)toolsBtnView
+- (DemoToolButtonsView *)toolsBtnView
 {
     if (!_toolsBtnView) {
-        _toolsBtnView = [[LSOToolButtonsView alloc] init];
+        _toolsBtnView = [[DemoToolButtonsView alloc] init];
         _toolsBtnView.delegate = self;
     }
     return _toolsBtnView;
@@ -378,13 +404,79 @@
         _cancelBtn.layer.shadowOffset = CGSizeMake(0, 2);
         _cancelBtn.layer.shadowRadius = 2;
         _cancelBtn.layer.shadowOpacity = 0.3;
-        [_cancelBtn addTarget:self action:@selector(cancelBtnAction) forControlEvents:UIControlEventTouchUpInside];
+        _cancelBtn.tag=100;
+        [_cancelBtn addTarget:self action:@selector(cancelExportBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelBtn;
 }
-- (void)cancelBtnAction
+- (UIButton *)exportBtn {
+    if(!_exportBtn) {
+        _exportBtn = [[UIButton alloc] init];
+        [_exportBtn setTitle:@"导出" forState:UIControlStateNormal];
+        _exportBtn.layer.shadowColor = UIColorFromRGB(0, 0, 0).CGColor;
+        _exportBtn.layer.shadowOffset = CGSizeMake(0, 2);
+        _exportBtn.layer.shadowRadius = 2;
+        _exportBtn.layer.shadowOpacity = 0.3;
+        _exportBtn.tag=101;
+        [_exportBtn addTarget:self action:@selector(cancelExportBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _exportBtn;
+}
+
+- (void)cancelExportBtnAction:(UIView *)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if(sender.tag==100){
+        [self.navigationController popViewControllerAnimated:NO];
+    }else if(sender.tag==101){
+        [self exportExecute];
+    }
+}
+
+/**
+ 执行导出
+ */
+-(void)exportExecute
+{
+    //我们的方法是增加一层UI来做
+    UIGraphicsBeginImageContextWithOptions(viewPenRoot.bounds.size, NO, [[UIScreen mainScreen] scale]);
+    [viewPenRoot drawViewHierarchyInRect:viewPenRoot.bounds afterScreenUpdates:NO];
+    UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+     [self stopPreview];
+    WS(weakSelf)
+    videoOneDo=[[LSOVideoOneDo alloc] initWithNSURL:[AppDelegate getInstance].currentEditVideoAsset.videoURL];
+    [videoOneDo setOverLayPicture:screenImage];
+    
+ 
+    [videoOneDo setVideoProgressBlock:^(CGFloat currentFramePts, CGFloat percent) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf exportProgress:percent];
+        });
+    }];
+    [videoOneDo setCompletionBlock:^(NSString *video) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf exportCompleted:video];
+        });
+    }];
+    [videoOneDo start];
+/**
+ 导出进度显示
+ */
+}
+-(void)exportProgress:(CGFloat)percent;
+{
+     [hud showProgress:[NSString stringWithFormat:@"进度:%f",percent]];
+}
+
+/**
+ 导出完成显示
+ */
+-(void)exportCompleted:(NSString *)videoPath
+{
+    [hud hide];
+    [DemoUtils startVideoPlayerVC:self.navigationController dstPath:videoPath];
 }
 - (StoryMakeStickerView *)stickerFooterView
 {

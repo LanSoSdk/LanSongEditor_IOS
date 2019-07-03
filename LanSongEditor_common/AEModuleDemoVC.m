@@ -8,7 +8,7 @@
 #import "AEModuleDemoVC.h"
 
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "BlazeiceDooleView.h"
 #import "YXLabel.h"
 #import "VideoPlayViewController.h"
@@ -181,7 +181,7 @@
         
         [drawpadExecute start];
     }else{
-        [LanSongUtils showDialog:@"您没有创建Ae容器对象"];
+        [DemoUtils showDialog:@"您没有创建Ae容器对象"];
     }
 }
 -(void)drawpadProgress:(CGFloat) progress
@@ -306,19 +306,12 @@
     drawpadExecute=[[DrawPadAEExecute alloc] init];
     
     
-    jsonPath=[LSOFileUtil pathForResource:@"data_picture" ofType:@"json"];
+    jsonPath=[LSOFileUtil pathForResource:@"data223" ofType:@"json"];
     LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
     
-    [view updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"img_0"]];
-    [view updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"img_1"]];
-    [view updateImageWithKey:@"image_2" image:[UIImage imageNamed:@"img_2"]];
-    [view updateImageWithKey:@"image_3" image:[UIImage imageNamed:@"img_3"]];
-    [view updateImageWithKey:@"image_4" image:[UIImage imageNamed:@"img_4"]];
-    [view updateImageWithKey:@"image_5" image:[UIImage imageNamed:@"img_5"]];
-    [view updateImageWithKey:@"image_6" image:[UIImage imageNamed:@"img_6"]];
-    [view updateImageWithKey:@"image_7" image:[UIImage imageNamed:@"img_7"]];
-    [view updateImageWithKey:@"image_8" image:[UIImage imageNamed:@"img_8"]];
-    [view updateImageWithKey:@"image_9" image:[UIImage imageNamed:@"img_9"]];
+    [view updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"HEI_img_0"]];
+    [view updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"HEI_img_1"]];
+    [view updateImageWithKey:@"image_2" image:[UIImage imageNamed:@"HEI_img_2"]];
   
     [self startAE];  //开始执行;
 }

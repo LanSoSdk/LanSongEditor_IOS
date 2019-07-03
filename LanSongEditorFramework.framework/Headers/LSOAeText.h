@@ -28,8 +28,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  设置文本图层的字体;
+
+ @param fontPath 字体的绝对路径;
  */
--(void)setTextLayerFont:(NSString *_Nullable)font;
+-(void)setTextLayerFontPath:(NSString *_Nullable)fontPath;
+
+/**
+  设置文本图层的字体;
+
+ @param font 字体对象
+ */
+-(void)setTextLayerFont:(UIFont *_Nullable)font;
 
 
 /**

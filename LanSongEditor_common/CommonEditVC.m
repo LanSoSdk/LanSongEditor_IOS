@@ -8,13 +8,13 @@
 
 #import "CommonEditVC.h"
 #include "LSOFullWidthSwitchsView.h"
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "BeautyManager.h"
 
 /**
  视频的基本编辑;
  */
-@interface CommonEditVC () <LSOFullWidthSwitchsViewDelegate>
+@interface CommonEditVC () <DemoFullWidthSwitchsViewDelegate>
 {
     LSOVideoOneDo *videoOneDo;
     NSString *srcVideoPath;
@@ -28,7 +28,7 @@
     BOOL isExporting;
     BeautyManager *beautyMng;
 }
-@property(nonatomic) LSOProgressHUD *hud;
+@property(nonatomic) DemoProgressHUD *hud;
 
 @end
 
@@ -47,12 +47,12 @@
 
    videoOneDo=[[LSOVideoOneDo alloc] initWithNSURL:[LSOFileUtil filePathToURL:srcVideoPath]];
     if(videoOneDo==nil){
-        [LanSongUtils showDialog:@"视频错误,请选择视频"];
+        [DemoUtils showDialog:@"视频错误,请选择视频"];
     }
     videoWidth=videoOneDo.mediaInfo.width;
     videoHeight=videoOneDo.mediaInfo.height;
     isExporting=NO;
-    _hud=[[LSOProgressHUD alloc] init];
+    _hud=[[DemoProgressHUD alloc] init];
 }
 -(void)createView
 {
@@ -95,7 +95,7 @@
 -(void)doButtonClicked:(UIView *)sender
 {
     if(videoOneDo==nil){
-        [LanSongUtils showDialog:@"视频错误,请选择视频"];
+        [DemoUtils showDialog:@"视频错误,请选择视频"];
         return;
     }
     isAddLogo=NO;
@@ -209,7 +209,7 @@
     }
     
     if(isOn==NO){
-        [LanSongUtils showDialog:@"您至少选择一个功能来演示"];
+        [DemoUtils showDialog:@"您至少选择一个功能来演示"];
         return ;
     }
 
@@ -225,7 +225,7 @@
     [videoOneDo setCompletionBlock:^(NSString * _Nonnull video) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.hud hide];
-                [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:video];
+                [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:video];
             });
     }];
     

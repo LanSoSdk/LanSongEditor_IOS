@@ -7,7 +7,7 @@
 //
 
 #import "SegmentRecordProgressView.h"
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 
 //#define BAR_H 18
@@ -134,7 +134,7 @@
     }
     
     UIView *newProgressView = [self getProgressView];
-    [LanSongUtils setView:newProgressView toOriginX:newProgressX];
+    [DemoUtils setView:newProgressView toOriginX:newProgressX];
     
     [_barView addSubview:newProgressView];
     
@@ -154,7 +154,7 @@
         return;
     }
     
-    [LanSongUtils setView:lastProgressView toSizeWidth:width];
+    [DemoUtils setView:lastProgressView toSizeWidth:width];
     [self refreshIndicatorPosition];
 }
 

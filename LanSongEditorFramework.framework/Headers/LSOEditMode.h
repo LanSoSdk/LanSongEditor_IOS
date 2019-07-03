@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
 
 
-+(void)testDecoder:(NSURL *)url TAG:(NSString *)tag;
++(void)testAVAssetReader:(NSURL *)url TAG:(NSString *)tag;
 @end
 /*
  测试代码:

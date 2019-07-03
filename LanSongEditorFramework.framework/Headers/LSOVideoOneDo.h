@@ -16,7 +16,7 @@
  视频的常见处理:
  当前可以完成:
  1.增加多个背景音乐+调节音量,2.裁剪时长,3.裁剪画面,4.缩放,5.增加Logo,6.增加文字,7.设置滤镜,8.设置码率(压缩),
- 9.增加美颜,10.增加封面,11增加UI界面,12,增加马赛克.13,旋转视频.
+ 9.增加美颜,10.增加封面,11增加UI界面,12,增加马赛克.13,旋转视频, 14, 叠加图片
  
  调用流程是:
  init--->setXXX--->设置进度完成回调--->start;
@@ -25,8 +25,14 @@
 
 -(id)initWithNSURL:(NSURL *)videoURL;
 
-@property (readonly,nonatomic)LSOMediaInfo *mediaInfo;
 
+/**
+ 在init后,获取当前视频的所有信息
+ */
+@property (readonly,nonatomic)LSOMediaInfo *mediaInfo;
+/**
+ 是否在运行
+ */
 @property (readonly)BOOL  isRunning;
 /**
  得到视频的宽高
@@ -46,7 +52,6 @@
  设置为0, 则静音;
  */
 @property(readwrite, nonatomic) float videoUrlVolume;
-
 /**
  裁剪开始时长
  */
@@ -55,12 +60,9 @@
  要裁剪的时长;
  */
 @property(readwrite, nonatomic) float cutDurationTimeS;
-
-
-
 /**
  设置旋转角度;
- 当前仅支持 90/180/270;
+ 当前仅支持 90/180/270 (顺时针,即3点钟是90度);
  此角度以0角度为参考.
  如果视频本身有旋转角度,则我们内部会自动旋转过来,然后再根据您设置的角度来旋转;
  */
@@ -92,8 +94,6 @@
  */
 @property (readwrite,nonatomic)int bitrate;
 
-
-
 /**
  设置压缩百分比;
  范围是0--1;
@@ -110,7 +110,7 @@
  如果没有,则等于视频的宽高;
  
  UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, encoderSize.width, encoderSize.height)];
- 执行流程是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
+ 执行流程是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->叠加图片--->缩放--->设置码率,编码;
  */
 -(void)setUIView:(UIView *)view;
 
@@ -128,6 +128,7 @@
 /**
 在视频的指定时间范围内覆盖一张图片. 类似增加封面的效果.
  
+ 和setOverLayPicture 的区别是:此方法可以设置时间;
  比如要增加封面. 则设置时间点为:0---1.0秒;
  
  注意:如果你用这个给视频增加一张封面的话, 增加好后, 分享到QQ或微信或放到mac系统上, 显示的缩略图不一定是第一帧的画面.
@@ -136,6 +137,20 @@
  @param end 结束时间, 单位秒;
  */
 -(void)setCoverPicture:(UIImage *)image startTime:(CGFloat)start endTime:(CGFloat)end;
+/**
+ 在视频上面叠加一张图片
+
+ 和setCoverPicture的区别是: 覆盖整个视频时长.
+ 说明:
+ 1. 可以和setCoverPicture 同时使用.
+ 2. 叠加后, 这个图片会缩放到和视频宽高一样的大小,并整个覆盖在视频的上面,如果图片和视频不等比例,则图片会拉伸缩放;
+ 3. 一般用在增加文字/logo/涂鸦的场合,我们的UI图层演示有例子;
+ 
+ 执行顺序是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->叠加图片--->缩放--->设置码率,编码;
+ @param image 图片
+ */
+-(void)setOverLayPicture:(UIImage *)image;
+
 /**
  增加马赛克区域.
  
@@ -245,7 +260,7 @@
  
  [videoOneDo setCompletionBlock:^(NSString * _Nonnull video) {
  dispatch_async(dispatch_get_main_queue(), ^{
- [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:video];
+ [DemoUtils startVideoPlayerVC:self.navigationController dstPath:video];
  });
  }];
  [videoOneDo setVideoProgressBlock:^(CGFloat progess,CGFloat percent) {

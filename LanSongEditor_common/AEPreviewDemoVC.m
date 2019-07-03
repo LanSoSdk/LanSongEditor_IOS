@@ -7,7 +7,7 @@
 //
 
 #import "AEPreviewDemoVC.h"
-#import "LSOProgressHUD.h"
+#import "DemoProgressHUD.h"
 
 @interface AEPreviewDemoVC ()
 {
@@ -33,7 +33,7 @@
     
     NSString *moduleName;
     
-    LSOProgressHUD *hud;
+    DemoProgressHUD *hud;
 }
 @end
 
@@ -49,9 +49,9 @@
     mvMaskURL=nil;
     mvColorURL=nil;
 
-    hud=[[LSOProgressHUD alloc] init];
+    hud=[[DemoProgressHUD alloc] init];
 
-    [self createData];
+    [self prepareAeAsset];
     [self startAEPreview];
     UIView *view=[self newButton:lansongView index:201 hint:@"替换图片"];
     view=[self newButton:view index:202 hint:@"后台处理(导出)"];
@@ -80,9 +80,11 @@
 /**
  准备各种素材
  */
--(void)createData
+-(void)prepareAeAsset
 {
     bgVideoURL=nil;
+    
+    moduleName=nil;
     switch (_AeType) {
         case kAEDEMO_AOBAMA:
             moduleName=@"aobama";
@@ -100,14 +102,19 @@
             break;
         case kEDEMO_MORE_PICTURE:
             moduleName=@"morePicture";
-            return;
+            break;
         case kEDEMO_REPLACE_VIDEO:
             moduleName=@"replaceVideo";
             break;
         default:
-            [LanSongUtils showDialog:@"暂时没有这个举例."];
+            [DemoUtils showDialog:@"暂时没有这个举例."];
             [self.navigationController popViewControllerAnimated:YES];
             return;
+    }
+    if(moduleName!=nil){
+        json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
+        mvColorURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvColor",moduleName] withExtension:@"mp4"];
+        mvMaskURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvMask",moduleName] withExtension:@"mp4"];
     }
 }
 
@@ -131,28 +138,27 @@
     if(bgVideoURL!=nil){
         [aePreview addBgVideoWithURL:bgVideoURL];
     }
-
     //增加json图层;
-    [self addAeJsonLayer];
+    LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
+    [self replaceAeAsset:aeView];
 
     //增加MV图层;
-    [self addMVLayer];
-
+    if(mvColorURL!=nil && mvMaskURL!=nil){
+        [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
+    }
     //容器大小,在增加图层后获取;
     drawpadSize=aePreview.drawpadSize;
     CGSize size=self.view.frame.size;
     if(lansongView==nil){
-        lansongView=[LanSongUtils createLanSongView:size drawpadSize:drawpadSize];
+        lansongView=[DemoUtils createLanSongView:size drawpadSize:drawpadSize];
         [self.view addSubview:lansongView];  //显示窗口增加到ui上;
     }
     [aePreview addLanSongView:lansongView];  //给容器增加显示出口.
-
-    //增加一个声音
-    if(_AeType==kEDEMO_MORE_PICTURE){  //多张图片的演示, 因为没有视频素材, 多个mp3文件;
+    //增加声音图层;[可选]
+    if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];
         [aePreview addAudio:audio volume:1.0f];
     }
-
     //增加回调
     __weak typeof(self) weakSelf = self;
     [aePreview setProgressBlock:^(CGFloat progress) {
@@ -173,30 +179,6 @@
 }
 
 /**
- 增加Ae json图层;
- */
--(void)addAeJsonLayer
-{
-    json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
-    if(json1Path!=nil){
-        LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
-        [self replaceAeAsset:aeView];
-    }
-}
-
-/**
- 增加MV图层;
- */
--(void)addMVLayer
-{
-    //因我们的素材有规律,故直接增加.
-    mvColorURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvColor",moduleName] withExtension:@"mp4"];
-    mvMaskURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvMask",moduleName] withExtension:@"mp4"];
-    if(mvColorURL!=nil && mvMaskURL!=nil){
-        [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
-    }
-}
-/**
  后台执行
  */
 -(void)startAeExecute
@@ -204,11 +186,10 @@
     [self stopAePreview];
     [self stopAeExecute];
     
-    
     //1.创建对象;
      aeExecute=[[DrawPadAEExecute alloc] init];
     
-    //增加背景视频层;
+    //增加背景视频层;[可选]
     if(bgVideoURL!=nil){
         [aeExecute addBgVideoWithURL:bgVideoURL];
     }
@@ -220,11 +201,13 @@
         [self replaceAeAsset:aeView];
     }
 
-    //3.再增加mv图层;
+    //3.再增加mv图层;[可选]
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aeExecute addMVPen:mvColorURL withMask:mvMaskURL];
     }
-    if(_AeType==kEDEMO_MORE_PICTURE){  //多张图片的演示, 因为没有视频素材, 多个mp3文件;
+    
+    //增加声音图层;[可选]
+    if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];
         [aeExecute addAudio:audio volume:1.0f];
     }
@@ -264,38 +247,37 @@
             NSURL *videoUrl=[LSOFileUtil URLForResource:@"dy_xialu2" withExtension:@"mp4"];
             [aeView updateVideoImageWithKey:@"image_0" url:videoUrl];
         } else if(_AeType ==kEDEMO_REPLACE_VIDEO){
-            
                 NSURL *videoUrl0=[LSOFileUtil URLForResource:@"dy_xialu2" withExtension:@"mp4"];
-                NSURL *videoUrl1=[LSOFileUtil URLForResource:@"replaceVideo1" withExtension:@"MOV"];
+                NSURL *videoUrl1=[LSOFileUtil URLForResource:@"replaceVideo1" withExtension:@"mp4"];
                 NSURL *videoUrl2=[LSOFileUtil URLForResource:@"replaceVideo2" withExtension:@"mp4"];
-            
-                //把第一张图片替换为视频
+
+                //第一张图片替换为视频
                 [aeView updateVideoImageWithKey:@"image_0" url:videoUrl1];
-            
-            //把第二个图片替换为视频,并设置各种选项
+
+            //第二个视频
                 LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
                 setting.isLooping=YES;
                 setting.isFrameRateSameAsJson=NO;
                 setting.startTimeS=2;
                 setting.endTimeS=8;
-            
                 [aeView updateVideoImageWithKey:@"image_1" url:videoUrl0 setting:setting];
-            
-            //把第三张图片替换为视频.
+
+                //第三个视频
                 [aeView updateVideoImageWithKey:@"image_2" url:videoUrl2];
-            
-                //你可以对指定的某一个图片替换的视频做每一帧的调整.
+
                 [aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
                     return image;
                 }];
-        }else {//给解析到的json替换图片
             
+            
+            [aeView updateTextWithOldText:@"临时测试模板--蓝松SDK" newText:@"123abcdefg蓝松科技有限公司456"];
+        }else{
             //因为我们提供的模板文件名和图片ID是一一对应的. 比如图片ID="image_0"的图片, 他对应的替换图片是xxx_img_0, 则我们有规律
             //所有这里可以用for循环来替, 如果你的图片没有规律,则分别创建成value
             for (int i=0; i<aeView.imageInfoArray.count; i++) {
                 NSString *key=[NSString stringWithFormat:@"image_%d",i];
                 UIImage *value=[UIImage imageNamed:[NSString stringWithFormat:@"%@_img_%d",moduleName,i]];
-                [aeView updateImageWithKey:key image:value];  //<--------替换图片
+                [aeView updateImageWithKey:key image:value];  //替换图片
             }
         }
     }
@@ -363,7 +345,7 @@
     aeExecute=nil;
     VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
     vce.videoPath=path;
-      [hud hide];
+    [hud hide];
     [self.navigationController pushViewController:vce animated:NO];
 }
 -(UIButton *)newButton:(UIView *)topView index:(int)index hint:(NSString *)hint
@@ -397,7 +379,7 @@
     
     switch (sender.tag) {
         case 201:  //替换图片
-            [LanSongUtils showDialog:@"为演示代码简洁, 暂时不选择图片, 此演示代码公开,请在代码中修改."];
+            [DemoUtils showDialog:@"为演示代码简洁, 暂时不选择图片, 此演示代码公开,请在代码中修改."];
             //  jsonImage0= 图片暂时不变;
              break;
         case 202:  //后台处理

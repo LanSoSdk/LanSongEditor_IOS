@@ -7,7 +7,7 @@
 //
 
 #import "RecordUIViewDemoVC.h"
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "StoryMakerFontManager.h"
 #import "UIImage+imageWithColor.h"
 #import "StoryMakeToolsView.h"

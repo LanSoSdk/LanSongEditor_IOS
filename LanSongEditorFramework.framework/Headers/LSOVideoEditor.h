@@ -15,6 +15,13 @@
  */
 @interface LSOVideoEditor : LSOObject
 
+
+/**
+ 打印SDK里用到的ffmpeg版本.
+ 当前版本是4.1.3
+ (我们大部分的功能不用ffmpeg实现.)
+ */
++(void) printFFmpegVersion;
 /**
  打印所有解码器
  */
@@ -136,7 +143,7 @@
  @param audio 音频完整路径
  @return 合并后的视频.
  */
-+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio;
++(NSString *)videoMergeAudio:(NSString *)video audio:(NSString *)audio;
 
 
 /**
@@ -150,7 +157,7 @@
  @param audioRange 截取音频的哪部分; 建议音频和视频的长度一致; 不截取则设置为kCMTimeRangeZero
  @return 合并后的视频;
  */
-+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
++(NSString *)videoMergeAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
 /**
  从视频的指定位置获取一帧图片, 
  [源代码是]:
@@ -258,20 +265,6 @@
  
  [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
- VideoOneDo和这个功能有些不兼容, 你可以执行得到dstPath后, 用如下代码中转一下;
- LSOEditMode *editrmode=[[LSOEditMode alloc] initWithURL:url];
- [editrmode setProgressBlock:^(CGFloat percent) {
- //        NSLog(@"---percent  is :%f",percent)
- }];
- [editrmode setCompletionBlock:^(NSString * _Nonnull dstPath) {
- dispatch_async(dispatch_get_main_queue(), ^{
- NSLog(@"---completion oK  ")
- [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithPath:dstPath];
- });
- }];
- [editrmode startImport];
- 
- 
  @param videoFile 输入的视频
  @param startX 开始x
  @param startY 开始坐标y
@@ -291,19 +284,6 @@
  异步执行,同一时刻只能有一个在执行;
  
  (如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
- 
- VideoOneDo和这个功能有些不兼容, 你可以执行得到dstPath后, 用如下代码中转一下;
- LSOEditMode *editrmode=[[LSOEditMode alloc] initWithURL:url];
- [editrmode setProgressBlock:^(CGFloat percent) {
- //        NSLog(@"---percent  is :%f",percent)
- }];
- [editrmode setCompletionBlock:^(NSString * _Nonnull dstPath) {
- dispatch_async(dispatch_get_main_queue(), ^{
- NSLog(@"---completion oK  ")
- [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithPath:dstPath];
- });
- }];
- [editrmode startImport];
  
  @param videoPath 输入的视频
  @param x1 第一个区域开始X坐标
@@ -329,13 +309,13 @@
 -(BOOL) startRotateAngle:(NSString *)videoPath angle:(float)angle;
 /**
  视频倒序,只倒序视频部分,音频不倒序;
- [不再使用 已废弃]
+ [已废弃,请使用-(BOOL)startAVReverse:(NSString *)videoPath isReverseAudio:(BOOL)isReverse]
  */
 -(BOOL)startOnlyVideoReverse:(NSString *)videoPath DEPRECATED_ATTRIBUTE;
 
 /**
  把整个文件中的音频和视频都倒序.
- [不再使用 已废弃]
+ [已废弃,请使用-(BOOL)startAVReverse:(NSString *)videoPath isReverseAudio:(BOOL)isReverse]
  */
 -(BOOL)startAVReverse:(NSString *)videoPath DEPRECATED_ATTRIBUTE;
 
@@ -368,16 +348,25 @@
  */
 -(BOOL)startAddPitureAtXYTime:(NSString *)videoPath picPath:(NSString *)picPath x:(int)x y:(int)y startTimeS:(float)startTimeS endTimeS:(float)endTimeS;
 
-
-
-
 /**
  临时测试
  */
 -(BOOL)startVideoMask:(NSString *)videoPath bgPath:(NSString *)bgPath mask:(NSString *)maskPath;
+
+
 /**
- 执行ffmpeg的命令.
- 格式举例:
+ 取消当前正在执行的功能.
+ */
+-(void)cancelFFmpeg;
+
+/**
+ 取消正在执行的ffmpeg;
+ */
++(void)cancelFFmpeg;
+/**
+ 如果您熟悉ffmpeg的命令, 则可以通过如下举例自行扩展ffmpeg的命令.
+ 格式举例 打印版本号.:
+ 
  NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
  [cmdArray addObject:@"ffmpeg"];
  [cmdArray addObject:@"-version"];
@@ -416,7 +405,7 @@
  [cmdArray addObject:[NSString stringWithFormat:@"%d",1024*1024*2]];
  
  [cmdArray addObject:@"-y"];
- [cmdArray addObject:dstPath];
+ [cmdArray addObject:dstPath];  //<----注意, 您设置的目标文件,在完成回调里不会被调用
  
  return [self startCmd:cmdArray];  //开启成功返回YES,  失败返回NO
  @return 开始异步处理返回YES, 失败返回NO;
@@ -455,7 +444,7 @@
  }];
  [ffmpeg setCompletionBlock:^(NSString *dstPath) {
  dispatch_async(dispatch_get_main_queue(), ^{
- [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+ [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
  });
  }];
  [ffmpeg startAdjustVideoSpeed:videoPath2 speed:0.5f];

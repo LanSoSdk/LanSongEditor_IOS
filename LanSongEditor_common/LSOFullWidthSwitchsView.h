@@ -6,12 +6,12 @@
 //  Copyright © 2019 sno. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-#include "LanSongUtils.h"
+#include "DemoUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@protocol LSOFullWidthSwitchsViewDelegate <NSObject>
+@protocol DemoFullWidthSwitchsViewDelegate <NSObject>
 
 - (void)LSOFullWidthSwitchsViewSelected:(int)index isOn:(BOOL)isOn;
 @end
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)configureView:(NSArray *)array width:(CGFloat)width;
 
-@property (nonatomic, weak) id <LSOFullWidthSwitchsViewDelegate> delegateObj;
+@property (nonatomic, weak) id <DemoFullWidthSwitchsViewDelegate> delegateObj;
 @property (nonnull,readonly)NSMutableArray *uiswitchArray;
 
 

@@ -8,7 +8,7 @@
 
 #import "AEModuleAutoSearchVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "BlazeiceDooleView.h"
 #import "YXLabel.h"
 #import "VideoPlayViewController.h"
@@ -89,7 +89,7 @@
         
         [drawpadExecute start];
     }else{
-        [LanSongUtils showDialog:@"您没有创建Ae容器对象"];
+        [DemoUtils showDialog:@"您没有创建Ae容器对象"];
     }
 }
 -(void)drawpadProgress:(CGFloat) progress

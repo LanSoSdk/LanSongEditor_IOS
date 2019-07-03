@@ -60,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype _Nonnull)initWithID:(CALayer *)refId jsonFrameRate:(float)frameRate;
 -(void)setImage:(UIImage *)image;
 -(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;
+-(void)releaseImageLayer;
 @end
 
 NS_ASSUME_NONNULL_END

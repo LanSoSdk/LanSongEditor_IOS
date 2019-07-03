@@ -45,6 +45,18 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
 -(void)setUseOriginalSize:(BOOL)is;
 
 
+
+/**
+ 暂停mv的帧输出.
+ [为指定客户临时编写]
+ */
+-(void)pauseFrame;
+
+/**
+ 回复mv的帧输出
+ [为指定客户临时编写]
+ */
+-(void)resumeFrame;
 /*********一下是内部使用*******************/
 - (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 -(void)setPlayerId:(id)player;

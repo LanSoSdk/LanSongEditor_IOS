@@ -9,7 +9,7 @@
 #import "BitmapPadPreviewDemoVC.h"
 
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "VideoPlayViewController.h"
 
 @interface BitmapPadPreviewDemoVC ()

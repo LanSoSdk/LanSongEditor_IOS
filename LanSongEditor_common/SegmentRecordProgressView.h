@@ -8,7 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 @interface SegmentRecordProgressView : UIView
 

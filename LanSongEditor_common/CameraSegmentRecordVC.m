@@ -8,7 +8,7 @@
 
 #import "CameraSegmentRecordVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "BlazeiceDooleView.h"
 #import "FilterTpyeList.h"
 #import "SegmentRecordProgressView.h"
@@ -66,6 +66,7 @@
     
     BeautyManager *beautyMng;
     float beautyLevel;
+    LSOMVPen *mvPen;
 }
 @property (strong, nonatomic) SegmentRecordProgressView *progressBar;
 
@@ -85,7 +86,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor blackColor];
-    [LanSongUtils setViewControllerPortrait];
+    [DemoUtils setViewControllerPortrait];
     
     beautyLevel=0;
     beautyMng=[[BeautyManager alloc] init];
@@ -119,10 +120,6 @@
     bmpPen.positionY=bmpPen.penSize.height/2;
     
     
-    //增加mv图层
-    NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"mei" withExtension:@"mp4"];
-    NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"mei_b" withExtension:@"mp4"];
-    [drawPadCamera addMVPen:colorPath withMask:maskPath];
     
     //开始预览
     [drawPadCamera startPreview];
@@ -141,7 +138,6 @@
 }
 -(void)drawpadProgress:(CGFloat)currentPts
 {
-    LSOLog(@"录制进度...%f",currentPts);
     //更新时间戳.
     if(self.progressBar!=nil){
         [self.progressBar setLastSegmentPts:currentPts];
@@ -175,6 +171,11 @@
              [weakSelf drawpadProgress:progess];
         });
     }];
+    
+    if(mvPen!=nil){
+        [drawPadCamera resumeMVPenAudioPlayer];
+        [mvPen resumeFrame];
+    }
     [drawPadCamera startRecord];
 }
 
@@ -185,6 +186,10 @@
 {
     if(drawPadCamera.isRecording && currentSegmentDuration>0)
     {
+        if(mvPen!=nil){
+            [drawPadCamera pauseMVPenAudioPlayer];
+            [mvPen pauseFrame];
+        }
         [drawPadCamera stopRecord:^(NSString *path) {
             if([LSOFileUtil fileExist:path])
             {
@@ -270,11 +275,11 @@
         
         dstPath=[LSOFileUtil genTmpMp4Path];
         [LSOVideoEditor executeConcatMP4:fileArray dstFile:dstPath];  //耗时很少;
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+        [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else if(segmentArray.count==1){
         SegmentFile *data=[segmentArray objectAtIndex:0];
         dstPath=data.segmentPath;
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+        [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else{  //为空.
         LSOLog(@"segment array is empty");
     }
@@ -327,9 +332,6 @@
 
 /**
  按下录制开始
-
- @param touches <#touches description#>
- @param event <#event description#>
  */
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -350,9 +352,6 @@
 
 /**
  松开,停止录制
-
- @param touches <#touches description#>
- @param event <#event description#>
  */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -364,7 +363,7 @@
     self.progressBar = [SegmentRecordProgressView getInstance];
     self.progressBar.maxDuration=MAX_VIDEO_DURATION;
     
-    [LanSongUtils setView:_progressBar toOriginY:(DEVICE_SIZE.height*0.75f + nvheight)];
+    [DemoUtils setView:_progressBar toOriginY:(DEVICE_SIZE.height*0.75f + nvheight)];
     
     [self.view addSubview:_progressBar ];
     [_progressBar start];
@@ -389,7 +388,7 @@
     
     [_okButton setImage:[UIImage imageNamed:@"record_icon_hook_normal.png"] forState:UIControlStateNormal];
     
-    [LanSongUtils setView:_okButton toOrigin:CGPointMake(self.view.frame.size.width - okButtonW - 10, self.view.frame.size.height - okButtonW - 10)];
+    [DemoUtils setView:_okButton toOrigin:CGPointMake(self.view.frame.size.width - okButtonW - 10, self.view.frame.size.height - okButtonW - 10)];
     
     [_okButton addTarget:self action:@selector(pressOKButton) forControlEvents:UIControlEventTouchUpInside];
     
@@ -404,7 +403,7 @@
     self.deleteButton = [DeleteButton getInstance];
     [_deleteButton setButtonStyle:DeleteButtonStyleDisable];
     
-    [LanSongUtils setView:_deleteButton toOrigin:CGPointMake(15, self.view.frame.size.height - _deleteButton.frame.size.height - 10-nvheight)];
+    [DemoUtils setView:_deleteButton toOrigin:CGPointMake(15, self.view.frame.size.height - _deleteButton.frame.size.height - 10-nvheight)];
     
     [_deleteButton addTarget:self action:@selector(pressDeleteButton) forControlEvents:UIControlEventTouchUpInside];
     

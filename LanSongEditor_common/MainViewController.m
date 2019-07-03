@@ -11,7 +11,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "UIColor+Util.h"
 #import "Masonry.h"
 #import "CameraFullPortVC.h"
@@ -25,8 +25,8 @@
 
 #import "VideoEffectVC.h"
 #import "BitmapPadPreviewDemoVC.h"
-#import "LSOLocalVideoVC.h"
-#import "UIPenDemoVC.h"
+#import "DemoLocalVideoVC.h"
+#import "UIPenDemoListVC.h"
 #import "RecordUIViewDemoVC.h"
 #import "UIPenParticleDemoVC.h"
 #import "AETextVideoDemoVC.h"
@@ -35,6 +35,9 @@
 #import "AEModuleAutoSearchVC.h"
 #import "Demo2PenMothedVC.h"
 #import "UIView+UIImage.h"
+#import "ConcatVideosVC.h"
+
+#import "VideoV2HVC.h"
 
 @interface MainViewController ()
 {
@@ -77,7 +80,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"蓝松视频SDK-DEMO";
+    self.title = @"蓝松短视频SDK";
     
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
@@ -85,7 +88,7 @@
      初始化SDK
      */
      if([LanSongEditor initSDK:nil]==NO){
-        [LanSongUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
+        [DemoUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
      }else{
 //         [self showSDKInfo];
      }
@@ -94,11 +97,12 @@
      */
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
-    [self testFile];
+    
+     [DemoUtils showDialog:@"蓝松SDK提供的是纯视频编辑技术,不提供任何UI界面,此界面仅供参考.不属于SDK的一部分."];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-    [LanSongUtils setViewControllerPortrait];
+    [DemoUtils setViewControllerPortrait];
 }
 /**
  点击后, 进去界面.
@@ -108,13 +112,15 @@
     sender.backgroundColor=[UIColor whiteColor];
     UIViewController *pushVC=nil;
     
+    
     if([self needCheckBox:sender]){
         //检查是否正常.
         if([LSOFileUtil fileExist:[AppDelegate getInstance].currentEditVideoAsset.videoPath]==NO){
-            [LanSongUtils showDialog:@"请选择默认视频 或 相册视频"];
+            [DemoUtils showDialog:@"请选择默认视频 或 相册视频"];
             return ;
         }
     }
+    
     switch (sender.tag) {
         case kUseDefaultVideo:
             {
@@ -126,7 +132,7 @@
                     LSOVideoAsset *videoAsset=[[LSOVideoAsset alloc] initWithURL:sampleURL];
                     [AppDelegate getInstance].currentEditVideoAsset=videoAsset;
                 }else{
-                    [LanSongUtils showDialog:@"选择默认视频  ERROR!!"];
+                    [DemoUtils showDialog:@"选择默认视频  ERROR!!"];
                 }
                 sender.backgroundColor=[UIColor greenColor];
                 break;
@@ -134,7 +140,7 @@
         case kSelectVideo:
             {
                 sender.backgroundColor=[UIColor yellowColor];
-                UIViewController  *pushVC2=[[LSOLocalVideoVC alloc] init];
+                UIViewController  *pushVC2=[[DemoLocalVideoVC alloc] init];
                 [self.navigationController pushViewController:pushVC2 animated:NO];
             }
             break;
@@ -151,7 +157,7 @@
             pushVC=[[FilterVideoDemoVC alloc] init];  //滤镜
             break;
         case kUIPenDemo:
-            pushVC=[[UIPenDemoVC alloc] init];  //UI图层;
+            pushVC=[[UIPenDemoListVC alloc] init];  //UI图层;
             break;
         case kUIPenParticleDemoVC:
             pushVC=[[UIPenParticleDemoVC alloc] init];  //UI图层粒子效果;
@@ -170,7 +176,7 @@
             break;
         case kDirectPlay:
             {
-                 [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
+                 [DemoUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
             }
             break;
         case kGameVideoDemo:
@@ -213,7 +219,7 @@
     view=[self newButton:view index:kVideoFilterDemo hint:@"图层---滤镜"];
     
     
-    view=[self newButton:view index:kUIPenDemo hint:@"UI图层"];
+    view=[self newButton:view index:kUIPenDemo hint:@"叠加文字/贴纸/涂鸦,叠加UI图层等      >>"];
     view=[self newButton:view index:kUIPenParticleDemoVC hint:@"UI图层-粒子效果"];
     
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
@@ -223,7 +229,6 @@
     view=[self newButton:view index:kGameVideoDemo hint:@"游戏视频录制类"];
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
-    
     
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(view.mas_bottom).with.offset(40);
@@ -321,13 +326,18 @@
             make.size.mas_equalTo(CGSizeMake(size.width, 50));
         }];
     }
+    
+    
     return btn;
 }
 -(void)showSDKInfo
 {
-    NSString *available=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
+    NSString *text1=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
                          [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
-    [LanSongUtils showDialog:available];  //显示对话框.
+    [DemoUtils showDialog:text1];  //显示对话框.
+    
+    NSString *text2=[NSString stringWithFormat:@"我们SDK不包括UI界面, 本演示的所有界面都是公开代码, 不属于SDK的一部分."];
+    [DemoUtils showDialog:text2];  //显示对话框.
 }
 -(void)btnDown:(UIView *)sender
 {
@@ -345,11 +355,4 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
-
-
--(void)testFile
-{
-    
-}
-
 @end

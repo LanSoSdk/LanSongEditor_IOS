@@ -18,9 +18,9 @@
 @interface AppDelegate ()
 {
     UINavigationController *navigationController;
-    
     MainViewController  *startController;
 }
+@property(assign, nonatomic)UIBackgroundTaskIdentifier backIden;
 @end
 
 @implementation AppDelegate
@@ -63,14 +63,7 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -168,4 +161,38 @@
     AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     return appDelegate;
 }
+
+/**
+ 当APP后台运行的时候,做处理.
+ */
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [self beginBackGroundTask];
+}
+
+/**
+ 进入前台的处理.
+ */
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [self endBackGround];
+}
+
+//开始后台运行的一些任务;
+-(void)beginBackGroundTask
+{
+    NSLog(@"begin  backGround task...");
+    [LSOVideoEditor cancelFFmpeg];
+    _backIden = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        //在时间到之前会进入这个block
+        [self endBackGround];
+    }];
+}
+//注销后台
+-(void)endBackGround
+{
+    NSLog(@"endBackGround called.");
+    [[UIApplication sharedApplication] endBackgroundTask:_backIden];
+    _backIden = UIBackgroundTaskInvalid;
+}
+
+
 @end

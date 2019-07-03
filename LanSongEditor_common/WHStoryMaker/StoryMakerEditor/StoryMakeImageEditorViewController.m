@@ -15,7 +15,7 @@
 #import "StoryMakeSelectColorFooterView.h"
 #import "StoryMakeStickerLabelView.h"
 #import "StoryMakeFilterFooterView.h"
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 @interface StoryMakeImageEditorViewController ()<StoryMakeToolsViewDelegate, StoryMakeStickerViewDelegate, StoryMakeStickerBaseViewDelegate, StoryMakeSelectColorFooterViewDelegate, StoryMakeFilterFooterViewDelegate>
 

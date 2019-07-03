@@ -8,7 +8,7 @@
 
 #import "GameVideoDemoVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "VideoPlayViewController.h"
 #import "LSDrawView.h"
 
@@ -34,7 +34,7 @@
     
     //布局视频宽高
      CGSize size=self.view.frame.size;
-     lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+     lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
      [self.view addSubview:lansongView];
     
     _videoArray=[[NSMutableArray alloc] init];
@@ -178,7 +178,7 @@
                 vce.videoPath=path;
                 [self.navigationController pushViewController:vce animated:NO];
             }else{
-                [LanSongUtils showDialog:@"没有录制的视频"];
+                [DemoUtils showDialog:@"没有录制的视频"];
             }
             break;
         default:

@@ -10,12 +10,19 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongLog.h"
+#import "LSOFileUtil.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOObject : NSObject
 
 //给当前类做一个标记. TAG;
 @property (nonatomic,retain) NSString *lsoTag;
+
+/**
+ 一个类的序列号.
+ */
+@property (nonatomic,assign) int serialNumber;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -192,14 +192,4 @@
 @property (nonatomic,readonly) BOOL isRunning;
 @property (nonatomic,readonly) BOOL isRecording;
 
-/**
- 直接增加上原来的声音;
- 里面没有做mp3或aac检查,没有做时长检查,直接合并在一起;
- 
- @param video 生成的视频
- @param audio 带声音的原视频路径/或其他音频
- @param dstFile 生成的文件
- @return 成功返回true, 失败返回false;
- */
-+(BOOL)addAudioDirectly:(NSString *)video audio:(NSString*)audio dstFile:(NSString *)dstFile;
 @end

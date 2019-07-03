@@ -48,5 +48,8 @@
 
 #define LSO_DELPRECATED  __attribute__((deprecated))
 
+//返回当前bundle中的文件完整路径 NSString类型;
+#define LSOBundlePath(fileName) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:fileName]
+
 //-------LANSO++  END
 

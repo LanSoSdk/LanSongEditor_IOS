@@ -7,7 +7,7 @@
 //
 
 #import "Demo2PenMothedVC.h"
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "VideoPlayViewController.h"
 #import "LSDrawView.h"
 
@@ -27,12 +27,12 @@
     
     UIButton *btnExecute;
     DrawPadVideoExecute *videoExecute;
-    CGFloat width;
-    CGFloat height;
+    CGFloat visibleSumX;
+    CGFloat visibleSumY;
 }
 
 @property (nonatomic,assign) NSString *dstPath;
-@property (nonatomic) LSOProgressHUD *hud;
+@property (nonatomic) DemoProgressHUD *hud;
 @end
 
 @implementation Demo2PenMothedVC
@@ -44,7 +44,7 @@
     
     //-------------以下是ui操作-----------------------
     CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
     [self.view addSubview:lansongView];
     
     
@@ -60,7 +60,7 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-     _hud=[[LSOProgressHUD alloc] init];
+     _hud=[[DemoProgressHUD alloc] init];
     videoProgress=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:201 labText:@"播放进度:"];
     UISlider *currentSlide=  [self createSlide:videoProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"左侧递进"];
     currentSlide= [self createSlide:currentSlide min:0.0f max:1.0f value:0.5f tag:102 labText:@"展开合拢:"];
@@ -129,28 +129,25 @@
             break;
         case 101:  //左侧递进
             {
-                CGFloat width=videoPen.penSize.width *(sender.value);  //左边是显示整个宽度;
                 [videoPen setVisibleRectBorder:0.02f red:1.0f green:0.0f blue:0.0f alpha:1.0f];  //增加一个外边框颜色
-                [videoPen setVisibleRect:CGRectMake(0,0, width, videoPen.penSize.height)];
+                [videoPen setVisibleRectWithX:0.0 endX:sender.value startY:0.0 endY:1.0f];
             }
             break;
         case 102:  //展开合拢
             {
-                CGFloat allWidth=videoPen.penSize.width/2;
-                CGFloat vWidth=videoPen.penSize.width *(1.0f -sender.value);
                 [videoPen setVisibleRectBorder:0.00f red:1.0f green:0.0f blue:0.0f alpha:1.0f];  //不显示边框.
-                [videoPen setVisibleRect:CGRectMake(allWidth- vWidth/2, 0, vWidth, videoPen.penSize.height)];
+                [videoPen setVisibleRectWithX:(0.5 - sender.value/2) endX:(0.5+sender.value/2) startY:0.0 endY:1.0];
             }
             break;
         case 103:  //中间四周
             {
-                CGFloat width2=videoPen.penSize.width/2;
-                CGFloat vWidth=videoPen.penSize.width *(1.0f -sender.value);
-                
-                CGFloat height2=videoPen.penSize.height/2;
-                CGFloat vheight=videoPen.penSize.height *(1.0f -sender.value);
+//                CGFloat width2=videoPen.penSize.width/2;
+//                CGFloat vWidth=videoPen.penSize.width *(1.0f -sender.value);
+//
+//                CGFloat height2=videoPen.penSize.height/2;
+//                CGFloat vheight=videoPen.penSize.height *(1.0f -sender.value);
                 [videoPen setVisibleRectBorder:0.00f red:1.0f green:0.0f blue:0.0f alpha:1.0f];  //不显示边框.
-                [videoPen setVisibleRect:CGRectMake(width2- vWidth/2, height2-vheight/2, vWidth, vheight)];
+                 [videoPen setVisibleRectWithX:(0.5 - sender.value/2) endX:(0.5+sender.value/2) startY:(0.5 - sender.value/2)  endY:(0.5 + sender.value/2) ];
             }
             break;
         case 104:  //圆形展开
@@ -245,12 +242,10 @@
     videoExecute=[[DrawPadVideoExecute alloc] initWithPath:video];
      [self stopPreview];
     
-    width=videoExecute.videoPen.penSize.width/2;
-    height=videoExecute.videoPen.penSize.height/2;
     
     WS(weakSelf);
     //刚开始的时候,就区域显示;
-    [videoExecute.videoPen setVisibleRect:CGRectMake(0, 0, width,height)];
+    [videoExecute.videoPen setVisibleRectWithX:0.0 endX:1.0 startY:0.0 endY:1.0];
     [videoExecute.videoPen setVisibleRectBorder:0.02 red:1.0f green:0.0 blue:0.0 alpha:1.0f];
     
     
@@ -271,7 +266,7 @@
     [videoExecute setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.hud hide];
-            [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+            [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
     
@@ -284,15 +279,10 @@
 }
 -(void)setVisibleRect
 {
-    width+=5.0f;  //每次增加5个像素,效果是:从左上角出现呈现出来;
-    height+=5.0f;
-    if(width> videoExecute.videoPen.penSize.width){
-        width=videoExecute.videoPen.penSize.width;
-    }
-    if(height>videoExecute.videoPen.penSize.height){
-        height=videoExecute.videoPen.penSize.height;
-    }
-    [videoExecute.videoPen setVisibleRect:CGRectMake(0, 0, width,height)];
+    visibleSumX+=0.005f;  //每次增加5个像素,效果是:从左上角出现呈现出来;
+    visibleSumY+=0.005f;
+//    [videoExecute.videoPen setVisibleRect:CGRectMake(0, 0, visibleSumX,visibleSumY)];
+    [videoExecute.videoPen setVisibleRectWithX:0.0 endX:visibleSumX startY:0.0 endY:visibleSumY];
 }
 @end
 

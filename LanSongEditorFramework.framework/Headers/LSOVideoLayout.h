@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_END
  WS(weakSelf)
  [videolayout setCompletionBlock:^(NSString *dstPath) {
  dispatch_async(dispatch_get_main_queue(), ^{
- [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+ [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
  });
  }];
  [videolayout startLayout3Video:720 height:1280 params1:param1 params2:param2 params3:param3];

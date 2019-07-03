@@ -88,12 +88,15 @@
 //------------------区域显示方法;
 /**
  设置当前图层画面的可见区域: 四方形
- 此操作不变化画面本身的宽高,只是设置一部分显示, rect范围外的图像透明;
- 
- 区域的坐标是:左上角是0,0;
- @param rect 显示区域;
+
+ x是从左到右. 范围是0.0--1.0; 你可以认为是百分比,和视频宽高无关;
+ y是从上到下; 范围是0.0--1.0;
+ @param startX 始透明的开始X坐标
+ @param endX 透明的结束X坐标 最大是1.0;
+ @param startY 透明的开始Y坐标
+ @param endY 透明的结束Y坐标,最大是1.0;
  */
--(void)setVisibleRect:(CGRect) rect;
+-(void)setVisibleRectWithX:(CGFloat)startX endX:(CGFloat)endX startY:(CGFloat)startY endY:(CGFloat)endY;
 /**
  设置当前图层画面的可见区域:圆形
  此操作不变化画面本身的宽高,只是设置一部分显示, rect范围外的图像透明;

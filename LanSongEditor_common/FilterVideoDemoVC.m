@@ -8,7 +8,7 @@
 
 #import "FilterVideoDemoVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "FilterTpyeList.h"
 #import "FilterItem.h"
 #import "FilterCollectionViewCell.h"
@@ -47,7 +47,7 @@
     UISlider *filterAdjust;
 
 }
-@property     LSOProgressHUD *progressHUD;
+@property     DemoProgressHUD *progressHUD;
 @end
 
 @implementation FilterVideoDemoVC
@@ -68,7 +68,7 @@
     
     CGSize size=self.view.frame.size;
     
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
     
     
     [self.view addSubview:lansongView];
@@ -124,7 +124,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             getThumbnailing=NO;
             if(filterImageArray.count==0){
-                [LanSongUtils showDialog:@"获取视频缩略图失败,请联系我们"];
+                [DemoUtils showDialog:@"获取视频缩略图失败,请联系我们"];
             }else{
                 [_collectionView reloadData];
             }
@@ -142,7 +142,7 @@
     isSelectFilter=NO;
     drawpadExecute=nil;
     
-  [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+  [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
 }
 /**
  停止drawpad的执行.
@@ -162,7 +162,7 @@
  */
 -(void)startExecute:(LanSongFilter *)filter
 {
-    _progressHUD=[[LSOProgressHUD alloc] init];
+    _progressHUD=[[DemoProgressHUD alloc] init];
         drawpadExecute=[[DrawPadVideoExecute alloc] initWithPath:srcPath];
         //增加滤镜
         [drawpadExecute.videoPen switchFilter:filter];
@@ -349,7 +349,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==0) {
-        [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+        [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else {  //返回
         
     }

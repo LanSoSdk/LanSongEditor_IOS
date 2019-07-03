@@ -8,7 +8,7 @@
 
 #import "VideoEffectVC.h"
 
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 #import "FilterTpyeList.h"
 #import "FilterItem.h"
 #import "VideoPlayViewController.h"
@@ -46,7 +46,7 @@
     DrawPadVideoExecute *videoExecute;
   
 }
-@property (nonatomic,retain)  LSOProgressHUD *hud;
+@property (nonatomic,retain)  DemoProgressHUD *hud;
 @end
 
 @implementation VideoEffectVC
@@ -67,7 +67,7 @@
     //----------------一下是各种参数设置;
     //创建路径;
     CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
+    lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
     [self.view addSubview:lansongView];
     //抖动
     colorEdgeCnt = 0;
@@ -82,7 +82,7 @@
     
     [self initButtonView];  //布局其他界面;
     
-    _hud=[[LSOProgressHUD alloc] init];
+    _hud=[[DemoProgressHUD alloc] init];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -576,7 +576,7 @@
     [videoExecute setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
              [weakSelf.hud hide];
-            [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+            [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
     

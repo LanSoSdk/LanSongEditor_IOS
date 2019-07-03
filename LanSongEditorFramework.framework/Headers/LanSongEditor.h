@@ -105,6 +105,10 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //多个音频拼接.
 #import <LanSongEditorFramework/AudioConcatExecute.h>
 
+
+#import <LanSongEditorFramework/LSODrawPadPreview.h>
+
+
 //*************************辅助, 常见功能处理类**************************
 #import <LanSongEditorFramework/LanSongLog.h>
 //获取音视频的信息;

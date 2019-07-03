@@ -7,15 +7,17 @@
 //
 
 #import "CommonEditListVC.h"
-#include "LSOFullWidthButtonsView.h"
+#include "DemoFullWidthButtonsView.h"
 #import "CommonEditVC.h"
+#import "ConcatVideosVC.h"
 
 @interface CommonEditListVC () <LSOFullWidthButtonsViewDelegate>
 {
      UIView *container;
     NSString *srcVideoPath;
-    LSOProgressHUD *hud;
+    DemoProgressHUD *hud;
     LSOVideoEditor *videoEditor;
+    
 }
 @end
 
@@ -25,13 +27,13 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor grayColor];
     
-    LSOFullWidthButtonsView *scrollView=[LSOFullWidthButtonsView new];
+    DemoFullWidthButtonsView *scrollView=[DemoFullWidthButtonsView new];
     [self.view  addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     
-     hud=[[LSOProgressHUD alloc] init];
+     hud=[[DemoProgressHUD alloc] init];
      srcVideoPath=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
     
     scrollView.delegate=self;
@@ -72,8 +74,11 @@
             case 4:
                 [self testReverseVideo];
                 break;
+            case 6:
+                [self moreVideoConcat];  //多视频拼接
+                break;
             default:
-                 [LanSongUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
+                 [DemoUtils showDialog:@"暂时没有写演示,功能在LSOVideEditor类中."];
                 break;
         }
     }
@@ -137,6 +142,9 @@
     [videoEditor startAVReverse:srcVideoPath isReverseAudio:YES];
 }
 
+/**
+ 测试删除logo
+ */
 -(void)testDelogo
 {
     videoEditor=[[LSOVideoEditor alloc] init];
@@ -154,12 +162,17 @@
     }];
     [videoEditor startDeleteLogo:srcVideoPath startX:0 startY:0 width:200 height:200];
 }
+-(void)moreVideoConcat
+{
+    ConcatVideosVC *concatVC=[[ConcatVideosVC alloc] init];
+    [self.navigationController pushViewController:concatVC animated:NO];
+}
 
 //------------一下是完成+进度回调;
 -(void)completedBlock:(NSString *)dst
 {
       [hud hide];
-    [LanSongUtils startVideoPlayerVC:self.navigationController dstPath:dst];
+    [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dst];
 }
 -(void)showProgress:(int)percnet
 {

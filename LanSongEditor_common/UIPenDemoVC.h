@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIPenDemoVC : UIViewController
 
 
+/**
+ 是否是录制容器 模式
+ 默认不是;
+ */
+@property BOOL  isRecordDrawPadMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

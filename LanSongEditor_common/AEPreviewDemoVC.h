@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "LanSongUtils.h"
+#import "DemoUtils.h"
 
 #define kAEDEMO_AOBAMA 1
 #define kAEDEMO_XIANZI 2

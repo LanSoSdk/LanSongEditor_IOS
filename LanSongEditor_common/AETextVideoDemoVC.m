@@ -13,7 +13,7 @@
     LanSongView2 *lansongView;
     CGSize drawpadSize;
     
-    LSOProgressHUD *hud;
+    DemoProgressHUD *hud;
     UILabel *labHint;
     NSString *jsonPath;
     
@@ -34,14 +34,13 @@
     self.view.backgroundColor=[UIColor lightGrayColor];
     [self addRightBtn];
     
-    hud=[[LSOProgressHUD alloc] init];
+    hud=[[DemoProgressHUD alloc] init];
     
     CGSize size=self.view.frame.size;
-    lansongView=[LanSongUtils createLanSongView:size drawpadSize:CGSizeMake(540, 960)];
+    lansongView=[DemoUtils createLanSongView:size drawpadSize:CGSizeMake(540, 960)];
     [self.view addSubview:lansongView];  //显示窗口增加到ui上;
     [self initUI];
-    jsonPath= [[NSBundle mainBundle] pathForResource:@"textONLY3" ofType:@"json"];  //OK
-    
+    jsonPath= [[NSBundle mainBundle] pathForResource:@"textONLY3" ofType:@"json"];
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -61,21 +60,9 @@
    
     aeTextPreview=[[DrawPadAeText alloc] initWithJsonPath:jsonPath];
     [aeTextPreview addLanSongView2:lansongView];  //增加显示界面;
-    [self loadTextAudio];
+    [self loadTextAudio];  //加载声音
     
-
-
     rootJsonView=[[UIView alloc] initWithFrame:aeTextPreview.aeView.frame];
-    
-    
-//    UIImage *image=[self createImageWithText:@"这是切换的第0张图片" imageSize:CGSizeMake(400, 76) txtColor:[UIColor redColor] fontSize:25];
-//    commonTextImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 800, 400  )];
-//    commonTextImageView.image=image;
-//    commonTextImageView.backgroundColor=[UIColor whiteColor];
-//    [rootJsonView addSubview:commonTextImageView];
-//    [aeTextPreview.aeView addSubview:rootJsonView];
-    
-    
     
     lsDeleteCnt=0;
     
@@ -109,6 +96,10 @@
     [aeTextPreview startPreview];
     [aeTextPreview getPreviewVideoPen].avplayer.rate=0.5f;
 }
+
+/**
+ 加载文字声音
+ */
 -(void)loadTextAudio
 {
    // [DrawPadAeText showDebugInfo:YES];
@@ -130,6 +121,7 @@
     NSString *allText2=@"不管手机像素的高低为什么就拍不出我这该死又无处安放的魅力呢？";
     [aeTextPreview pushText:allText2 startTime:13260.0/1000.0 endTime:19495.0/1000.0];
     
+    //打印所有的文字
 //    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
 //        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
 //    }

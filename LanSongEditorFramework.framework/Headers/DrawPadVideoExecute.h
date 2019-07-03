@@ -214,7 +214,7 @@
  //        [testExecute setCompletionBlock:^(NSString *dstPath) {
  //            LSOLog(@"处理完毕");
  //            dispatch_async(dispatch_get_main_queue(), ^{
- //               [LanSongUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+ //               [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
  //            });
  //        }];
  //        [testExecute start];
