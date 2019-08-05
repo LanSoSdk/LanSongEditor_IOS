@@ -90,7 +90,7 @@
      if([LanSongEditor initSDK:nil]==NO){
         [DemoUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
      }else{
-//         [self showSDKInfo];
+         [self showSDKInfo];
      }
     /*
      删除sdk中所有的临时文件.
@@ -326,8 +326,6 @@
             make.size.mas_equalTo(CGSizeMake(size.width, 50));
         }];
     }
-    
-    
     return btn;
 }
 -(void)showSDKInfo
@@ -355,4 +353,7 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+
+
 @end

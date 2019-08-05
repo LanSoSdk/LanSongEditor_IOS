@@ -15,6 +15,7 @@
 #import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
+#import "LSOObject.h"
 
 
 /**
@@ -22,7 +23,7 @@
  
  用来Ae的各种素材合成为目标视频;
  */
-@interface DrawPadAEExecute : NSObject
+@interface DrawPadAEExecute : LSOObject
 
 /**
  当前进度的最终长度;, 进度/duration等于百分比;
@@ -68,6 +69,7 @@
 -(BOOL)addBgVideoWithURL:(NSURL *)videoUrl;
 /**
  增加UI图层;
+ [如果UI不变化, 建议把UIView转UIImage然后用addBitmapPen图片的形式增加, 不建议用此方法;]
  @param view UI图层
  @return 返回对象
  */
@@ -221,25 +223,16 @@
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 
-/**
- 在addBgVideo后, 得到视频的信息
- [不建议用]
- */
-@property (nonatomic,readonly)LSOMediaInfo *videoPenInfo;
-/**
- 在addBgVideo后, 得到视频的对象
- [不建议用]
- */
-@property (nonatomic)   LanSongMovie *videoPen;
+
 //-----------一下不再使用
--(id)initWithDrawPadSize:(CGSize)size;
+-(id)initWithDrawPadSize:(CGSize)size LSO_DELPRECATED;
 /**
  不再使用
  */
--(id)initWithURL:(NSURL *)videoPath ;
+-(id)initWithURL:(NSURL *)videoPath  LSO_DELPRECATED;
 
 /**
  不再使用
  */
--(id)initWithPath:(NSString *)videoPath;
+-(id)initWithPath:(NSString *)videoPath LSO_DELPRECATED;
 @end

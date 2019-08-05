@@ -268,6 +268,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSString *)saveUIImage:(UIImage *)image;
 
 
++(NSString *)saveYUVData:(unsigned char *)bytes length:(int)length;
+
 /**
  保存图片 默认是保存到docment下的lansongBox文件夹中;
 

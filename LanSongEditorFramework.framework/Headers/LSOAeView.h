@@ -161,7 +161,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 - (BOOL) updateTextWithLayerName:(NSString *)layerName newText:(NSString *)newText;
 /**
  更新文本
- @param textText: json中的文字; 可以用textInfoArray获得;
+ @param textText: json中的文字; 可以用textInfoArray获得;LSOAeText 中的 textContents变量
  @param newText: 新的文字
  @return 更新成功返回YES;
  */
@@ -170,12 +170,20 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  设置文本的字体库;
  
  内部使用原理是:设置到CATextLayer.font中;
- @param text json中的文字段; 用textInfoArray获得;
+ @param text json中的文字段; 用textInfoArray获得;  是LSOAeText 中的 textContents变量
  @param font 文字用到的字体的绝对路径; 测试的有:TTF格式, otf格式;
  @return
  */
 - (BOOL)updateFontWithText:(NSString *)text fontPath:(NSString *)fontPath;
 
+
+/**
+设置文本的字体
+
+ @param text 文字; 用textInfoArray获得;  是LSOAeText 中的 textContents变量
+ @param font 要设置的字体
+ @return 生成好返回YES; 没有这个text返回NO;
+ */
 - (BOOL)updateFontWithText:(NSString *)text font:(UIFont *)font;
 
 /**********************************以下SDK内部使用, 请勿使用********************************************************************/

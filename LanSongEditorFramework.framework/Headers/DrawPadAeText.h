@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
  /**
   当前json的最大行.
-  LSNEW
   */
  @property (nonatomic,readonly)int jsonMaxLine;
 
@@ -50,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  设置编码时的宽高.
- 数组可参看我们的F2文档;可选;
+  参看我们的F2文档;可选;
  在导出前设置.
  */
 @property (nonatomic,assign) int encoderBitRate;

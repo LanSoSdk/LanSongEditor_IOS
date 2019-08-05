@@ -60,7 +60,7 @@
 
 /**
  增加UI图层;
- 
+  [如果UI不变化, 建议把UIView转UIImage然后用addBitmapPen图片的形式增加, 不建议用此方法;]
  @param view UI图层
  @param from  这个UI是否来自界面, 如果你已经self.view addSubView增加了这个view,则这里设置为YES;
  @return 返回对象
@@ -237,5 +237,4 @@
 //--------------------------一下不再使用-------------------------------
 -(id)initWithURL:(NSURL *)videoPath;
 -(id)initWithPath:(NSString *)videoPath;
-@property (nonatomic)   LSOVideoPen *videoPen;
 @end

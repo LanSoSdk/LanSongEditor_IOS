@@ -13,6 +13,8 @@
 		8B0265EF1E20E70F007D3A29 /* voroni_points2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B0265ED1E20E70F007D3A29 /* voroni_points2.png */; };
 		8B0265F31E20E75B007D3A29 /* WID-small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B0265F21E20E75B007D3A29 /* WID-small.jpg */; };
 		8B0D29F121F55AAF00348CD6 /* textVideo2.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D29F021F55AAF00348CD6 /* textVideo2.json */; };
+		8B13068922F02FA000A4F2DC /* kd_mvColor.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B13068822F02F7A00A4F2DC /* kd_mvColor.mp4 */; };
+		8B13068A22F02FA000A4F2DC /* kd_mvMask.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8B13068722F02F7900A4F2DC /* kd_mvMask.mp4 */; };
 		8B1393D61ED2F08D009963C0 /* DeleteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1393D31ED2F08D009963C0 /* DeleteButton.m */; };
 		8B1393D71ED2F08D009963C0 /* ProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1393D41ED2F08D009963C0 /* ProgressBar.m */; };
 		8B13941E1ED2F211009963C0 /* touch_focus_not.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1393DE1ED2F211009963C0 /* touch_focus_not.png */; };
@@ -237,6 +239,8 @@
 		8B0265ED1E20E70F007D3A29 /* voroni_points2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voroni_points2.png; sourceTree = "<group>"; };
 		8B0265F21E20E75B007D3A29 /* WID-small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "WID-small.jpg"; sourceTree = "<group>"; };
 		8B0D29F021F55AAF00348CD6 /* textVideo2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = textVideo2.json; sourceTree = "<group>"; };
+		8B13068722F02F7900A4F2DC /* kd_mvMask.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = kd_mvMask.mp4; sourceTree = "<group>"; };
+		8B13068822F02F7A00A4F2DC /* kd_mvColor.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = kd_mvColor.mp4; sourceTree = "<group>"; };
 		8B1393D21ED2F08D009963C0 /* DeleteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteButton.h; sourceTree = "<group>"; };
 		8B1393D31ED2F08D009963C0 /* DeleteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteButton.m; sourceTree = "<group>"; };
 		8B1393D41ED2F08D009963C0 /* ProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBar.m; sourceTree = "<group>"; };
@@ -955,6 +959,8 @@
 				8B8638261D51AB29007A353C /* Info.plist */,
 				8B86381E1D51AB29007A353C /* LanSongEditor_common.xcdatamodeld */,
 				8B8638231D51AB29007A353C /* LaunchScreen.storyboard */,
+				8B13068822F02F7A00A4F2DC /* kd_mvColor.mp4 */,
+				8B13068722F02F7900A4F2DC /* kd_mvMask.mp4 */,
 				8BC3F9D022A139D9005111E8 /* morePicture_img_0.png */,
 				8BC3F9C922A139D8005111E8 /* morePicture_img_1.png */,
 				8BC3F9D222A139D9005111E8 /* morePicture_img_2.png */,
@@ -1165,6 +1171,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B13068922F02FA000A4F2DC /* kd_mvColor.mp4 in Resources */,
+				8B13068A22F02FA000A4F2DC /* kd_mvMask.mp4 in Resources */,
 				8B5B085F22A79C0B007F6DCE /* replaceVideo1.mp4 in Resources */,
 				8B5B086022A79C0B007F6DCE /* replaceVideo2.mp4 in Resources */,
 				8BB19A3822CC4A4B0023AB68 /* LanSongEditorBundle.bundle in Resources */,
@@ -1510,7 +1518,7 @@
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-FR7WV929V.com.lansongsdk.lansongeditor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lansongsdk.editor;
 				PRODUCT_NAME = LanSongEditor_DEMO;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1537,7 +1545,7 @@
 					"-ObjC",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-FR7WV929V.com.lansongsdk.lansongeditor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lansongsdk.editor;
 				PRODUCT_NAME = LanSongEditor_DEMO;
 			};
 			name = Release;

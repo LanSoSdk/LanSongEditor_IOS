@@ -175,26 +175,26 @@ static NSString * const reuseIdentifier = @"Cell";
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 12.0f) {  //测试11.4.1还是不行, 一定要大于12;
         [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithURL:url];
         [self.navigationController popViewControllerAnimated:NO];
-     }else{
-         WS(weakSelf)
-         editor=[[LSOEditMode alloc] initWithURL:url];
-         [editor setProgressBlock:^(CGFloat progess) {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [weakSelf progressBlock:progess];
-             });
-         }];
-         [editor setCompletionBlock:^(NSString * _Nonnull dstPath) {
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [weakSelf completedBlock:dstPath];
-             });
-         }];
-         [editor startImport];
-     }
+    }else{
+        WS(weakSelf)
+        editor=[[LSOEditMode alloc] initWithURL:url];
+        [editor setProgressBlock:^(CGFloat progess) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf progressBlock:progess];
+            });
+        }];
+        [editor setCompletionBlock:^(NSString * _Nonnull dstPath) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf completedBlock:dstPath];
+            });
+        }];
+        [editor startImport];
+    }
 }
 
 -(void)progressBlock:(CGFloat)progress
 {
-     [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progress]];
+    [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progress]];
 }
 -(void)completedBlock:(NSString *)dstPath
 {
@@ -225,8 +225,10 @@ static NSString * const reuseIdentifier = @"Cell";
         weakSelf.images = [[NSMutableArray alloc] init];
         [fetchResult enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             PHAsset *asset = (PHAsset *)obj;
-            [assets addObject:obj];
-            [weakSelf.images addObject:[asset imageURL:asset targetSize:size]];
+            if(obj!=nil){
+                [assets addObject:obj];
+                [weakSelf.images addObject:[asset imageURL:asset targetSize:size]];
+            }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.assets = assets;
@@ -235,3 +237,4 @@ static NSString * const reuseIdentifier = @"Cell";
     });
 }
 @end
+

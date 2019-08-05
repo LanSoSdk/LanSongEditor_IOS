@@ -355,6 +355,17 @@
 
 
 /**
+ 视频转Gif
+ 
+ @param videoPath 视频完整的路径, 可以是mp4或MOV
+ @param interval 转换gif的时候, 从视频中一秒钟提取多少帧;  ;建议设置为 5,10, 15;
+ @param size 转换为gif的时候, 设置缩放的大小
+ @param speed 转换为gif后的,gif播放速度,建议为0.3,0.5,1.0(不变),1.2,1.5;
+ @return  开始另一个线程执行,返回YES; 设置的参数错误,返回NO;
+ */
+-(BOOL)startVideoConvertToGif:(NSString *)videoPath interval:(float)interval scaleSize:(CGSize)size speed:(CGFloat)speed;
+
+/**
  取消当前正在执行的功能.
  */
 -(void)cancelFFmpeg;

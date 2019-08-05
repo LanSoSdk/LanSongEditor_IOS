@@ -19,9 +19,6 @@
 
 @interface DrawPadCameraPreview : NSObject
 
-@property (nonatomic,strong)LSOCameraPen *cameraPen;
-
-
 
 /**
  初始化
@@ -39,6 +36,13 @@
  @return <#return value description#>
  */
 -(id)initWithPreset:(NSString *)sessionPreset isFrontCamera:(BOOL)isFront view:(LanSongView2 *)view;
+
+
+/**
+ 在init后, 会拿到Camera图层;
+ */
+@property (nonatomic,strong)LSOCameraPen *cameraPen;
+
 
 @property (nonatomic) CGSize drawpadSize;
 
@@ -87,8 +91,6 @@
 
 /**
  设置录制大小,[默认用drawpadsize;不建议调用]
-
- @param size <#size description#>
  */
 -(void)setRecordSize:(CGSize)size;
 

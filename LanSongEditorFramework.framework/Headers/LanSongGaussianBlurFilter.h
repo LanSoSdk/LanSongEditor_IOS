@@ -10,14 +10,14 @@
     CGFloat _blurRadiusInPixels;
 }
 
-/** A multiplier for the spacing between texels, ranging from 0.0 on up, with a default of 1.0. Adjusting this may slightly increase the blur strength, but will introduce artifacts in the result.
- 
- 模糊的强度，数值越大，模糊效果越明显,
- 默认1.0
+/**
+ A multiplier for the spacing between texels, ranging from 0.0 on up, with a default of 1.0. Adjusting this may slightly increase the blur strength, but will introduce artifacts in the result.
  */
 @property (readwrite, nonatomic) CGFloat texelSpacingMultiplier;
 
 /**
+ 像素的模糊半径, 默认是2.0;
+ 建议最大值是50; 正常模糊是8.0;
  A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.
  */
 @property (readwrite, nonatomic) CGFloat blurRadiusInPixels;

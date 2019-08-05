@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   self.view.backgroundColor=[UIColor blackColor];
+    self.view.backgroundColor=[UIColor blackColor];
     [DemoUtils setViewControllerPortrait];
     
     beautyLevel=0;
@@ -73,13 +73,47 @@
     drawPadCamera.cameraPen.horizontallyMirrorFrontFacingCamera=YES;
     
     
-    //增加图片图层
+    //播放
+    [drawPadCamera startPreview];
+    
+    //初始化其他UI界面.
+    [self initView];
+    
+    
+    filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
+    filterListVC.filterSlider=filterSlider;
+    filterListVC.filterPen=drawPadCamera.cameraPen;
+}
+//增加图片图层
+-(void)addBitmapPen
+{
     UIImage *image=[UIImage imageNamed:@"small"];
     LSOBitmapPen *bmpPen=    [drawPadCamera addBitmapPen:image];
     bmpPen.positionX=bmpPen.drawPadSize.width-bmpPen.penSize.width/2;
     bmpPen.positionY=bmpPen.penSize.height/2;
-    
-    
+}
+/**
+ 增加一个MV图层
+ */
+-(void)addMVPen
+{
+    if(mvPen!=nil){
+        [drawPadCamera removePen:mvPen];
+        mvPen=nil;
+    }else{
+        [drawPadCamera removePen:mvPen];
+        NSURL *colorPath=[LSOFileUtil URLForResource:@"kd_mvColor" withExtension:@"mp4"];
+        NSURL *maskPath=[LSOFileUtil URLForResource:@"kd_mvMask" withExtension:@"mp4"];
+        mvPen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
+        mvPen.fillScale=YES;
+    }
+}
+
+/**
+ 增加一个UI图层;
+ */
+-(void)addViewPen
+{
     /*
      再增加UI图层;
      先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
@@ -93,104 +127,88 @@
     [view addSubview:label];
     [self.view addSubview:view];
     [drawPadCamera addViewPen:view isFromUI:YES];
-    
-    
-    //增加mv图层
-    
-    //播放
-    [drawPadCamera startPreview];
-    
-    //初始化其他UI界面.
-    [self initView];
-    
-    filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
-    filterListVC.filterSlider=filterSlider;
-    filterListVC.filterPen=drawPadCamera.cameraPen;
-    
-}
-int cntLsdelete=0;
--(void)addMVPen
-{
-    cntLsdelete++;
-    if(cntLsdelete%3==0){
-        [drawPadCamera removePen:mvPen];
-        NSURL *colorPath=[LSOFileUtil URLForResource:@"young_mvcolor" withExtension:@"mp4"];
-        NSURL *maskPath=[LSOFileUtil URLForResource:@"young_mvcolor" withExtension:@"mp4"];
-        mvPen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
-    }else if(cntLsdelete%2==0){
-        NSURL *colorPath = [[NSBundle mainBundle] URLForResource:@"test_mvColor" withExtension:@"mp4"];
-        NSURL *maskPath = [[NSBundle mainBundle] URLForResource:@"test_mvMask" withExtension:@"mp4"];
-        mvPen=[drawPadCamera addMVPen:colorPath withMask:maskPath];
-    }else if(cntLsdelete%5==0){
-        [drawPadCamera removePen:mvPen];
-        mvPen=nil;
-    }
 }
 -(void)progressBlock:(CGFloat)currentPts
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-          _labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+        _labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
     });
 }
 -(void)doButtonClicked:(UIView *)sender
 {
-     __weak typeof(self) weakSelf = self;
-        switch (sender.tag) {
-            case 101 :  //filter
-                [self addMVPen];
-                
-//                isSelectFilter=YES;
-//                [self.navigationController pushViewController:filterListVC animated:NO];
-                break;
-            case  102:  //btnStart;
-                if(drawPadCamera.isRecording==NO){
-                    [drawPadCamera startRecord];
-                    [drawPadCamera setProgressBlock:^(CGFloat progess) {
-                        [weakSelf progressBlock:progess];
-                    }];
-                }else{
-                    LSOLog(@" is recording....");
+    __weak typeof(self) weakSelf = self;
+    switch (sender.tag) {
+        case 101 :  //filter
+            isSelectFilter=YES;
+            [self.navigationController pushViewController:filterListVC animated:NO];
+            break;
+        case  102:  //btnStart;
+            if(drawPadCamera.isRecording==NO){
+                [drawPadCamera startRecord];
+                [drawPadCamera setProgressBlock:^(CGFloat progess) {
+                    [weakSelf progressBlock:progess];
+                }];
+            }else{
+                LSOLog(@" is recording....");
+            }
+            break;
+        case  103:  //btnOK;
+            if(drawPadCamera.isRecording){
+                //停止,开始播放;
+                [drawPadCamera stopRecord:^(NSString *path) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // [drawPadCamera stopPreview];
+                        [DemoUtils startVideoPlayerVC:self.navigationController dstPath:path];
+                    });
+                }];
+            }
+            break;
+        case  104:
+            if(drawPadCamera!=nil){
+                [drawPadCamera.cameraPen rotateCamera];
+            }
+            break;
+        case 201:  //美颜
+            if(beautyLevel==0){  //增加美颜
+                [beautyMng addBeauty:drawPadCamera.cameraPen];
+                beautyLevel+=0.22;
+            }else{
+                beautyLevel+=0.1;
+                [beautyMng setWarmCoolEffect:beautyLevel];
+                if(beautyLevel>1.0){ //删除美颜
+                    [beautyMng deleteBeauty:drawPadCamera.cameraPen];
+                    beautyLevel=0;
                 }
-                break;
-            case  103:  //btnOK;
-                if(drawPadCamera.isRecording){
-                    //停止,开始播放;
-                    [drawPadCamera stopRecord:^(NSString *path) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                           // [drawPadCamera stopPreview];
-                            [DemoUtils startVideoPlayerVC:self.navigationController dstPath:path];
-                        });
-                    }];
-                }
-                break;
-            case  104:
-                if(drawPadCamera!=nil){
-                    [drawPadCamera.cameraPen rotateCamera];
-                }
-                break;
-            case 201:  //美颜
-                if(beautyLevel==0){  //增加美颜
-                    [beautyMng addBeauty:drawPadCamera.cameraPen];
-                    beautyLevel+=0.22;
-                }else{
-                    beautyLevel+=0.1;
-                    [beautyMng setWarmCoolEffect:beautyLevel];
-                    if(beautyLevel>1.0){ //删除美颜
-                        [beautyMng deleteBeauty:drawPadCamera.cameraPen];
-                        beautyLevel=0;
-                    }
-                }
-                segmentSpeed.enabled= !segmentSpeed.enabled;
-                break;
-            case 301:
-                [self.navigationController popViewControllerAnimated:YES];
-                break;
-            default:
-                break;
+            }
+            segmentSpeed.enabled= !segmentSpeed.enabled;
+            break;
+        case 202:  //拍照
+        {
+            WS(weakSelf)
+            [drawPadCamera.cameraPen setSnapShotUIImage:^(UIImage *uiimage) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf showSnapSho:uiimage];
+                });
+            }];
         }
+            break;
+        case 203:
+            [self addMVPen];
+            break;
+            
+        case 301:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        default:
+            break;
+    }
+}
+-(void)showSnapSho:(UIImage *)image{
+    NSLog(@"-------snapshot save uiimage :%@",[LSOFileUtil saveUIImage:image]);
+    [DemoUtils showHUDToast:@"已抓取一帧数据.在CameraFullPortVC.m中"];
 }
 - (void)viewWillAppear:(BOOL)animated {
-
+    
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
@@ -285,6 +303,12 @@ int cntLsdelete=0;
     btnSelect.tag=104;
     
     
+    UIButton *btnAddMV=[[UIButton alloc] init];
+    [btnAddMV setTitle:@"动画" forState:UIControlStateNormal];
+    [btnAddMV setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    btnAddMV.titleLabel.font=[UIFont systemFontOfSize:25];
+    btnAddMV.tag=203;
+    
     
     UIButton *btnBeauty=[[UIButton alloc] init];
     [btnBeauty setTitle:@"美颜+/-" forState:UIControlStateNormal];
@@ -292,7 +316,16 @@ int cntLsdelete=0;
     btnBeauty.titleLabel.font=[UIFont systemFontOfSize:25];
     btnBeauty.tag=201;
     
-    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 90, 90)];
+    
+    UIButton *btnSnapShot=[[UIButton alloc] init];
+    [btnSnapShot setTitle:@"拍照" forState:UIControlStateNormal];
+    [btnSnapShot setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    btnSnapShot.titleLabel.font=[UIFont systemFontOfSize:25];
+    btnSnapShot.tag=202;
+    
+    
+    
+    UIButton *btnClose=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 150, 150)];
     [btnClose setTitle:@"关闭" forState:UIControlStateNormal];
     [btnClose setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btnClose.titleLabel.font=[UIFont systemFontOfSize:20];
@@ -308,14 +341,23 @@ int cntLsdelete=0;
     [btnFilter addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnSelect addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [btnBeauty addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [btnSnapShot addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [btnAddMV addTarget:self action:@selector(doButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     
     [self.view addSubview:btnFilter];
     [self.view addSubview:btnStart];
     [self.view addSubview:btnOK];
     [self.view addSubview:btnSelect];
-    
     [self.view addSubview:btnBeauty];
+    [self.view addSubview:btnSnapShot];
+    
+    
+    [self.view addSubview:btnAddMV];
     
     CGFloat btnWH=60;
     [btnStart mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -335,11 +377,19 @@ int cntLsdelete=0;
         make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
     }];
     
-    [btnSelect mas_makeConstraints:^(MASConstraintMaker *make) {
+    [btnSelect mas_makeConstraints:^(MASConstraintMaker *make) {  //前置;
         make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
         make.left.mas_equalTo(btnFilter.mas_right).offset(padding);
         make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
     }];
+    
+    
+    [btnAddMV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(filterSlider.mas_bottom).offset(padding);
+        make.left.mas_equalTo(btnSelect.mas_right).offset(padding);
+        make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+    }];
+    
     
     
     [btnBeauty mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -347,6 +397,14 @@ int cntLsdelete=0;
         make.centerX.mas_equalTo(self.view.mas_right).offset(-btnWH);
         make.size.mas_equalTo(CGSizeMake(btnWH*2, btnWH));
     }];
+    
+    [btnSnapShot mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(btnBeauty.mas_centerY).offset(btnWH);
+        make.centerX.mas_equalTo(self.view.mas_right).offset(-btnWH);
+        make.size.mas_equalTo(CGSizeMake(btnWH*2, btnWH));
+    }];
+    
+    
 }
 /**
  初始化一个slide 返回这个UISlider对象
@@ -390,4 +448,5 @@ int cntLsdelete=0;
 }
 
 @end
+
 

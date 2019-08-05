@@ -52,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setTextLayerFontSize:(CGFloat)fontSize;
 
 
+
 //内部使用;
 - (instancetype _Nonnull)initWithID:(id)myId;
 @end

@@ -66,7 +66,6 @@
     
     BeautyManager *beautyMng;
     float beautyLevel;
-    LSOMVPen *mvPen;
 }
 @property (strong, nonatomic) SegmentRecordProgressView *progressBar;
 
@@ -172,10 +171,6 @@
         });
     }];
     
-    if(mvPen!=nil){
-        [drawPadCamera resumeMVPenAudioPlayer];
-        [mvPen resumeFrame];
-    }
     [drawPadCamera startRecord];
 }
 
@@ -186,10 +181,6 @@
 {
     if(drawPadCamera.isRecording && currentSegmentDuration>0)
     {
-        if(mvPen!=nil){
-            [drawPadCamera pauseMVPenAudioPlayer];
-            [mvPen pauseFrame];
-        }
         [drawPadCamera stopRecord:^(NSString *path) {
             if([LSOFileUtil fileExist:path])
             {

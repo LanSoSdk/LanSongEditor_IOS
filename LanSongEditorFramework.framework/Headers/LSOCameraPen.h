@@ -66,12 +66,50 @@ xxxxx的设置.
 @property(readonly) AVCaptureDevice *inputCamera;
 
 
+
+/**
+ 抓拍一张图片
+ 拍照.
+ 设置后, 会在下一帧数据到来后,拿到数据,转换为UIImage返回;
+ 注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
+ dispatch_async(dispatch_get_main_queue(), ^{
+ .....CODEC....
+ });
+ */
+- (void)setSnapShotUIImage:(void (^)(UIImage *))handler;
+
+
+/**
+ 把当前camera中的视频数据拉出来.
+ 输出的格式是nv12;
+ 注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
+ dispatch_async(dispatch_get_main_queue(), ^{
+ .....CODEC....
+ });
+ nv12 是内部经过malloc()分配到字节, 使用后,请free(nv12);
+ nv12 是内部经过malloc()分配到字节, 使用后,请free(nv12);
+ nv12 是内部经过malloc()分配到字节, 使用后,请free(nv12);
+ nv12 是内部经过malloc()分配到字节, 使用后,请free(nv12);
+ 注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
+ */
+@property(nonatomic, copy) void(^cameraVideoDataOutBlock)(unsigned char *nv12, int width,int height);
+/**
+ 把当前camera中的声音拉出来.
+ 输出是像素点数组.
+ 注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
+ dispatch_async(dispatch_get_main_queue(), ^{
+ .....CODEC....
+ });
+ sample 是内部经过malloc()分配到字节, 使用后,请free(sample);
+ sample 是内部经过malloc()分配到字节, 使用后,请free(sample);
+ sample 是内部经过malloc()分配到字节, 使用后,请free(sample);
+ */
+@property(nonatomic, copy) void(^cameraAudioDataOutBlock)(unsigned char *sample, int length);
 /**
  设置AVCamera输入到容器中的图像角度;
  [不建议使用]
  */
 @property(readwrite, nonatomic) UIInterfaceOrientation outputImageOrientation;
-
 
 /**
  当是前置的时候, 水平是否镜像;

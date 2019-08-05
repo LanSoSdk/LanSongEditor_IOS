@@ -17,7 +17,6 @@
     LanSongView2 *lansongView;
     LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
-    LSOVideoPen *videoPen;
     
     UILabel *labProgress;
     
@@ -172,8 +171,6 @@
                 [weakSelf startAEPreview];  //如果没有编码,则让他循环播放
               });
     }];
-    videoPen=aePreview.videoPen;
-    
     //开始执行,
     [aePreview start];
 }
