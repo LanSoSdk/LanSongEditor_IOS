@@ -96,6 +96,14 @@
 -(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 
+
+/**
+ 增加一层Ae json层;
+
+ [和 addAEJsonPath不同的是: 你可以通过对json加密, 解密后的数据通过这个接口输入]
+ @param jsonData json文件解析后的数据;
+ */
+-(LSOAeView *)addAEJsonWithData:(NSData *)jsonData;
 /**
  交换两个图层的位置
  在开始前调用;
@@ -149,11 +157,6 @@
  });
  */
 @property(nonatomic, copy) void(^progressBlock)(CGFloat progress);
-
-/**
- 文字使用.
- */
-@property(nonatomic, copy) void(^frameProgressBlock)(int frames);
 
 /**
  编码完成回调, 完成后返回生成的视频路径;

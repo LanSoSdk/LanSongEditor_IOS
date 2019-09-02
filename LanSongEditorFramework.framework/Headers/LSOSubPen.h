@@ -85,6 +85,8 @@
 //------------mirror(镜像)--------------
 //在绘制的时候, 横向图像镜像, 左边的在右边, 右边的在左边;
 @property (nonatomic,assign)BOOL mirrorDrawX;
+//竖向图像镜像, 上面的放下面, 下面的放上面;
+@property (nonatomic,assign)BOOL mirrorDrawY;
 //------------------区域显示方法;
 /**
  设置当前图层画面的可见区域: 四方形

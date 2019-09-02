@@ -137,7 +137,7 @@
     if(bgVideoURL!=nil){
         [aePreview addBgVideoWithURL:bgVideoURL];
     }
-    //增加json图层;
+    //增加json图层,并切换各种素材;
     LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
     [self replaceAeAsset:aeView];
 
@@ -145,14 +145,17 @@
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
     }
-    //容器大小,在增加图层后获取;
+    
+    //容器大小,在增加图层后获取
+    //显示窗口增加到ui上
     drawpadSize=aePreview.drawpadSize;
     CGSize size=self.view.frame.size;
     if(lansongView==nil){
         lansongView=[DemoUtils createLanSongView:size drawpadSize:drawpadSize];
-        [self.view addSubview:lansongView];  //显示窗口增加到ui上;
+        [self.view addSubview:lansongView];
     }
     [aePreview addLanSongView:lansongView];  //给容器增加显示出口.
+    
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];

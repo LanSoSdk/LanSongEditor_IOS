@@ -118,6 +118,43 @@
  @return 拼接返回0:正确; 其他错误;
  */
 +(int)executeConcatMP4:(NSMutableArray *)mp4Array dstFile:(NSString *)dstFile;
+
+
+
+/**
+ 直接阻塞执行的ffmpeg的方法.
+ 举例如下:
+ 
+ NSString *mp4Path=[LSOFileUtil genTmpMp4Path];
+ 
+ NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
+ [cmdArray addObject:@"ffmpeg"];
+ 
+ [cmdArray addObject:@"-i"];
+ [cmdArray addObject:videoFile];
+ 
+ [cmdArray addObject:@"-acodec"];
+ [cmdArray addObject:@"copy"];
+ 
+ [cmdArray addObject:@"-vn"];
+ [cmdArray addObject:@"-y"];
+ [cmdArray addObject:mp4Path];
+ 
+  [LSOVideoEditor executeCmd:cmdArray];
+ 
+ 执行成功,返回YES, 失败返回NO;
+ */
++(BOOL)executeCmd:(NSMutableArray *)cmdArray;
+
+
+/**
+ mov格式的多媒体视频, 转换为MP4格式
+ @param videoFile 原视频
+ @return 转换后的视频.
+ */
++(NSString *)executeConvertMov2Mp4:(NSString*)videoFile;
+
+
 /**
  *  通过音乐地址，读取音乐数据，获得图片
  *  @param url 音乐地址
@@ -416,7 +453,7 @@
  [cmdArray addObject:[NSString stringWithFormat:@"%d",1024*1024*2]];
  
  [cmdArray addObject:@"-y"];
- [cmdArray addObject:dstPath];  //<----注意, 您设置的目标文件,在完成回调里不会被调用
+ [cmdArray addObject:dstPath];  //<----注意, 您设置的目标文件,因为拿不到你的文件路径, 故只会有回调发生, 但回调中的dstPath是null,你需要记录dstPath;
  
  return [self startCmd:cmdArray];  //开启成功返回YES,  失败返回NO
  @return 开始异步处理返回YES, 失败返回NO;

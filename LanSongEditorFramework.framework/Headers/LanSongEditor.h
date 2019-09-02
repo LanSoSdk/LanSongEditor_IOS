@@ -18,6 +18,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/LSOObject.h>
 //**************************容器类*********************************
+//各种LanSongFilter.h中的滤镜;
+#import <LanSongEditorFramework/LanSong.h>
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
 //视频后台执行容器

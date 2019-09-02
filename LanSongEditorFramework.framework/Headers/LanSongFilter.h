@@ -71,11 +71,16 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 @property(readwrite, nonatomic) BOOL preventRendering;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
 
-/// @name Initialization and teardown
+
 
 /**
- Initialize with vertex and fragment shaders
- 
+ 当执行到这个滤镜时, 是否要设置画面缩放;
+ 默认是不缩放;
+ */
+@property(readwrite, nonatomic) CGSize outputScaleSize;
+
+
+/**
  You make take advantage of the SHADER_STRING macro to write your shaders in-line.
  @param vertexShaderString Source code of the vertex shader to use
  @param fragmentShaderString Source code of the fragment shader to use

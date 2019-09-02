@@ -54,12 +54,19 @@ NS_ASSUME_NONNULL_BEGIN
 //当前json的帧率
 @property (nonatomic, readonly) CGFloat jsonFrameRate;
 
-
-
-/**********************一下为内部使用******************************************/
-- (instancetype _Nonnull)initWithID:(CALayer *)refId jsonFrameRate:(float)frameRate;
 -(void)setImage:(UIImage *)image;
 -(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;
+-(void)setVideoFrameUpdateBlock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
+
+
+/**
+ 设置在视频界面的时候的回调.
+
+ @param frameUpdateBlock 回调, 里面的3个 方法分别是,这一帧的时间戳,图像, 要顺时针旋转的角度
+ */
+-(void)setVideoDecoderFrameBlock:(UIImage *(^)(CGFloat framePts,CIImage *image,CGFloat  angle))frameUpdateBlock;
+/**********************一下为内部使用******************************************/
+- (instancetype _Nonnull)initWithID:(CALayer *)refId jsonFrameRate:(float)frameRate;
 -(void)releaseImageLayer;
 @end
 

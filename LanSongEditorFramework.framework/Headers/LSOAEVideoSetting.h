@@ -41,6 +41,40 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, assign) BOOL isSizeSameAsJson;
 
+//-------------新增加一下代码---------------------------
+
+/**
+ 视频裁剪尺寸;
+ 如果设置此功能, 则isSizeSameAsJson会等于NO,无效;
+ */
+@property(readwrite, nonatomic) CGRect videoFrameCropRect;
+
+
+
+/**
+ 对视频帧做:2D变换;
+ 
+ 如果你做设置videoFrameCropRect:  则以videoFrameCropRect的宽高为处理的宽高.
+ 如果没有设置:
+ 1.isSizeSameAsJson=YES: 则是当前json中图片id的宽高.
+ 2. isSizeSameAsJson=NO:   则是视频帧的宽高;
+ 
+ 我们内部是一个GPU渲染线程. CGAffineTransform转换为CATransform3D, 然后直接设置当前帧的状态.
+ 
+ */
+@property(readwrite, nonatomic) CGAffineTransform videoFrameAffineTransform;
+
+/**
+ 对视频帧做:3D变换,
+ 如果你做设置videoFrameCropRect:  则以videoFrameCropRect的宽高为处理的宽高.
+ 如果没有设置:
+   1.isSizeSameAsJson=YES: 则是当前json中图片id的宽高.
+   2. isSizeSameAsJson=NO:   则是视频帧的宽高;
+ 
+ 我们内部是一个GPU渲染线程. CATransform3D是直接设置当前帧的状态.
+ */
+@property(readwrite, nonatomic) CATransform3D videoFrameTransform3D;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,14 +6,29 @@
     LanSongMatrix4x4 orthographicMatrix;
 }
 
-// You can either set the transform to apply to be a 2-D affine transform or a 3-D transform. The default is the identity transform (the output image is identical to the input).
+
+/**
+ 2D变换矩阵, 可以设置, 也可以读取
+ */
 @property(readwrite, nonatomic) CGAffineTransform affineTransform;
+
+/**
+ 3D变换, 可以设置, 也可以读取
+ */
 @property(readwrite, nonatomic) CATransform3D transform3D;
 
-// This applies the transform to the raw frame data if set to YES, the default of NO takes the aspect ratio of the image input into account when rotating
+
+/**
+ 是否忽略宽高比;
+ 默认为NO. 如果忽略宽高比,则旋转可能变形; 不建议设置;
+ */
 @property(readwrite, nonatomic) BOOL ignoreAspectRatio;
 
-// sets the anchor point to top left corner
+
+/**
+ 设置锚点在左上角;
+ 默认在中心;
+ */
 @property(readwrite, nonatomic) BOOL anchorTopLeft;
 
 @end

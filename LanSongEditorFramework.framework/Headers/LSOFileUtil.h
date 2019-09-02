@@ -270,6 +270,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(NSString *)saveYUVData:(unsigned char *)bytes length:(int)length;
 
++(NSString *)saveData:(unsigned char *)bytes length:(int)length;
+
+
+/**
+ 读取一个文件到数组里
+ 
+ @param filePath 文件路径
+ @param bytes 在外部分配的内存
+ @param length 内存长度
+ @return 读取的字节数, 失败返回0;
+ */
++(int )readFileData:(NSString *)filePath bytes:(uint8_t *)bytes length:(int)length;
 /**
  保存图片 默认是保存到docment下的lansongBox文件夹中;
 

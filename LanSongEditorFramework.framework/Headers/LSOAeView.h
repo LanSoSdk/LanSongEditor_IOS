@@ -151,6 +151,18 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @return 可以设置返回YES
  */
 - (BOOL)setVideoImageFrameBlock:(NSString *)key updateblock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
+
+
+/**
+ 设置在视频解码时的回调.
+
+ 内部是异步解码线程,解码后放到到array中,再使用的时候,取走.
+ 
+ @param key json中的refId, image_0 image_1等, 给哪个id设置回调
+ @param frameUpdateBlock 视频解码一帧,会调用这个方法,让您设置, 回调里的三个方法分别是, 时间戳, 图像, 要旋转的顺时针角度(您一定要旋转这个角度才可以处理.), 回调返回的是UIImage, 我们内部会在释放后释放.
+ @return 设置好返回YES
+ */
+- (BOOL)setVideoDecoderFrameBlock:(NSString *)key updateblock:(UIImage *(^)(CGFloat framePts,CIImage *image,CGFloat angle))frameUpdateBlock;
 /**
  更新文字, 用图层的名字来更新;
 
@@ -251,5 +263,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName NS_SWIFT_NAME(init(name:));
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
++ (nonnull instancetype)animationWithFileData:(nonnull NSData *)fileData;
 @end
 NS_ASSUME_NONNULL_END

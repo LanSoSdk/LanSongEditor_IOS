@@ -89,6 +89,14 @@
 -(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 /**
+ LSNEW
+ 增加一层Ae json层;
+ 
+ [和 addAEJsonPath不同的是: 你可以通过对json加密, 解密后的数据通过这个接口输入]
+ @param jsonData json文件解析后的数据;
+ */
+-(LSOAeView *)addAEJsonWithData:(NSData *)jsonData;
+/**
  增加一个图片图层,
  可以增加多个.
 

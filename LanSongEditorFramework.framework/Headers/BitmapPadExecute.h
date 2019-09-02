@@ -25,6 +25,12 @@
  */
 +(UIImage *)getOneImage:(UIImage *)image filter:(LanSongFilter *)filter;
 /**
+ 比上面多了一个缩放;
+ scaleSize 是在输出的时候, 图片缩放到的尺寸;
+ */
++(UIImage *)getOneImage:(UIImage *)image filter:(LanSongFilter *)filter scaleSize:(CGSize)scaleSize;
+
+/**
  用一张图片,多个滤镜,得到一张滤镜后的图片.
  原理是:
  图片--->滤镜1--->滤镜2--->....->滤镜后的图片返回.
@@ -32,6 +38,8 @@
  如果有一个滤镜失败, 则增加原图片. 您可以用 [得到的图片 isEqual:原来的图片 ]来判断当前图片是否有效.(常用图片几乎都有效)
  */
 +(UIImage *)getOneImage:(UIImage *)image filterArray:(NSArray *)filters;
+
++(UIImage *)getOneImage:(UIImage *)image filterArray:(NSArray *)filters scaleSize:(CGSize)scaleSize;
 
 /**
  从一张图片 多个滤镜, 分别每个滤镜得到一张图片.
@@ -45,12 +53,15 @@
  如果有一个滤镜失败, 则增加原图片. 您可以用 [得到的图片 isEqual:原来的图片 ]来判断当前图片是否有效.(常用图片几乎都有效)
  */
 +(NSMutableArray *)getMoreImageFromOneImage:(UIImage *)image filterArray:(NSMutableArray *)filters;
+
++(NSMutableArray *)getMoreImageFromOneImage:(UIImage *)image filterArray:(NSMutableArray *)filters scaleSize:(CGSize)scaleSize;
+
 /*
  ----------------------------------------------------------------------------------------------------------------
  一下为代码演示.
  
  // 图片输入源
- inputImage = [UIImage imageNamed:@"t14.jpg"];
+ UIImage *inputImage = [UIImage imageNamed:@"t14.jpg"];
  
  
  CGSize size=self.view.frame.size;
@@ -71,19 +82,19 @@
  [array addObject:[[LanSongIFXproIIFilter alloc]init]];
  
  
- //单张图片
+ //----->单张图片
  UIImageView *view1=[[UIImageView alloc] initWithFrame:CGRectMake(startX, startY, width, height)];
  view1.image=[BitmapPadExecute getOneImage:inputImage filter:filter];
  [self.view  addSubview:view1];
  
  
- //多张图片
+ //----->多张图片
  startY+=height+5;
  UIImageView *view2=[[UIImageView alloc] initWithFrame:CGRectMake(startX, startY, width, height)];
  view2.image=[BitmapPadExecute getOneImage:inputImage filterArray:array];
  [self.view addSubview:view2];
  
- //多张图片
+ //----->多张图片
  startY+=height+5;
  NSMutableArray *retArray=[BitmapPadExecute getMoreImageFromOneImage:inputImage filterArray:array];
  

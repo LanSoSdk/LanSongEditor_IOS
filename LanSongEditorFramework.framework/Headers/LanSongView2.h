@@ -52,4 +52,5 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 -(void)setDrivePen:(LSOPen *)pen;
 -(void)resetDriver;
 @property (nonatomic)BOOL forceUpdate;
+-(void)updateDraw222;
 @end

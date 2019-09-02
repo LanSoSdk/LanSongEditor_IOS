@@ -144,6 +144,9 @@ typedef enum : NSInteger {
 //------------mirror(镜像)--------------
 //在绘制的时候, 横向图像镜像, 左边的在右边, 右边的在左边;
 @property (nonatomic,assign)BOOL mirrorDrawX;
+
+//竖向图像镜像, 上面的放下面, 下面的放上面. 默认不调整;
+@property (nonatomic,assign)BOOL mirrorDrawY;
 //---------------alpha(透明)----------
 /**
  调节当前画面中的RGBA 4个分量的百分比;

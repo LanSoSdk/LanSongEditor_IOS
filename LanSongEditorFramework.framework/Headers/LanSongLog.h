@@ -39,8 +39,8 @@
 #define LSORUN_IN_MAIN(block) dispatch_async(dispatch_get_main_queue(),block)
 
 //计算时间.
-#define LSTODO_CHECK_TIME_START CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-#define LSTODO_CHECK_TIME_END LSOLog(@"当前消耗的时间是: %0.3f(秒)", (CFAbsoluteTimeGetCurrent() - start));
+#define CHECK_TIME_START_LSDELETE CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+#define CHECK_TIME_END_LSDELETE LSOLog(@"当前消耗的时间是: %0.3f(秒)", (CFAbsoluteTimeGetCurrent() - start));
 // do something
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
@@ -49,6 +49,7 @@
 #define LSO_DELPRECATED  __attribute__((deprecated))
 
 //返回当前bundle中的文件完整路径 NSString类型;
+//举例:  UIImage *image=[UIImage imageWithContentsOfFile:LSOBundlePath(@"IMG_0285.JPG")];
 #define LSOBundlePath(fileName) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:fileName]
 
 //-------LANSO++  END
