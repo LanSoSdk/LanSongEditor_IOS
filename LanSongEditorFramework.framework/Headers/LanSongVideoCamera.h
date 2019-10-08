@@ -6,9 +6,9 @@
 #import "LanSongColorConversion.h"
 
 //Optionally override the YUV to RGB matrices
-void setColorConvert601( GLfloat conversionMatrix[9] );
-void setColorConvert601FullRange( GLfloat conversionMatrix[9] );
-void setColorConvert709( GLfloat conversionMatrix[9] );
+void setLSOColorConvert601( GLfloat conversionMatrix[9] );
+void setLSOColorConvert601FullRange( GLfloat conversionMatrix[9] );
+void setLSOColorConvert709( GLfloat conversionMatrix[9] );
 
 
 //Delegate Protocal for Face Detection.

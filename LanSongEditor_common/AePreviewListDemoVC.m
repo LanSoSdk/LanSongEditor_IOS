@@ -11,6 +11,8 @@
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemoVC.h"
 
+#import "AECompositionDemoVC.h"
+
 @interface AePreviewListDemoVC () <LSOFullWidthButtonsViewDelegate>
 {
     UIView *container;
@@ -54,6 +56,9 @@
         case 5:
             pushVC.AeType=kEDEMO_REPLACE_VIDEO;
             break;
+        case 6:
+            pushVC.AeType=kEDEMO_KADIAN;
+            break;
         default:
             [DemoUtils showDialog:@"暂时没有这个举例."];
             return;
@@ -62,12 +67,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 @end
+

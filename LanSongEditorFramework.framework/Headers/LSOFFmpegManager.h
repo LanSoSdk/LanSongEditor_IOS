@@ -29,6 +29,8 @@
                     processBlock:(void (^)(float process))processBlock
                  completionBlock:(void (^)(NSError *error))completionBlock;
 
+- (void)cancelFfmpegRun;
++ (void)cancelFfmpegRun;
 
 
 // 设置总时长
@@ -39,8 +41,6 @@
 
 // 转换停止
 + (void)stopRuning:(NSInteger)code errorString:(NSString *)errorString;
-
-
 
 /**
  设置ffmpeg中的avlog日志的回调. avlog的日志输出级别见下面.

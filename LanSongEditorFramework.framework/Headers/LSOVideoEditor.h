@@ -26,7 +26,6 @@
  打印所有解码器
  */
 +(void) printAllDecoders;
-
 /**
  打印所有编码器
  */

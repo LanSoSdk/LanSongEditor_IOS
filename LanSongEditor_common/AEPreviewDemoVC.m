@@ -160,7 +160,11 @@
     if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];
         [aePreview addAudio:audio volume:1.0f];
+    }else if(_AeType==kEDEMO_KADIAN){
+        NSURL *audio=[LSOFileUtil URLForResource:@"kadian" withExtension:@"mp3"];
+        [aePreview addAudio:audio volume:1.0f];
     }
+    
     //增加回调
     __weak typeof(self) weakSelf = self;
     [aePreview setProgressBlock:^(CGFloat progress) {

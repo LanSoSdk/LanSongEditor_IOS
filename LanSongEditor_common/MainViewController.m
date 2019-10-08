@@ -212,6 +212,7 @@
     UIView *view=[self newDefaultButton:container];
     
     
+    
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
     view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];

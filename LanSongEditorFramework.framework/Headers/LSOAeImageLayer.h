@@ -55,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) CGFloat jsonFrameRate;
 
 -(void)setImage:(UIImage *)image;
+-(void)setImageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
+
 -(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;
 -(void)setVideoFrameUpdateBlock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
 

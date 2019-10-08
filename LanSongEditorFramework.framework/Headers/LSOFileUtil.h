@@ -165,12 +165,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL) fileArrayExist:(NSMutableArray *)array;
 /**
- * @brief 创建文件夹
- *
- * @param createDir 创建文件夹路径
- * @
+  创建文件夹
+
+ @param createDir 创建文件夹的完整路径
+ @return 创建成功,返回YES;
  */
-+ (void)createDir:(NSString *)createDir;
++ (BOOL)createDir:(NSString *)createDir;
 
 /**
  在Docments文件夹下创建新的文件夹;

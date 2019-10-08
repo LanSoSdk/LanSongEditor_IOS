@@ -75,13 +75,6 @@
  */
 -(LSOViewPen *)addViewPen:(UIView *)view;
 /**
- 增加AE对象;
- [不建议使用]
- 增加后, 作为一个图层叠加在其他层的上面;
- */
--(void)addAEView:(LSOAeView *)view;
-
-/**
  增加AE的json文件;
  返回LSOAeView对象; 拿着对象可以做updateImage,updateText,updateVideo;
  几乎等于:addAEView:(LSOAeView *)view
@@ -232,7 +225,20 @@
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 
 
+
+/**
+ 第一个json 增加到容器后的json所在的图层;
+ [特定客户测试用]
+ */
+@property (nonatomic,readonly)LSOViewPen *firstJsonPen;
+
 //-----------一下不再使用
+/**
+ 增加AE对象;
+ [不建议使用]
+ 增加后, 作为一个图层叠加在其他层的上面;
+ */
+-(void)addAEView:(LSOAeView *)view;
 -(id)initWithDrawPadSize:(CGSize)size LSO_DELPRECATED;
 /**
  不再使用

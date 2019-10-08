@@ -28,19 +28,20 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
     kSubPen
 };
 
+//LSNEW: LSOPosition的枚举项前面增加k;
 typedef enum : NSInteger {
-    LSOPenLeftTop,
-    LSOPenLeftBottom,
-    LSOPenRightTop,
-    LSOPenRightBottom,
-    LSOPenCenter,
+    kLSOPenLeftTop,
+    kLSOPenLeftBottom,
+    kLSOPenRightTop,
+    kLSOPenRightBottom,
+    kLSOPenCenter,
 } LSOPosition;
 
 
 
 /**
  因为图层的的单词是Layer, 而'Layer'单词被IOS的UI使用了, 为了不使您代码中的对象命名混乱,
-        我们用Pen这个单词作为图层的父类, 只是单词变化了,和Android版本的一样是图层的意思, 一样每个图层均支持移动缩放旋转滤镜等特性
+ 我们用Pen这个单词作为图层的父类, 只是单词变化了,和Android版本的一样是图层的意思, 一样每个图层均支持移动缩放旋转滤镜等特性
  */
 @interface LSOPen : LanSongOutput
 {
@@ -72,16 +73,14 @@ typedef enum : NSInteger {
 @property BOOL isCamFrontMirror;
 
 /**
- *  在绘制到容器上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
+    在绘制到容器上时的初始尺寸.   为固定值,不随图层的缩放变化而变化.
     如果你要获取当前画面的实时尺寸,则可以通过上面的frameBufferSize这个属性来获取. 缩放也是基于frameBufferSize进行的.
-    
     此尺寸可以作为移动的参考.
- 
   当前绘制原理是:ViewPen是等比例缩放到容器上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到容器上.
  */
 @property CGSize penSize;
 /**
- *  定义的容器尺寸
+ *  容器尺寸
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
 
@@ -251,14 +250,12 @@ typedef enum : NSInteger {
 
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
-
  @return 返回增加后的子图层对象
  */
 -(LSOSubPen *)addSubPen;
 
 /**
  删除指定子图层
-
  @param pen 指定子图层对象
  */
 -(void)removeSubPen:(LSOSubPen *)pen;

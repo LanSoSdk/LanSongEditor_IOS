@@ -76,8 +76,14 @@
  percent : 如果是竖屏的话, 高度占用全屏的多少大小;
  */
 +(LanSongView2 *)createLanSongView:(CGSize)fullSize padSize:(CGSize)size percent:(float)percent;
+
+
 /**
-设置当前viewController竖屏
+ 创建LSOAeCompositionView;
+ */
++(LSOAeCompositionView *)createAeCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
+/**
+ 设置当前viewController竖屏
  */
 +(void)setViewControllerPortrait;
 
@@ -89,5 +95,12 @@
  在ViewController中调用, 设置当前屏幕的旋转角度.
  */
 + (void)interfaceOrientation:(UIInterfaceOrientation)orientation;
-    
+
+
+
+/**
+ 打印json中的信息;
+ */
++(void)printJsonInfo:(LSOAeView *)aeView;
 @end
+

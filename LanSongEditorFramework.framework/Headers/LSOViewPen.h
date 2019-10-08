@@ -20,14 +20,6 @@
 @property BOOL isFromUI;
 
 /**
- 内部使用 inner use
- */
-- (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
-
-
-
-
-/**
  替换UIView
  view的大小要等于init输入的inputView大小.
  */
@@ -43,9 +35,13 @@
  @param is
  */
 -(void)setUsedCACoreAnimation:(BOOL)is;
-
 -(CGFloat)renderCACoreFrameTime;
 
 /******************一下是内部使用******************************/
+
+- (id)initWithView:(UIView *)inputView drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+
 @property BOOL isUsedForAE;
+
+@property BOOL isFastModeWhenAe;
 @end

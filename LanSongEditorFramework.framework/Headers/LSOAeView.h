@@ -12,6 +12,7 @@
 #import "LSOAeImage.h"
 #import "LSOAeImageLayer.h"
 #import "LSOAEVideoSetting.h"
+#import "LSOObject.h"
 
 
 
@@ -27,9 +28,16 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 @property (nonatomic) CGFloat jsonFrameRate;//帧率
 @property (nonatomic) int totalFrames;//总帧数.
 @property (nonatomic) CGFloat jsonDuration; //总时长 =(结束帧数 - 开始帧数)/帧率; 单位秒;两位有效小数;
+
+
+/// 是否已经走到json的最后一帧;
+/// 第一帧是0; 最后一直是 totalFrames -1;
+@property (readonly) BOOL isReachEndFrame;
+
 /**
- 拿到json中所有图片的信息, 一个LSOAeImage对象数组;
+
  
+ 拿到json中所有图片的信息, 一个LSOAeImage对象数组;
  比如打印出来:
      for(LSOAeImage *info in aeView.imageInfoArray){
          LSOLog(@"id:%@, width:%d %d, ame:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
@@ -52,7 +60,11 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 /**
  当前json中所有图片图层的信息;
+ imageInfoArray-->图片信息;
+ imageLayerArray-->图层信息, 一个图片可以放到不同的图层中;
   获取到的是 LSOAeImageLayer对象;
+ 
+ 数组里的每个成员排序规则是: 先按照开始帧, 如果开始帧相等则按照id;
  比如;
  for (LSOAeImageLayer *layer in view.imageLayerArray) {
  LSOLog(@"id:%@,width:%d,height:%d,start frame:%d, end frame:%d",layer.imgName,layer.imgWidth,layer.imgHeight,layer.startFrame,layer.endFrame);
@@ -61,26 +73,68 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 @property (nonatomic) NSMutableArray *imageLayerArray;
 
 
-/**
- 在开始执行前调用, 替换指定key的图片
-[图片请不要大于720x1280]
- @param key "json中的图片ID号, image_0 image_1等;
- @param image 图片对象
- @return 替换成功返回YES
- */
--(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image;
+///**
+// 在开始执行前调用, 替换指定key的图片
+//[图片请不要大于720x1280]
+// @param key "json中的图片ID号, image_0 image_1等;
+// @param image 图片对象
+// @return 替换成功返回YES
+// */
+//-(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image  LSO_DELPRECATED;
+//
+//
+//-(BOOL)updateImageWithKey:(NSString*)key imageURL:(NSURL *)imageURL;
+//
+///**
+// 替换图片
+//
+//[图片请不要大于720x1280]
+// @param key "json中的图片ID号, image_0 image_1等;
+// @param image 图片对象
+// @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
+// @return 替换成功返回YES
+// */
+//-(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
+//
+//
+//-(BOOL)updateImageWithKey:(NSString*)key imageURL:(NSURL *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
 
 
-/**
- 替换图片
+/*
  json中的每个图片有一个唯一的ID, 根据id来替换指定json中的图片.
-[图片请不要大于720x1280]
- @param key "json中的图片ID号, image_0 image_1等;
- @param image 图片对象
- @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
- @return 替换成功返回YES
+@param key "json中的图片ID号, image_0 image_1等;
+@param imageURL 您选择的图片路径;
  */
--(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image needCrop:(BOOL)needCrop;
+-(BOOL)updateImageWithKey:(NSString*)key imageURL:(NSURL *)imageURL;
+
+/*
+ json中的每个图片有一个唯一的ID, 根据id来替换指定json中的图片.
+ @param key "json中的图片ID号, image_0 image_1等;
+ @param imageURL 您选择的图片路径;
+ @param needCrop 如果您输入的图片宽高和 json中的图片宽高不成比例,是否要裁剪
+*/
+-(BOOL)updateImageWithKey:(NSString*)key imageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
+
+
+/// 根据json中的图片名字来替换指定json中的图片.
+/// @param name json中的图片名字,如果你在导出的时候, 选中保留原始名字,则会在aeView加载json后,会打印原始名字字符串
+/// @param imageURL 要替换的图片路径
+-(BOOL)updateImageByName:(NSString*)name imageURL:(NSURL *)imageURL;
+
+/// 根据json中的图片名字来替换指定json中的图片.
+/// @param name json中的图片名字,如果你在导出的时候, 选中保留原始名字,则会在aeView加载json后,会打印原始名字字符串
+/// @param imageURL 要替换的图片路径
+/// @param needCrop 如果您输入的图片宽高和 json中的图片宽高不成比例,是否要裁剪
+-(BOOL)updateImageByName:(NSString*)name imageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
+
+
+
+
+-(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image LSO_DELPRECATED;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image LSO_DELPRECATED;
+
+-(BOOL)updateImageWithKey:(NSString*)key image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
 
 /**
  替换指定图片的视频;
@@ -109,7 +163,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param image 图片对象
  @return 替换成功返回YES
  */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image LSO_DELPRECATED;
 
 
 /**
@@ -121,7 +175,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
  @return 替换成功返回YES
  */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
 
 /**
  根据名字 把原来显示图片的地方替换为视频;
@@ -257,6 +311,9 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 
 - (void)addSubview:(nonnull UIView *)view toLayerNamed:(nonnull NSString *)layer
     applyTransform:(BOOL)applyTransform __deprecated;
+
+-(void)processImageAtFrameBeforeUpdate:(int)frameIndex;
+
 
 - (CGRect)convertRect:(CGRect)rect toLayerNamed:(NSString *_Nullable)layerName __deprecated;
 + (nonnull instancetype)animationFromJSON:(nullable NSDictionary *)animationJSON inBundle:(nullable NSBundle *)bundle NS_SWIFT_NAME(init(json:bundle:));

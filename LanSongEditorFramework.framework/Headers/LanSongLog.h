@@ -52,5 +52,20 @@
 //举例:  UIImage *image=[UIImage imageWithContentsOfFile:LSOBundlePath(@"IMG_0285.JPG")];
 #define LSOBundlePath(fileName) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:fileName]
 
+
+/**
+ 声明:
+ dispatch_semaphore_t _lock;
+ 初始化:
+   _lock = dispatch_semaphore_create(1);
+ 
+ 使用:
+   LSOX_Lock();
+    ..... code .....
+   LSOX_Unlock();
+ */
+#define LSOX_Lock() dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER);
+#define LSOX_Unlock() dispatch_semaphore_signal(self->_lock);
+
 //-------LANSO++  END
 

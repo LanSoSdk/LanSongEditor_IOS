@@ -35,7 +35,7 @@
 
 /**
  [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
-
+ 
  @param nav
  @param dstPath <#dstPath description#>
  */
@@ -183,12 +183,14 @@
     if(padSize.width>0  && padSize.height>0){
         LanSongView2  *retView=nil;
         
-        if (padSize.width>padSize.height) {
-            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, fullSize.width,fullSize.width*(padSize.height/padSize.width))];
-        }else{
+        if (padSize.width>padSize.height) {  //横屏
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 90, fullSize.width,fullSize.width*(padSize.height/padSize.width))];
+        }else{  //竖屏
             //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
-            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0, 60, fullSize.height*(padSize.width/padSize.height)/2,
+            retView=[[LanSongView2 alloc] initWithFrame:CGRectMake(0,90, fullSize.height*(padSize.width/padSize.height)/2,
                                                                    fullSize.height/2)];
+            
+            
             retView.center=CGPointMake(fullSize.width/2, retView.center.y);
         }
         return retView;
@@ -197,6 +199,29 @@
         return nil;
     }
 }
+
+
++(LSOAeCompositionView *)createAeCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize
+{
+    if(padSize.width>0  && padSize.height>0){
+        LSOAeCompositionView  *retView=nil;
+        if (padSize.width>padSize.height) {  //横屏
+            retView=[[LSOAeCompositionView alloc] initWithFrame:CGRectMake(0, 90, fullSize.width,fullSize.width*(padSize.height/padSize.width))];
+        }else{  //竖屏
+            //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
+            retView=[[LSOAeCompositionView alloc] initWithFrame:CGRectMake(0,90, fullSize.height*(padSize.width/padSize.height)/2,
+                                                                           fullSize.height/2)];
+            retView.center=CGPointMake(fullSize.width/2, retView.center.y);
+        }
+        return retView;
+    }else{
+        LSOLog_e(@"LSOAeCompositionView size is error !")
+        return nil;
+    }
+}
+
+
+
 
 /**
  percent : 如果是竖屏的话, 高度占用全屏的多少大小;
@@ -259,5 +284,42 @@
         [invocation invoke];
     }
 }
+//-------------------print Aejson---------
+
+/**
+ 打印json中的信息
+ */
++(void)printJsonInfo:(LSOAeView *)aeView
+{
+    LSOLog(@"************************************************************************************")
+    LSOLog(@"*\t");
+    LSOLog(@"*\t 图片信息(picture info):")
+    for (LSOAeImageLayer *layer in aeView.imageLayerArray) {
+        LSOLog(@"*\t 图片ID::%@,名字:%@,原始宽高:%f x %f. 开始帧:%f,结束帧:%f,时长:%f,帧率:%f",
+               layer.imgId,layer.imgName,layer.imgWidth,layer.imgHeight,
+               layer.startFrame,layer.endFrame,layer.durationS,layer.jsonFrameRate);
+    }
+    
+    for (LSOAeText *layer in aeView.textInfoArray) {
+        LSOLog(@"*\t 文字内容::%@,图层名字:%@,字号:%f. 字体名字:%@,对齐方式:%@;",
+               layer.textContents,layer.textlayerName,layer.textFontSize,layer.textFont,
+               [DemoUtils convertJustification:layer.textJustification]);
+    }
+    LSOLog(@"*\t");
+    LSOLog(@"************************************************************************************")
+}
++(NSString *)convertJustification:(int)justification
+{
+    if(justification==0){
+        return @"左对齐";
+    }else if(justification==1){
+        return @"右对齐";
+    }else if(justification==2){
+        return @"居中对齐";
+    }else{
+        return @"unknow";
+    }
+}
 
 @end
+

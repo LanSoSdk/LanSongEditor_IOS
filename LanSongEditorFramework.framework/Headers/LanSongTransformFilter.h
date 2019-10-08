@@ -28,6 +28,7 @@
 /**
  设置锚点在左上角;
  默认在中心;
+ 设置后, 会把画面显示到左上角.但旋转一样以画面的中心点旋转;
  */
 @property(readwrite, nonatomic) BOOL anchorTopLeft;
 

@@ -23,6 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
  一个类的序列号.
  */
 @property (nonatomic,assign) int serialNumber;
+
+
+/**
+ 释放当前类;
+ */
+-(void)releaseLSO;
 @end
 
 NS_ASSUME_NONNULL_END

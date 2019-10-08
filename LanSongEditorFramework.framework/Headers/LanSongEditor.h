@@ -22,14 +22,22 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LanSong.h>
 //视频预览容器
 #import <LanSongEditorFramework/DrawPadVideoPreview.h>
+
 //视频后台执行容器
 #import <LanSongEditorFramework/DrawPadVideoExecute.h>
 
-//AE模板的后台合成容器
+//AE模板的前台预览容器 (早期的Ae类, 不建议使用)
+#import <LanSongEditorFramework/DrawPadAEPreview.h>
+
+//AE模板的后台合成容器(早期的类,不建议使用)
 #import <LanSongEditorFramework/DrawPadAEExecute.h>
 
-//AE模板的前台预览容器
-#import <LanSongEditorFramework/DrawPadAEPreview.h>
+
+//AE模板的合成容器;
+#import <LanSongEditorFramework/LSOAeCompositionView.h>
+
+
+//图片容器;
 #import <LanSongEditorFramework/BitmapPadPreview.h>
 
 //录制视频容器:录制视频
@@ -37,6 +45,10 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //图片容器: 给图片增加滤镜; 给多张图片增加滤镜;
 #import <LanSongEditorFramework/BitmapPadExecute.h>
+
+
+
+
 
 //音频容器:用来合成各种声音
 #import <LanSongEditorFramework/AudioPadExecute.h>
@@ -88,9 +100,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //提取MV视频帧, 同步工作模式
 #import <LanSongEditorFramework/LSOGetMVFrame.h>
-
-//视频倒序
-#import <LanSongEditorFramework/LSOVideoReverse.h>
 
 //音频录制类
 #import <LanSongEditorFramework/LSOAudioRecorder.h>

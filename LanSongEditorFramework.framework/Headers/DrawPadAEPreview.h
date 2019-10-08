@@ -14,12 +14,13 @@
 #import "LSOBitmapPen.h"
 #import "LSOMVPen.h"
 #import "LSOAeView.h"
+#import "LSOObject.h"
 
 /**
  Ae模板的前台预览容器
  把Ae模板的各种素材, 按照顺序一层一层增加到容器中, 然后开始播放;
  */
-@interface DrawPadAEPreview : NSObject
+@interface DrawPadAEPreview : LSOObject
 
 
 
@@ -153,6 +154,9 @@
  当在编码的时候, 等于当前视频图层的视频播放进度 时间单位是秒;;
  工作在其他线程,
  如要工作在主线程,请使用:
+ progress: 当前正在播放画面的时间戳;
+ 
+ 进度则是: progress/_duration;
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
@@ -236,8 +240,13 @@
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 
+/**
+ 第一个json 增加到容器后的json所在的图层;
+ [特定客户测试用]
+ */
+@property (nonatomic,readonly)LSOViewPen *firstJsonPen;
 
 //--------------------------一下不再使用-------------------------------
--(id)initWithURL:(NSURL *)videoPath;
--(id)initWithPath:(NSString *)videoPath;
+-(id)initWithURL:(NSURL *)videoPath  LSO_DELPRECATED;
+-(id)initWithPath:(NSString *)videoPath LSO_DELPRECATED;
 @end

@@ -22,6 +22,7 @@ void runAsyncOnNewQueue(void (^block)(void));
     
     NSMutableArray *targets, *targetTextureIndices;
     
+    
     CGSize inputTextureSize, cachedMaximumOutputSize, forcedMaximumSize;
     
     //覆盖输入尺寸,强制下发对target的尺寸
@@ -30,6 +31,13 @@ void runAsyncOnNewQueue(void (^block)(void));
     BOOL allTargetsWantMonochromeData;
     BOOL usingNextFrameForImageCapture;
 }
+
+/**
+ 当执行到这个滤镜时, 是否要设置画面缩放;
+ 默认是不缩放;
+ */
+@property(readwrite, nonatomic) CGSize outputScaleSize;
+
 
 @property(readwrite, nonatomic) BOOL shouldSmoothlyScaleOutput;
 @property(readwrite, nonatomic) BOOL shouldIgnoreUpdatesToThisTarget;

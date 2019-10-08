@@ -43,7 +43,8 @@ struct LanSongMatrix3x3 {
 };
 typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 
-/** LanSong's base filter class
+/**
+ LanSong's base filter class
  
  Filters and other subsequent elements in the chain conform to the LanSongInput protocol, which lets them take in the supplied or processed texture from the previous link in the chain and do something with it. Objects one step further down the chain are considered targets, and processing can be branched by adding multiple targets to a single output or filter.
  */
@@ -70,14 +71,6 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 @property(readonly) CVPixelBufferRef renderTarget;
 @property(readwrite, nonatomic) BOOL preventRendering;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
-
-
-
-/**
- 当执行到这个滤镜时, 是否要设置画面缩放;
- 默认是不缩放;
- */
-@property(readwrite, nonatomic) CGSize outputScaleSize;
 
 
 /**

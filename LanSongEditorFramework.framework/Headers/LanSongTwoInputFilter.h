@@ -5,7 +5,6 @@ extern NSString *const kLanSongTwoInputTextureVertexShaderString;
 @interface LanSongTwoInputFilter : LanSongFilter
 {
     LanSongFramebuffer *secondInputFramebuffer;
-
     GLint filterSecondTextureCoordinateAttribute;
     GLint filterInputTextureUniform2;
     LanSongRotationMode inputRotation2;
