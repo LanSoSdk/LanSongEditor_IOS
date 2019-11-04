@@ -10,13 +10,14 @@
 
 #import "LanSongOutput.h"
 #import "LanSongTwoInputFilter.h"
+#import "LSOObject.h"
 
 /**
  子图层: 复制当前图层的画面; 得到独立的一个图层, 可移动旋转缩放,透明度设置等;
  举例有:抖音效果;
  暂时不支持滤镜;
  */
-@interface LSOSubPen : NSObject
+@interface LSOSubPen : LSOObject
 
 //-------------------------------------------------
 
@@ -61,6 +62,16 @@
  
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidth,scaleHeight;
+
+
+/// 设置当前位置, 枚举类型.
+@property(readwrite,nonatomic) LSOPosition position;
+
+/// 设置当前图层的显示范围
+/// 如果你只想设置开始时间,则endS=CGFLOAT_MAX
+/// @param startS 相对容器的开始时间, 单位秒, 可以有小数, 最小值是0;
+/// @param endS 相对容器的结束时间, 单位秒, 可以有小数,最大值是: CGFLOAT_MAX;
+-(void)setDisplayTimeRange:(CGFloat)startS endTimeS:(CGFloat)endS;
 
 /**
  直接缩放到的值,
@@ -165,7 +176,6 @@
  @param endFilter  切换的最后一个滤镜.
  */
 -(void)switchFilterWithStartFilter:(LanSongOutput<LanSongInput> *)startFilter endFilter:(LanSongOutput<LanSongInput> *)endFilter;
-
 /**
  切换滤镜,
  切换到的目标滤镜需要第二个输入源的情况;
@@ -175,9 +185,9 @@
  */
 -(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
 
-
-
-//----------一下是内部使用
+//*****************下是内部使用******************************************************************************/
+-(BOOL)isDisplay;
+-(void)updateDrawPadPts:(CGFloat)ptsS;
 -(void)setDriverSource:(LanSongOutput *)outSource;
 -(void)removeDriverSource:(LanSongOutput *)outSource;
 - (id)initWithPenSize:(CGSize)penSize DrawPadSize:(CGSize)size;

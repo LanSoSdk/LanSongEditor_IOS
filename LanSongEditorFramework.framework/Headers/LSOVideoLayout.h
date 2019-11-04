@@ -12,6 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ 多个视频或图片, 拼图
+ 可以给每个图片或视频设置位置, 设置缩放大小.
+ 比如您设置最终生成的视频大小是720x720; 上面放3个视频, 第一个视频放在0,0
+ */
 @interface LSOVideoLayout : LSOObject
 
 /**
@@ -33,10 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
  });
  */
 @property(nonatomic, copy,nullable) void(^completionBlock)(NSString *dstPath);
-
-
-
-
 /**
  两个图像的叠加
 
@@ -73,6 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 /*
  代码举例(demo)
+ 
+ 
  LSOVideoLayout *videolayout=[[LSOVideoLayout alloc] init];
  
  LSOLayoutParam *param1=[[LSOLayoutParam alloc] initWithURL:[LSOFileUtil URLForResource:@"d2" withExtension:@"jpg"]];
@@ -101,7 +104,7 @@ NS_ASSUME_NONNULL_END
  WS(weakSelf)
  [videolayout setCompletionBlock:^(NSString *dstPath) {
  dispatch_async(dispatch_get_main_queue(), ^{
- [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+    [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
  });
  }];
  [videolayout startLayout3Video:720 height:1280 params1:param1 params2:param2 params3:param3];

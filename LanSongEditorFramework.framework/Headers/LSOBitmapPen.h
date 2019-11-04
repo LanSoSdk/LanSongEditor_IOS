@@ -11,6 +11,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LSOPen.h"
+#import "LSOBitmapAsset.h"
+
 
 
 @interface LSOBitmapPen : LSOPen
@@ -31,7 +33,12 @@
 
 
 /**********************一下为内部使用********************************************************/
+-  (id)initWithAsset:(LSOBitmapAsset *)bmpAsset drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+
 -  (id)initWithURL:(NSURL *)url drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
+
+
+
 - (id)initWithData:(NSData *)imageData drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 - (id)initWithImage:(UIImage *)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 - (id)initWithCGImage:(CGImageRef)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;

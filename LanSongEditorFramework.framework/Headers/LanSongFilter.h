@@ -43,11 +43,8 @@ struct LanSongMatrix3x3 {
 };
 typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 
-/**
- LanSong's base filter class
- 
- Filters and other subsequent elements in the chain conform to the LanSongInput protocol, which lets them take in the supplied or processed texture from the previous link in the chain and do something with it. Objects one step further down the chain are considered targets, and processing can be branched by adding multiple targets to a single output or filter.
- */
+
+/// 所有的滤镜的父类;
 @interface LanSongFilter : LanSongOutput <LanSongInput>
 {
     LanSongFramebuffer *firstInputFramebuffer;
@@ -68,47 +65,28 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
     dispatch_semaphore_t imageCaptureSemaphore;
 }
 
+
+
+/// 是否支持调节;
+/// LSDELETE 暂时不能使用;
+@property(readwrite, nonatomic) BOOL isSupportAdjust;
+
+/*******************************一下是内部使用*********************************************************/
 @property(readonly) CVPixelBufferRef renderTarget;
 @property(readwrite, nonatomic) BOOL preventRendering;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
-
-
-/**
- You make take advantage of the SHADER_STRING macro to write your shaders in-line.
- @param vertexShaderString Source code of the vertex shader to use
- @param fragmentShaderString Source code of the fragment shader to use
- */
 - (id)initWithVertexShaderFromString:(NSString *)vertexShaderString fragmentShaderFromString:(NSString *)fragmentShaderString;
-
-/**
- Initialize with a fragment shader
- 
- You may take advantage of the SHADER_STRING macro to write your shader in-line.
- @param fragmentShaderString Source code of fragment shader to use
- */
 - (id)initWithFragmentShaderFromString:(NSString *)fragmentShaderString;
-/**
- Initialize with a fragment shader
- @param fragmentShaderFilename Filename of fragment shader to load
- */
 - (id)initWithFragmentShaderFromFile:(NSString *)fragmentShaderFilename;
 - (void)initializeAttributes;
 - (void)setupFilterForSize:(CGSize)filterFrameSize;
 - (CGSize)rotatedSize:(CGSize)sizeToRotate forIndex:(NSInteger)textureIndex;
 - (CGPoint)rotatedPoint:(CGPoint)pointToRotate forRotation:(LanSongRotationMode)rotation;
-
-/// @name Managing the display FBOs
-/** Size of the frame buffer object
- */
 - (CGSize)sizeOfFBO;
-
-/// @name Rendering
 + (const GLfloat *)textureCoordinatesForRotation:(LanSongRotationMode)rotationMode;
 - (void)renderToTextureWithVertices:(const GLfloat *)vertices textureCoordinates:(const GLfloat *)textureCoordinates;
 - (void)informTargetsAboutNewFrameAtTime:(CMTime)frameTime;
 - (CGSize)outputFrameSize;
-
-/// @name Input parameters
 - (void)setBackgroundColorRed:(GLfloat)redComponent green:(GLfloat)greenComponent blue:(GLfloat)blueComponent alpha:(GLfloat)alphaComponent;
 - (void)setInteger:(GLint)newInteger forUniformName:(NSString *)uniformName;
 - (void)setFloat:(GLfloat)newFloat forUniformName:(NSString *)uniformName;

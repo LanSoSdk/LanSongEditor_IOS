@@ -62,9 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return 返回对象
  */
 -(LSOViewPen *)addViewPen:(UIView *)view;
-
-
-
 /**
  增加背景图片
  增加后,会自动放最底层,然后宽高缩放到容器大小.

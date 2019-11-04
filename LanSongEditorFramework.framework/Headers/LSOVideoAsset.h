@@ -21,42 +21,84 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface LSOVideoAsset : NSObject
 
--(id)initWithPath:(NSString *)path;
+
+/// 全局方法
+/// @param URL 视频路径;
++ (instancetype)assetWithURL:(NSURL *)URL;
+
 
 -(id)initWithURL:(NSURL *)url;
 
+
+
+/// 初始化
+/// @param path 视频路径;
+-(id)initWithPath:(NSString *)path;
+
+
+
+
+
+//------------视频的常见属性;
 @property (nonatomic,readonly) NSURL *videoURL;
 
-@property (nonatomic,readonly) NSString *videoPath;
 
+/**
+ 视频大小
+ */
 @property (nonatomic,readonly) CGSize videoSize;
 
 
-///**
-// 替换视频中的音频, 如原视频没有音频,等于直接增加音频;
-//  [替换后, 视频中的音频将不存在]
-// 全局函数.
-// 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
-//
-// @param video 视频完整路径
-// @param audio 音频完整路径
-// @return 合并后的视频.
-// */
-//+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio;
-//
-//
-///**
-// 替换视频中的音频
-// [替换后, 视频中的音频将不存在]
-// 全局函数.
-// 如果你要分别设置原有音频和增加的音频的音量, 用AudioPadExecute.
-// @param video 视频完整路径
-// @param audio 音频完整路径
-// @param videoRange 截取视频的哪部分, 如果不截取,则设置为kCMTimeRangeZero
-// @param audioRange 截取音频的哪部分; 建议音频和视频的长度一致; 不截取则设置为kCMTimeRangeZero
-// @return 合并后的视频;
-// */
-//+(NSString *)videoReplaceAudio:(NSString *)video audio:(NSString *)audio videoRange:(CMTimeRange)videoRange audioRange:(CMTimeRange)audioRange;
+/**
+  视频本身的宽度.
+ 显示的宽度;
+ */
+@property(readwrite, nonatomic) CGFloat width;
+
+
+/**
+ 视频高度
+ 显示时的高度;
+ */
+@property(readwrite, nonatomic) CGFloat height;
+
+/**
+ 视频时长,单位秒;
+ */
+@property(readwrite, nonatomic) CGFloat duration;
+
+/**
+ 视频帧率, 一秒钟多少帧;
+ */
+@property(readwrite, nonatomic) CGFloat frameRate;
+
+/**
+ 视频码率
+ */
+@property(readwrite, nonatomic) CGFloat bitrate ;
+
+/**
+视频在编码时的旋转角度;
+ */
+@property(nonatomic,readonly) int videoAngle;
+/**
+ 是否有音频
+ */
+@property(readwrite, nonatomic) BOOL hasAudio;
+
+/**
+ 第一帧的图片
+ */
+@property(nonatomic, readonly) UIImage *firstFrameImage;
+
+
+@property(nonatomic, readonly) NSString *videoPath;
+@property(nonatomic, readonly) NSString *videoName;
+@property(nonatomic, readonly) NSString *videoSuffix;
+
+
+@property(nonatomic, readonly) AVAsset *asset;
+
 
 @end
 

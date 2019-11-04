@@ -30,21 +30,24 @@
 
 
 /**
+ 
+ 用 LSOAeView类中的此方法;
  解析json
  
  @param path json的完整路径
  @return 返回解析后的LSOAeView (可以得到宽高,图片数量,文字信息等各种需要替换的内容)
  */
-+(LSOAeView *)parseJsonWithPath:(NSString *)path;
++(LSOAeView *)parseJsonWithPath:(NSString *)path LSO_DELPRECATED;
 
 /**
+ 用 LSOAeView类中的此方法;
  解析json
  
  [如果您要对json加密,则在解密后,是放在内存中的数据,则此方法增加]
  @param jsonData NSData格式的json数据
  @return 返回解析后的LSOAeView (可以得到宽高,图片数量,文字信息等各种需要替换的内容)
  */
-+(LSOAeView *)parseJsonWithData:(NSData *)jsonData;
++(LSOAeView *)parseJsonWithData:(NSData *)jsonData LSO_DELPRECATED;
 
 
 /**
@@ -134,7 +137,9 @@
  */
 -(LSOMVPen *)addOtherMVPen:(NSURL *)colorURL withMask:(NSURL *)maskURL;
 /**
+ 
  设置Ae模板中的视频的音量大小.
+ 也是最终生成视频的音量;
  在需要增加其他声音前调用(addAudio后调用无效).
  不调用默认是原来的声音大小;
  1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;

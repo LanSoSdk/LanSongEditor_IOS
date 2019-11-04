@@ -14,13 +14,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOLayoutParam : NSObject
 
+/**
+ 初始化
+ */
 -(id)initWithPath:(NSString *)path;
+
+/**
+ 初始化
+ */
 -(id)initWithURL:(NSURL *)url;
 
 
-
+/**
+ 视频路径
+ 或者图片路径;
+ */
 @property (nonatomic,readonly) NSString *videoPath;
-
+/**
+ 当是视频的时候, 可以通过mediaInfo获取到当前视频的各种参数;
+ */
 @property (nonatomic,readonly)  LSOMediaInfo *mediaInfo;
 
 /**

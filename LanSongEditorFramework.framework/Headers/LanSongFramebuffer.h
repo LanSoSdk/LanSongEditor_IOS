@@ -55,6 +55,5 @@ typedef struct LSOTextureOptions {
 - (NSUInteger)bytesPerRow;
 - (GLubyte *)byteBuffer;
 - (CVPixelBufferRef)pixelBuffer;
-- (void)destroyFramebuffer;
 
 @end

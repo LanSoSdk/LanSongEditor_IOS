@@ -65,6 +65,14 @@
  ----------------------------------------------------------------------------------------------------------------
  一下为代码演示.
  
+ LanSongSwirlFilter *filter=[[LanSongSwirlFilter alloc] init];
+   UIImage *inputImage=[UIImage imageNamed:@"small"];
+   UIImage *image2=[BitmapPadExecute getOneImage:inputImage filter:filter];
+   LSOLog(@"------save uiiamge2 is %@",[LSOFileUtil saveUIImage:image2])
+ 
+ 
+ 
+ 
  // 图片输入源
  UIImage *inputImage = [UIImage imageNamed:@"t14.jpg"];
  

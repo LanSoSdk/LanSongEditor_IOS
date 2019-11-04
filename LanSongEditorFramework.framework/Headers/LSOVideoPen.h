@@ -57,7 +57,6 @@
 
 /**
  定位 到 百分比; 比如 percent=0.1--0.5--1.0;
- 
  */
 -(void)seekToPercent:(CGFloat)percent;
 

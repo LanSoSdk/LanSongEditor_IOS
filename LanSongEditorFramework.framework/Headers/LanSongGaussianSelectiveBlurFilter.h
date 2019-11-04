@@ -3,7 +3,8 @@
 @class LanSongGaussianBlurFilter;
 
 /** A Gaussian blur that preserves focus within a circular region
- 指定区域的高斯模糊
+ 指定区域以外的高斯模糊
+  区域是圆形, 可以设置圆形中心点和半径;模糊程度;
  */
 @interface LanSongGaussianSelectiveBlurFilter : LanSongFilterGroup 
 {

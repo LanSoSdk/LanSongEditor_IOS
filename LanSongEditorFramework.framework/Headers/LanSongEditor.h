@@ -26,6 +26,16 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //视频后台执行容器
 #import <LanSongEditorFramework/DrawPadVideoExecute.h>
 
+//混合容器的预览, 你可以向里面增加视频, 图片,动图, mv等;
+#import <LanSongEditorFramework/DrawPadAllPreview.h>
+
+//混合容器的执行;
+#import <LanSongEditorFramework/DrawPadAllExecute.h>
+
+
+
+
+
 //AE模板的前台预览容器 (早期的Ae类, 不建议使用)
 #import <LanSongEditorFramework/DrawPadAEPreview.h>
 
@@ -68,14 +78,23 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //处理视频和音频的基本单元.
 #import <LanSongEditorFramework/LSOVideoAsset.h>
+//图片资源
+#import <LanSongEditorFramework/LSOBitmapAsset.h>
+
 
 //图层的父类, 所有的xxxPen 集成这个父类;
 #import <LanSongEditorFramework/LSOPen.h>
+
 
 //视频图层, 用在前台预览容器中
 #import <LanSongEditorFramework/LSOVideoPen.h>
 //视频图层, 用在后台容器中
 #import <LanSongEditorFramework/LSOVideoPen2.h>
+
+#import <LanSongEditorFramework/LSOVideoFramePen.h>
+
+#import <LanSongEditorFramework/LSOAeViewPen.h>
+
 
 //MV图层
 #import <LanSongEditorFramework/LSOMVPen.h>

@@ -1,6 +1,9 @@
 #import "LanSongTwoPassTextureSamplingFilter.h"
 
-/** A more generalized 9x9 Gaussian blur filter
+/**
+ A more generalized 9x9 Gaussian blur filter
+ 指定区域内的高斯模糊.
+ 区域是圆形, 可以设置圆形中心点和半径;模糊程度;
  */
 @interface LanSongGaussianBlurPositionFilter : LanSongTwoPassTextureSamplingFilter 
 {

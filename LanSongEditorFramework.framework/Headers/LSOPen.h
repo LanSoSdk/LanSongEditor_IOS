@@ -16,26 +16,7 @@
 #import "LSOSubPen.h"
 
 
-typedef NS_ENUM(NSUInteger, PenTpye) {
-    kNullPen,
-    kVideoPen,
-    kBitmapPen,
-    kViewPen,
-    kCameraPen,
-    kMVPen,
-    kCALayerPen,
-    kDataPen,
-    kSubPen
-};
 
-//LSNEW: LSOPosition的枚举项前面增加k;
-typedef enum : NSInteger {
-    kLSOPenLeftTop,
-    kLSOPenLeftBottom,
-    kLSOPenRightTop,
-    kLSOPenRightBottom,
-    kLSOPenCenter,
-} LSOPosition;
 
 
 
@@ -95,6 +76,15 @@ typedef enum : NSInteger {
  可以用这个在新创建的图层做隐藏/显示的效果, 类似闪烁, 或创建好,暂时不显示等效果.
  */
 @property(getter=isHidden) BOOL hidden;
+
+
+/// 设置当前图层的显示范围
+/// 如果你只想设置开始时间,则endS=CGFLOAT_MAX
+/// @param startS 相对容器的开始时间, 单位秒, 可以有小数, 最小值是0;
+/// @param endS 相对容器的结束时间, 单位秒, 可以有小数,最大值是: CGFLOAT_MAX;
+-(void)setDisplayTimeRange:(CGFloat)startS endTimeS:(CGFloat)endS;
+
+
 /**
  角度值0--360度. 默认为0.0
  顺时针旋转.
@@ -112,6 +102,13 @@ typedef enum : NSInteger {
                positionY=drawPadSize.height/2;
  */
 @property(readwrite, nonatomic)  CGFloat positionX, positionY;
+
+
+/**
+ 设置当前位置, 枚举类型.
+ 当前只对图片图层有作用;
+ */
+@property(readwrite,nonatomic) LSOPosition position;
 
 /**
  *  
@@ -159,6 +156,8 @@ typedef enum : NSInteger {
  同时设置 RGBA的百分比;
  */
 -(void) setRGBAPercent:(CGFloat)value;
+
+
 
 //----------------visible rect(可视区域设置)------------------------
 /**
@@ -275,9 +274,6 @@ typedef enum : NSInteger {
  */
 -(int)getSubPenSize;
 
-
-
-
 /**
  ****************** 一下为 内部使用的函数. 请勿调用 ******************************
  */
@@ -300,9 +296,18 @@ typedef enum : NSInteger {
 @property (nonatomic,assign) BOOL videoPenfillDraw;
 @property (nonatomic,assign) BOOL mvPenOriginalAdd;
 -(void)releasePen;
--(BOOL)decodeOneFrame;
+
+-(void)updateDrawPadPts:(CGFloat)ptsS;
+-(BOOL)isDisplay;
+
+
+-(BOOL)decodeOneFrame:(CGFloat)ptsS;
+
+
 -(void)drawDisplay2;
 - (void)draw:(LanSongContext *)context;
+
+
 -(void)drawSubPenEncoder:(LanSongContext *)context;
 -(void)drawSubPenDisplay;
 - (void)draw1Lock;
@@ -314,8 +319,6 @@ typedef enum : NSInteger {
 -(void)resetEncoderProgram;
 -(void)loadParam:(LanSongContext*)context;
 -(void)loadShader;
-- (void)draw;
-- (void)drawDisplay;
 - (void)startProcessing:(BOOL)isAutoMode;
 -(void)endProcessing;
 -(BOOL) isFrameAvailable;
@@ -325,6 +328,7 @@ typedef enum : NSInteger {
 -(void)sendToLanSong2:(CMTime)time;
 -(void)sendTolanSong2Finish;
 -(void)updatePenTask;
+-(void)onAfterDisplay;
 
 
 @end

@@ -89,6 +89,11 @@
 #import "LanSongCannyEdgeDetectionFilter.h"
 #import "LanSongThresholdEdgeDetectionFilter.h"
 #import "LanSongMaskFilter.h"
+#import "LanSongMaskBlendFilter.h"
+
+
+
+
 #import "LanSongHistogramFilter.h"
 #import "LanSongHistogramGenerator.h"
 #import "LanSongHistogramEqualizationFilter.h"

@@ -114,9 +114,9 @@ NS_ASSUME_NONNULL_END
  labelCnt++;
  
  dispatch_async(dispatch_get_main_queue(), ^{
- CGPoint point=CGPointMake(label.center.x+2, label.center.y);
- label.center=point;
- LSOLog(@"progress is %f",progess);
+     CGPoint point=CGPointMake(label.center.x+2, label.center.y);
+     label.center=point;
+     LSOLog(@"progress is %f",progess);
  });
  
  }];

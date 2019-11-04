@@ -222,6 +222,7 @@
  把一张图片转换为视频
  内部会建立一个queue, 异步执行, 但执行速度特别快, 小视频几乎1秒内; 建议等待一会
  
+ 不可以同时执行多个任务.
  @param image 图像宽高
  @param frameRate 帧率,建议是25或30
  @param duration 视频的总长度
@@ -245,7 +246,7 @@
  *  [已废弃.请不要使用]
  直接用LSOVideoOneDo.h来做
  */
-+(int) executeVideoCutOut:(NSString*)videoFile dstFile:(NSString *)dstFile start:(float)startS durationS:(float)durationS;
++(int) executeVideoCutOut:(NSString*)videoFile dstFile:(NSString *)dstFile start:(float)startS durationS:(float)durationS LSO_DELPRECATED;
 /**
  * 音频裁剪,截取音频文件中的一段.
  * 需要注意到是: 尽量保持目标文件的后缀名和源音频的后缀名一致.
@@ -299,8 +300,6 @@
  异步执行,同一时刻只能有一个在执行;
  
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
- 
  @param videoFile 输入的视频
  @param startX 开始x
  @param startY 开始坐标y
@@ -309,13 +308,26 @@
  @return 开始异步处理返回YES, 失败返回NO;
  */
 -(BOOL) startDeleteLogo:(NSString*)videoFile startX:(int)startX startY:(int)startY width:(int)w height:(int)h;
+
+
+
+///模糊视频中的指定区域;
+/// @param videoFile 视频的路径
+/// @param startX 开始x坐标
+/// @param startY 开始y坐标
+/// @param w 要模糊的区域宽度
+/// @param h 要模糊的区域高度
+/// @param startS 开始时间,单位秒
+/// @param endS 结束时间,单位秒;
+-(BOOL) startDeleteLogoAtTimeRange:(NSString*)videoFile startX:(int)startX startY:(int)startY width:(int)w height:(int)h startTimeS:(CGFloat)startS endTimeS:(CGFloat) endS;
+
+
 /**
  模糊视频中的指定区域;
  
  ffmpeg的命令.
  特定客户使用;
  
- [注意:此方法是ffmpeg中基于GPL开源的方法, 需要你们明白GPL开源协议后, 我们才为您增加, 我们普通发布的版本不支持这个功能]
  
  异步执行,同一时刻只能有一个在执行;
  
@@ -335,6 +347,24 @@
                      x3:(int)x3 y3:(int)y3 width3:(int)w3 height3:(int)h3
                      x4:(int)x4 y4:(int)y4 width4:(int)w4 height4:(int)h4;
 
+
+
+/// 模糊视频中的指定区域;
+///  (如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
+///
+/// @param videoPath 输入的视频
+/// @param x1 第一个区域开始X坐标
+/// @param y1 第一个区域开始X坐标
+/// @param w1 第一个区域宽度
+/// @param h1 第一个区域高度
+/// @param startS1 开始时间,单位秒
+/// @param endS1 结束时间,单位秒;
+/// @param x2 (以下雷同, 如果只用两个,把x3 x4=-1;y3 y4=-1; 如果用到3个,则把x4=-1; y4=-1);
+-(BOOL) startDeleteLogoAtTimeRange:(NSString *) videoPath
+x1:(int)x1 y1:(int)y1 width1:(int)w1 height1:(int)h1 startTimeS:(CGFloat)startS1 endTimeS:(CGFloat)endS1
+x2:(int)x2 y2:(int)y2 width2:(int)w2 height2:(int)h2 startTimeS:(CGFloat)startS2 endTimeS:(CGFloat)endS2
+x3:(int)x3 y3:(int)y3 width3:(int)w3 height3:(int)h3 startTimeS:(CGFloat)startS3 endTimeS:(CGFloat)endS3
+x4:(int)x4 y4:(int)y4 width4:(int)w4 height4:(int)h4 startTimeS:(CGFloat)startS4 endTimeS:(CGFloat)endS4;
 //-------------------------
 /**
  旋转视频角度
@@ -401,6 +431,15 @@
  */
 -(BOOL)startVideoConvertToGif:(NSString *)videoPath interval:(float)interval scaleSize:(CGSize)size speed:(CGFloat)speed;
 
+
+
+/// 多个ts的视频拼接为一个
+/// 注意: 多个ts视频的分辨率必须完全一直
+/// @param tsArray 多个ts分辨率的视频数组;
+-(BOOL)startConcatTSToMP4:(NSMutableArray *)tsArray;
+
+
+
 /**
  取消当前正在执行的功能.
  */
@@ -410,6 +449,12 @@
  取消正在执行的ffmpeg;
  */
 +(void)cancelFFmpeg;
+
+
+
+
+
+
 /**
  如果您熟悉ffmpeg的命令, 则可以通过如下举例自行扩展ffmpeg的命令.
  格式举例 打印版本号.:

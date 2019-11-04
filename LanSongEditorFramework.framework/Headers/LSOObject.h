@@ -14,6 +14,30 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, PenTpye) {
+    kNullPen,
+    kVideoPen,
+    kVideoFramePen,
+    kBitmapPen,
+    kViewPen,
+    kAEViewPen,
+    kCameraPen,
+    kMVPen,
+    kCALayerPen,
+    kDataPen,
+    kSubPen
+};
+
+//LSOPosition的枚举项前面增加k;
+typedef enum : NSInteger {
+    kLSOPenLeftTop,
+    kLSOPenLeftBottom,
+    kLSOPenRightTop,
+    kLSOPenRightBottom,
+    kLSOPenCenter,
+} LSOPosition;
+
+
 @interface LSOObject : NSObject
 
 //给当前类做一个标记. TAG;
@@ -21,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  一个类的序列号.
+ 暂时没有用到;
  */
 @property (nonatomic,assign) int serialNumber;
 

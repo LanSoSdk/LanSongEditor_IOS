@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongLog.h"
+/**
+ 音频容器
+ 用处1:给视频各种声音.
+ 用处2:先设置声音总长度, 然后增加各种其他声音,最后合成声音;
+ */
 @interface AudioPadExecute : NSObject
 
 /**

@@ -83,4 +83,7 @@
  */
 +(UIImage *)cropToRequestRatio:(UIImage *)srcImage requestRatio:(CGSize)requestRatio;
 
+/// 把UIImage中的标志为有角度的值, 直接把图片调整好,然后返回;
+/// @param aImage 原图片
++(UIImage *)uiimageFixOrientation:(UIImage *)aImage;
 @end

@@ -53,6 +53,5 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
 /*********一下是内部使用*******************/
 - (id)initWithURL:(NSURL *)url maks:(NSURL *) url2 drawpadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 -(void)setPlayerId:(id)player;
-@property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
 @end
