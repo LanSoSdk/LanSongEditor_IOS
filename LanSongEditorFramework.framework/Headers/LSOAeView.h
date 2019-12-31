@@ -324,6 +324,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
     applyTransform:(BOOL)applyTransform __deprecated;
 
 -(void)processImageAtFrameBeforeUpdate:(int)frameIndex;
+-(void)updateImageWithKeyForce:(NSString*)key image:(UIImage *)image;
 
 
 - (CGRect)convertRect:(CGRect)rect toLayerNamed:(NSString *_Nullable)layerName __deprecated;

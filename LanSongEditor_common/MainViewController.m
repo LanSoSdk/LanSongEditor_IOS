@@ -30,14 +30,17 @@
 #import "RecordUIViewDemoVC.h"
 #import "UIPenParticleDemoVC.h"
 #import "AETextVideoDemoVC.h"
-#import "AePreviewListDemoVC.h"
+#import "AEDemoListVC.h"
 #import "CommonEditListVC.h"
 #import "AEModuleAutoSearchVC.h"
 #import "Demo2PenMothedVC.h"
 #import "UIView+UIImage.h"
 #import "ConcatVideosVC.h"
+#import "AECompositionDemoVC.h"
 
-#import "VideoV2HVC.h"
+#import "testDrawPadAllPreview.h"
+
+
 
 @interface MainViewController ()
 {
@@ -69,8 +72,6 @@
 #define kAEModuleTextDemo 18
 #define kDemo2PenMothedVC 19
 
-
-
 #define kUseDefaultVideo 801
 #define kSelectVideo 802
 
@@ -87,18 +88,20 @@
     /*
      初始化SDK
      */
-     if([LanSongEditor initSDK:nil]==NO){
+    if([LanSongEditor initSDK:nil]==NO){
         [DemoUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
-     }else{
-         [self showSDKInfo];
-     }
+    }else{
+        [self showSDKInfo];
+    }
+    //初始化SDK.
+    [LanSongFFmpeg initLanSongFFmpeg];
+    
+    
     /*
      删除sdk中所有的临时文件.
      */
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
-    
-     [DemoUtils showDialog:@"蓝松SDK提供的是纯视频编辑技术,不提供任何UI界面,此界面仅供参考.不属于SDK的一部分."];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -123,26 +126,26 @@
     
     switch (sender.tag) {
         case kUseDefaultVideo:
-            {
-                NSString *defaultVideo=@"dy_xialu2";
-                NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
-                if(sampleURL!=nil){
-                    labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
-                    
-                    LSOVideoAsset *videoAsset=[[LSOVideoAsset alloc] initWithURL:sampleURL];
-                    [AppDelegate getInstance].currentEditVideoAsset=videoAsset;
-                }else{
-                    [DemoUtils showDialog:@"选择默认视频  ERROR!!"];
-                }
-                sender.backgroundColor=[UIColor greenColor];
-                break;
+        {
+            NSString *defaultVideo=@"dy_xialu2";
+            NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"mp4"];
+            if(sampleURL!=nil){
+                labPath.text=[NSString stringWithFormat:@"使用默认视频:%@",defaultVideo];
+                
+                LSOVideoAsset *videoAsset=[[LSOVideoAsset alloc] initWithURL:sampleURL];
+                [AppDelegate getInstance].currentEditVideoAsset=videoAsset;
+            }else{
+                [DemoUtils showDialog:@"选择默认视频  ERROR!!"];
             }
+            sender.backgroundColor=[UIColor greenColor];
+            break;
+        }
         case kSelectVideo:
-            {
-                sender.backgroundColor=[UIColor yellowColor];
-                UIViewController  *pushVC2=[[DemoLocalVideoVC alloc] init];
-                [self.navigationController pushViewController:pushVC2 animated:NO];
-            }
+        {
+            sender.backgroundColor=[UIColor yellowColor];
+            UIViewController  *pushVC2=[[DemoLocalVideoVC alloc] init];
+            [self.navigationController pushViewController:pushVC2 animated:NO];
+        }
             break;
         case kSegmentRecordFullPort:
             pushVC=[[CameraFullPortVC alloc] init];  //LSTODO
@@ -166,18 +169,18 @@
             pushVC=[[VideoEffectVC alloc] init];
             break;
         case kAEPreviewDemo:
-            pushVC=[[AePreviewListDemoVC alloc] init];
+            pushVC=[[AEDemoListVC alloc] init];
             break;
         case kAEModuleTextDemo:  //文字演示.
             pushVC=[[AETextVideoDemoVC alloc] init];
             break;
         case kCommonEditDemo:
-             pushVC=[[CommonEditListVC alloc] init];  //普通功能演示
+            pushVC=[[CommonEditListVC alloc] init];  //普通功能演示
             break;
         case kDirectPlay:
-            {
-                 [DemoUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
-            }
+        {
+            [DemoUtils startVideoPlayerVC:self.navigationController dstPath:[AppDelegate getInstance].currentEditVideoAsset.videoPath];
+        }
             break;
         case kGameVideoDemo:
             pushVC=[[GameVideoDemoVC alloc] init];  //游戏录制类演示
@@ -185,7 +188,6 @@
         case kDemo2PenMothedVC:
             pushVC=[[Demo2PenMothedVC alloc] init];  //区域显示的演示.
             break;
-            
         default:
             break;
     }
@@ -211,8 +213,6 @@
     
     UIView *view=[self newDefaultButton:container];
     
-    
-    
     view=[self newButton:view index:kSegmentRecordFullPort hint:@"竖屏录制"];
     view=[self newButton:view index:kSegmentRecordSegmentRecord hint:@"分段录制"];
     view=[self newButton:view index:kDemo1PenMothed hint:@"图层---移动旋转缩放叠加"];
@@ -225,6 +225,12 @@
     
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
     view=[self newButton:view index:kAEPreviewDemo hint:@"AE模板特效"];
+    
+    
+    
+    
+    
+    
     view=[self newButton:view index:kAEModuleTextDemo hint:@"AE模板--文字旋转"];
     
     view=[self newButton:view index:kGameVideoDemo hint:@"游戏视频录制类"];
@@ -278,9 +284,9 @@
     CGFloat padding=size.height*0.04;
     
     [btn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(container.mas_top).with.offset(padding);
-            make.left.mas_equalTo(container.mas_left).with.offset(10);
-            make.size.mas_equalTo(CGSizeMake(size.width*0.7f-20, 50));  //按钮的高度.
+        make.top.mas_equalTo(container.mas_top).with.offset(padding);
+        make.left.mas_equalTo(container.mas_left).with.offset(10);
+        make.size.mas_equalTo(CGSizeMake(size.width*0.7f-20, 50));  //按钮的高度.
     }];
     
     [btn2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -327,17 +333,20 @@
             make.size.mas_equalTo(CGSizeMake(size.width, 50));
         }];
     }
+    
+    
     return btn;
 }
 -(void)showSDKInfo
 {
     NSString *text1=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
-                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
+                     [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
     [DemoUtils showDialog:text1];  //显示对话框.
     
     NSString *text2=[NSString stringWithFormat:@"我们SDK不包括UI界面, 本演示的所有界面都是公开代码, 不属于SDK的一部分."];
     [DemoUtils showDialog:text2];  //显示对话框.
 }
+
 -(void)btnDown:(UIView *)sender
 {
     sender.backgroundColor=[UIColor grayColor];
@@ -355,6 +364,8 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-
-
+-(void)testFile
+{
+    
+}
 @end

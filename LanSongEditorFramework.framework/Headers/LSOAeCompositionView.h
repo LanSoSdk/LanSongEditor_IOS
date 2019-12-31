@@ -28,28 +28,6 @@
 @interface LSOAeCompositionView : UIView
 
 
-
-/**
- 
- 用 LSOAeView类中的此方法;
- 解析json
- 
- @param path json的完整路径
- @return 返回解析后的LSOAeView (可以得到宽高,图片数量,文字信息等各种需要替换的内容)
- */
-+(LSOAeView *)parseJsonWithPath:(NSString *)path LSO_DELPRECATED;
-
-/**
- 用 LSOAeView类中的此方法;
- 解析json
- 
- [如果您要对json加密,则在解密后,是放在内存中的数据,则此方法增加]
- @param jsonData NSData格式的json数据
- @return 返回解析后的LSOAeView (可以得到宽高,图片数量,文字信息等各种需要替换的内容)
- */
-+(LSOAeView *)parseJsonWithData:(NSData *)jsonData LSO_DELPRECATED;
-
-
 /**
  增加第一层 : 背景视频
  如果没有没有第一层,则设置为nil; 或不调用;

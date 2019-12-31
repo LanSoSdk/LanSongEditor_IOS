@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LSOPen.h"
-#import "LSOMediaInfo.h"
 
 
 
@@ -18,7 +17,14 @@
 
 
 
-@property(readonly, nonatomic)LSOMediaInfo *mediaInfo;
+/**
+ 当前视频的时长;
+ 单位:秒; 等于视频的
+ */
+@property(nonatomic,readonly) CGFloat duration;
+
+@property(nonatomic,readonly) CGFloat width;
+@property(nonatomic,readonly) CGFloat height;
 /**
  当前视频图层的即将显示的进度.
  */
@@ -42,11 +48,7 @@
  */
 @property(nonatomic,readonly) BOOL isPlaying;
 
-/**
- 当前视频的时长;
- 单位:秒; 等于视频的
- */
-@property(nonatomic) CGFloat duration;
+
 /**
  定位到指定时间;
 

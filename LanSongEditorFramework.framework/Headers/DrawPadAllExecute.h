@@ -21,19 +21,23 @@
 #import "LSOVideoFramePen.h"
 #import "LSOVideoAsset.h"
 #import "LSOAeViewPen.h"
+#import "LSOVideoFramePen2.h"
 
 
 
 
+NS_ASSUME_NONNULL_BEGIN
 /**
- 混合容器的执行;
+ 混合容器的后台执行;
+ 
+ 你可以增加图片/ 声音/视频,可以指定增加到什么位置.
  */
 @interface DrawPadAllExecute : LSOObject
 
 /**
  当前进度的最终长度;, 进度/duration等于百分比;
  */
-@property (readonly) CGFloat duration;
+@property (readonly) CGFloat durationS;
 
 /**
  当前容器的大小
@@ -58,15 +62,24 @@
  */
 -(id)initWithDrawPadSize:(CGSize)size durationS:(CGFloat)durationS;
 
-/// 增加视频资源, 返回视频图层;
-/// @param videoAsset 视频资源
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset;
 
-/// 增加视频资源, 返回视频图层;
+@property(nullable, nonatomic,copy)  UIColor *backgroundColor;
+
+/// 增加视频图层
 /// @param videoAsset 视频资源
-/// @param startS 从容器的什么时间点开始, 单位秒
-/// @param endS 从容器的什么时间点结束; 单位秒;
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset startTime:(CGFloat )startS endTime:(CGFloat)endS;
+/// @param option 视频选项
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option;
+
+
+
+
+/// 增加视频图层
+/// @param videoAsset 视频资源
+/// @param option 视频选项
+/// @param startS 从容器的什么时间点增加此视频
+/// @param endS 增加到容器的什么时间点为止.
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
+
 
 
 
@@ -75,7 +88,7 @@
 -(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView;
 /// 增加json动画
 /// @param aeView 动画;
--(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startTime:(CGFloat )startS endTime:(CGFloat)endS;
+-(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 
 /**
@@ -91,7 +104,7 @@
 /// @param bmpAsset 图片资源
 /// @param startS 开始时间, 单位秒
 /// @param endS 结束时间,单位秒, 如果到文件尾,则用CGFLOAT_MAX
-- (LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset startTime:(CGFloat)startS endTime:(CGFloat)endS;
+- (LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
 /**
  增加mv图层;
 
@@ -109,8 +122,26 @@
 /// @param maskPath mv效果中的黑白视频路径
 /// @param startS 开始时间
 /// @param endS 结束时间;
--(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath startTime:(CGFloat)startS endTime:(CGFloat)endS;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
 
+//--------------------------------------------------------拼接类----------------------------------------------
+///  拼接视频 多次调用
+///  此拼接,是把所有图片前后拼接起来, 并放到最底层;
+///   在拼接视频后,我们会自动计算每个层的显示时间, 请务必不要调用setDisplayTimeRange
+/// @param asset 视频资源
+/// @param option 视频选项;
+-(LSOVideoFramePen2 *)concatVideoFramePen2:(LSOVideoAsset *)asset option:(LSOVideoOption *)option;
+
+/// 拼接图片
+///  此拼接,是把所有图片前后拼接起来, 并放到最底层;
+///  在拼接视频后,我们会自动计算每个层的显示时间, 请务必不要调用setDisplayTimeRange  
+/// @param bmpAsset 图片资源
+/// @param durationS 图片存在的时间;
+-(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS;
+
+-(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS overLapTime:(CGFloat)overLapTimeS;
+
+//----------------------
 /**
  开始执行
  */
@@ -203,3 +234,4 @@
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 @end
 
+NS_ASSUME_NONNULL_END

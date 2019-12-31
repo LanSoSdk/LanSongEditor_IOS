@@ -21,9 +21,11 @@
 #import "LSOBitmapAsset.h"
 #import "LSOVideoAsset.h"
 #import "LSOAeViewPen.h"
+#import "LSOVideoOption.h"
+#import "LSOVideoFramePen2.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 /**
  图片/视频/Ae动画处理的
  */
@@ -32,8 +34,10 @@
 
 /// 初始化
 /// @param size 容器大小, 其中的宽度和高度一定是2的倍数
-/// @param durationS 容器的总时长, 单位秒. 可以是小数, 建议设置小于30s;
+/// @param durationS 容器的总时长, 单位秒. 可以是小数, [可选]
 -(id)initWithDrawPadSize:(CGSize)size durationS:(CGFloat)durationS;
+
+
 
 
 
@@ -50,15 +54,19 @@
  */
 -(void)addLanSongView:(LanSongView2 *)view;
 //-----------------------------------视频图层--------------------------------
-/// 增加视频资源, 返回视频图层;
+
+
+/// 增加一个视频图层
 /// @param videoAsset 视频资源
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset;
+/// @param option 资源选项
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option;
 
 /// 增加视频资源, 返回视频图层;
 /// @param videoAsset 视频资源
+/// @param option 资源选项
 /// @param startS 从容器的什么时间点开始, 单位秒
-/// @param endS 从容器的什么时间点结束; 单位秒; 如果增加到全部,则设置为CGFLOAT_MAX
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset startTime:(CGFloat )startS endTime:(CGFloat)endS;
+/// @param endS 从容器的什么时间点结束; 单位秒;
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 
 //-----------------------------------Aejson动画图层--------------------------------
@@ -70,7 +78,7 @@
 /// @param aeView json动画对象
 /// @param startS 从容器的什么位置增加
 /// @param endS 增加到容器的什么位置;
--(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startTime:(CGFloat )startS endTime:(CGFloat)endS;
+-(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 //-----------------------------------View UI图层--------------------------------
 /**
@@ -92,11 +100,13 @@
 -(LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset;
 
 
+
+
 /// 增加图片图层 ,可以设置开始时间和结束时间
 /// @param image 图片对象
 /// @param startS 开始时间,单位秒
-/// @param endS 结束时间, 如果到最后,设置为CGFLOAT_MAX
--(LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset startTime:(CGFloat )startS endTime:(CGFloat)endS;
+/// @param endS 结束时间
+-(LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 
 //-----------------------------------透明动画 MV图层--------------------------------
@@ -111,11 +121,41 @@
 -(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
--(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath  startTime:(CGFloat )startS endTime:(CGFloat)endS;
+-(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
+
+//-------------------拼接类---------
+/// 拼接图片
+///  此拼接,是把所有图片前后拼接起来, 并放到最底层;
+///  在拼接视频后,我们会自动计算每个层的显示时间, 请务必不要调用setDisplayTimeRange
+///  默认会在上一个图层的下面交叠1秒的时长;
+/// @param bmpAsset 图片资源
+/// @param durationS 图片存在的时间;
+-(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS;
+
+
+/// 拼接图片
+/// @param bmpAsset 图片图层
+/// @param durationS 时长
+/// @param overLapTimeS 和上一个图层交叠的时间;
+-(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS overLapTime:(CGFloat)overLapTimeS;
+
+/// 拼接一个视频图层
+/// @param asset
+/// @param option 
+-(LSOVideoFramePen2 *)concatVideoFramePen2:(LSOVideoAsset *)asset option:(LSOVideoOption *)option;
+
+
+
+
+//----------------------控制类方法------
+
+
+/// 设置容器的背景颜色
+@property(nullable, nonatomic,copy)  UIColor *backgroundColor;
 
 /**
- 交换两个图层的位置
+ 交换两个非拼接图层的前后位置;
  在开始前调用;
  @param first 第一个图层对象
  @param second 第二个图层对象
@@ -123,7 +163,7 @@
 -(BOOL)exchangePenPosition:(LSOPen *)first second:(LSOPen *)second;
 
 /**
- 设置图层的位置
+ 设置非拼接图层的位置
  [在开始前调用]
  
  @param pen 图层对象
@@ -132,19 +172,47 @@
 -(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
 /**
- 当前容器的总时长;
+ 获取容器的总时长;
+ 单位:秒
  */
-@property CGFloat duration;
+@property CGFloat durationS;
+
+
+/// 用在UISlide滑动条 滑动的场合
+/// @param timeS seek到的时间
+-(void)seekPauseTo:(CGFloat)timeS;
+
+
+/// 暂停预览
+-(void)pausePreview;
+
+/// 恢复预览;
+-(void)resumePreview;
+
+
+/// 设置是否循环预览
+/// @param loop 循环预览
+-(void)setLoopPreview:(BOOL)loop;
+
+
+
+/// 当前是否暂停播放;
+@property (nonatomic,readonly)BOOL isPaused;
 
 
 -(void)removePen:(LSOPen *)pen;
 
 /**
- 开始执行
+ 因为当前增加多个声音或视频后,直接start有点耗时,
+ 我们暂时折中的办法是:在开始执行之前, 有一个准备的过程, 您可以在准备的时候,有个对话框,提醒用户;
+ */
+-(BOOL)prepareDrawPad:(void (^)(void))handler;
+/**
+ 在调用此方法前,一定要调用prepare;
  这个只是预览, 开始后,不会编码, 不会有完成回调
  @return 执行成功返回YES, 失败返回NO;
  */
--(BOOL)start;
+-(void)start;
 /**
  取消
  */
@@ -184,6 +252,8 @@
 @property (nonatomic,readonly) int penCount;
 
 
+/// 当前是否循环播放;
+@property (nonatomic,readonly) BOOL isLooping;
 
 /**
  设置Ae模板中的视频的音量大小.
@@ -238,3 +308,6 @@
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 @end
+
+NS_ASSUME_NONNULL_END
+

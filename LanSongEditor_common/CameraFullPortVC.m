@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor=[UIColor blackColor];
+   self.view.backgroundColor=[UIColor blackColor];
     [DemoUtils setViewControllerPortrait];
     
     beautyLevel=0;
@@ -79,10 +79,11 @@
     //初始化其他UI界面.
     [self initView];
     
-    
     filterListVC=[[FilterTpyeList alloc] initWithNibName:nil bundle:nil];
     filterListVC.filterSlider=filterSlider;
     filterListVC.filterPen=drawPadCamera.cameraPen;
+    
+    [self addMVPen];
 }
 //增加图片图层
 -(void)addBitmapPen
@@ -131,84 +132,84 @@
 -(void)progressBlock:(CGFloat)currentPts
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
+          _labProgress.text=[NSString stringWithFormat:@"当前进度 %f",currentPts];
     });
 }
 -(void)doButtonClicked:(UIView *)sender
 {
-    __weak typeof(self) weakSelf = self;
-    switch (sender.tag) {
-        case 101 :  //filter
-            isSelectFilter=YES;
-            [self.navigationController pushViewController:filterListVC animated:NO];
-            break;
-        case  102:  //btnStart;
-            if(drawPadCamera.isRecording==NO){
-                [drawPadCamera startRecord];
-                [drawPadCamera setProgressBlock:^(CGFloat progess) {
-                    [weakSelf progressBlock:progess];
-                }];
-            }else{
-                LSOLog(@" is recording....");
-            }
-            break;
-        case  103:  //btnOK;
-            if(drawPadCamera.isRecording){
-                //停止,开始播放;
-                [drawPadCamera stopRecord:^(NSString *path) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // [drawPadCamera stopPreview];
-                        [DemoUtils startVideoPlayerVC:self.navigationController dstPath:path];
-                    });
-                }];
-            }
-            break;
-        case  104:
-            if(drawPadCamera!=nil){
-                [drawPadCamera.cameraPen rotateCamera];
-            }
-            break;
-        case 201:  //美颜
-            if(beautyLevel==0){  //增加美颜
-                [beautyMng addBeauty:drawPadCamera.cameraPen];
-                beautyLevel+=0.22;
-            }else{
-                beautyLevel+=0.1;
-                [beautyMng setWarmCoolEffect:beautyLevel];
-                if(beautyLevel>1.0){ //删除美颜
-                    [beautyMng deleteBeauty:drawPadCamera.cameraPen];
-                    beautyLevel=0;
+     __weak typeof(self) weakSelf = self;
+        switch (sender.tag) {
+            case 101 :  //filter
+                isSelectFilter=YES;
+                [self.navigationController pushViewController:filterListVC animated:NO];
+                break;
+            case  102:  //btnStart;
+                if(mvPen.isPaused){
+                    [mvPen resumeFrame];
+                    LSDELETE(@"add mv pen ..resumeFrame...")
+                }else{
+                    [mvPen pauseFrame];
+                    LSDELETE(@"add mv pen ...pauseFrame..")
                 }
-            }
-            segmentSpeed.enabled= !segmentSpeed.enabled;
-            break;
-        case 202:  //拍照
-        {
-            WS(weakSelf)
-            [drawPadCamera.cameraPen setSnapShotUIImage:^(UIImage *uiimage) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf showSnapSho:uiimage];
-                });
-            }];
+                
+                break;
+            case  103:  //btnOK;
+                if(drawPadCamera.isRecording){
+                    //停止,开始播放;
+                    [drawPadCamera stopRecord:^(NSString *path) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                           // [drawPadCamera stopPreview];
+                            [DemoUtils startVideoPlayerVC:self.navigationController dstPath:path];
+                        });
+                    }];
+                }
+                break;
+            case  104:
+                if(drawPadCamera!=nil){
+                    [drawPadCamera.cameraPen rotateCamera];
+                }
+                break;
+            case 201:  //美颜
+                if(beautyLevel==0){  //增加美颜
+                    [beautyMng addBeauty:drawPadCamera.cameraPen];
+                    beautyLevel+=0.22;
+                }else{
+                    beautyLevel+=0.1;
+                    [beautyMng setWarmCoolEffect:beautyLevel];
+                    if(beautyLevel>1.0){ //删除美颜
+                        [beautyMng deleteBeauty:drawPadCamera.cameraPen];
+                        beautyLevel=0;
+                    }
+                }
+                segmentSpeed.enabled= !segmentSpeed.enabled;
+                break;
+            case 202:  //拍照
+                {
+                    WS(weakSelf)
+                    [drawPadCamera.cameraPen setSnapShotUIImage:^(UIImage *uiimage) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakSelf showSnapSho:uiimage];
+                        });
+                    }];
+                }
+                break;
+            case 203:
+                 [self addMVPen];
+                break;
+                
+            case 301:
+                [self.navigationController popViewControllerAnimated:YES];
+                break;
+            default:
+                break;
         }
-            break;
-        case 203:
-            [self addMVPen];
-            break;
-            
-        case 301:
-            [self.navigationController popViewControllerAnimated:YES];
-            break;
-        default:
-            break;
-    }
 }
 -(void)showSnapSho:(UIImage *)image{
     NSLog(@"-------snapshot save uiimage :%@",[LSOFileUtil saveUIImage:image]);
     [DemoUtils showHUDToast:@"已抓取一帧数据.在CameraFullPortVC.m中"];
 }
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
@@ -403,8 +404,6 @@
         make.centerX.mas_equalTo(self.view.mas_right).offset(-btnWH);
         make.size.mas_equalTo(CGSizeMake(btnWH*2, btnWH));
     }];
-    
-    
 }
 /**
  初始化一个slide 返回这个UISlider对象
@@ -448,5 +447,4 @@
 }
 
 @end
-
 

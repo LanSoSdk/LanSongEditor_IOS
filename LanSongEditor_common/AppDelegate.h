@@ -11,6 +11,9 @@
 
 //包含LanSongSDK所有的库头文件
 #import <LanSongEditorFramework/LanSongEditor.h>
+//自从3.8版本开始, 蓝松SDK图层架构和ffmpeg分离, 分别用两个framework的形式提供, 您需要import两个.
+#import <LanSongFFmpegFramework/LanSongFFmpeg.h>
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -31,6 +34,7 @@
 
 
 @property (nonatomic) LSOVideoAsset *currentEditVideoAsset;
+
 
 
 @end

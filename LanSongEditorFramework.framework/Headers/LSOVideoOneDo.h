@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <AVKit/AVKit.h>
-#import "LSOMediaInfo.h"
 #import "LanSongFilter.h"
 
 
@@ -27,22 +26,18 @@
 
 
 /**
- 在init后,获取当前视频的所有信息
+ 在init后,获取视频的信息
  */
-@property (readonly,nonatomic)LSOMediaInfo *mediaInfo;
+@property (nonatomic,readonly)CGFloat videoWidth;
+@property (nonatomic,readonly)CGFloat videoHeight;
+
+/// 获取视频的时长,单位秒;
+@property (nonatomic,readonly)CGFloat videoDurationS;
+
 /**
  是否在运行
  */
 @property (readonly)BOOL  isRunning;
-/**
- 得到视频的宽高
- */
--(float)getVideoWidth;
-
-/**
- 得到视频的宽高
- */
--(float)getVideoHeight;
 
 /**
  设置视频的音量大小.

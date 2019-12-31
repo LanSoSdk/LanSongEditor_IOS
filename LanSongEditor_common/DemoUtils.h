@@ -19,6 +19,7 @@
 #import "UIColor+Util.h"
 #import "VideoPlayViewController.h"
 #import "DemoProgressHUD.h"
+#import "DemoTestButton.h"
 
 
 
@@ -83,7 +84,7 @@
  */
 +(LSOAeCompositionView *)createAeCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
 /**
- 设置当前viewController竖屏
+设置当前viewController竖屏
  */
 +(void)setViewControllerPortrait;
 
@@ -103,4 +104,3 @@
  */
 +(void)printJsonInfo:(LSOAeView *)aeView;
 @end
-

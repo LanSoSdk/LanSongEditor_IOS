@@ -14,9 +14,19 @@
 #import "LSOBitmapPen.h"
 #import "LSOMVPen.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 @interface LSODrawPadPreview : NSObject
 
+
+/**
+ 当前容器的总长度,等于视频的长度;
+ 单位秒;
+ */
+@property (nonatomic,readonly)   CGFloat duration;
+
+@property (nonatomic,readonly)   CGFloat width;
+@property (nonatomic,readonly)   CGFloat height;
 
 
 /**
@@ -47,11 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) CGSize drawpadSize;
 
-/**
- 当前容器的总长度,等于视频的长度;
- 单位秒;
- */
-@property (nonatomic)   CGFloat duration;
+
 
 -(LSOVideoPen *)addVideoPen:(NSURL *)videoURL;
 

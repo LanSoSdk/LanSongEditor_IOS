@@ -28,11 +28,14 @@
     NSURL *mvMaskURL;
     
     NSString *json1Path;
+    NSString *json2Path;
     NSURL *addAudioURL;
     
     NSString *moduleName;
     
     DemoProgressHUD *hud;
+    
+    unsigned char *rawBytes;
 }
 @end
 
@@ -44,14 +47,16 @@
     
     bgVideoURL=nil;
     json1Path=nil;
-    bgVideoURL=nil;
     mvMaskURL=nil;
     mvColorURL=nil;
 
     hud=[[DemoProgressHUD alloc] init];
 
-    [self prepareAeAsset];
-    [self startAEPreview];
+        [self prepareAeAsset];
+        [self startAEPreview];
+    
+  
+    
     UIView *view=[self newButton:lansongView index:201 hint:@"替换图片"];
     view=[self newButton:view index:202 hint:@"后台处理(导出)"];
 
@@ -84,6 +89,8 @@
     bgVideoURL=nil;
     
     moduleName=nil;
+    
+    
     switch (_AeType) {
         case kAEDEMO_AOBAMA:
             moduleName=@"aobama";
@@ -105,6 +112,10 @@
         case kEDEMO_REPLACE_VIDEO:
             moduleName=@"replaceVideo";
             break;
+            
+        case kEDEMO_KADIAN:
+            moduleName=@"kadian";
+            break;
         default:
             [DemoUtils showDialog:@"暂时没有这个举例."];
             [self.navigationController popViewControllerAnimated:YES];
@@ -119,9 +130,6 @@
 
 -(void)startAEPreview
 {
-    if(moduleName==nil){
-        return;
-    }
     if(aePreview.isRunning){
         return;
     }
@@ -137,7 +145,7 @@
     if(bgVideoURL!=nil){
         [aePreview addBgVideoWithURL:bgVideoURL];
     }
-    //增加json图层,并切换各种素材;
+    //增加json图层;
     LSOAeView *aeView=[aePreview addAEJsonPath:json1Path];
     [self replaceAeAsset:aeView];
 
@@ -145,16 +153,14 @@
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aePreview addMVPen:mvColorURL withMask:mvMaskURL];
     }
-    
-    //容器大小,在增加图层后获取
-    //显示窗口增加到ui上
+    //容器大小,在增加图层后获取;
     drawpadSize=aePreview.drawpadSize;
-    CGSize size=self.view.frame.size;
     if(lansongView==nil){
-        lansongView=[DemoUtils createLanSongView:size drawpadSize:drawpadSize];
+        lansongView=[DemoUtils createLanSongView:self.view.frame.size drawpadSize:drawpadSize];
         [self.view addSubview:lansongView];
     }
-    [aePreview addLanSongView:lansongView];  //给容器增加显示出口.
+    [aePreview addLanSongView:lansongView];
+    
     
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){
@@ -164,7 +170,6 @@
         NSURL *audio=[LSOFileUtil URLForResource:@"kadian" withExtension:@"mp3"];
         [aePreview addAudio:audio volume:1.0f];
     }
-    
     //增加回调
     __weak typeof(self) weakSelf = self;
     [aePreview setProgressBlock:^(CGFloat progress) {
@@ -178,6 +183,7 @@
                 [weakSelf startAEPreview];  //如果没有编码,则让他循环播放
               });
     }];
+    
     //开始执行,
     [aePreview start];
 }
@@ -199,7 +205,6 @@
     }
 
     //2.增加json层
-    json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
     if(json1Path!=nil){
         LSOAeView *aeView=[aeExecute addAEJsonPath:json1Path];
         [self replaceAeAsset:aeView];
@@ -213,6 +218,9 @@
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];
+        [aeExecute addAudio:audio volume:1.0f];
+    }else if(_AeType==kEDEMO_KADIAN){
+        NSURL *audio=[LSOFileUtil URLForResource:@"kadian" withExtension:@"mp3"];
         [aeExecute addAudio:audio volume:1.0f];
     }
     
@@ -238,7 +246,11 @@
  */
 -(void)replaceAeAsset:(LSOAeView *)aeView
 {
-    [self printJsonInfo:aeView];
+    [DemoUtils printJsonInfo:aeView];  //打印json中的信息;
+    
+    if(moduleName==nil){
+        return;
+    }
     
     if(aeView!=nil){
         if(_AeType==kAEDEMO_AOBAMA){  //如果是奥巴马模板的话,则直接填入图片;
@@ -258,7 +270,7 @@
                 //第一张图片替换为视频
                 [aeView updateVideoImageWithKey:@"image_0" url:videoUrl1];
 
-            //第二个视频
+                //第二个视频
                 LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
                 setting.isLooping=YES;
                 setting.isFrameRateSameAsJson=NO;
@@ -269,10 +281,9 @@
                 //第三个视频
                 [aeView updateVideoImageWithKey:@"image_2" url:videoUrl2];
 
-                [aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
-                    return image;
-                }];
-            
+//                [aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
+//                    return image;
+//                }];
             
             [aeView updateTextWithOldText:@"临时测试模板--蓝松SDK" newText:@"123abcdefg蓝松科技有限公司456"];
         }else{
@@ -280,41 +291,15 @@
             //所有这里可以用for循环来替, 如果你的图片没有规律,则分别创建成value
             for (int i=0; i<aeView.imageInfoArray.count; i++) {
                 NSString *key=[NSString stringWithFormat:@"image_%d",i];
-                UIImage *value=[UIImage imageNamed:[NSString stringWithFormat:@"%@_img_%d",moduleName,i]];
-                [aeView updateImageWithKey:key image:value];  //替换图片
+               
+                
+                NSString *name= [NSString stringWithFormat:@"%@_img_%d",moduleName,i];
+                NSURL *imageURL=[LSOFileUtil URLForResource:name withExtension:@"png"];
+                [aeView updateImageWithKey:key imageURL:imageURL];
+                
+                
             }
         }
-    }
-}
--(void)printJsonInfo:(LSOAeView *)aeView
-{
-    LSOLog(@"************************************************************************************")
-    LSOLog(@"*\t");
-    LSOLog(@"*\t 图片信息(picture info):")
-    for (LSOAeImageLayer *layer in aeView.imageLayerArray) {
-        LSOLog(@"*\t 图片ID::%@,名字:%@,原始宽高:%f x %f. 开始帧:%f,结束帧:%f,时长:%f,帧率:%f",
-               layer.imgId,layer.imgName,layer.imgWidth,layer.imgHeight,
-               layer.startFrame,layer.endFrame,layer.durationS,layer.jsonFrameRate);
-    }
-    
-    for (LSOAeText *layer in aeView.textInfoArray) {
-        LSOLog(@"*\t 文字内容::%@,图层名字:%@,字号:%f. 字体名字:%@,对齐方式:%@;",
-               layer.textContents,layer.textlayerName,layer.textFontSize,layer.textFont,
-               [self convertJustification:layer.textJustification]);
-    }
-    LSOLog(@"*\t");
-    LSOLog(@"************************************************************************************")
-}
--(NSString *)convertJustification:(int)justification
-{
-    if(justification==0){
-        return @"左对齐";
-    }else if(justification==1){
-        return @"右对齐";
-    }else if(justification==2){
-        return @"居中对齐";
-    }else{
-        return @"unknow";
     }
 }
 -(void)stopAePreview
@@ -392,6 +377,7 @@
         default:
             break;
     }
+    
     if (pushVC!=nil) {
         [self.navigationController pushViewController:pushVC animated:NO];
     }
@@ -444,3 +430,4 @@
     LSOLog_d(@"AEPreviewDemoVC  dealloc...");
 }
 @end
+

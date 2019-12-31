@@ -78,6 +78,14 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //处理视频和音频的基本单元.
 #import <LanSongEditorFramework/LSOVideoAsset.h>
+
+#import <LanSongEditorFramework/LSOXAssetInfo.h>
+
+
+
+#import <LanSongEditorFramework/LSOVideoOption.h>
+
+
 //图片资源
 #import <LanSongEditorFramework/LSOBitmapAsset.h>
 
@@ -93,6 +101,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/LSOVideoFramePen.h>
 
+#import <LanSongEditorFramework/LSOVideoFramePen2.h>
+
+
 #import <LanSongEditorFramework/LSOAeViewPen.h>
 
 
@@ -107,6 +118,13 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //子图层: 可做灵魂出窍等功能;
 #import <LanSongEditorFramework/LSOSubPen.h>
+//******************************动画类****************************************
+#import <LanSongEditorFramework/LSOAnimation.h>
+#import <LanSongEditorFramework/LSOMaskAnimation.h>
+
+#import <LanSongEditorFramework/LSOAeAnimation.h>
+#import <LanSongEditorFramework/LSOAdjustAnimation.h>
+
 //******************************滤镜****************************************
 //各种滤镜的头文件;
 #import <LanSongEditorFramework/LanSong.h>
@@ -123,8 +141,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //音频录制类
 #import <LanSongEditorFramework/LSOAudioRecorder.h>
 
-//视频转换为编辑模式.
-#import <LanSongEditorFramework/LSOEditMode.h>
+//#import <LanSongEditorFramework/LSOEditMode.h>
 
 //视频的剪切, 裁剪, logo, 文字,滤镜,缩放,码率, 压缩的一次性处理
 #import <LanSongEditorFramework/LSOVideoOneDo.h>
@@ -141,15 +158,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //*************************辅助, 常见功能处理类**************************
 #import <LanSongEditorFramework/LanSongLog.h>
-//获取音视频的信息;
-#import <LanSongEditorFramework/LSOMediaInfo.h>
 
-//列举了一些常见的视频编辑功能
-#import <LanSongEditorFramework/LSOVideoEditor.h>
-
-//多个视频布局的例子;
-#import <LanSongEditorFramework/LSOLayoutParam.h>
-#import <LanSongEditorFramework/LSOVideoLayout.h>
 
 //创建临时 处理文件的头文件
 #import <LanSongEditorFramework/LSOFileUtil.h>
@@ -159,8 +168,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //辅助类, 保存数据到文件;
 #import <LanSongEditorFramework/LSOSaveToFile.h>
 
-//特定用户使用. 
-#import <LanSongEditorFramework/LSOFFmpegManager.h>
+
 
 //*************************杂项**************************
 #import <LanSongEditorFramework/LSOAeView.h>

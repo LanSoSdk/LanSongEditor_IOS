@@ -13,8 +13,5 @@
 @property UILabel *labProgress;
 
 @property BOOL isAddUIPen;
-
-
-
 @end
 

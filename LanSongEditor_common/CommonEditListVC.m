@@ -8,7 +8,7 @@
 
 #import "CommonEditListVC.h"
 #include "DemoFullWidthButtonsView.h"
-#import "CommonEditVC.h"
+#import "VideoOneDoVC.h"
 #import "ConcatVideosVC.h"
 
 @interface CommonEditListVC () <LSOFullWidthButtonsViewDelegate>
@@ -58,7 +58,7 @@
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
     if(index==0){
-        UIViewController *pushVC=[[CommonEditVC alloc] init];
+        UIViewController *pushVC=[[VideoOneDoVC alloc] init];
         [self.navigationController pushViewController:pushVC animated:NO];
     }else {
         switch (index) {
@@ -96,12 +96,13 @@
             [weakSelf showProgress:percent];
         });
     }];
-    
+
     [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [weakSelf completedBlock:dstPath];
         });
     }];
+    [self showProgress:0];
     [videoEditor startAdjustVideoSpeed:srcVideoPath speed:0.5f];  //这里用速度放慢一倍来演示;
 }
 -(void)testAdjustFrameRate
@@ -113,12 +114,13 @@
             [weakSelf showProgress:percent];
         });
     }];
-    
+
     [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [weakSelf completedBlock:dstPath];
         });
     }];
+    [self showProgress:0];
     [videoEditor startAdjustFrameRate:srcVideoPath frameRate:20];
 }
 /**
@@ -133,12 +135,13 @@
             [weakSelf showProgress:percent];
         });
     }];
-    
+
     [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf completedBlock:dstPath];
         });
     }];
+    [self showProgress:0];
     [videoEditor startAVReverse:srcVideoPath isReverseAudio:YES];
 }
 
@@ -154,12 +157,13 @@
             [weakSelf showProgress:percent];
         });
     }];
-    
+
     [videoEditor setCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf completedBlock:dstPath];
         });
     }];
+    [self showProgress:0];
     [videoEditor startDeleteLogo:srcVideoPath startX:0 startY:0 width:200 height:200];
 }
 -(void)moreVideoConcat

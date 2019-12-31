@@ -49,8 +49,8 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 - (void)setBackgroundColorRed:(GLfloat)redComponent green:(GLfloat)greenComponent blue:(GLfloat)blueComponent alpha:(GLfloat)alphaComponent;
 - (void)setCurrentlyReceivingMonochromeInput:(BOOL)newValue;
 -(void)setPenArray:(NSMutableArray *)array;
+-(void)setPenArray2:(NSMutableArray *)array;
 -(void)setDrivePen:(LSOPen *)pen;
 -(void)resetDriver;
 @property (nonatomic)BOOL forceUpdate;
--(void)updateDraw222;
 @end

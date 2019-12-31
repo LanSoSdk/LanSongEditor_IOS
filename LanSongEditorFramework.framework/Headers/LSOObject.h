@@ -41,14 +41,7 @@ typedef enum : NSInteger {
 @interface LSOObject : NSObject
 
 //给当前类做一个标记. TAG;
-@property (nonatomic,retain) NSString *lsoTag;
-
-/**
- 一个类的序列号.
- 暂时没有用到;
- */
-@property (nonatomic,assign) int serialNumber;
-
+@property (assign,readwrite) NSObject *lsoTag;
 
 /**
  释放当前类;

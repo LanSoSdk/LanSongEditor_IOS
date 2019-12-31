@@ -66,6 +66,7 @@
     
     BeautyManager *beautyMng;
     float beautyLevel;
+    LSOMVPen *mvPen;
 }
 @property (strong, nonatomic) SegmentRecordProgressView *progressBar;
 
@@ -171,6 +172,9 @@
         });
     }];
     
+    if(mvPen!=nil){
+        [drawPadCamera resumeMVPenAudioPlayer];
+    }
     [drawPadCamera startRecord];
 }
 
@@ -181,6 +185,9 @@
 {
     if(drawPadCamera.isRecording && currentSegmentDuration>0)
     {
+        if(mvPen!=nil){
+            [drawPadCamera pauseMVPenAudioPlayer];
+        }
         [drawPadCamera stopRecord:^(NSString *path) {
             if([LSOFileUtil fileExist:path])
             {
@@ -263,7 +270,6 @@
             [fileArray addObject:data.segmentPath];
         }
         //开始拼接起来;
-        
         dstPath=[LSOFileUtil genTmpMp4Path];
         [LSOVideoEditor executeConcatMP4:fileArray dstFile:dstPath];  //耗时很少;
         [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];

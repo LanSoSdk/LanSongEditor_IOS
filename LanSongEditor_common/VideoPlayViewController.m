@@ -16,7 +16,7 @@
 
 @interface VideoPlayViewController ()
 {
-    LSOMediaInfo *mInfo;
+    LSOXAssetInfo *mInfo;
     AVPlayerLayer *layer;
       CGContextRef   context;        //绘制layer的context
     
@@ -39,21 +39,22 @@
     [super viewDidLoad];
     _notificationToken=0;
     
+    
     LSOLog(@"-----------start  VideoPlayViewController-------.");
     [DemoUtils setViewControllerPortrait];
     
-    mInfo=[[LSOMediaInfo alloc] initWithPath:self.videoPath];
+    mInfo=[[LSOXAssetInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
         LSOLog(@"获取到的视频信息是:%@",mInfo);
         NSString *str= [NSString stringWithFormat:@"宽度:%f"
                 "高度:%f"
                 "时长:%f"
-               "旋转角度:%f"
-                "音频采样率:%d"
-                "音频通道:%d"
-                ,mInfo.width,mInfo.height,mInfo.vDuration,mInfo.vRotateAngle,mInfo.aSampleRate,mInfo.aChannels];
+               "旋转角度:%d"
+                "帧率是:%f"
+                ,mInfo.width,mInfo.height,mInfo.duration,mInfo.videoAngle,mInfo.frameRate];
         [self.libInfo setText:str];
         [self playVideo];
+        
         
 //         //显示第一张图片
 //        UIImage *image=[VideoEditor getVideoImageimageWithURL:[LSOFileUtil filePathToURL:self.videoPath]];
@@ -61,10 +62,8 @@
 //        UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 300, 100, 100*ratio)];
 //        imgView.image=image;
 //        [self.view addSubview:imgView];
-        
+    
     }else{
-        [LSOMediaInfo checkFile:self.videoPath];
-        
         [DemoUtils showHUDToast:@"当前视频错误, 退出"];
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -76,6 +75,7 @@
 //LSTODO: 有1%的几率不会被播放.但视频导出是好的.
 -(void)playVideo
 {
+    
     NSURL *url=[NSURL fileURLWithPath:_videoPath];
     
     AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
@@ -166,8 +166,10 @@
     isUpdateSlider=NO;
 }
 - (IBAction)changeProgress:(id)sender {
-    sumPlayOperation = player.currentItem.duration.value/player.currentItem.duration.timescale;
-    [player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*sumPlayOperation, player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
+    CGFloat duration = player.currentItem.duration.value/player.currentItem.duration.timescale;
+    
+    
+    [player seekToTime:CMTimeMakeWithSeconds(self.progressSlider.value*duration, player.currentItem.duration.timescale) completionHandler:^(BOOL finished) {
         [player play];
     }];
 }

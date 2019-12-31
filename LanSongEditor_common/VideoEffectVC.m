@@ -416,6 +416,7 @@
         
         [videoPen removeAllSubPen];
         [videoPen switchFilter:nil];
+        colorScaleEnable=NO;
     }
 }
 -(void)initButtonView
@@ -590,3 +591,4 @@
     dstPath=nil;
 }
 @end
+

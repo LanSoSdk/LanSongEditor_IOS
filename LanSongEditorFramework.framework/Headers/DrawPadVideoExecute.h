@@ -22,16 +22,14 @@
 @interface DrawPadVideoExecute : NSObject
 
 
-/**
- 当前输入视频的媒体信息, 可以获取视频宽高, 长度等;
- */
-@property (nonatomic,readonly)LSOMediaInfo *mediaInfo;
+@property (nonatomic,readonly)CGFloat width;
+@property (nonatomic,readonly)CGFloat height;
 
 
 /**
  容器运行的总时间;
  */
-@property (nonatomic,readonly)CGFloat durationS;
+@property (nonatomic,readonly)CGFloat duration;
 
 /**
  当前容器的尺寸, 如果你没有设置,则默认是视频的宽高.

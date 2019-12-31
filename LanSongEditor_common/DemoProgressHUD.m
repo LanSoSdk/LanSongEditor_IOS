@@ -33,7 +33,6 @@
 }
 -(void)showProgress:(NSString *)text
 {
-    
     if (demoHintHUD!=nil) {
         if(isShowing==NO){
             [demoHintHUD show:YES];
@@ -48,7 +47,7 @@
 -(void)hide
 {
     if(isShowing && demoHintHUD!=nil){
-            [demoHintHUD hide:YES];
+        [demoHintHUD hide:YES];
         isShowing=NO;
     }
 }

@@ -66,7 +66,7 @@
 -(void)testAobama
 {
 //    //奥巴马这个模板, 是先视频层, 再AE层, 最后mv;
-    videoURL=[[NSBundle mainBundle] URLForResource:@"aobamaEx" withExtension:@"mp4"];
+    videoURL=[[NSBundle mainBundle] URLForResource:@"aobama" withExtension:@"mp4"];
         //增加AE图层, AE=json+image
         jsonImage0=[self createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
         NSString *jsonName=@"aobama";
@@ -85,8 +85,8 @@
         [aeView updateImageWithKey:@"image_0" image:jsonImage0];
 
         //再增加mv图层;
-        mvColor=[[NSBundle mainBundle] URLForResource:@"ao_mvColor" withExtension:@"mp4"];
-        mvMask = [[NSBundle mainBundle] URLForResource:@"ao_mvMask" withExtension:@"mp4"];
+        mvColor=[[NSBundle mainBundle] URLForResource:@"aobama_mvColor" withExtension:@"mp4"];
+        mvMask = [[NSBundle mainBundle] URLForResource:@"aobama_mvMask" withExtension:@"mp4"];
         [drawpadExecute addMVPen:mvColor withMask:mvMask];
 
         //开始执行
@@ -102,8 +102,14 @@
     jsonImage0=[UIImage imageNamed:@"zaoan"];
     
     drawpadExecute=[[DrawPadAEExecute alloc] init];
+    
+    
     //增加Ae json层;
     LSOAeView *aeView1=[drawpadExecute addAEJsonPath:jsonPath];
+    
+    
+    
+    
     if(jsonImage0!=nil){
         [aeView1 updateImageWithKey:@"image_0" image:jsonImage0];
     }
@@ -169,11 +175,11 @@
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf drawpadProgress:progess];
-                
             });
         }];
         
         [drawpadExecute setCompletionBlock:^(NSString *dstPath) {
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf drawpadCompleted:dstPath];
             });
@@ -301,19 +307,20 @@
 -(void) testJson
 {
     [self resetData];
-
-   //第二步:从沙盒里读取文件,并开始AE;
     drawpadExecute=[[DrawPadAEExecute alloc] init];
     
+    //增加AE图层
+    jsonPath= [[NSBundle mainBundle] pathForResource:@"feng_data" ofType:@"json"];
+    LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
+    [aeView updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"feng_img_0"]];
+    [aeView updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"feng_img_1"]];
+
+
+
+
+    //开始执行
+    [self startAE];
     
-    jsonPath=[LSOFileUtil pathForResource:@"data223" ofType:@"json"];
-    LSOAeView *view=[drawpadExecute addAEJsonPath:jsonPath];
-    
-    [view updateImageWithKey:@"image_0" image:[UIImage imageNamed:@"HEI_img_0"]];
-    [view updateImageWithKey:@"image_1" image:[UIImage imageNamed:@"HEI_img_1"]];
-    [view updateImageWithKey:@"image_2" image:[UIImage imageNamed:@"HEI_img_2"]];
-  
-    [self startAE];  //开始执行;
 }
 
 @end

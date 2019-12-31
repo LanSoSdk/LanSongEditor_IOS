@@ -113,10 +113,9 @@
     
     [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
                 NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
                 //增加上原来的声音;
-                NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];;
+                NSString *dstPath=[LSOVideoAsset videoMergeAudio:path audio:original];;
                 [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
@@ -132,6 +131,7 @@
 }
 -(void)progressBlock:(CGFloat)progress
 {
+    
 }
 
 /**

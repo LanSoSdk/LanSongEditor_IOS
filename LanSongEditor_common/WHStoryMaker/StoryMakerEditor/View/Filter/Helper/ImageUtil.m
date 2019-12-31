@@ -129,11 +129,9 @@ static void changeRGBA(int *red,int *green,int *blue,int *alpha, const float* f)
 			imgPixel[pixOff+1] = green;
 			imgPixel[pixOff+2] = blue;
             imgPixel[pixOff+3] = alpha;
-            
            
 			pixOff += 4; //将数组的索引指向下四个元素
 		}
-        
 		wOff += w * 4;
 	}
     

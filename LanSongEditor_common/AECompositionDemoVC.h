@@ -17,9 +17,12 @@
 #define kEDEMO_MORE_PICTURE 5
 #define kEDEMO_REPLACE_VIDEO 6
 #define kEDEMO_KADIAN 7
+#define kEDEMO_GAUSSIAN_BLUR 8
+#define kEDEMO_CONCAT_JSON 9
 
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface AECompositionDemoVC : UIViewController
 
 @property int AeType;

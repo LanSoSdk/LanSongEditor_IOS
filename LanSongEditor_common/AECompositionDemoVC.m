@@ -9,9 +9,11 @@
 #import "AECompositionDemoVC.h"
 #import "DemoProgressHUD.h"
 
+
+
 @interface AECompositionDemoVC ()
 {
-    LSOAeCompositionView *aePreview;
+    LSOAeCompositionView *aeCompositionView;
     
     LSOBitmapPen *bmpPen;
     CGSize drawpadSize;
@@ -31,14 +33,15 @@
     
     NSString *moduleName;
     
-   
+    UISwitch *uiswitch;
+    
     
     LSOAeView  *aeView1;
-    
-    
+    LSOAeView *aeView2;
     BOOL isLSdeleteTESTFile;
 }
 @property  DemoProgressHUD *hud;
+@property CIContext *ciContext;
 @end
 
 @implementation AECompositionDemoVC
@@ -55,23 +58,20 @@
     _hud=[[DemoProgressHUD alloc] init];
     
     
+    //准备格式素材;
     [self prepareAeAsset];
-    
-    
-    //替换
-    aeView1=[LSOAeCompositionView parseJsonWithPath:json1Path];
-    [self replaceAeAsset:aeView1];
-    
-    
-    NSLog(@"aeView  size is :%f x %f",aeView1.jsonWidth, aeView1.jsonHeight);
-    
+    //解析导出的json文件, 并得到aeView对象;
+    aeView1=[LSOAeView parseJsonWithPath:json1Path];
+    [self replaceAeAsset:aeView1]; //给json对象替换各种素材;
     drawpadSize=CGSizeMake(aeView1.jsonWidth, aeView1.jsonHeight);
-    aePreview=[DemoUtils createAeCompositionView:self.view.frame.size drawpadSize:drawpadSize];
-    [self.view addSubview:aePreview];
+    aeCompositionView=[DemoUtils createAeCompositionView:self.view.frame.size drawpadSize:drawpadSize];
+    [self.view addSubview:aeCompositionView];
     
-    
-    UIView *view=[self createButtons:aePreview];
+
+    UIView *view=[self createButtons:aeCompositionView];
     view=[self newButton:view index:202 hint:@"后台处理(导出)"];
+    [self createUISwitch:view];
+    
     
     //显示进度;
     labProgress=[[UILabel alloc] init];
@@ -84,13 +84,12 @@
         make.left.mas_equalTo(view.mas_left);
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
-    
-    
-    [self startAEPreview];
+          [self startAEComposition];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -105,8 +104,6 @@
     bgVideoURL=nil;
     
     moduleName=nil;
-    
-    
     switch (_AeType) {
         case kAEDEMO_AOBAMA:
             moduleName=@"aobama";
@@ -131,92 +128,108 @@
         case kEDEMO_KADIAN:
             moduleName=@"kadian";
             break;
+        case kEDEMO_GAUSSIAN_BLUR:
+            moduleName=@"gaussianBlur";
+            break;
+        case kEDEMO_CONCAT_JSON:
+                moduleName=@"";
+                break;
         default:
             [DemoUtils showDialog:@"暂时没有这个举例."];
             [self.navigationController popViewControllerAnimated:YES];
             return;
     }
-    if(moduleName!=nil){
-        json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
-        mvColorURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvColor",moduleName] withExtension:@"mp4"];
-        mvMaskURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvMask",moduleName] withExtension:@"mp4"];
+    if(_AeType ==kEDEMO_CONCAT_JSON){
+        json1Path=[[NSBundle mainBundle] pathForResource:@"concat_json1" ofType:@"json"];
+        json2Path=[[NSBundle mainBundle] pathForResource:@"concat_json2" ofType:@"json"];
+        bgVideoURL=[LSOFileUtil URLForResource:@"json_cut_bg_10s" withExtension:@"mp4"];
+    }else {
+        if(moduleName!=nil){
+               json1Path=[[NSBundle mainBundle] pathForResource:moduleName ofType:@"json"];
+               mvColorURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvColor",moduleName] withExtension:@"mp4"];
+               mvMaskURL=[[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"%@_mvMask",moduleName] withExtension:@"mp4"];
+           }
     }
 }
-
--(void)startAEPreview
+/**
+ 开始Ae合成
+ */
+-(void)startAEComposition
 {
-    if(isLSdeleteTESTFile){
-        return;
-    }
-    
-    if(aePreview.isRunning){
+    if(aeCompositionView.isRunning){
         return;
     }
     //创建容器(容器是用来放置图层, 所有素材都是一层一层叠加起来处理)
-    [aePreview addFirstPenWithURL:bgVideoURL];
+    [aeCompositionView addFirstPenWithURL:bgVideoURL];
     
     //增加json图层;
-    [aePreview addSecondPen:aeView1];
+    [aeCompositionView addSecondPen:aeView1];
     //增加MV图层;
+    
+    
     if(mvColorURL!=nil && mvMaskURL!=nil){
-        [aePreview addThirdPen:mvColorURL withMask:mvMaskURL];
+        [aeCompositionView addThirdPen:mvColorURL withMask:mvMaskURL];
     }
     
     
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){
         NSURL *audio=[LSOFileUtil URLForResource:@"morePicture" withExtension:@"mp3"];
-        [aePreview addAudio:audio volume:1.0f];
+        [aeCompositionView addAudio:audio volume:1.0f];
     }else if(_AeType==kEDEMO_KADIAN){
         NSURL *audio=[LSOFileUtil URLForResource:@"kadian" withExtension:@"mp3"];
-        [aePreview addAudio:audio volume:1.0f];
+        [aeCompositionView addAudio:audio volume:1.0f];
     }
     
     
     UIImage *logo=[UIImage imageNamed:@"small"];
-    [aePreview addOtherBitmapPen:logo position:kLSOPenLeftTop];
-    
+    [aeCompositionView addOtherBitmapPen:logo position:kLSOPenLeftTop];
     
     //设置循环播放;
-    aePreview.loopPlay=YES;
+    aeCompositionView.loopPlay=YES;
+    
+    //是否禁止缓冲;
+    //默认是不禁止的,这里禁止;
+    if(_AeType!=kEDEMO_KADIAN){  //卡点的时候,让缓冲;
+        aeCompositionView.disableBuffering=YES;
+        uiswitch.on=YES;
+    }
     
 //-----------------增加回调---------------------------------------------
     __weak typeof(self) weakSelf = self;
     //预览缓冲回调;
-    [aePreview setPreviewBufferingBlock:^(BOOL isBuffering) {
+    [aeCompositionView setPreviewBufferingBlock:^(BOOL isBuffering) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if(isBuffering){
-                [weakSelf.hud showProgress:@"正在缓冲..."];
+                [weakSelf.hud showProgress:@"(手机慢或模板复杂)加速渲染中..."];
             }else{
                 [weakSelf.hud hide];
             }
-            
         });
     }];
     
     //预览进度回调;
-    [aePreview setPreviewProgressBlock:^(CGFloat progress, CGFloat percent) {
-        NSLog(@"------preview progress is :%f, %f",progress, percent);
+    [aeCompositionView setPreviewProgressBlock:^(CGFloat progress, CGFloat percent) {
+      //  NSLog(@"------preview progress is :%f, %f",progress, percent);
     }];
     
     //导出进度回调;
-    [aePreview setExportProgressBlock:^(CGFloat progress, CGFloat percent) {
-        NSLog(@"----setExportProgressBlock is :%f, %f",progress, percent);
+    [aeCompositionView setExportProgressBlock:^(CGFloat progress, CGFloat percent) {
+       // NSLog(@"----setExportProgressBlock is :%f, %f",progress, percent);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf drawpadProgress:progress percent:percent];
         });
     }];
     
     //导出完成回调;
-    [aePreview setExportCompletionBlock:^(NSString *dstPath) {
-        
+    [aeCompositionView setExportCompletionBlock:^(NSString *dstPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf drawpadCompleted:dstPath];
         });
     }];
     
     //开始执行,
-    [aePreview startPreview];
+    [aeCompositionView startPreview];
 }
 /**
  替换AE中的素材
@@ -248,6 +261,7 @@
             [aeView updateVideoImageWithKey:@"image_0" url:videoUrl1];
             
             //第二个视频
+            
             LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
             setting.isLooping=YES;
             setting.isFrameRateSameAsJson=NO;
@@ -256,16 +270,41 @@
             [aeView updateVideoImageWithKey:@"image_1" url:videoUrl0 setting:setting];
             
             //第三个视频
-            [aeView updateVideoImageWithKey:@"image_2" url:videoUrl2];
+            //
             
-            //[aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
-            //   return image;
-            //}];
-            [aeView updateTextWithOldText:@"临时测试模板--蓝松SDK" newText:@"123abcdefg蓝松科技有限公司456"];
+            [aeView updateVideoImageWithKey:@"image_2" url: videoUrl2];
+            
+            
+            
+            //LSDELETE 测试;
+             self.ciContext = [CIContext contextWithOptions:nil];
+//            [aeView setVideoDecoderFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(CGFloat framePts, CIImage * _Nonnull image, CGFloat angle) {
+//                               CIImage *ciimage = image;
+//                               CGImageRef cgImage = [self.ciContext createCGImage:ciimage fromRect:ciimage.extent];
+//
+//                               UIImage *img = [UIImage imageWithCGImage:cgImage];
+//                               CGImageRelease(cgImage);
+//                               return img;
+//            }];
+            
+            //                [aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
+            //                    return image;
+            //                }];
+            [aeView updateTextWithOldText:@"临时测试模板--蓝松SDK" newText:@"蓝松科技有限公司测试替换文字123abc..."];
+        }else if(_AeType ==kEDEMO_CONCAT_JSON){
+            
+            [aeView1 updateImageWithKey:@"image_0" imageURL:[LSOFileUtil URLForResource:@"concat_json1_img_0" withExtension:@"png"]];
+            [aeView1 updateImageWithKey:@"image_1" imageURL:[LSOFileUtil URLForResource:@"concat_json1_img_1" withExtension:@"png"]];
+            [aeView1 updateImageWithKey:@"image_2" imageURL:[LSOFileUtil URLForResource:@"concat_json1_img_2" withExtension:@"png"]];
+            [aeView1 updateImageWithKey:@"image_3" imageURL:[LSOFileUtil URLForResource:@"concat_json1_img_3" withExtension:@"png"]];
+
+            [aeView2 updateImageWithKey:@"image_0" imageURL:[LSOFileUtil URLForResource:@"concat_json2_img_0" withExtension:@"png"]];
+            [aeView2 updateImageWithKey:@"image_1" imageURL:[LSOFileUtil URLForResource:@"concat_json2_img_1" withExtension:@"png"]];
+            [aeView2 updateImageWithKey:@"image_2" imageURL:[LSOFileUtil URLForResource:@"concat_json2_img_2" withExtension:@"png"]];
+            [aeView2 updateImageWithKey:@"image_3" imageURL:[LSOFileUtil URLForResource:@"concat_json2_img_3" withExtension:@"png"]];
         }else{
             //因为我们提供的模板文件名和图片ID是一一对应的. 比如图片ID="image_0"的图片, 他对应的替换图片是xxx_img_0, 则我们有规律
             //所有这里可以用for循环来替, 如果你的图片没有规律,则分别创建成value
-            
             for (int i=0; i<aeView.imageInfoArray.count; i++) {
                 NSString *key=[NSString stringWithFormat:@"image_%d",i];
                 NSString *name= [NSString stringWithFormat:@"%@_img_%d",moduleName,i];
@@ -277,17 +316,26 @@
         }
     }
 }
+/**
+ 停止预览
+ */
 -(void)stopAePreview
 {
-    if (aePreview!=nil) {
-        [aePreview cancel];
-        aePreview=nil;
+    if (aeCompositionView!=nil) {
+        [aeCompositionView cancel];
+        aeCompositionView=nil;
     }
 }
+/**
+ 预览进度
+ */
 -(void)drawpadProgress:(CGFloat) progress percent:(CGFloat)percent
 {
     [_hud showProgress:[NSString stringWithFormat:@"进度:%f",percent]];
 }
+/**
+ 预览完成
+ */
 -(void)drawpadCompleted:(NSString *)path
 {
     [_hud hide];
@@ -295,6 +343,9 @@
     vce.videoPath=path;
     [self.navigationController pushViewController:vce animated:NO];
 }
+/**
+ 创建UI
+ */
 -(UIButton *)newButton:(UIView *)topView index:(int)index hint:(NSString *)hint
 {
     UIButton *btn=[[UIButton alloc] init];
@@ -353,13 +404,62 @@
 {
     UIButton *btn=[[UIButton alloc] init];
     [btn setTitle:text forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     btn.tag=tag;
     
     [btn addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     return btn;
 }
+
+-(void)createUISwitch:(UIView *)topView
+{
+    UILabel *label=[[UILabel alloc] init];
+     label.text=@"是否禁止缓冲";
+     label.textColor=[UIColor blackColor];
+     
+    UILabel *label2=[[UILabel alloc] init];
+     label2.text=@"禁止,预览音视频可能不同步.最终视频是好的.";
+     label2.textColor=[UIColor grayColor];
+    
+    
+     
+     uiswitch=[[UISwitch alloc] init];
+     uiswitch.tag=301;
+     [uiswitch addTarget:self action:@selector(switchValueChanged:) forControlEvents:(UIControlEventValueChanged)];
+    
+    
+    [self.view addSubview:label];
+    [self.view addSubview:uiswitch];
+    
+    [self.view addSubview:label2];
+    
+    
+    CGFloat btnWidth=self.view.frame.size.width/3 -15;
+       CGFloat btnHeight=40;
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(topView.mas_bottom).offset(10);
+        make.left.mas_equalTo(self.view.mas_left).offset(5);
+        make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    [uiswitch mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(topView.mas_bottom).offset(10);
+         make.left.mas_equalTo(label.mas_right).offset(5);
+         make.size.mas_equalTo(CGSizeMake(btnWidth, btnHeight));
+    }];
+    
+    [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
+          make.top.mas_equalTo(uiswitch.mas_bottom);
+           make.left.mas_equalTo(label.mas_left).offset(5);
+           make.size.mas_equalTo(CGSizeMake(self.view.frame.size.width, btnHeight));
+      }];
+}
+- (void)switchValueChanged:(UISwitch *)sender
+{
+    aeCompositionView.disableBuffering=sender.isOn;
+}
+
 -(void)onClicked:(UIView *)sender
 {
     UIViewController *pushVC=nil;
@@ -369,14 +469,14 @@
             //  jsonImage0= 图片暂时不变;
             break;
         case 102:  //暂停
-            [aePreview pausePreview];
+            [aeCompositionView pausePreview];
             break;
         case 103:  //恢复
-            [aePreview resumePreview];
+            [aeCompositionView resumePreview];
             break;
             
         case 202:  //后台处理
-            [aePreview startExport];
+            [aeCompositionView startExport];
             break;
         default:
             break;
@@ -433,6 +533,5 @@
     [self stopAePreview];
     LSOLog_d(@"AECompositionDemoVC  dealloc...");
 }
-
 @end
 

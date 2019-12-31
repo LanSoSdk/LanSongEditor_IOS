@@ -20,7 +20,6 @@
     NSString *srcPath;
     NSString *dstPath;
     
-    
     FilterTpyeList *filterListVC;
     BOOL  isSelectFilter;
     
@@ -55,10 +54,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-  
-    
-    
     filterImageArray =[[NSMutableArray alloc] init];
     filterArray=[[NSMutableArray alloc] init];
     filterItemArray=[[NSMutableArray alloc] init];
@@ -69,7 +64,6 @@
     CGSize size=self.view.frame.size;
     
     lansongView=[DemoUtils createLanSongView:size drawpadSize:[AppDelegate getInstance].currentEditVideoAsset.videoSize];
-    
     
     [self.view addSubview:lansongView];
     [self initView];
@@ -114,7 +108,7 @@
 
         filterItemArray=[FilterItem createDemoFilterArray];  //拿到列举的多个滤镜.
         NSURL *sampleURL = [LSOFileUtil filePathToURL:srcPath];
-        UIImage *image=[LSOVideoEditor getVideoImageimageWithURL:sampleURL];
+        UIImage *image=[LSOVideoAsset getVideoImageimageWithURL:sampleURL];
         if(image!=nil){
             for (FilterItem *item in filterItemArray) {
                 [filterArray addObject:item.filter];
@@ -181,7 +175,7 @@
        WS(weakSelf)
         [drawpadExecute setProgressBlock:^(CGFloat progess) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                int percent=(int)(progess*100/drawpadExecute.mediaInfo.vDuration);
+                int percent=(int)(progess*100/drawpadExecute.duration);
                 [weakSelf.progressHUD showProgress:[NSString stringWithFormat:@"进度:%d%%",percent]];
             });
         }];

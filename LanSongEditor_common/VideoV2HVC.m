@@ -79,8 +79,9 @@
     [drawpadPreview setCompletionBlock:^(NSString *path) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            //LSDELETE
             NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
-            NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];
+            NSString *dstPath=[LSOVideoAsset videoMergeAudio:path audio:original];
             [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];

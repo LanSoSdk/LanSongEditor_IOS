@@ -29,7 +29,6 @@
     UIImage *jsonImage0;
     UIImage *jsonImage1;
     
-    LSOMediaInfo *mediaInfo;
 }
 @property UILabel *labProgress;
 
@@ -243,6 +242,10 @@
     NSError *error = nil;
     [dataForPNGFile writeToFile:path options:NSAtomicWrite error:&error];
 }
+
+/**
+ 解析文件名字
+ */
 -(void)parseFileName:(NSString *)fileName dirPath:(NSString *)dir
 {
      NSString *filePath=[NSString stringWithFormat:@"%@/%@",dir,fileName];

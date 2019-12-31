@@ -45,6 +45,12 @@ static NSString * const reuseIdentifier = @"Cell";
     return url;
 }
 
+/**
+
+ @param phAsset <#phAsset description#>
+ @param targetSize <#targetSize description#>
+ @return <#return value description#>
+ */
 - (UIImage *)imageURL:(PHAsset *)phAsset targetSize:(CGSize)targetSize {
     __block UIImage *image = nil;
     
@@ -71,7 +77,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 @implementation DemoLocalVideoVC
 {
-    LSOEditMode *editor;
+//    LSOEditMode *editor;
     DemoProgressHUD *progressHUD;
 }
 
@@ -108,7 +114,6 @@ static NSString * const reuseIdentifier = @"Cell";
         [self fetchAssetsWithMediaType:PHAssetMediaTypeVideo];
     }
 }
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (PHPhotoLibrary.authorizationStatus == PHAuthorizationStatusNotDetermined) {
@@ -168,33 +173,13 @@ static NSString * const reuseIdentifier = @"Cell";
     if (!url) { // 有可能第一次获取不到，造成崩溃，再获取一次
         url = [pAsset movieURL];
     }
-    
-    
-    NSLog(@"select video is :(url):%@",url);
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 12.0f) {  //测试11.4.1还是不行, 一定要大于12;
         [AppDelegate getInstance].currentEditVideoAsset=[[LSOVideoAsset alloc] initWithURL:url];
         [self.navigationController popViewControllerAnimated:NO];
-    }else{
-        WS(weakSelf)
-        editor=[[LSOEditMode alloc] initWithURL:url];
-        [editor setProgressBlock:^(CGFloat progess) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf progressBlock:progess];
-            });
-        }];
-        [editor setCompletionBlock:^(NSString * _Nonnull dstPath) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf completedBlock:dstPath];
-            });
-        }];
-        [editor startImport];
-    }
 }
 
 -(void)progressBlock:(CGFloat)progress
 {
-    [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progress]];
+     [progressHUD showProgress:[NSString stringWithFormat:@"progress is:%f",progress]];
 }
 -(void)completedBlock:(NSString *)dstPath
 {
@@ -227,7 +212,10 @@ static NSString * const reuseIdentifier = @"Cell";
             PHAsset *asset = (PHAsset *)obj;
             if(obj!=nil){
                 [assets addObject:obj];
-                [weakSelf.images addObject:[asset imageURL:asset targetSize:size]];
+                UIImage *image1=[asset imageURL:asset targetSize:size];
+                if(image1!=nil){
+                    [weakSelf.images addObject:image1];
+                }
             }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -237,4 +225,3 @@ static NSString * const reuseIdentifier = @"Cell";
     });
 }
 @end
-

@@ -63,7 +63,7 @@
 
  @param audio 音频路径.或带有音频的视频路径
  @param start 开始
- @param pos  把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param pos  把这个音频 增加到 音频容器的哪个位置,比如从5秒钟开始增加这个音频
  @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @return 增加成功,返回YES, 失败返回NO;
  */
@@ -74,7 +74,7 @@
  @param audio 音频路径.或带有音频的视频路径
  @param start 音频的开始时间段
  @param end 音频的结束时间段 如果增加到结尾, 则可以输入-1
- @param pos 把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
+ @param pos 把这个音频 增加到容器的什么位置,比如从5秒钟开始增加这个音频
  @param volume 混合时的音量
  @return 增加成功,返回YES, 失败返回NO;
  */
@@ -124,6 +124,9 @@
  });
  */
 @property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
+
+//----------一下方法, 内部使用---------------------------
+-(id)initWithAudioURL:(NSURL *)srcInput startTimeS:(CGFloat)startS endS:(CGFloat)endS volume:(CGFloat)volume;
 
 
 /*  *************************举例如下************************************

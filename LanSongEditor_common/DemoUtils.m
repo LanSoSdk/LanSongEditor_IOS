@@ -35,7 +35,7 @@
 
 /**
  [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
- 
+
  @param nav
  @param dstPath <#dstPath description#>
  */
@@ -195,7 +195,7 @@
         }
         return retView;
     }else{
-        LSOLog_e(@"pad size is error !")
+        LSOLog_e(@"createLanSongView ERROR,pad size is error !")
         return nil;
     }
 }
@@ -210,7 +210,7 @@
         }else{  //竖屏
             //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
             retView=[[LSOAeCompositionView alloc] initWithFrame:CGRectMake(0,90, fullSize.height*(padSize.width/padSize.height)/2,
-                                                                           fullSize.height/2)];
+                                                                   fullSize.height/2)];
             retView.center=CGPointMake(fullSize.width/2, retView.center.y);
         }
         return retView;
@@ -284,6 +284,15 @@
         [invocation invoke];
     }
 }
+
+
+
+  
+  
+ 
+
+
+
 //-------------------print Aejson---------
 
 /**
@@ -294,6 +303,7 @@
     LSOLog(@"************************************************************************************")
     LSOLog(@"*\t");
     LSOLog(@"*\t 图片信息(picture info):")
+    
     for (LSOAeImageLayer *layer in aeView.imageLayerArray) {
         LSOLog(@"*\t 图片ID::%@,名字:%@,原始宽高:%f x %f. 开始帧:%f,结束帧:%f,时长:%f,帧率:%f",
                layer.imgId,layer.imgName,layer.imgWidth,layer.imgHeight,
@@ -322,4 +332,3 @@
 }
 
 @end
-

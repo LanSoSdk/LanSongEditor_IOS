@@ -167,11 +167,16 @@
             break;
         case 107:
             if([_videoArray count]>1){
-                NSString *dstPath=[LSOFileUtil genTmpMp4Path];
-                 [LSOVideoEditor executeConcatMP4:_videoArray dstFile:dstPath];
-                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
-                vce.videoPath=dstPath;
-                [self.navigationController pushViewController:vce animated:NO];
+                
+                
+                
+//                NSString *dstPath=[LSOFileUtil genTmpMp4Path];
+////                 [LSOVideoEditor executeConcatMP4:_videoArray dstFile:dstPath];
+//                VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];
+//                vce.videoPath=dstPath;//LSDELETE
+//                [self.navigationController pushViewController:vce animated:NO];
+                
+                
             }else if([_videoArray count]==1){
                 NSString *path=[_videoArray objectAtIndex:0];
                 VideoPlayViewController *vce=[[VideoPlayViewController alloc] init];

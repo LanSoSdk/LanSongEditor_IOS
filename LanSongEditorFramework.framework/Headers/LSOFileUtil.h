@@ -271,8 +271,6 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSString *)saveYUVData:(unsigned char *)bytes length:(int)length;
 
 +(NSString *)saveData:(unsigned char *)bytes length:(int)length;
-
-
 /**
  读取一个文件到数组里
  

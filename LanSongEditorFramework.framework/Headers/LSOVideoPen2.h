@@ -12,7 +12,6 @@
 #import "LanSongContext.h"
 #import "LanSongOutput.h"
 #import "LSOPen.h"
-#import "LSOMediaInfo.h"
 
 
 /**
@@ -21,8 +20,13 @@
  */
 @interface LSOVideoPen2 : LSOPen
 
+@property (nonatomic, readonly) CGFloat width;
+@property (nonatomic, readonly) CGFloat height;
+@property (nonatomic, readonly) CGFloat duration;
+
+
+
 @property (readwrite, assign) CGFloat offsetSendTimeS;
-@property(nonatomic,readonly) LSOMediaInfo *mediaInfo;
 //----------------一下方法内部使用-----------------------------
 @property (readwrite, retain) AVAsset *asset;
 @property (readwrite, retain) AVPlayerItem *playerItem;

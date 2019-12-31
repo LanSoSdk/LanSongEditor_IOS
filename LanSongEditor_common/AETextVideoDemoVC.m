@@ -17,13 +17,9 @@
     UILabel *labHint;
     NSString *jsonPath;
     
-    
     UIView *rootJsonView;
     UIImageView *commonTextImageView;
-    int lsDeleteCnt;
     CALayer *_wrapperLayer;
-    
-    
 }
 @end
 
@@ -64,7 +60,6 @@
     
     rootJsonView=[[UIView alloc] initWithFrame:aeTextPreview.aeView.frame];
     
-    lsDeleteCnt=0;
     
     __weak typeof(self) weakSelf = self;
     [aeTextPreview setFrameProgressBlock:^(BOOL isExport,CGFloat progress, float percent) {
@@ -144,13 +139,10 @@
 }
 -(void)aeProgress:(BOOL)isExport progress:(CGFloat)progress percent:(float) percent
 {
-    
     //如果你另外增加了一个UI,则UI可以随进度变动;(测试用)
-//    NSString *str=[NSString stringWithFormat:@"这是切换的第%d张图片",lsDeleteCnt];
-//    lsDeleteCnt++;
+//    NSString *str=[NSString stringWithFormat:@"这是切换的第%d张图片",lsCnt];
 //    UIImage *image=[self createImageWithText:str imageSize:CGSizeMake(400, 76) txtColor:[UIColor redColor] fontSize:25];
 //    commonTextImageView.image=image;
-
 
     if(isExport){
         [hud showProgress:[NSString stringWithFormat:@"进度:%d",(int)(percent*100)]];
@@ -171,7 +163,6 @@
 }
 
 - (void)exportVideo {
-    lsDeleteCnt=0;
     [aeTextPreview startExport];
 }
 - (void)didReceiveMemoryWarning {

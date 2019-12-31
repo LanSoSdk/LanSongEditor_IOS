@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "LanSongFilter.h"
-#import "LSOMediaInfo.h"
 #import "LSOFileUtil.h"
 
 
@@ -43,7 +42,7 @@
 
 
 /**
- 解码失败或解码结束,返回NO, 成功返回YES
+ 
  */
 -(UIImage *)getOneFrame;
 /**
@@ -58,4 +57,25 @@
  */
 -(float)getCurrentFramePts;
 @property (nonatomic,readonly)   NSURL *videoUrl;
+
+
 @end
+/**
+ 测试代码
+ LSOVideoDecoder *decoder;
+ -(void)testDecode
+ {
+     NSString *defaultVideo=@"IMG_1652";
+        
+        //    NSString *defaultVideo=@"h4Iphone8";
+        NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:defaultVideo withExtension:@"MOV"];
+     
+     decoder=[[LSOVideoDecoder alloc] initWithURL:sampleURL];
+     [decoder start];
+     
+     while (!decoder.isEnd) {
+         UIImage *image=[decoder getOneFrame];
+         NSLog(@"save  image is :%@",[LSOFileUtil saveUIImage:image]);
+     }
+ }
+ */

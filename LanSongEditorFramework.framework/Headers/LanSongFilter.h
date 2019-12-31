@@ -68,7 +68,6 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 
 
 /// 是否支持调节;
-/// LSDELETE 暂时不能使用;
 @property(readwrite, nonatomic) BOOL isSupportAdjust;
 
 /*******************************一下是内部使用*********************************************************/

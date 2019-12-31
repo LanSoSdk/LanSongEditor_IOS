@@ -14,6 +14,8 @@
 #import "LanSongTwoInputFilter.h"
 
 #import "LSOSubPen.h"
+#import "LSOAnimation.h"
+
 
 
 
@@ -64,6 +66,15 @@
  *  容器尺寸
  */
 @property(readwrite, nonatomic) CGSize drawPadSize;
+
+
+
+/// 从容器的什么位置开始;在setDisplayTimeRange中设置
+@property(nonatomic,assign) CGFloat startSFromDrawPad;
+
+
+/// 从容器的什么位置结束 在setDisplayTimeRange中设置
+@property(nonatomic,assign) CGFloat endSFromDrawPad;
 
 
 /**
@@ -134,7 +145,9 @@
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidthValue,scaleHeightValue;
 
-//是否填充满整个drawpad容器;
+//
+
+/// 让当前图层全部覆盖整个容器, 无论图片的比例如果, 都完整的覆盖整个容器;
 @property(readwrite, nonatomic) BOOL  fillScale;
 
 //------------mirror(镜像)--------------
@@ -143,6 +156,8 @@
 
 //竖向图像镜像, 上面的放下面, 下面的放上面. 默认不调整;
 @property (nonatomic,assign)BOOL mirrorDrawY;
+
+
 //---------------alpha(透明)----------
 /**
  调节当前画面中的RGBA 4个分量的百分比;
@@ -210,6 +225,7 @@
  *  @param filter 滤镜对象.
  */
 -(void)switchFilter:(LanSongOutput<LanSongInput> *)filter;
+
 /**
   切换滤镜, 这里是滤镜级联(滤镜叠加)
 
@@ -247,6 +263,9 @@
 -(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
 
 
+
+
+
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
  @return 返回增加后的子图层对象
@@ -274,8 +293,38 @@
  */
 -(int)getSubPenSize;
 
+
 /**
- ****************** 一下为 内部使用的函数. 请勿调用 ******************************
+ 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
+ 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
+ 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
+ 完全等于switchAnimationAtEnd. 只是addXXX好记,特意写一个;
+ */
+-(BOOL)addAnimationAtEnd:(LSOAnimation *)animation;
+/**
+ 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
+ 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
+ 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
+ 完全等于switchAnimationAtEnd. 只是addXXX好记,特意写一个;
+ */
+-(BOOL)addAnimationAtEnd:(LSOAnimation *)animation OverlapTime:(CGFloat)timeS;
+
+/// 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
+/// 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
+/// 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
+/// @param animation动画类,当前仅支持LSOMaskAnimation
+-(BOOL)switchAnimationAtEnd:(LSOAnimation *)animation;
+
+
+/// 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
+/// 当前仅支持maskAnimation;
+/// 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
+/// @param animation 动画类,当前仅支持LSOMaskAnimation
+/// @param timeS 在DrawPadAllPreview 和DrawPadAllExecute中设置的两个视频的重叠时间,默认是0.5f;
+-(BOOL)switchAnimationAtEnd:(LSOAnimation *)animation OverlapTime:(CGFloat)timeS;;
+
+/**
+ ********************************************************************* 一下为 内部使用的函数. 请勿调用 ****************************************************************
  */
 - (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
 //视频在容器中是否 以原尺寸增加;
@@ -295,14 +344,23 @@
 @property (nonatomic,assign) BOOL videoPenOriginalAdd;
 @property (nonatomic,assign) BOOL videoPenfillDraw;
 @property (nonatomic,assign) BOOL mvPenOriginalAdd;
+
+
+/// 当前容器处理帧的时间戳;
+@property (nonatomic,assign) CGFloat currentPadPtsS;
+/// 暂停当前帧;
+@property(readwrite,assign) BOOL pauseFrame;
+@property (nonatomic,assign) BOOL disableSetDisplayRange;
 -(void)releasePen;
 
 -(void)updateDrawPadPts:(CGFloat)ptsS;
 -(BOOL)isDisplay;
 
 
--(BOOL)decodeOneFrame:(CGFloat)ptsS;
+-(BOOL)decodeOneFrame:(CGFloat)padCurrentFramePtsS;
 
+-(void)setSeekMode:(BOOL)seekMode;
+-(void)resetToStartTime;
 
 -(void)drawDisplay2;
 - (void)draw:(LanSongContext *)context;
@@ -322,7 +380,7 @@
 - (void)startProcessing:(BOOL)isAutoMode;
 -(void)endProcessing;
 -(BOOL) isFrameAvailable;
--(void) setFrameAvailable:(BOOL)is;
+-(void)setFrameAvailable:(BOOL)is;
 -(void)setDriveDraw:(BOOL)is;
 -(void)resetCurrentFrame;
 -(void)sendToLanSong2:(CMTime)time;

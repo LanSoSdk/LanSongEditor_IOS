@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LSOPen.h"
-#import "LSOMediaInfo.h"
 /**
  当MV播放到最后一帧的时候, 做合作方式处理
  */
@@ -35,7 +34,6 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  默认是循环
  */
 @property (nonatomic) MVEndMode mvMode;
-@property(nonatomic,readonly) LSOMediaInfo *mediaInfo;
 
 
 /**
@@ -43,8 +41,21 @@ typedef NS_ENUM(NSUInteger, MVEndMode) {
  默认是放到到当前容器的尺寸;
  */
 -(void)setUseOriginalSize:(BOOL)is;
+/**
+ 暂停mv的帧输出.
+ [为指定客户临时编写]
+ */
+-(void)pauseFrame;
 
+/**
+ 回复mv的帧输出
+ [为指定客户临时编写]
+ */
+-(void)resumeFrame;
 
+@property (readonly) BOOL isPaused;
+@property(nonatomic,readonly)CGFloat duration;
+@property(nonatomic,readonly)BOOL hasAudio;
 /**
  特定客户使用;
  */

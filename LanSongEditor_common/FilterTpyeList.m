@@ -709,7 +709,6 @@
             //            self.title = @"Mask";
             //            self.filterSlider.hidden = YES;
             //            needsSecondImage = YES;
-            //
             //            self.selectedFilter = [[LanSongMaskFilter alloc] init];
             //
             //            [(LanSongFilter*)self.selectedFilter setBackgroundColorRed:0.0 green:1.0 blue:0.0 alpha:1.0];
@@ -1550,7 +1549,7 @@
             [(LanSongBoxBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_GAUSSIAN:
-//            LSOLog(@"lansong gaussian set blurradius:%f",value)
+//          LSOLog(@"lansong gaussian set blurradius:%f",value)  //设置高斯模糊的值
             [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
             
@@ -1583,7 +1582,7 @@
             perspectiveTransform.m34 = 0.4;
             perspectiveTransform.m33 = 0.4;
             perspectiveTransform = CATransform3DScale(perspectiveTransform, 0.75, 0.75, 0.75);
-            perspectiveTransform = CATransform3DRotate(perspectiveTransform, value, 0.0, 1.0, 0.0);
+            perspectiveTransform = CATransform3DRotate(perspectiveTransform, value, 0.0, 1.0, 0.0);  //同一个时刻只有一个角度旋转;
             
             [(LanSongTransformFilter *)self.selectedFilter  setTransform3D:perspectiveTransform];
         }; break;
@@ -1609,7 +1608,7 @@
 {
     _filterPen=nil;
     _selectedFilter=nil;
-    //    LSOLog(@"Filter TypeList dealloc");
+    LSOLog(@"Filter TypeList dealloc");
 }
 
 @end

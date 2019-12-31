@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "VideoPlayViewController.h"
-#import <LanSongEditorFramework/LanSongEditor.h>
 #import "MainViewController.h"
 #import "UIColor+Util.h"
 
@@ -42,10 +41,8 @@
     [self.window makeKeyAndVisible];
 
 #if TARGET_IPHONE_SIMULATOR
-
 #error 因Mac模拟器上的GPU和真机差别太大, 我们SDK暂不支持MAC系统的模拟器,请在真机上测试试用,谢谢.
 #error current version sdk  cannot support iphone simulator
-
 #endif
     //    navigationController = [[UINavigationController alloc] init];
 //    
@@ -180,7 +177,14 @@
 -(void)beginBackGroundTask
 {
     NSLog(@"begin  backGround task...");
-    [LSOVideoEditor cancelFFmpeg];
+//    [LSOVideoEditor cancelFFmpeg];
+//    if(NSClassFromString(@"LSOVideoEditor") != nil){
+//        //         [LSOVideoEditor cancelFFmpeg];
+//        if([LSOVideoEditor respondsToSelector:@selector(cancelFFmpeg)]){
+//            [LSOVideoEditor cancelFFmpeg];
+//        }
+//    }
+    
     _backIden = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         //在时间到之前会进入这个block
         [self endBackGround];

@@ -12,6 +12,8 @@
 #import "VideoPlayViewController.h"
 #import "LSDrawView.h"
 
+
+
 @interface Demo1PenMothedVC ()
 {
     DrawPadVideoPreview *drawpadPreview;
@@ -21,7 +23,11 @@
     CGSize drawpadSize;
     LSOVideoPen *videoPen;
     
+    LSOMVPen *mvPen;
     UISlider *videoProgress;
+    
+    
+    //----------
 }
 
 @property (nonatomic,assign) NSString *dstPath;
@@ -56,19 +62,20 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    
     videoProgress=  [self createSlide:_labProgress min:0.0f max:1.0f value:0.5f tag:201 labText:@"进度:"];
     UISlider *currslide=  [self createSlide:videoProgress min:0.0f max:1.0f value:0.5f tag:101 labText:@"X坐标:"];
     currslide= [self createSlide:currslide min:0.0f max:1.0f value:0.5f tag:102 labText:@"Y坐标:"];
     currslide= [self createSlide:currslide min:0.0f max:3.0f value:1.0f tag:103 labText:@"缩放:"];
     [self createSlide:currslide min:0.0f max:360.0f value:0 tag:104 labText:@"旋转:"];
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
      [self startPreview]; //开启预览
 }
 -(void)startPreview
 {
+    
     [self stopPreview];
     
     //创建容器
@@ -80,8 +87,8 @@
     //增加显示窗口
     [drawpadPreview addLanSongView:lansongView];
     
-    
-    
+
+    [self addViewPen];
     
     __weak typeof(self) weakSelf = self;
     [drawpadPreview setProgressBlock:^(CGFloat progress) {
@@ -92,15 +99,38 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSString *original=[AppDelegate getInstance].currentEditVideoAsset.videoPath;
-            NSString *dstPath=[LSOVideoEditor videoMergeAudio:path audio:original];
+            NSString *dstPath=[LSOVideoAsset videoMergeAudio:path audio:original];
             [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
         });
     }];
-    
     videoPen=drawpadPreview.videoPen;
+    
+//    LSOSubPen *subpen=[videoPen addSubPen];
+//    LanSongSobelEdgeDetectionFilter *filter=[[LanSongSobelEdgeDetectionFilter alloc] init];
+//    [subpen switchFilter:filter];
+    
+    [lansongView setBackgroundColorRed:1.0 green:1.0f blue:0.0 alpha:1.0f];
     videoPen.loopPlay=YES;
-    //开始执行
+    
+    
+    
+    //开始执行,并编码
     [drawpadPreview start];
+}
+
+
+-(void)addViewPen
+{
+    //演示增加UI图层;
+    //    先创建一个和lansongview一样的UIView,背景设置为透明,然后在这个view中增加其他view
+    UIView *view=[[UIView alloc] initWithFrame:lansongView.frame];
+    view.backgroundColor=[UIColor clearColor];
+    //在view上增加其他ui
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 80)];
+    label.text=@"测试文字123abc";
+    label.textColor=[UIColor redColor];
+    [view addSubview:label];
+    [drawpadPreview addViewPen:view isFromUI:NO];
 }
 -(void)progressBlock:(CGFloat)progress
 {

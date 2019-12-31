@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 全局方法
 /// @param URL 视频路径;
++ (instancetype)assetWithPath:(NSString *)path;
 + (instancetype)assetWithURL:(NSURL *)URL;
-
++ (instancetype)assetWithImage:(UIImage *)image;
 
 ///初始化,
 /// @param path 图片路径

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LanSongFilter.h"
-#import "LSOMediaInfo.h"
+
 #import "LSOFileUtil.h"
 
 

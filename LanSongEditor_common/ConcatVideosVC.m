@@ -26,8 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
     NSURL *video=[LSOFileUtil URLForResource:@"dy_xialu2" withExtension:@"mp4"];
     NSURL *video3=[LSOFileUtil URLForResource:@"replaceVideo1" withExtension:@"mp4"];
     
@@ -36,9 +34,9 @@
     [videoArray addObject:video];  //二女子
     
     
-    LSOMediaInfo *info=[[LSOMediaInfo alloc] initWithURL: [videoArray objectAtIndex:0]];
+    LSOXAssetInfo *info=[[LSOXAssetInfo alloc] initWithURL: [videoArray objectAtIndex:0]];
     if([info prepare]){
-        lansongView=[DemoUtils createLanSongView:self.view.frame.size drawpadSize: [info getSize]];
+        lansongView=[DemoUtils createLanSongView:self.view.frame.size drawpadSize:CGSizeMake(info.width, info.height)];
         [self.view addSubview:lansongView];
         
         //创建容器;
