@@ -52,7 +52,6 @@
 *  https://github.com/LanSoSdk/LanSongEditor_IOS
 
 ### 我们有android版本的SDK，欢迎你的评估使用：
-*	android系统SDK--基本免费版本：https://github.com/LanSoSdk/LanSoEditor_common
 *	android系统SDK--专业版本：https://github.com/LanSoSdk/LanSoEditor_advance
 
 ### 集成方式
