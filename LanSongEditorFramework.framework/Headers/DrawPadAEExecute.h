@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LSOVideoPen.h"
 #import "LSOViewPen.h"
 #import "LSOPen.h"
 #import "LSOBitmapPen.h"

@@ -12,14 +12,16 @@
 
 
 
-
+/**
+只工作在预览界面;
+ */
 @interface LSOVideoPen : LSOPen
 
 
 
 /**
- 当前视频的时长;
- 单位:秒; 等于视频的
+ 当前视频的总时长
+ 单位:秒; 
  */
 @property(nonatomic,readonly) CGFloat duration;
 
@@ -49,6 +51,11 @@
 @property(nonatomic,readonly) BOOL isPlaying;
 
 
+@property(readwrite, assign) float cutStartTimeS;
+
+@property(nonatomic, readwrite, assign) float cutEndTimeS;
+
+
 /**
  定位到指定时间;
 
@@ -61,6 +68,14 @@
  定位 到 百分比; 比如 percent=0.1--0.5--1.0;
  */
 -(void)seekToPercent:(CGFloat)percent;
+
+
+
+///**
+// LSTODO .
+// */
+//@property CGRect cropRectWithRelayout;
+
 
 /**
  定位后 暂停;
@@ -81,20 +96,6 @@
 
 
 
-/**
- 增加d第二个黑白动画视频
- [特定客户使用]
-
- @param secondVideo 第二个视频路径
- @param isLoop 是否循环
- @param volume 第二个视频如果有声音,则声音大小;
- @return 成功返回YES;
- */
--(BOOL)setSecondVideo:(NSURL *)secondVideo loop:(BOOL)isLoop volume:(float)volume;
-
-/**
- [特定客户使用]
- */
 -(void)removeSecondVideo;
 -(void)resumeSecondVideo;
 -(void)pauseSecondVideo;

@@ -86,4 +86,6 @@
 /// 把UIImage中的标志为有角度的值, 直接把图片调整好,然后返回;
 /// @param aImage 原图片
 +(UIImage *)uiimageFixOrientation:(UIImage *)aImage;
+
++(CGSize)computeToSameRatio:(CGSize)imageSize requestSize:(CGSize)requestSize;
 @end

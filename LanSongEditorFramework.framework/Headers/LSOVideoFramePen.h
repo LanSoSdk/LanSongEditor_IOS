@@ -16,6 +16,7 @@
 #import "LSOVideoAsset.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  视频图层.
@@ -26,8 +27,7 @@
 
 
 //----------------一下方法内部使用-----------------------------
-//LSNEW 改动视频选项;
-- (id)initWithVideoAsset:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option padSize:(CGSize)size preview:(BOOL)preview;
+- (id)initWithVideoAsset:(LSOVideoAsset *)videoAsset option:(LSOVideoOption * _Nullable)option padSize:(CGSize)size;
 
 @property (nonatomic,readonly)LSOVideoAsset *videoAsset;
 
@@ -36,3 +36,5 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END

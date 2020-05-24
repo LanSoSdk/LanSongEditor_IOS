@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LanSongMovie.h"
-#import "LanSongOutput.h"
-#import "LanSongMovieWriter.h"
 
 /**
  用来开发测试用, 外界请不要使用.

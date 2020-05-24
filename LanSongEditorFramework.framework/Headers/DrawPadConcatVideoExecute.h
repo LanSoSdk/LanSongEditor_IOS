@@ -12,7 +12,6 @@
 #import <Foundation/Foundation.h>
 
 #import <Foundation/Foundation.h>
-#import "LSOVideoPen.h"
 #import "LSOViewPen.h"
 #import "LSOPen.h"
 #import "LanSongView2.h"

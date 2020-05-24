@@ -125,7 +125,7 @@
                 {
                     videoOneDo.cutStartTimeS=0;
                     videoOneDo.cutDurationTimeS=videoOneDo.videoDurationS*2.0f/3.0f;
-                    LSOLog_d(@"videoOneDo.cutDurationTimeS:%f",videoOneDo.cutDurationTimeS);
+                    NSLog(@"videoOneDo.cutDurationTimeS:%f",videoOneDo.cutDurationTimeS);
                 }
                     break;
                 case 4: //增加logo
@@ -191,7 +191,7 @@
                 
                 videoWidth=width;
                 videoHeight=height;
-                LSOLog_d(@"videoOneDo.cutDurationTimeS:%f, %f: %f X %f",videoOneDo.cropRect.origin.x,videoOneDo.cropRect.origin.y,
+                NSLog(@"videoOneDo.cutDurationTimeS:%f, %f: %f X %f",videoOneDo.cropRect.origin.x,videoOneDo.cropRect.origin.y,
                          videoOneDo.cropRect.size.width,videoOneDo.cropRect.size.height);
             }else if(uiswitch.tag==3){
                 videoWidth*=0.8f;
@@ -206,7 +206,7 @@
                     if(videoWidth>1088)videoWidth=1088;
                 }
                 videoOneDo.scaleSize=CGSizeMake(videoWidth,videoHeight);
-                LSOLog_d("video scale size :%f x %f",videoWidth,videoHeight);
+                NSLog(@"video scale size :%f x %f",videoWidth,videoHeight);
             }
         }
     }

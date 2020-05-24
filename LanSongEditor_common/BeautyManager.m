@@ -42,10 +42,10 @@
                 
                 [pen switchFilterWithStartFilter:self.beautyFilter endFilter:self.lookupFilter];
             }else{
-                 LSOLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
+                 NSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
                 [pen switchFilter:self.beautyFilter];
             }
-            LSOLog(@"已增加 美颜");
+            NSLog(@"已增加 美颜");
             self.isBeauting=YES;
         }
     }
@@ -75,10 +75,10 @@
                 
                 [videoOneDo setFilterWithStart:self.beautyFilter end:self.lookupFilter];
             }else{
-                LSOLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
+                NSLog(@"当前工程中没有增加 lansongbeauty.png文件, 美颜可能效果低一些;");
                 [videoOneDo setFilter:self.beautyFilter];
             }
-            LSOLog(@"已增加 美颜");
+            NSLog(@"已增加 美颜");
             self.isBeauting=YES;
         }
     }
@@ -103,7 +103,7 @@
         }
         self.beautyFilter=nil;
         self.lookupFilter=nil;
-        LSOLog(@"已删除 美颜");
+        NSLog(@"已删除 美颜");
         self.isBeauting=NO;
     }
 }

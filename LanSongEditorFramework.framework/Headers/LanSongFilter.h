@@ -2,6 +2,7 @@
 
 #import "LanSongOutput.h"
 
+
 #define STRINGIZE(x) #x
 #define STRINGIZE2(x) STRINGIZE(x)
 #define SHADER_STRING(text) @ STRINGIZE2(text)
@@ -65,14 +66,18 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
     dispatch_semaphore_t imageCaptureSemaphore;
 }
 
-
-
 /// 是否支持调节;
 @property(readwrite, nonatomic) BOOL isSupportAdjust;
 
+
+
 /*******************************一下是内部使用*********************************************************/
+/**
+ 内部使用;
+ */
+@property(readwrite, nonatomic) BOOL disableFilter;
 @property(readonly) CVPixelBufferRef renderTarget;
-@property(readwrite, nonatomic) BOOL preventRendering;
+@property(readwrite, nonatomic) BOOL preventRendering;  //是否阻止渲染;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
 - (id)initWithVertexShaderFromString:(NSString *)vertexShaderString fragmentShaderFromString:(NSString *)fragmentShaderString;
 - (id)initWithFragmentShaderFromString:(NSString *)fragmentShaderString;

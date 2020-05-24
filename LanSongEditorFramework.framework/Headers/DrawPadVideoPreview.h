@@ -12,8 +12,10 @@
 #import "LanSongView2.h"
 #import "LSOBitmapPen.h"
 #import "LSOMVPen.h"
+#import "LSOObject.h"
 
-@interface DrawPadVideoPreview : NSObject
+
+@interface DrawPadVideoPreview : LSOObject
 
 @property (nonatomic)   LSOVideoPen *videoPen;
 @property (nonatomic,assign) CGSize drawpadSize;
@@ -26,9 +28,9 @@
 
 /**
 初始化
- @param videoPath输入的视频路径
+ @param videoURL 输入的视频路径
  */
--(id)initWithURL:(NSURL *)videoPath;
+-(id)initWithURL:(NSURL *)videoURL;
 /**
  初始化
  指定容器大小, 指定后, 视频以原有的尺寸居中放到容器中;

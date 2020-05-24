@@ -16,6 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+  获取手机剩余存储空间
+ 单位字节;
+ NSString *str = [NSString stringWithFormat:@"手机剩余存储空间为：%0.2lld MB",freeSpace/1024/1024];
+ */
++ (unsigned long long)freeDiskSpaceInBytes;
+/**
  设置内部文件创建在哪个文件夹下; 如果不设置,默认在当前Document/lansongBox下;
  举例:
  NSArray *paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);

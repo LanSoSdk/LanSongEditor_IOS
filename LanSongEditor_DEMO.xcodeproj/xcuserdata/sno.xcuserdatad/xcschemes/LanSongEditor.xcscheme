@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-               BuildableName = "&#x84dd;&#x677e;DEMO.app"
+               BuildableName = "&#x84dd;&#x677e;&#x89c6;&#x9891;&#x7f16;&#x8f91;.app"
                BlueprintName = "LanSongEditor_DEMO"
                ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "&#x84dd;&#x677e;DEMO.app"
+            BuildableName = "&#x84dd;&#x677e;&#x89c6;&#x9891;&#x7f16;&#x8f91;.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "&#x84dd;&#x677e;DEMO.app"
+            BuildableName = "&#x84dd;&#x677e;&#x89c6;&#x9891;&#x7f16;&#x8f91;.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B86380E1D51AB29007A353C"
-            BuildableName = "&#x84dd;&#x677e;DEMO.app"
+            BuildableName = "&#x84dd;&#x677e;&#x89c6;&#x9891;&#x7f16;&#x8f91;.app"
             BlueprintName = "LanSongEditor_DEMO"
             ReferencedContainer = "container:LanSongEditor_DEMO.xcodeproj">
          </BuildableReference>

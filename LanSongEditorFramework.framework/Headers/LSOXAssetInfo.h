@@ -1,5 +1,5 @@
 //
-//  LSOAssetInfo.h
+//  LXAEAssetInfo.h
 //  SimpleVideoFileFilter
 //
 //  Created by sno on 16/8/17.
@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface LSOXAssetInfo : NSObject
+#import "LSOObject.h"
+
+@interface LSOXAssetInfo : LSOObject
 
 
 /// 视频的原始宽度;
@@ -34,6 +36,7 @@
 
 @property(readwrite, nonatomic) CGFloat bitrate ;
 
+@property(nonatomic, readonly) NSURL *videoURL;
 
 @property(nonatomic, readonly) NSString *filePath;
 @property(nonatomic, readonly) NSString *fileName;
@@ -56,4 +59,6 @@
 
 - (BOOL)prepare;
 
+
++(void) checkFileWithURL:(NSURL *)url;
 @end

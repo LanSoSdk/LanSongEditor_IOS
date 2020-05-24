@@ -12,7 +12,7 @@
 #import "LSOAeImage.h"
 #import "LSOAeImageLayer.h"
 #import "LSOAEVideoSetting.h"
-#import "LSOObject.h"
+
 
 
 
@@ -24,10 +24,10 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 @interface LSOAeView : UIView
 
 
-
+ 
 
 /**
- 解析json
+ 解析json得到新的LSOAeView对象;
  
  @param path json的完整路径
  @return 返回解析后的LSOAeView (可以得到宽高,图片数量,文字信息等各种需要替换的内容)
@@ -35,7 +35,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 +(LSOAeView *)parseJsonWithPath:(NSString *)path;
 
 /**
- 解析json
+ 解析json得到新的LSOAeView对象;
  
  [如果您要对json加密,则在解密后,是放在内存中的数据,则此方法增加]
  @param jsonData NSData格式的json数据
@@ -144,10 +144,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 -(BOOL)updateImageByName:(NSString*)name imageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
 
 
-
-
-
-
 /**
  替换指定图片的视频;
  
@@ -175,7 +171,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param image 图片对象
  @return 替换成功返回YES
  */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image LSO_DELPRECATED;
 
 /**
  替换图片
@@ -186,7 +182,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
  @return 替换成功返回YES
  */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop;
+-(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
 
 /**
  根据名字 把原来显示图片的地方替换为视频;
@@ -195,9 +191,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param url 视频文件路径
  @return 可以替换返回YES;
  */
--(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url;
-
-
+-(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url LSO_DELPRECATED;
 /**
  根据名字 把原来显示图片的地方替换为视频;
  
@@ -206,7 +200,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @param setting 视频文件在处理中的选项设置;
  @return 可以替换返回YES;
  */
--(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url setting:(LSOAEVideoSetting *)setting;
+-(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url setting:(LSOAEVideoSetting *)setting LSO_DELPRECATED;
 /**
  当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
 
@@ -216,7 +210,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  @return 可以设置返回YES
  */
 - (BOOL)setVideoImageFrameBlock:(NSString *)key updateblock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
-
 
 /**
  设置在视频解码时的回调.
@@ -264,6 +257,7 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 - (BOOL)updateFontWithText:(NSString *)text font:(UIFont *)font;
 
 /**********************************以下SDK内部使用, 请勿使用********************************************************************/
+//LSDEMO start
 +(void)setGLanSongForcePrecomWidth:(CGFloat)w;
 +(void)setGLanSongForcePrecomHeight:(CGFloat)h;
 +(void)setLanSongAEWorkForPreview:(BOOL)is;
@@ -333,5 +327,10 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 + (nonnull instancetype)animationWithFileData:(nonnull NSData *)fileData;
+
+//LSDEMO end
+/**********************************以下SDK内部使用, 请勿使用********************************************************************/
+
+
 @end
 NS_ASSUME_NONNULL_END

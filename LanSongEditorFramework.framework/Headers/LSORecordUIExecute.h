@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_END
 #import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
+#import "LSOObject.h"
 
 
 /**
@@ -28,7 +29,7 @@ NS_ASSUME_NONNULL_END
  测试代码在下面;
  
  */
-@interface LSORecordUIExecute : NSObject
+@interface LSORecordUIExecute : LSOObject
 
 
 /**

@@ -23,6 +23,8 @@
 #import "LSOAeViewPen.h"
 #import "LSOVideoOption.h"
 #import "LSOVideoFramePen2.h"
+#import "LSOVideoLayer.h"
+
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,22 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param view
  */
 -(void)addLanSongView:(LanSongView2 *)view;
-//-----------------------------------视频图层--------------------------------
-
-
-/// 增加一个视频图层
-/// @param videoAsset 视频资源
-/// @param option 资源选项
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option;
-
-/// 增加视频资源, 返回视频图层;
-/// @param videoAsset 视频资源
-/// @param option 资源选项
-/// @param startS 从容器的什么时间点开始, 单位秒
-/// @param endS 从容器的什么时间点结束; 单位秒;
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
-
-
 //-----------------------------------Aejson动画图层--------------------------------
 /// 增加Aejson文件动画;
 /// @param aeView json动画对象
@@ -145,6 +131,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param option 
 -(LSOVideoFramePen2 *)concatVideoFramePen2:(LSOVideoAsset *)asset option:(LSOVideoOption *)option;
 
+
+-(LSOVideoLayer *)concatLSOVideoLayer:(LSOVideoAsset *)asset option:(LSOVideoOption *)option;
 
 
 

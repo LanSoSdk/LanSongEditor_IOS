@@ -42,20 +42,11 @@
  @return 增加成功返回
  */
 -(BOOL)addFirstPenWithURL:(NSURL *)videoUrl;
+
 /**
- 增加第二层 : 解析后的json
+ 增加第二层 : 解析后的json对象;
  */
 -(LSOViewPen *)addSecondPen:(LSOAeView *)aeView;
-
-
-
-/// 增加第二层
-/// 用来多个json拼接的场合, 数组中的第一个json完成后,下一帧渲染第二个json,以此类推.
-/// 多个拼接的json宽高需要一致,比如都是720x1280;
-/// 拼接后, 生成的视频时长,以此拼接后的json时长为准,别的图层如果大于则截取, 如果小于则保留最后一帧;
-/// @param aeViews 多个LSOAeView对象
--(LSOViewPen *)addSecondPenWithArray:(NSMutableArray *)aeViews;
-
 
 /**
  增加第三层 : 导出的MV图层;
@@ -81,6 +72,10 @@
  */
 -(LSOViewPen *)addSixthPen:(LSOAeView *)aeView;
 
+/**
+ 裁剪模板的总长度;
+ */
+- (void)setCutComposition:(CGFloat)durationS;
 
 //----------增加其他图层(图片, UIView,MV等)--------------------------------
 /**
@@ -162,7 +157,7 @@
  可多次调用
  
  @param audio 音频路径.或带有音频的视频路径
- @param start 开始
+ @param start 裁剪音频, 从音频的什么时间点开始增加;
  @param pos  把这个音频 增加到 主音频的那个位置,比如从5秒钟开始增加这个音频
  @param volume 混合时的音量. 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
  @return 增加成功,返回YES, 失败返回NO;
@@ -185,21 +180,20 @@
  设置缓冲时间.
  
  我们默认缓冲时间为2秒;
- 如果您的模板有点复杂, 则建议增加缓冲时间, 比如2--5秒;
+ 如果您的模板有点复杂, 则建议增加缓冲时间, 比如2--5秒;i
  
  当然你可以在缓冲的时候, 调用pausePreview暂停, 暂停的同时, 模板一样在加速渲染;
  @param timeS 时间, 单位是秒;
  */
 -(void)setBufferingTime:(CGFloat)timeS;
 /**
- 设置视频图层在是视频处理完毕后, 是否要循环处理.
+ 设置视频图层在是视频处理完毕后, 是否要循环处理.
  */
 @property(nonatomic,getter=isLoop) BOOL loopPlay;
 
-
 /**
  是否要禁止缓冲等待.
- 默认不禁止, 这里是NO;
+ 默认禁止缓冲. 这里是YES;
  
  如果模板复杂, 渲染慢, 默认会暂停一下播放, 返回缓冲回调, 表现就是卡顿;
  设置为YES后, 将不再缓冲, 但有可能画面和音乐不同步.
@@ -223,8 +217,6 @@
  */
 -(BOOL)startExport;
 
-
-
 /**
  暂停预览
  */
@@ -246,8 +238,6 @@
  });
  */
 @property(nonatomic, copy) void(^previewProgressBlock)(CGFloat progress,CGFloat percent);
-
-
 /**
  导出进度;
  

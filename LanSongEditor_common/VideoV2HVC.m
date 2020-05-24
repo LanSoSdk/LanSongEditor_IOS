@@ -134,7 +134,7 @@
     drawpadPreview=nil;
     videoPen=nil;
     lansongView=nil;
-    LSOLog(@"VideoV2HVC dealloc");
+    NSLog(@"VideoV2HVC dealloc");
 }
 /*
  #pragma mark - Navigation

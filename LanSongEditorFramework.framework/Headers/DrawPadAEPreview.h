@@ -105,6 +105,14 @@
  @param jsonData json文件解析后的数据;
  */
 -(LSOAeView *)addAEJsonWithData:(NSData *)jsonData;
+
+
+/**
+ 增加 AE json 图层;
+ */
+-(LSOViewPen *)addAEView:(LSOAeView *)aeView;
+
+
 /**
  交换两个图层的位置
  在开始前调用;
@@ -136,13 +144,6 @@
  @return 执行成功返回YES, 失败返回NO;
  */
 -(BOOL)start;
-
-
-/**
- 开始执行,并实时录制;
- @return
- */
--(BOOL)startWithEncode;
 
 /**
  取消
@@ -176,11 +177,6 @@
  当前是否在运行;
  */
 @property (nonatomic,readonly) BOOL isRunning;
-
-/**
- 当前是否在录制
- */
-@property (nonatomic,readonly) BOOL isRecording;
 
 
 @property (nonatomic,readonly) int penCount;

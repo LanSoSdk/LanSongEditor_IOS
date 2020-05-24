@@ -198,7 +198,7 @@
                 [segmentArray addObject:file];
                 totalDuration+=currentSegmentDuration;
             }else{
-                LSOLog(@"当前段文件不存在....");
+                NSLog(@"当前段文件不存在....");
             }
         }];
     }
@@ -225,7 +225,7 @@
                     [segmentArray addObject:file];
                     totalDuration+=currentSegmentDuration;
                 }else{
-                    LSOLog(@"当前段文件不存在....");
+                    NSLog(@"当前段文件不存在....");
                 }
                 [weakSelf concatVideos];
             });
@@ -278,7 +278,7 @@
         dstPath=data.segmentPath;
         [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
     }else{  //为空.
-        LSOLog(@"segment array is empty");
+        NSLog(@"segment array is empty");
     }
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -477,7 +477,7 @@
     [LSOFileUtil deleteAllFiles:fileArray];
     segmentArray=nil;
     
-    LSOLog(@"CameraPenDemoVC  dealloc");
+    NSLog(@"CameraPenDemoVC  dealloc");
 }
 ///**
 // 把多个视频合并
@@ -514,7 +514,7 @@
 //                                atTime:durationSum
 //                                 error:&error];
 //        if(error!=nil){
-//            LSOLog(@"error is :%@",error);
+//            NSLog(@"error is :%@",error);
 //        }
 //        //总时间累积;
 //        durationSum = CMTimeAdd(durationSum, asset.duration);
@@ -540,13 +540,13 @@
 //            }
 //                break;
 //            case AVAssetExportSessionStatusFailed:
-//                LSOLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
+//                NSLog(@"ExportSessionError--Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //            case AVAssetExportSessionStatusCancelled:
-//                LSOLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
+//                NSLog(@"ExportSessionError--Cancelled: %@", [exporter.error localizedDescription]);
 //                break;
 //            default:
-//                LSOLog(@"Export Failed: %@", [exporter.error localizedDescription]);
+//                NSLog(@"Export Failed: %@", [exporter.error localizedDescription]);
 //                break;
 //        }
 //    }];

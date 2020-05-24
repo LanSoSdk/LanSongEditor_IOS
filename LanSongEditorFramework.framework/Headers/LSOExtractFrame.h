@@ -10,12 +10,13 @@
 #import "LanSongFilter.h"
 
 #import "LSOFileUtil.h"
+#import "LSOObject.h"
 
 
 /**
  提取视频帧;
  */
-@interface LSOExtractFrame : NSObject
+@interface LSOExtractFrame : LSOObject
 
 /**
  构造函数

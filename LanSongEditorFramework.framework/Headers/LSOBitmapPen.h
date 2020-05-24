@@ -37,9 +37,6 @@
 
 -  (id)initWithURL:(NSURL *)url drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 
-
-
-- (id)initWithData:(NSData *)imageData drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 - (id)initWithImage:(UIImage *)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 - (id)initWithCGImage:(CGImageRef)newImageSource drawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target;
 - (void)processImage;

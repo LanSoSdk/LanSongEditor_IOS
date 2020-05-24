@@ -5,21 +5,16 @@
 
 #import <Foundation/Foundation.h>
 #import "LanSongLog.h"
-#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
-#else
-#import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
-#endif
 
-@interface LanSongProgram : NSObject 
+#import "LSOObject.h"
+
+@interface LanSongProgram : LSOObject
 {
     NSMutableArray  *attributes;
     NSMutableArray  *uniforms;
-    GLuint          program,
-	vertShader, 
-	fragShader;	
+    GLuint          program,vertShader,fragShader;
 }
 
 @property(readwrite, nonatomic) BOOL initialized;
@@ -31,8 +26,10 @@
             fragmentShaderString:(NSString *)fShaderString;
 - (id)initWithVertexShaderString:(NSString *)vShaderString 
           fragmentShaderFilename:(NSString *)fShaderFilename;
+
 - (id)initWithVertexShaderFilename:(NSString *)vShaderFilename 
             fragmentShaderFilename:(NSString *)fShaderFilename;
+
 - (void)addAttribute:(NSString *)attributeName;
 - (GLuint)attributeIndex:(NSString *)attributeName;
 - (GLuint)uniformIndex:(NSString *)uniformName;

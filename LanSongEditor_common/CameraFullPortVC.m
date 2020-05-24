@@ -146,10 +146,10 @@
             case  102:  //btnStart;
                 if(mvPen.isPaused){
                     [mvPen resumeFrame];
-                    LSDELETE(@"add mv pen ..resumeFrame...")
+                    NSLog(@"add mv pen ..resumeFrame...");
                 }else{
                     [mvPen pauseFrame];
-                    LSDELETE(@"add mv pen ...pauseFrame..")
+                    NSLog(@"add mv pen ...pauseFrame..");
                 }
                 
                 break;
@@ -237,7 +237,7 @@
     }
     filterListVC=nil;
     lansongView=nil;
-    LSOLog(@"CameraPenDemoVC  dealloc");
+    NSLog(@"CameraPenDemoVC  dealloc");
 }
 /**
  滑动 效果调节后的相应

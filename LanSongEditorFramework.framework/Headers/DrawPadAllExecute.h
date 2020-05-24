@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-#import "LSOVideoPen.h"
 #import "LSOViewPen.h"
 #import "LSOPen.h"
 #import "LSOBitmapPen.h"
@@ -22,10 +21,8 @@
 #import "LSOVideoAsset.h"
 #import "LSOAeViewPen.h"
 #import "LSOVideoFramePen2.h"
-
-
-
-
+#import "LSOAeCompositionAsset.h"
+#import "LSOAECompositionPen.h"
 NS_ASSUME_NONNULL_BEGIN
 /**
  混合容器的后台执行;
@@ -68,28 +65,33 @@ NS_ASSUME_NONNULL_BEGIN
 /// 增加视频图层
 /// @param videoAsset 视频资源
 /// @param option 视频选项
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option;
-
-
-
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption * _Nullable)option;
 
 /// 增加视频图层
 /// @param videoAsset 视频资源
 /// @param option 视频选项
 /// @param startS 从容器的什么时间点增加此视频
 /// @param endS 增加到容器的什么时间点为止.
--(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *)option startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
+-(LSOVideoFramePen *)addVideoPen:(LSOVideoAsset *)videoAsset option:(LSOVideoOption *_Nullable)option startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 
+
+/// 增加view 图层;
+/// 这个 view 一定是重新alloc,并没有增加到预览的self.view 中的.
+/// view 是随容器的时间轴走动, 而不是随系统时间走动, 故如果你要设置动画, 则需要根据回调时间戳,自己写动画, 不能用iOS 中的 Animation;
+/// @param view view 层
+-(LSOViewPen *)addViewPen:(UIView *)view;
 
 
 /// 增加Aejson文件动画;
 /// @param aeView json动画对象
 -(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView;
-/// 增加json动画
-/// @param aeView 动画;
--(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
+/// 增加 AEjson 图层动画;
+/// @param aeView  ae导出的json并替换好资源的对象
+/// @param startS 从容器的什么时间点增加,单位秒
+/// @param endS 增加到容器的什么时间点, 如果到容器结束,则设置为CGFLOAT_MAX
+-(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 /**
  增加一个图片图层,
@@ -97,32 +99,31 @@ NS_ASSUME_NONNULL_BEGIN
  在容器开始运行前增加
  */
 -(LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset;
-
-
 /// 增加图片图层
 /// 可多次调用
 /// @param bmpAsset 图片资源
 /// @param startS 开始时间, 单位秒
-/// @param endS 结束时间,单位秒, 如果到文件尾,则用CGFLOAT_MAX
+/// @param endS 增加到容器的什么时间点, 如果到容器结束,则设置为CGFLOAT_MAX
 - (LSOBitmapPen *)addBitmapPen:(LSOBitmapAsset *)bmpAsset startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
-/**
- 增加mv图层;
-
- 各种透明的动画, 在我们SDK中, 认为是MV效果, 关于MV的 原理和制作步骤,请参考我们的指导文件.
- @param colorPath mv效果中的彩色视频路径
- @param maskPath mv效果中的黑白视频路径
- @return 增加后,返回mv图层对象
- */
--(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
 
 
 /// 增加MV图层
-///  各种透明的动画, 在我们SDK中, 认为是MV效果, 关于MV的 原理和制作步骤,请参考我们的指导文件.
-/// @param colorPath mv效果中的彩色视频路径
-/// @param maskPath mv效果中的黑白视频路径
-/// @param startS 开始时间
-/// @param endS 结束时间;
--(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
+/// 各种透明的动画, 在我们SDK中, 认为是MV效果, 关于MV的 原理和制作步骤,请参考我们的指导文件.
+/// @param colorUrl mv效果中的彩色视频路径
+/// @param maskUrl mv效果中的黑白视频路径
+/// @param startS 从容器的什么时间点增加,单位秒
+/// @param endS 增加到容器的什么时间点, 如果到容器结束,则设置为CGFLOAT_MAX
+-(LSOMVPen *)addMVPen:(NSURL *)colorUrl withMask:(NSURL *)maskUrl  startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
+
+/// 增加MV图层
+-(LSOMVPen *)addMVPen:(NSURL *)colorUrl withMask:(NSURL *)maskUrl;
+
+/// 把 AE 模板作为资源增加到容器里, 增加后, 作为容器的一个图层
+/// @param asset AE 资源
+/// @param startS 从容器的什么时间点增加
+/// @param endS 增加到容器的什么时间点, 如果到容器结束,则设置为CGFLOAT_MAX
+-(LSOAECompositionPen *) addAeCompositionPen:(LSOAeCompositionAsset *)asset  startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
+-(LSOAECompositionPen *) addAeCompositionPen:(LSOAeCompositionAsset *)asset;
 
 //--------------------------------------------------------拼接类----------------------------------------------
 ///  拼接视频 多次调用
@@ -130,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   在拼接视频后,我们会自动计算每个层的显示时间, 请务必不要调用setDisplayTimeRange
 /// @param asset 视频资源
 /// @param option 视频选项;
--(LSOVideoFramePen2 *)concatVideoFramePen2:(LSOVideoAsset *)asset option:(LSOVideoOption *)option;
+-(LSOVideoFramePen2 *)concatVideoFramePen2:(LSOVideoAsset *)asset option:(LSOVideoOption * _Nullable)option;
 
 /// 拼接图片
 ///  此拼接,是把所有图片前后拼接起来, 并放到最底层;
@@ -140,7 +141,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS;
 
 -(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS overLapTime:(CGFloat)overLapTimeS;
-
 //----------------------
 /**
  开始执行
@@ -181,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
-@property(nonatomic, copy) void(^completionBlock)(NSString *dstPath);
+@property(nonatomic, copy) void(^completionBlock)(NSString * _Nullable dstPath);
 
 /**
  当前是否在运行;
@@ -235,3 +235,41 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+/**
+ DrawPadAllExecute *allExecute2;
+ -(void)testAllExecute
+ {
+     allExecute2=[[DrawPadAllExecute alloc] initWithDrawPadSize:CGSizeMake(720, 1280) durationS:10];
+     UIImage *image=[UIImage imageNamed:@"small"];
+     [allExecute2 addViewPen:[self createUIView:CGSizeMake(720, 1280)]];
+     
+     [allExecute2 setProgressBlock:^(CGFloat progess) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             LSOLog_d(@"----progress is :%f",progess);
+         });
+     }];
+     
+     [allExecute2 setCompletionBlock:^(NSString * _Nullable dstPath) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             LSOLog_d(@"----progress is :%@",dstPath);
+             [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+         });
+     }];
+     [allExecute2 start];
+ }
+ -(UIView *)createUIView:(CGSize)size
+ {
+     UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width,size.height)];
+     rootView.backgroundColor = [UIColor redColor];
+     UIImage *image = [UIImage imageNamed:@"small"];
+     UIImageView *imageView=[[UIImageView alloc] initWithImage:image];
+     imageView.center = CGPointMake(rootView.bounds.size.width/2, rootView.bounds.size.height/2);
+
+     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 540, 120)];
+     label.text=@"杭州蓝松科技";
+     label.textColor=[UIColor redColor];
+     [rootView addSubview:label];
+     [rootView addSubview:imageView];
+     return rootView;
+ }
+ */

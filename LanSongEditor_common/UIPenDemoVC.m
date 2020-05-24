@@ -504,6 +504,6 @@
     [self stopPreview];
     drawpadPreview=nil;
     lansongView=nil;
-    LSOLog(@"Demo1PenMothedVC VC  dealloc");
+    NSLog(@"Demo1PenMothedVC VC  dealloc");
 }
 @end

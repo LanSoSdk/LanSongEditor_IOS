@@ -120,7 +120,7 @@
         case 101 :  //开始录制
             
             [LSOFileUtil saveUIViewToPhotosAlbum:lansongView];
-            LSOLog(@"已保存到相册")
+            NSLog(@"已保存到相册");
             break;
         case  102:  //停止录制
 //            [drawpadPreview stopRecord];
@@ -236,7 +236,7 @@
         [_videoArray removeAllObjects];
         _videoArray=nil;
     }
-    LSOLog(@"GameVideoDemoVC VC  dealloc");
+    NSLog(@"GameVideoDemoVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

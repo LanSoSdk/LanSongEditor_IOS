@@ -194,6 +194,5 @@
 -(void)loadParam:(LanSongContext*)context;
 - (void)draw;
 - (void)drawDisplay;
--(void)releasePen;
 
 @end

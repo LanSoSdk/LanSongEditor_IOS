@@ -214,6 +214,8 @@
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aeExecute addMVPen:mvColorURL withMask:mvMaskURL];
     }
+    LSDELETE(@"--------更新视频----大发发大---->")
+    
     
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){
@@ -251,7 +253,7 @@
     if(moduleName==nil){
         return;
     }
-    
+     
     if(aeView!=nil){
         if(_AeType==kAEDEMO_AOBAMA){  //如果是奥巴马模板的话,则直接填入图片;
             UIImage *value=[LSOImageUtil createImageWithText:@"演示微商小视频,文字可以任意修改,可以替换为图片,可以替换为视频;" imageSize:CGSizeMake(255, 185)];
@@ -263,6 +265,7 @@
             NSURL *videoUrl=[LSOFileUtil URLForResource:@"dy_xialu2" withExtension:@"mp4"];
             [aeView updateVideoImageWithKey:@"image_0" url:videoUrl];
         } else if(_AeType ==kEDEMO_REPLACE_VIDEO){
+            
                 NSURL *videoUrl0=[LSOFileUtil URLForResource:@"dy_xialu2" withExtension:@"mp4"];
                 NSURL *videoUrl1=[LSOFileUtil URLForResource:@"replaceVideo1" withExtension:@"mp4"];
                 NSURL *videoUrl2=[LSOFileUtil URLForResource:@"replaceVideo2" withExtension:@"mp4"];
@@ -272,8 +275,6 @@
 
                 //第二个视频
                 LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
-                setting.isLooping=YES;
-                setting.isFrameRateSameAsJson=NO;
                 setting.startTimeS=2;
                 setting.endTimeS=8;
                 [aeView updateVideoImageWithKey:@"image_1" url:videoUrl0 setting:setting];
@@ -291,13 +292,9 @@
             //所有这里可以用for循环来替, 如果你的图片没有规律,则分别创建成value
             for (int i=0; i<aeView.imageInfoArray.count; i++) {
                 NSString *key=[NSString stringWithFormat:@"image_%d",i];
-               
-                
                 NSString *name= [NSString stringWithFormat:@"%@_img_%d",moduleName,i];
                 NSURL *imageURL=[LSOFileUtil URLForResource:name withExtension:@"png"];
                 [aeView updateImageWithKey:key imageURL:imageURL];
-                
-                
             }
         }
     }
@@ -427,7 +424,7 @@
 {
     [self stopAeExecute];
     [self stopAePreview];
-    LSOLog_d(@"AEPreviewDemoVC  dealloc...");
+    NSLog(@"AEPreviewDemoVC  dealloc...");
 }
 @end
 

@@ -209,7 +209,7 @@
         LSOAeView *aeView=[drawpadExecute addAEJsonPath:jsonPath];
     
 //        for(LSOAeImage *info in aeView.imageInfoArray){
-//            LSOLog(@"id:%@, width:%d %d, name:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
+//            NSLog(@"id:%@, width:%d %d, name:%@",info.imgId,info.imgWidth,info.imgHeight,info.imgName);
 //        }
 
     [aeView updateImageByName:@"img_0.png" image:jsonImage0];  //<----通过名字来替换图片.
@@ -264,18 +264,18 @@
         if(image!=nil){
             jsonImage0=image;
         }else{
-            LSOLog_d(@"image is nil---------");
+            NSLog(@"image is nil---------");
         }
         
     }else if([fileSuffix isEqualToString:@"mp3"] ||[fileSuffix isEqualToString:@"m4a"]){
-        LSOLog_d(@"暂时没有单独声音的演示.")
+        NSLog(@"暂时没有单独声音的演示.");
     }else if([fileName containsString:@"_c"]){
         
         NSRange range=[fileName rangeOfString:@"_c"];
         NSString  *number = [fileName  substringFromIndex:range.location+range.length];
         
         int index=[number intValue];
-        LSOLog_i(@"当前在第 %d 层",index);
+        NSLog(@"当前在第 %d 层",index);
         if([fileSuffix isEqualToString:@"mp4"]){
             if([fileName containsString:@"mvColor"]){
                  mvColor=[LSOFileUtil filePathToURL:filePath];
@@ -287,14 +287,14 @@
         }else if([fileSuffix isEqualToString:@"json"]){
             jsonPath=filePath;
         }else{
-            LSOLog_e(@"暂时不支持这种类型")
+            NSLog(@"暂时不支持这种类型");
         }
     }
 }
 -(NSString *)copyAEAssetToDir:(NSString *)dirName srcPath:(NSString *)srcPath dstFileName:(NSString *)dstName
 {
     if(srcPath==nil){
-        LSOLog_e(@"copyAEAssetToDir error  srcPath is nil");
+        NSLog(@"copyAEAssetToDir error  srcPath is nil");
         return nil;
     }
     NSString *jsonDir=[NSString stringWithFormat:@"%@/%@",[LSOFileUtil Path],dirName];
@@ -309,7 +309,7 @@
     {
         BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:finalLocation error:NULL];
         if (!retVal) {
-            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
+            NSLog(@"copy %@ asset file Error!,return NULL.",srcPath);
         }
     }
     return jsonDir;
@@ -317,7 +317,7 @@
 -(NSString *)copyAEAssetToSandBox:(NSString *)srcPath dstFileName:(NSString *)dstName
 {
     if(srcPath==nil){
-        LSOLog_e(@"copyAEAssetToSandBox error  srcPath is nil");
+        NSLog(@"copyAEAssetToSandBox error  srcPath is nil");
         return nil;
     }
     NSString *jsonDir=[LSOFileUtil Path];
@@ -332,7 +332,7 @@
     {
         BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:dstPath error:NULL];
         if (!retVal) {
-            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
+            NSLog(@"copy %@ asset file Error!,return NULL.",srcPath);
         }
     }
     return jsonDir;

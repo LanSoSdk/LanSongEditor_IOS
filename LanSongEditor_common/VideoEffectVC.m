@@ -36,7 +36,6 @@
     BOOL colorScaleEnable;
     LanSongColorEdgeFilter *colorEdgeFilter;
     
-    
     //灵活出窍
     LSOSubPen *outbodyPen;
     int outBodyCnt;
@@ -569,7 +568,7 @@
     //-----------------增加其他
     WS(weakSelf)
     [videoExecute setProgressBlock:^(CGFloat progess) {
-        LSOLog_d(@"progress  is :%f",progess);
+        NSLog(@"progress  is :%f",progess);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.hud showProgress:[NSString stringWithFormat:@"时间戳:%f",progess]];
         });

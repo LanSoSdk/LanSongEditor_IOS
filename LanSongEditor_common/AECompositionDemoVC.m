@@ -263,15 +263,11 @@
             //第二个视频
             
             LSOAEVideoSetting *setting=[[LSOAEVideoSetting alloc] init];
-            setting.isLooping=YES;
-            setting.isFrameRateSameAsJson=NO;
             setting.startTimeS=2;
             setting.endTimeS=8;
             [aeView updateVideoImageWithKey:@"image_1" url:videoUrl0 setting:setting];
             
             //第三个视频
-            //
-            
             [aeView updateVideoImageWithKey:@"image_2" url: videoUrl2];
             
             
@@ -286,7 +282,6 @@
 //                               CGImageRelease(cgImage);
 //                               return img;
 //            }];
-            
             //                [aeView setVideoImageFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(NSString * _Nonnull imgId, CGFloat framePts, UIImage * _Nonnull image) {
             //                    return image;
             //                }];
@@ -531,7 +526,7 @@
 {
         [_hud hide];
     [self stopAePreview];
-    LSOLog_d(@"AECompositionDemoVC  dealloc...");
+    NSLog(@"AECompositionDemoVC  dealloc...");
 }
 @end
 

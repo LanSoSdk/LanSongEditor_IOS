@@ -8,15 +8,36 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for LanSongEditor.
 FOUNDATION_EXPORT double LanSongEditorVersionNumber;
 
-//! Project version string for LanSongEditor.
 FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <LanSongEditor/PublicHeader.h>
 
+
+/**
+ 当前此SDK的版本号.
+ 内部使用,请勿修改.
+ */
+#define  LANSONGEDITOR_VISION  "4.0.0_debug_20200521_1557"
+
+//所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
+
+//*************************资源类 和选项类********************************
+//资源的普通信息
+#import <LanSongEditorFramework/LSOXAssetInfo.h>
+
+//所有资源的父类
+#import <LanSongEditorFramework/LSOAsset.h>
+
+#import <LanSongEditorFramework/LSOVideoAsset.h>
+//图片资源
+#import <LanSongEditorFramework/LSOBitmapAsset.h>
+
+#import <LanSongEditorFramework/LSOVideoOption.h>
+
+#import <LanSongEditorFramework/LSOAEVideoAsset.h>
+
 //**************************容器类*********************************
 //各种LanSongFilter.h中的滤镜;
 #import <LanSongEditorFramework/LanSong.h>
@@ -31,10 +52,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //混合容器的执行;
 #import <LanSongEditorFramework/DrawPadAllExecute.h>
-
-
-
-
 
 //AE模板的前台预览容器 (早期的Ae类, 不建议使用)
 #import <LanSongEditorFramework/DrawPadAEPreview.h>
@@ -56,10 +73,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //图片容器: 给图片增加滤镜; 给多张图片增加滤镜;
 #import <LanSongEditorFramework/BitmapPadExecute.h>
 
-
-
-
-
 //音频容器:用来合成各种声音
 #import <LanSongEditorFramework/AudioPadExecute.h>
 
@@ -75,21 +88,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOOneLineText.h>
 
 //********************图层类(6个)*************************************
-
-//处理视频和音频的基本单元.
-#import <LanSongEditorFramework/LSOVideoAsset.h>
-
-#import <LanSongEditorFramework/LSOXAssetInfo.h>
-
-
-
-#import <LanSongEditorFramework/LSOVideoOption.h>
-
-
-//图片资源
-#import <LanSongEditorFramework/LSOBitmapAsset.h>
-
-
 //图层的父类, 所有的xxxPen 集成这个父类;
 #import <LanSongEditorFramework/LSOPen.h>
 
@@ -104,7 +102,36 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOVideoFramePen2.h>
 
 
+//---------2020年03月14日09:49:45增加的新类.
+#import <LanSongEditorFramework/LSOLayer.h>
+#import <LanSongEditorFramework/LSOVideoLayer.h>
+#import <LanSongEditorFramework/LSOConcatLayer.h>
+
+
+#import <LanSongEditorFramework/LSOImageLayer.h>
+#import <LanSongEditorFramework/LSOMVLayer.h>
+#import <LanSongEditorFramework/LSOViewLayer.h>
+#import <LanSongEditorFramework/LSOGifLayer.h>
+#import <LanSongEditorFramework/LSOImageArrayLayer.h>
+#import <LanSongEditorFramework/LSOAudioLayer.h>
+
+
+
+
+#import <LanSongEditorFramework/LSOTransition.h>
+#import <LanSongEditorFramework/LSOVideoComposition.h>
+
+
+
+#import <LanSongEditorFramework/LSOCompositionView.h>
+
+//---------2020年03月14日09:49:45增加的新类----end
+
+
+
 #import <LanSongEditorFramework/LSOAeViewPen.h>
+
+
 
 
 //MV图层
@@ -115,6 +142,12 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //图片图层;
 #import <LanSongEditorFramework/LSOBitmapPen.h>
+
+
+#import <LanSongEditorFramework/LSOAeCompositionPen.h>
+
+#import <LanSongEditorFramework/LSOAeCompositionAsset.h>
+
 
 //子图层: 可做灵魂出窍等功能;
 #import <LanSongEditorFramework/LSOSubPen.h>
@@ -141,8 +174,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //音频录制类
 #import <LanSongEditorFramework/LSOAudioRecorder.h>
 
-//#import <LanSongEditorFramework/LSOEditMode.h>
-
 //视频的剪切, 裁剪, logo, 文字,滤镜,缩放,码率, 压缩的一次性处理
 #import <LanSongEditorFramework/LSOVideoOneDo.h>
 
@@ -165,10 +196,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //处理图片的一些公共函数.(持续增加)
 #import <LanSongEditorFramework/LSOImageUtil.h>
-//辅助类, 保存数据到文件;
-#import <LanSongEditorFramework/LSOSaveToFile.h>
-
-
 
 //*************************杂项**************************
 #import <LanSongEditorFramework/LSOAeView.h>
@@ -248,5 +275,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  @param as 是否为编辑模式. 默认不是编辑模式;
  */
 +(void)setEncodeVideoAsEditMode:(BOOL)as;
+
+
 
 @end

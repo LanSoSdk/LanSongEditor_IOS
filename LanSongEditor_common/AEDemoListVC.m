@@ -10,8 +10,8 @@
 #include "DemoFullWidthButtonsView.h"
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemoVC.h"
-
 #import "AECompositionDemoVC.h"
+#import "TESTShanChu.h"
 
 @interface AEDemoListVC () <LSOFullWidthButtonsViewDelegate>
 {
@@ -32,14 +32,13 @@
     }];
     
     scrollView.delegate=self;
-    [scrollView  configureView:@[@"奥巴马举牌",@"紫霞仙子",@"早安(替换视频)",@"小黄鸭",@"多个图片合成",@"图片替换视频演示",@"卡点 模板",@"高斯模糊",@"多动画拼接"] width:self.view.frame.size.width];
+    [scrollView  configureView:@[@"奥巴马举牌",@"紫霞仙子",@"早安(替换视频)",@"小黄鸭",@"多个图片合成",@"图片替换视频演示",@"卡点 模板"] width:self.view.frame.size.width];
 }
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
-    AECompositionDemoVC *pushVC=[[AECompositionDemoVC alloc] init];
-    
+//    AECompositionDemoVC *pushVC=[[AECompositionDemoVC alloc] init];
     //老版本
-//    AEPreviewDemoVC  *pushVC=[[AEPreviewDemoVC alloc] init];
+    AEPreviewDemoVC  *pushVC=[[AEPreviewDemoVC alloc] init];
     switch (index) {
         case 0:
             pushVC.AeType=kAEDEMO_AOBAMA;
@@ -64,9 +63,6 @@
             break;
         case 7:
             pushVC.AeType=kEDEMO_GAUSSIAN_BLUR;
-            break;
-        case 8:
-            pushVC.AeType=kEDEMO_CONCAT_JSON;
             break;
         default:
             [DemoUtils showDialog:@"暂时没有这个举例."];

@@ -79,6 +79,7 @@
 +(LanSongView2 *)createLanSongView:(CGSize)fullSize padSize:(CGSize)size percent:(float)percent;
 
 
++(LSOCompositionView *)createLSOCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
 /**
  创建LSOAeCompositionView;
  */
@@ -104,3 +105,4 @@
  */
 +(void)printJsonInfo:(LSOAeView *)aeView;
 @end
+

@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(id)initWithURL:(NSURL *)url;
 
 
-
 /// 初始化
 /// @param path 视频路径;
 -(id)initWithPath:(NSString *)path;
@@ -44,13 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 视频大小
+ 视频显示的大小;
  */
 @property (nonatomic,readonly) CGSize videoSize;
 
 
 /**
-  视频本身的宽度.
  显示的宽度;
  */
 @property(nonatomic,readonly) CGFloat width;
@@ -139,8 +137,7 @@ typedef void (^getThunbnailUIImageHandler)(UIImage *image);
     
 /*****************一下是内部使用***********************************/
 -(id)getSlice1;
-
-
+-(void)startCacheframe;
 @end
 
 NS_ASSUME_NONNULL_END

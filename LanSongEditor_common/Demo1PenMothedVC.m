@@ -234,7 +234,7 @@
     drawpadPreview=nil;
     videoPen=nil;
     lansongView=nil;
-    LSOLog(@"Demo1PenMothedVC dealloc");
+    NSLog(@"Demo1PenMothedVC dealloc");
 }
 /*
  #pragma mark - Navigation

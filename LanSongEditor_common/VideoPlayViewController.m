@@ -40,12 +40,12 @@
     _notificationToken=0;
     
     
-    LSOLog(@"-----------start  VideoPlayViewController-------.");
+    NSLog(@"-----------start  VideoPlayViewController-------.");
     [DemoUtils setViewControllerPortrait];
     
     mInfo=[[LSOXAssetInfo alloc] initWithPath:self.videoPath];
     if (_videoPath!=nil && [mInfo prepare]) {
-        LSOLog(@"获取到的视频信息是:%@",mInfo);
+        NSLog(@"获取到的视频信息是:%@",mInfo);
         NSString *str= [NSString stringWithFormat:@"宽度:%f"
                 "高度:%f"
                 "时长:%f"
@@ -180,7 +180,7 @@
     
     [library writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error){
         if (error) {
-            LSOLog(@"Video could not be saved");
+            NSLog(@"Video could not be saved");
             [DemoUtils showHUDToast:@"错误! 导出相册错误,请联系我们!"];
         }else{
             [DemoUtils showHUDToast:@"已导出到相册"];

@@ -282,7 +282,7 @@
 -(NSString *)copyAEAssetToSandBox:(NSString *)srcPath dstName:(NSString *)dstName
 {
     if(srcPath==nil){
-        LSOLog_e(@"copyAEAssetToSandBox error  srcPath is nil");
+        NSLog(@"copyAEAssetToSandBox error  srcPath is nil");
         return nil;
     }
     NSString *jsonDir=[LSOFileUtil Path];
@@ -297,7 +297,7 @@
     {
         BOOL retVal = [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:dstPath error:NULL];
         if (!retVal) {
-            LSOLog_e(@"copy %@ asset file Error!,return NULL.",srcPath);
+            NSLog(@"copy %@ asset file Error!,return NULL.",srcPath);
         }
     }
     return jsonDir;

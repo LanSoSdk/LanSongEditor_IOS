@@ -57,7 +57,6 @@
     CGContextSaveGState(context);
     UIRectClip(rect);
     [theView.layer renderInContext:context];
-         NSLog(@"layer  2222renderInContext>>>>.....");
     
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

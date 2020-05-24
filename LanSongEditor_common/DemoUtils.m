@@ -200,6 +200,29 @@
     }
 }
 
++(LSOCompositionView *)createLSOCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
+{
+    if(padSize.width>0  && padSize.height>0){
+        LSOCompositionView  *retView=nil;
+        
+        if (padSize.width>padSize.height) {  //横屏
+            retView=[[LSOCompositionView alloc] initWithFrame:CGRectMake(0, 90, fullSize.width,fullSize.width*(padSize.height/padSize.width))];
+        }else{  //竖屏
+            //如果高度大于宽度,则使用屏幕的高度一半作为预览界面.同时为了保证预览的画面宽高比一致,等比例得到宽度的值.
+            retView=[[LSOCompositionView alloc] initWithFrame:CGRectMake(0,90, fullSize.height*(padSize.width/padSize.height)/2,
+                                                                   fullSize.height/2)];
+            
+            
+            retView.center=CGPointMake(fullSize.width/2, retView.center.y);
+        }
+        return retView;
+    }else{
+        LSOLog_e(@"createLanSongView ERROR,pad size is error !")
+        return nil;
+    }
+}
+
+
 
 +(LSOAeCompositionView *)createAeCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize
 {
@@ -219,8 +242,6 @@
         return nil;
     }
 }
-
-
 
 
 /**
@@ -332,3 +353,4 @@
 }
 
 @end
+

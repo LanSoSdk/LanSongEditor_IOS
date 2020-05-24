@@ -321,7 +321,7 @@
         [_videoArray removeAllObjects];
         _videoArray=nil;
     }
-    LSOLog(@"GameVideoDemoVC VC  dealloc");
+    NSLog(@"GameVideoDemoVC VC  dealloc");
 }
 /*
  #pragma mark - Navigation

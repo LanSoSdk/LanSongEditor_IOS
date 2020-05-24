@@ -376,7 +376,7 @@
     [self stopAllExecute];
     [self stopAllPreview];
     
-    LSOLog_d(@"testDrawPadAllPreview  dealloc...");
+    NSLog(@"testDrawPadAllPreview  dealloc...");
 }
 @end
 

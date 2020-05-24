@@ -21,12 +21,14 @@
     #define LANSOSDKLine NSLog(@"LanSongSDK: function:%s [Line %d]", __PRETTY_FUNCTION__, __LINE__);
 
     #define LSOLog(fmt, ...) NSLog((@"LanSongSDK: " fmt), ##__VA_ARGS__);
+    #define LSOLOG(fmt, ...) NSLog((@"LanSongSDK: " fmt), ##__VA_ARGS__);
     #define LSOLog_i(fmt, ...) NSLog((@"LanSongSDK.info: " fmt), ##__VA_ARGS__);
     #define LSOLog_d(fmt, ...) NSLog((@"LanSongSDK.Debug: " fmt), ##__VA_ARGS__);
 
 #else
     #define LSDELETE ;
     #define LANSOSDKLine ;
+#define LSOLOG;
 
     #define LSOLog(fmt, ...);
     #define LSOLog_i(fmt, ...);
@@ -56,6 +58,9 @@
 #define LSOBundlePath(fileName) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:fileName]
 
 
+#define LSOBundleURL(fileName) [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:fileName]
+#define LSOScreenWidth [[UIScreen mainScreen] bounds].size.width// 屏幕宽度
+#define LSOScreenHeight [[UIScreen mainScreen] bounds].size.height// 屏幕高度
 /**
  声明:
  dispatch_semaphore_t _lock;

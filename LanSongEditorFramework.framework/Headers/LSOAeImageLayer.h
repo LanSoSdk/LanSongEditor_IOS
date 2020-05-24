@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LSOAEVideoSetting.h"
+#import "LSOAEVideoAsset.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)setImageVideo:(NSURL *)image setting:(nullable LSOAEVideoSetting *)setting;
 -(void)setVideoFrameUpdateBlock:(UIImage *(^)(NSString *imgId,CGFloat framePts,UIImage *image))frameUpdateBlock;
+
 
 
 /**

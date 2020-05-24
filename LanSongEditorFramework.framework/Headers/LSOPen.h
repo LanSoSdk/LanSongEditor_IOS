@@ -30,8 +30,6 @@
 {
       NSObject *framebufferLock;  //数据的同步锁. 内部使用.
 }
-
-
 /**
  *  当前图层的类型
  */
@@ -61,7 +59,7 @@
     此尺寸可以作为移动的参考.
   当前绘制原理是:ViewPen是等比例缩放到容器上, BitmapPen和ViewPen和CALayerPen, 则是1:1渲染到容器上.
  */
-@property CGSize penSize;
+@property (nonatomic,readwrite) CGSize penSize;
 /**
  *  容器尺寸
  */
@@ -94,7 +92,6 @@
 /// @param startS 相对容器的开始时间, 单位秒, 可以有小数, 最小值是0;
 /// @param endS 相对容器的结束时间, 单位秒, 可以有小数,最大值是: CGFLOAT_MAX;
 -(void)setDisplayTimeRange:(CGFloat)startS endTimeS:(CGFloat)endS;
-
 
 /**
  角度值0--360度. 默认为0.0
@@ -134,9 +131,9 @@
 
 
 /**
+ 设置缩放系数大小,0.5 则缩小一倍;
  同时缩放当前图层的宽度和高度, 内部代码等于设置:scaleWidth,scaleHeight
- 
- 此方法只用来写入;, 
+ 此方法只用来写入;,
  */
 @property(readwrite, nonatomic)  CGFloat scaleWH;
 /**
@@ -169,11 +166,10 @@
 @property(readwrite, nonatomic) CGFloat alphaPercent;
 /**
  同时设置 RGBA的百分比;
+ 也是设置透明度的值. 默认是 1.0 为完全不透明, 0.0 是透明.
+ 
  */
 -(void) setRGBAPercent:(CGFloat)value;
-
-
-
 //----------------visible rect(可视区域设置)------------------------
 /**
  设置当前图层画面的可见区域: 四方形
@@ -213,6 +209,72 @@
  * @param a  颜色的透明度,建议是1.0;
  */
 -(void)setVisibleCircleBorder:(float) width red:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
+
+//-------------------各种颜色调节-----------------
+/**
+调节亮度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+  如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setBrightnessPercent:(CGFloat)percent2X;
+/**
+ 调节对比度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setContrastFilterPercent:(CGFloat)percent2X;
+/**
+ 调节饱和度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+  如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setSaturationFilterPercent:(CGFloat)percent2X;
+/**
+调节锐化的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setSharpFilterPercent:(CGFloat)percent2X;
+/**
+调节色温的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setWhiteBalanceFilterPercent:(CGFloat)percent2X;
+/**
+调节色调的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setHueFilterPercent:(CGFloat)percent2X;
+/**
+调节褪色的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setExposurePercent:(CGFloat)percent2X;
+
 
 //-------------------------FILTER(滤镜)----------------------------
 /**
@@ -324,12 +386,11 @@
 -(BOOL)switchAnimationAtEnd:(LSOAnimation *)animation OverlapTime:(CGFloat)timeS;;
 
 /**
- ********************************************************************* 一下为 内部使用的函数. 请勿调用 ****************************************************************
+ ************** 一下为 内部使用的函数. 请勿调用 ****************************************************************
  */
 - (id)initWithDrawPadSize:(CGSize)size drawpadTarget:(id<LanSongInput>)target penType:(PenTpye) type;
 //视频在容器中是否 以原尺寸增加;
 /**
- 
  原尺寸对齐
  
  说明如下:
@@ -351,7 +412,6 @@
 /// 暂停当前帧;
 @property(readwrite,assign) BOOL pauseFrame;
 @property (nonatomic,assign) BOOL disableSetDisplayRange;
--(void)releasePen;
 
 -(void)updateDrawPadPts:(CGFloat)ptsS;
 -(BOOL)isDisplay;

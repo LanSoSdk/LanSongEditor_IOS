@@ -39,6 +39,7 @@
 #import "AECompositionDemoVC.h"
 
 #import "testDrawPadAllPreview.h"
+#import "testVideoCompositionVC.h"
 
 
 
@@ -91,17 +92,16 @@
     if([LanSongEditor initSDK:nil]==NO){
         [DemoUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
     }else{
-        [self showSDKInfo];
+        //[self showSDKInfo];
     }
     //初始化SDK.
     [LanSongFFmpeg initLanSongFFmpeg];
-    
-    
     /*
      删除sdk中所有的临时文件.
      */
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
+    [self testFile];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -183,7 +183,7 @@
         }
             break;
         case kGameVideoDemo:
-            pushVC=[[GameVideoDemoVC alloc] init];  //游戏录制类演示
+            pushVC=[[testVideoCompositionVC alloc] init];
             break;
         case kDemo2PenMothedVC:
             pushVC=[[Demo2PenMothedVC alloc] init];  //区域显示的演示.
@@ -226,14 +226,9 @@
     view=[self newButton:view index:kLikeDouYinDemo hint:@"类似抖音效果"];
     view=[self newButton:view index:kAEPreviewDemo hint:@"AE模板特效"];
     
-    
-    
-    
-    
-    
     view=[self newButton:view index:kAEModuleTextDemo hint:@"AE模板--文字旋转"];
     
-    view=[self newButton:view index:kGameVideoDemo hint:@"游戏视频录制类"];
+    view=[self newButton:view index:kGameVideoDemo hint:@"4.0版本新界面测试"];
     view=[self newButton:view index:kCommonEditDemo hint:@"视频基本编辑>>>"];
     view=[self newButton:view index:kDirectPlay hint:@"直接播放视频"];
     
@@ -333,10 +328,9 @@
             make.size.mas_equalTo(CGSizeMake(size.width, 50));
         }];
     }
-    
-    
     return btn;
 }
+
 -(void)showSDKInfo
 {
     NSString *text1=[NSString stringWithFormat:@"当前版本:%@, 到期时间是:%d 年 %d 月之前",[LanSongEditor getVersion],
@@ -346,7 +340,6 @@
     NSString *text2=[NSString stringWithFormat:@"我们SDK不包括UI界面, 本演示的所有界面都是公开代码, 不属于SDK的一部分."];
     [DemoUtils showDialog:text2];  //显示对话框.
 }
-
 -(void)btnDown:(UIView *)sender
 {
     sender.backgroundColor=[UIColor grayColor];
@@ -368,4 +361,6 @@
 {
     
 }
+
 @end
+

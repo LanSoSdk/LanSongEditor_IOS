@@ -664,7 +664,7 @@
             self.title = @"Histogram Equalization";
             self.filterSlider.hidden = NO;
             
-            LSOLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
+            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION  set mix value");
             [self.filterSlider setMinimumValue:4.0];
             [self.filterSlider setMaximumValue:32.0];
             [self.filterSlider setValue:16.0];
@@ -1446,7 +1446,7 @@
             [(LanSongHistogramFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_HISTOGRAM_EQUALIZATION:
-            LSOLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
+            NSLog(@"LanSong_HISTOGRAM_EQUALIZATION value:%f",value);
             [(LanSongHistogramEqualizationFilter *)self.selectedFilter  setDownsamplingFactor:round(value)];
             break;
         case LanSong_UNSHARPMASK:
@@ -1549,7 +1549,7 @@
             [(LanSongBoxBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
         case LanSong_GAUSSIAN:
-//          LSOLog(@"lansong gaussian set blurradius:%f",value)  //设置高斯模糊的值
+//          NSLog(@"lansong gaussian set blurradius:%f",value)  //设置高斯模糊的值
             [(LanSongGaussianBlurFilter *)self.selectedFilter  setBlurRadiusInPixels:value];
             break;
             
@@ -1608,7 +1608,7 @@
 {
     _filterPen=nil;
     _selectedFilter=nil;
-    LSOLog(@"Filter TypeList dealloc");
+    NSLog(@"Filter TypeList dealloc");
 }
 
 @end

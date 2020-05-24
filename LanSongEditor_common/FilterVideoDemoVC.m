@@ -226,7 +226,7 @@
     }
     
     [LSOFileUtil deleteFile:dstPath];
-    LSOLog(@"Demo3PenFilterVC dealloc");
+    NSLog(@"Demo3PenFilterVC dealloc");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

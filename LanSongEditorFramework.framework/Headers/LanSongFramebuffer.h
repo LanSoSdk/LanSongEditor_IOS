@@ -11,6 +11,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMedia/CoreMedia.h>
+#import "LSOObject.h"
+
 
 
 typedef struct LSOTextureOptions {
@@ -23,17 +25,25 @@ typedef struct LSOTextureOptions {
     GLenum type;
 } LSOTextureOptions;
 
-@interface LanSongFramebuffer : NSObject
+@interface LanSongFramebuffer : LSOObject
 
 @property(readonly) CGSize size;
 @property(readonly) LSOTextureOptions textureOptions;
+
+/**
+ framebuffer输出的 texture;
+ */
 @property(readonly) GLuint texture;
 @property(readonly) BOOL missingFramebuffer;
 
-// Initialization and teardown
+
+
+
 - (id)initWithSize:(CGSize)framebufferSize;
 - (id)initWithSize:(CGSize)framebufferSize textureOptions:(LSOTextureOptions)fboTextureOptions onlyTexture:(BOOL)onlyGenerateTexture;
 - (id)initWithSize:(CGSize)framebufferSize overriddenTexture:(GLuint)inputTexture;
+
+- (id)initWithDecoderSize:(CGSize)framebufferSize context:(EAGLContext *)context  queue:(CVOpenGLESTextureCacheRef)queue;
 
 // Usage
 - (void)activateFramebuffer;
@@ -47,6 +57,10 @@ typedef struct LSOTextureOptions {
 
 // Image capture
 - (CGImageRef)newCGImageFromFramebufferContents;
+- (CGImageRef)newCGImageFromFramebufferContents:(EAGLContext *)_context;
+
+- (CGImageRef)getCGImageRefFromFBO;
+
 - (void)restoreRenderTarget;
 
 // Raw data bytes
@@ -55,5 +69,11 @@ typedef struct LSOTextureOptions {
 - (NSUInteger)bytesPerRow;
 - (GLubyte *)byteBuffer;
 - (CVPixelBufferRef)pixelBuffer;
+
+-(GLint )getFrameBuffer;
+
+
+- (GLubyte *)getAndLockBufferAddress;
+- (void)unlockBufferAddress;
 
 @end

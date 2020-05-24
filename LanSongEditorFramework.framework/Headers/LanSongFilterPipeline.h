@@ -1,7 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "LanSongOutput.h"
+#import "LSOObject.h"
 
-@interface LanSongFilterPipeline : NSObject
+
+@interface LanSongFilterPipeline : LSOObject
 {
     NSString *stringValue;
 }

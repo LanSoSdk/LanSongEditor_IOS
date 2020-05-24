@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <AVKit/AVKit.h>
 #import "LanSongFilter.h"
+#import "LSOObject.h"
+
 
 
 /**
@@ -20,10 +22,11 @@
  调用流程是:
  init--->setXXX--->设置进度完成回调--->start;
  */
-@interface LSOVideoOneDo : NSObject
+@interface LSOVideoOneDo : LSOObject
 
+/// 初始化对象, 如果视频不存在, 或者无法解码,则返回 nil;
+/// @param videoURL 视频路径;
 -(id)initWithNSURL:(NSURL *)videoURL;
-
 
 /**
  在init后,获取视频的信息
@@ -114,6 +117,7 @@
 (在开始之前调用)
  */
 -(void)setFilter:(LanSongFilter *)filter;
+
 /**
  设置滤镜
 (在开始之前调用)
@@ -121,7 +125,7 @@
 -(void)setFilterWithStart:(LanSongFilter *)startFilter end:(LanSongFilter *)endFilter;
 
 /**
-在视频的指定时间范围内覆盖一张图片. 类似增加封面的效果.
+在视频的指定时间范围内覆盖一张图片. 类似增加封面的效果.˙
  
  和setOverLayPicture 的区别是:此方法可以设置时间;
  比如要增加封面. 则设置时间点为:0---1.0秒;
@@ -200,6 +204,71 @@
  */
 -(BOOL)addAudio:(NSURL *)audio start:(CGFloat)start end:(CGFloat)end pos:(CGFloat)pos volume:(CGFloat)volume;
 
+//-------------------各种颜色调节-----------------
+/**
+调节亮度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+  如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setBrightnessPercent:(CGFloat)percent2X;
+/**
+ 调节对比度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setContrastFilterPercent:(CGFloat)percent2X;
+/**
+ 调节饱和度的百分比.
+ 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+ 0---1.0是调小;
+ 1.0 是默认,
+ 1.0---2.0 是调大;
+  如要关闭,则调整为 1.0.默认是关闭;
+ */
+-(void)setSaturationFilterPercent:(CGFloat)percent2X;
+/**
+调节锐化的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setSharpFilterPercent:(CGFloat)percent2X;
+/**
+调节色温的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setWhiteBalanceFilterPercent:(CGFloat)percent2X;
+/**
+调节色调的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setHueFilterPercent:(CGFloat)percent2X;
+/**
+调节褪色的百分比.
+这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
+0---1.0是调小;
+1.0 是默认,
+1.0---2.0 是调大;
+ 如要关闭,则调整为 1.0.默认是关闭;
+*/
+-(void)setExposurePercent:(CGFloat)percent2X;
+
 /**
  开始执行
   执行流程是: 先旋转-->裁剪--->执行滤镜--->设置马赛克区域--->增加UI层-->缩放--->设置码率,编码;
@@ -218,7 +287,7 @@
  
  注意:  内部是在其他队列中调用, 如需要在主队列中调用, 则需要增加一下代码.
  dispatch_async(dispatch_get_main_queue(), ^{
- .....CODEC....
+ .....CODE....
  });
  */
 @property(nonatomic, copy) void(^videoProgressBlock)(CGFloat currentFramePts,CGFloat percent);
@@ -265,18 +334,18 @@
  }
  -(UIView *)createUIView
  {
- UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 540,540)];
- rootView.backgroundColor = [UIColor clearColor];
- UIImage *image = [UIImage imageNamed:@"small"];
- UIImageView *imageView=[[UIImageView alloc] initWithImage:image];
- imageView.center = CGPointMake(rootView.bounds.size.width/2, rootView.bounds.size.height/2);
- 
- UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 540, 120)];
- label.text=@"杭州蓝松科技";
- label.textColor=[UIColor redColor];
- [rootView addSubview:label];
- [rootView addSubview:imageView];
- return rootView;
+     UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 540,540)];
+     rootView.backgroundColor = [UIColor clearColor];
+     UIImage *image = [UIImage imageNamed:@"small"];
+     UIImageView *imageView=[[UIImageView alloc] initWithImage:image];
+     imageView.center = CGPointMake(rootView.bounds.size.width/2, rootView.bounds.size.height/2);
+     
+     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 540, 120)];
+     label.text=@"杭州蓝松科技";
+     label.textColor=[UIColor redColor];
+     [rootView addSubview:label];
+     [rootView addSubview:imageView];
+     return rootView;
  }
  
  */

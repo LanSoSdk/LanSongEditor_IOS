@@ -121,7 +121,7 @@
     
     WS(weakSelf);
     [videoExecute setProgressBlock:^(CGFloat progess,CGFloat percent) {
-        LSOLog(@"initWithURLArray  is :%f, percent:%f",progess,percent)
+        NSLog(@"initWithURLArray  is :%f, percent:%f",progess,percent);
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf showExportProgress:percent];
         });

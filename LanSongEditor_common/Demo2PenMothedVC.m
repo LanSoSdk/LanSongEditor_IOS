@@ -233,7 +233,7 @@
     drawpadPreview=nil;
     videoPen=nil;
     lansongView=nil;
-    LSOLog(@"Demo1PenMothedVC dealloc");
+    NSLog(@"Demo1PenMothedVC dealloc");
 }
 //----------演示后台执行
 -(void)testVideoRectExecute
@@ -257,7 +257,7 @@
     
     
     [videoExecute setProgressBlock:^(CGFloat progess) {
-        LSOLog(@"progress is ::%f",progess);
+        NSLog(@"progress is ::%f",progess);
         [weakSelf setVisibleRect];
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.hud showProgress:[NSString stringWithFormat:@"当前正在处理的时间戳是::%f",progess]];

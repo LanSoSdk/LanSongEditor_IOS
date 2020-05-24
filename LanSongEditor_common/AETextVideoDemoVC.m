@@ -118,7 +118,7 @@
     
     //打印所有的文字
 //    for (LSOOneLineText *oneLine in aeTextPreview.oneLineTextArray) {
-//        LSOLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
+//        NSLog(@"当前行是:%d,imageId:%@, 文字:--->%@<----开始时间:%f,startFrame:%d",oneLine.lineIndex,oneLine.jsonImageID,oneLine.text,oneLine.startTimeS,oneLine.startFrame);
 //    }
 //    [self replaceText];
 }
