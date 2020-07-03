@@ -13,25 +13,45 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOAudioLayer : LSOObject
 
+/**
+,
+ */
+
+///  初始化
+/// @param url 输入的声音url完整路径
 -(id)initWithURL:(NSURL *)url;
 
-
+/**
+声音文件本身的时长;
+ 单位秒;
+ */
 @property (nonatomic, readonly) CGFloat assetDurationS;
 
 /**
- 从增加声音什么位置, 开始裁剪;
- [可调节]
+你可以设置对声音做裁剪操作.
+
+此为裁剪的开始时间;
+比如你从声音的的第三秒裁剪; 则这里填入cutStartTimeS=3;
  */
 @property (nonatomic, readwrite) CGFloat cutStartTimeS;
 
 /**
- 从增加声音的什么位置, 结束裁剪;
- [可调节]
+ 你可以设置对声音做裁剪操作.
+
+ 此为裁剪的结束时间;
+ 比如你从裁剪到第8秒 则这里填入cutEndTimeS=8.0;
  */
 @property (nonatomic, readwrite) CGFloat cutEndTimeS;
 
 
-
+/**
+ 当前在容器中的声音的有效时间;
+ 当你没有没有做裁剪操作, 则等于assetDurationS;
+ 当裁剪了,则等于cutEndTimeS - cutStartTimeS;
+ 
+ 还有一种情况: 比如你裁剪保留了3秒的时长, 但你想播放3遍, 则这里等于3*3=9.0;
+ 如果你设置了looping, 则这里是无限长
+ */
 @property (nonatomic, readwrite) CGFloat layerDurationS;
 
 /**
@@ -52,6 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
  如果是0.0则无声,
  */
 @property (nonatomic, assign)CGFloat audioVolume;
+
+
+
+
+
+
 
 
 

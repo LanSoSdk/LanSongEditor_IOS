@@ -14,7 +14,6 @@
 #import "LanSongTwoInputFilter.h"
 
 #import "LSOSubPen.h"
-#import "LSOAnimation.h"
 
 
 
@@ -356,34 +355,6 @@
 -(int)getSubPenSize;
 
 
-/**
- 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
- 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
- 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
- 完全等于switchAnimationAtEnd. 只是addXXX好记,特意写一个;
- */
--(BOOL)addAnimationAtEnd:(LSOAnimation *)animation;
-/**
- 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
- 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
- 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
- 完全等于switchAnimationAtEnd. 只是addXXX好记,特意写一个;
- */
--(BOOL)addAnimationAtEnd:(LSOAnimation *)animation OverlapTime:(CGFloat)timeS;
-
-/// 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
-/// 当前仅支持LSOMaskAnimation; 增加后, 覆盖之前的动画;
-/// 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
-/// @param animation动画类,当前仅支持LSOMaskAnimation
--(BOOL)switchAnimationAtEnd:(LSOAnimation *)animation;
-
-
-/// 在图层的最后几秒的地方增加一个转场动画,当前仅是DrawPadAllPreview和DrawPadAllExecute可用
-/// 当前仅支持maskAnimation;
-/// 如果是AeAnimation则直接在LSOVideoFramePen2对象中增加
-/// @param animation 动画类,当前仅支持LSOMaskAnimation
-/// @param timeS 在DrawPadAllPreview 和DrawPadAllExecute中设置的两个视频的重叠时间,默认是0.5f;
--(BOOL)switchAnimationAtEnd:(LSOAnimation *)animation OverlapTime:(CGFloat)timeS;;
 
 /**
  ************** 一下为 内部使用的函数. 请勿调用 ****************************************************************

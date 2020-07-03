@@ -38,7 +38,6 @@
     
     LSOAeView  *aeView1;
     LSOAeView *aeView2;
-    BOOL isLSdeleteTESTFile;
 }
 @property  DemoProgressHUD *hud;
 @property CIContext *ciContext;
@@ -272,7 +271,6 @@
             
             
             
-            //LSDELETE 测试;
              self.ciContext = [CIContext contextWithOptions:nil];
 //            [aeView setVideoDecoderFrameBlock:@"image_0" updateblock:^UIImage * _Nonnull(CGFloat framePts, CIImage * _Nonnull image, CGFloat angle) {
 //                               CIImage *ciimage = image;

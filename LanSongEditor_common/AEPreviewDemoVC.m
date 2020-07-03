@@ -214,8 +214,6 @@
     if(mvColorURL!=nil && mvMaskURL!=nil){
         [aeExecute addMVPen:mvColorURL withMask:mvMaskURL];
     }
-    LSDELETE(@"--------更新视频----大发发大---->")
-    
     
     //增加声音图层;[可选]
     if(_AeType==kEDEMO_MORE_PICTURE){

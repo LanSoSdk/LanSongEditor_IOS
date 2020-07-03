@@ -208,3 +208,6 @@
 #import "LanSongColorEdgeFilter.h"   //抖音的颜色偏移效果, 滤镜;
 #import "LanSongMirrorFilter.h"  //镜像;
 
+#import "LSOMosaicRectFilter.h"
+
+

@@ -1,5 +1,4 @@
 //
-//  LSOAnimationView
 //
 //  Created by Brandon Withrow on 12/14/15.
 //  Copyright © 2015 Brandon Withrow. All rights reserved.
@@ -18,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
+typedef void (^LXAEAnimationCompletionBlock)(BOOL animationFinished);
 
 
 @interface LSOAeView : UIView
@@ -132,17 +131,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 -(BOOL)updateImageWithKey:(NSString*)key imageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
 
 
-/// 根据json中的图片名字来替换指定json中的图片.
-/// @param name json中的图片名字,如果你在导出的时候, 选中保留原始名字,则会在aeView加载json后,会打印原始名字字符串
-/// @param imageURL 要替换的图片路径
--(BOOL)updateImageByName:(NSString*)name imageURL:(NSURL *)imageURL;
-
-/// 根据json中的图片名字来替换指定json中的图片.
-/// @param name json中的图片名字,如果你在导出的时候, 选中保留原始名字,则会在aeView加载json后,会打印原始名字字符串
-/// @param imageURL 要替换的图片路径
-/// @param needCrop 如果您输入的图片宽高和 json中的图片宽高不成比例,是否要裁剪
--(BOOL)updateImageByName:(NSString*)name imageURL:(NSURL *)imageURL needCrop:(BOOL)needCrop;
-
 
 /**
  替换指定图片的视频;
@@ -163,44 +151,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 -(BOOL)updateVideoImageWithKey:(NSString*)key url:(NSURL *)url setting:(LSOAEVideoSetting *)setting;
 
-/**
- 替换图片
- 根据Ae中的图片名字替换对应的图片;
- [图片请不要大于720x1280]
- @param name "json中的图片名字;
- @param image 图片对象
- @return 替换成功返回YES
- */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image LSO_DELPRECATED;
-
-/**
- 替换图片
- 根据Ae中的图片名字替换对应的图片;
- [图片请不要大于720x1280]
- @param name "json中的图片名字;
- @param image 图片对象
- @param needCrop 如果替换的图片和json的图片宽高不一致,是否SDK内部裁剪(内部是居中裁剪);
- @return 替换成功返回YES
- */
--(BOOL)updateImageByName:(NSString*)name image:(UIImage *)image needCrop:(BOOL)needCrop LSO_DELPRECATED;
-
-/**
- 根据名字 把原来显示图片的地方替换为视频;
- 
- @param name "json中的图片名字;
- @param url 视频文件路径
- @return 可以替换返回YES;
- */
--(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url LSO_DELPRECATED;
-/**
- 根据名字 把原来显示图片的地方替换为视频;
- 
-  @param name "json中的图片名字;
- @param url 视频文件路径
- @param setting 视频文件在处理中的选项设置;
- @return 可以替换返回YES;
- */
--(BOOL)updateVideoImageByName:(NSString*)name url:(NSURL *)url setting:(LSOAEVideoSetting *)setting LSO_DELPRECATED;
 /**
  当设置updateVideoImageWithKey后, 你可以通过这个来调整视频中每一帧;
 
@@ -256,8 +206,6 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
  */
 - (BOOL)updateFontWithText:(NSString *)text font:(UIFont *)font;
 
-/**********************************以下SDK内部使用, 请勿使用********************************************************************/
-//LSDEMO start
 +(void)setGLanSongForcePrecomWidth:(CGFloat)w;
 +(void)setGLanSongForcePrecomHeight:(CGFloat)h;
 +(void)setLanSongAEWorkForPreview:(BOOL)is;
@@ -273,19 +221,19 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 @property (nonatomic, assign) CGFloat animationSpeed;
 @property (nonatomic, readonly) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL cacheEnable;
-@property (nonatomic, copy, nullable) LSOAnimationCompletionBlock completionBlock;
+@property (nonatomic, copy, nullable) LXAEAnimationCompletionBlock completionBlock;
 @property (nonatomic, assign) BOOL shouldRasterizeWhenIdle;
 - (void)playToProgress:(CGFloat)toProgress
-        withCompletion:(nullable LSOAnimationCompletionBlock)completion;
+        withCompletion:(nullable LXAEAnimationCompletionBlock)completion;
 - (void)playFromProgress:(CGFloat)fromStartProgress
               toProgress:(CGFloat)toEndProgress
-          withCompletion:(nullable LSOAnimationCompletionBlock)completion;
+          withCompletion:(nullable LXAEAnimationCompletionBlock)completion;
 - (void)playToFrame:(nonnull NSNumber *)toFrame
-     withCompletion:(nullable LSOAnimationCompletionBlock)completion;
+     withCompletion:(nullable LXAEAnimationCompletionBlock)completion;
 - (void)playFromFrame:(nonnull NSNumber *)fromStartFrame
               toFrame:(nonnull NSNumber *)toEndFrame
-       withCompletion:(nullable LSOAnimationCompletionBlock)completion;
-- (void)playWithCompletion:(nullable LSOAnimationCompletionBlock)completion;
+       withCompletion:(nullable LXAEAnimationCompletionBlock)completion;
+- (void)playWithCompletion:(nullable LXAEAnimationCompletionBlock)completion;
 
 - (void)play;
 - (void)pause;
@@ -328,8 +276,10 @@ typedef void (^LSOAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 + (nonnull instancetype)animationWithFileData:(nonnull NSData *)fileData;
 
-//LSDEMO end
-/**********************************以下SDK内部使用, 请勿使用********************************************************************/
+
+
+
+
 
 
 @end

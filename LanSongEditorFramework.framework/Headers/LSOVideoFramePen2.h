@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "LSOPen.h"
 #import "LSOVideoAsset.h"
-#import "LSOAeAnimation.h"
 #import "LSOVideoOption.h"
 
 
@@ -20,10 +19,6 @@
 
 @interface LSOVideoFramePen2 : LSOPen
 
-/// 增加一个Ae动画
-/// @param animation AE动画
-/// @param timeS 从当前视频的什么位置开始增加;
--(void)addAeAnimationAtTimeS:(LSOAeAnimation *)animation atTimeS:(CGFloat)timeS;
 
 
 /**********************一下为内部使用********************************************************/

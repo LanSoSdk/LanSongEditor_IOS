@@ -14,6 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//老版本的API 各种图层. 已经废弃;
 typedef NS_ENUM(NSUInteger, PenTpye) {
     kNullPen,
     kVideoPen,
@@ -28,16 +29,14 @@ typedef NS_ENUM(NSUInteger, PenTpye) {
     kSubPen
 };
 
+//新版本的API的各种图层;
 typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSONullLayer,
     kLSOConcatVideoLayer,
     kLSOConcatImageLayer,
     kLSOVideoLayer,
-    kLSOViewLayer,
     kLSOAEViewLayer,
-    kLSOCameraLayer,
     kLSOMVLayer,
-    kLSOSubLayer,
     kLSOImageLayer,
     kLSOGIFLayer,
     kLSOImageArrayLayer
@@ -80,13 +79,13 @@ typedef enum : NSInteger {
     
     /**
      * 匹配放入到容器中;
-     * 等比例填满整个容器, 把多的部分裁剪掉.
+     * 等比例填满整个容器, 把多的部分显示到容器的外面去;
      */
     kLSOScaleCropFillComposition,
     /**
      * 视频缩放模式
      * 如果视频宽度大于高度, 则宽度和容器对齐, 然后等比例调整高度;
-     * 如果高度大于宽度, 则反之.
+     * 如果高度大于宽度, 则把高度和容器的边缘对齐, 然后调整宽度;
      */
     kLSOScaleVideoScale,
     
@@ -111,6 +110,10 @@ typedef enum : NSInteger {
 @interface LSOObject : NSObject
 
 //给当前类做一个标记. TAG;
+/**
+ 类似UIView中的id,
+ 比如你增加了多个图层, 为了区分不同的图层, 可以给图层增加一个tag 比如@"#1", 比如"firstLayer"
+ */
 @property (assign,readwrite) NSObject *lsoTag;
 @property (assign,readwrite) BOOL lock;
 /**
@@ -130,20 +133,16 @@ void runSyncQueueLSO(dispatch_queue_t queue, void (^block)(void));
  */
 void runAsyncQueueLSO(dispatch_queue_t queue, void (^block)(void));
 
-/**
- 内部使用类
- */
--(id)getId1BySDK;
--(id)getId2BySDK;
 
+/*******************一下内部使用 LSDEMO_DELETE********************************************************************/ //LSDEMO
+//LSDEMO_DELETE
+-(id)getId1BySDK; //LSDEMO
+-(id)getId2BySDK; //LSDEMO
+-(void)releaseLSO; //LSDEMO
++(CGSize)convertScaleType:(LSOScaleType)scaleType assetSize:(CGSize)assetSize compSize:(CGSize)compSize; //LSDEMO
++(CGPoint )convertPositionType:(LSOPositionType)positionType  assetSize:(CGSize)scaleSize compSize:(CGSize)compSize; //LSDEMO
+/*******************内部使用 END  LSDEMO_DELETE********************************************************************/ //LSDEMO
 
-/**
- 释放当前类;
- */
--(void)releaseLSO;
-
-+(CGSize)convertScaleType:(LSOScaleType)scaleType assetSize:(CGSize)assetSize compSize:(CGSize)compSize;
-+(CGPoint )convertPositionType:(LSOPositionType)positionType  assetSize:(CGSize)scaleSize compSize:(CGSize)compSize;
 
 @end
 

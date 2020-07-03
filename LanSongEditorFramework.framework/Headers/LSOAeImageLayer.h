@@ -72,6 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**********************一下为内部使用******************************************/
 - (instancetype _Nonnull)initWithID:(CALayer *)refId jsonFrameRate:(float)frameRate;
 -(void)releaseImageLayer;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

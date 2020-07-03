@@ -12,16 +12,23 @@ FOUNDATION_EXPORT double LanSongEditorVersionNumber;
 
 FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
-
-
 /**
  当前此SDK的版本号.
  内部使用,请勿修改.
  */
-#define  LANSONGEDITOR_VISION  "4.0.0_debug_20200521_1557"
+#define  LANSONGEDITOR_VISION  "4.2.0"
+
+#define  LANSONGEDITOR_BUILD_TIME  "20200703_1438"
 
 //所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
+
+
+//aex的一些类;
+#import <LanSongEditorFramework/LSOAexModule.h>
+#import <LanSongEditorFramework/LSOAexImage.h>
+#import <LanSongEditorFramework/LSOAexComposition.h>
+#import <LanSongEditorFramework/LSOAexDisplayView.h>
 
 //*************************资源类 和选项类********************************
 //资源的普通信息
@@ -46,9 +53,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //视频后台执行容器
 #import <LanSongEditorFramework/DrawPadVideoExecute.h>
-
-//混合容器的预览, 你可以向里面增加视频, 图片,动图, mv等;
-#import <LanSongEditorFramework/DrawPadAllPreview.h>
 
 //混合容器的执行;
 #import <LanSongEditorFramework/DrawPadAllExecute.h>
@@ -79,18 +83,17 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 //容器显示,集成UIView
 #import <LanSongEditorFramework/LanSongView2.h>
 
-//前台录制UI
-#import <LanSongEditorFramework/LSORecordUIPreview.h>
-
-//后台录制UI
-#import <LanSongEditorFramework/LSORecordUIExecute.h>
-#import <LanSongEditorFramework/DrawPadAeText.h>
-#import <LanSongEditorFramework/LSOOneLineText.h>
+////前台录制UI
+//#import <LanSongEditorFramework/LSORecordUIPreview.h>
+//
+////后台录制UI
+//#import <LanSongEditorFramework/LSORecordUIExecute.h>
+//#import <LanSongEditorFramework/DrawPadAeText.h>
+//#import <LanSongEditorFramework/LSOOneLineText.h>
 
 //********************图层类(6个)*************************************
 //图层的父类, 所有的xxxPen 集成这个父类;
 #import <LanSongEditorFramework/LSOPen.h>
-
 
 //视频图层, 用在前台预览容器中
 #import <LanSongEditorFramework/LSOVideoPen.h>
@@ -102,37 +105,19 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOVideoFramePen2.h>
 
 
-//---------2020年03月14日09:49:45增加的新类.
 #import <LanSongEditorFramework/LSOLayer.h>
-#import <LanSongEditorFramework/LSOVideoLayer.h>
-#import <LanSongEditorFramework/LSOConcatLayer.h>
+#import <LanSongEditorFramework/LSOAnimation.h>
+#import <LanSongEditorFramework/LSOEffect.h>
 
-
-#import <LanSongEditorFramework/LSOImageLayer.h>
-#import <LanSongEditorFramework/LSOMVLayer.h>
-#import <LanSongEditorFramework/LSOViewLayer.h>
-#import <LanSongEditorFramework/LSOGifLayer.h>
-#import <LanSongEditorFramework/LSOImageArrayLayer.h>
 #import <LanSongEditorFramework/LSOAudioLayer.h>
 
+#import <LanSongEditorFramework/LSOConcatComposition.h>
 
 
-
-#import <LanSongEditorFramework/LSOTransition.h>
-#import <LanSongEditorFramework/LSOVideoComposition.h>
-
-
-
-#import <LanSongEditorFramework/LSOCompositionView.h>
-
-//---------2020年03月14日09:49:45增加的新类----end
-
+#import <LanSongEditorFramework/LSODisplayView.h>
 
 
 #import <LanSongEditorFramework/LSOAeViewPen.h>
-
-
-
 
 //MV图层
 #import <LanSongEditorFramework/LSOMVPen.h>
@@ -151,12 +136,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 //子图层: 可做灵魂出窍等功能;
 #import <LanSongEditorFramework/LSOSubPen.h>
-//******************************动画类****************************************
-#import <LanSongEditorFramework/LSOAnimation.h>
-#import <LanSongEditorFramework/LSOMaskAnimation.h>
-
-#import <LanSongEditorFramework/LSOAeAnimation.h>
-#import <LanSongEditorFramework/LSOAdjustAnimation.h>
 
 //******************************滤镜****************************************
 //各种滤镜的头文件;

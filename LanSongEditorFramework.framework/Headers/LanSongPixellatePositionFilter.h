@@ -22,4 +22,5 @@
 // the radius (0.0 - 1.0) in which to pixelate, default 1.0
 @property(readwrite, nonatomic) CGFloat radius;
 
+
 @end

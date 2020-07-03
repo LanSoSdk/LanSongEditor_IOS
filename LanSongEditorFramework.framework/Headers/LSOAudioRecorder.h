@@ -4,20 +4,9 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "LSOObject.h"
 
-@interface LSOAudioRecorder : NSObject
-
-
-/**
- 初始化
- 
- [可以不调用]
- 默认是 44100, 双通道;
- 
- @param sampleRate 采样率
- @param chnels 通道数, 单通道=1, 双通道=2;
- */
--(id)initWithSampleRate:(float)sampleRate chnls:(int)chnels;
+@interface LSOAudioRecorder : LSOObject
 
 
 /**
@@ -28,8 +17,9 @@
 
 /**
  结束 停止后,返回录制的音频文件;
+ 当前返回的是wav文件格式;
  */
--(NSString *)stopRecord;
+-(NSURL *)stopRecord;
 
 /**
  是否在录制中.

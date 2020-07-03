@@ -26,12 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-//----------------一下方法内部使用-----------------------------
-- (id)initWithVideoAsset:(LSOVideoAsset *)videoAsset option:(LSOVideoOption * _Nullable)option padSize:(CGSize)size;
 
-@property (nonatomic,readonly)LSOVideoAsset *videoAsset;
 
-@property (nonatomic,readonly)LSOVideoOption *videoOption;
+
+
 
 
 

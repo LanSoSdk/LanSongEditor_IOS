@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 这个 view 一定是重新alloc,并没有增加到预览的self.view 中的.
 /// view 是随容器的时间轴走动, 而不是随系统时间走动, 故如果你要设置动画, 则需要根据回调时间戳,自己写动画, 不能用iOS 中的 Animation;
 /// @param view view 层
--(LSOViewPen *)addViewPen:(UIView *)view;
+-(LSOViewPen *)addViewPen:(UIView *)view ;
 
 
 /// 增加Aejson文件动画;

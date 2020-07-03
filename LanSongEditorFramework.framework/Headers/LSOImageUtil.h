@@ -88,4 +88,9 @@
 +(UIImage *)uiimageFixOrientation:(UIImage *)aImage;
 
 +(CGSize)computeToSameRatio:(CGSize)imageSize requestSize:(CGSize)requestSize;
+
+
+///获取图片的缩略图
+/// @param image 输入图片;
++ (UIImage *)getThumbnailWithImage:(UIImage *)image;
 @end

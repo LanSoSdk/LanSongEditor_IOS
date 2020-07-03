@@ -11,7 +11,6 @@
 #import "AEModuleDemoVC.h"
 #import "AEPreviewDemoVC.h"
 #import "AECompositionDemoVC.h"
-#import "TESTShanChu.h"
 
 @interface AEDemoListVC () <LSOFullWidthButtonsViewDelegate>
 {

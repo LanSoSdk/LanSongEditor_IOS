@@ -152,6 +152,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(NSString *)copyFileWithSourcePath:(NSString *)srcPath dstDirName:(NSString *)dstDirName dstFileName:(NSString *)dstName;
 
+
+/// 拷贝url文件到沙盒里;
+/// @param url <#url description#>
++ (NSString *)copyFileWithUrl:(NSURL *)url;
 /**
  *  判断文件是否存在
  *

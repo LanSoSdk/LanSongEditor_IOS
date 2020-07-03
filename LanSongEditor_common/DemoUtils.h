@@ -40,6 +40,19 @@
 #define LSOWS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 
+//--------------蓝松开发人员的一些测试文件;
+
+#define IMAGE1_URL LSOBundleURL(@"Iphone_IMG_0282.JPG")
+#define IMAGE2_URL LSOBundleURL(@"Iphone_IMG_0285.JPG")
+#define IMAGE3_URL LSOBundleURL(@"Iphone_IMG_0286.JPG")
+#define IMAGE4_URL LSOBundleURL(@"Iphone_IMG_0287.JPG")
+
+#define IMAGE1_PATH LSOBundlePath(@"Iphone_IMG_0282.JPG")
+#define IMAGE2_PATH LSOBundlePath(@"Iphone_IMG_0285.JPG")
+#define IMAGE3_PATH LSOBundlePath(@"Iphone_IMG_0286.JPG")
+#define IMAGE4_PATH LSOBundlePath(@"Iphone_IMG_0287.JPG")
+
+
 @interface DemoUtils : NSObject
 
 +(void)showDialog:(NSString *)str;
@@ -79,7 +92,7 @@
 +(LanSongView2 *)createLanSongView:(CGSize)fullSize padSize:(CGSize)size percent:(float)percent;
 
 
-+(LSOCompositionView *)createLSOCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
++(LSODisplayView *)createLSOCompositionView:(CGSize)fullSize drawpadSize:(CGSize)padSize;
 /**
  创建LSOAeCompositionView;
  */
@@ -97,8 +110,6 @@
  在ViewController中调用, 设置当前屏幕的旋转角度.
  */
 + (void)interfaceOrientation:(UIInterfaceOrientation)orientation;
-
-
 
 /**
  打印json中的信息;
