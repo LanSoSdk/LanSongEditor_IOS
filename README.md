@@ -1,77 +1,37 @@
-#### (当前仓库经过两年的版本迭代,仓库代码已经很大,请直接下载zip包, 不要git clone下载)
+### This is the simplest demo of Lansong SDK.
 
+#### The current version is 4.2.5
 
-## 蓝松视频编辑SDK 升级到4.2版本
-1. 增加入场动画, 出场动画, 指定点动画.动画可预览,可设置时长,可多次增加, 可用Ae扩展
-2. 增加特效功能, 特效可预览, 可设置时长和开始时间点, 可用Ae扩展
-3. 举例叠加文字功能, 文字可设置背景色, 设置字体, 设置颜色, 描边等;
-4. 增加讯飞语音识别的演示功能, 可把视频中的声音转换为文字, 并叠加到对应位置;
-5. 重构整个AE模板, 新的AE模板API最大可增加200张图片或50段视频;
-
-
-
-[更多版本日志](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md)
-
-## 架构介绍
-![架构示意图](https://github.com/LanSoSdk/LanSoEditor_advance/blob/master/SDK%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%89%87.png)
-### 架构1: 图层
-*   类似ios中的UI布局, 或者类似 adobe Affect Effect 动画处理一样, 我们的SDK是基于图层架构设计, 所有的素材,都是一层一层的处理;
-*   我们设计了一个容器概念, 命名为Drawpad, 向内部增加各种图层, 比如视频图层, 图片图层, mv图层等, 既可完成视频处理;
-*   滤镜功能：具有滤镜属性的图层有：视频图层，图片图层，摄像头图层
-*   视频图层，可引出多个子图层； 子图层是克隆当前画面， 从而实现同一个画面分裂出多个相同的画面,比如灵魂出窍,模糊背景, 错位等抖音的效果;
-
-### 架构2: AE模板
-
-*   AE模板:  是指设计师用Adobe After Effect做好各种视频动画，比如炫酷视频，文艺/搞笑的场景，相册效果等，根据我们的指导文件导出。蓝松SDK会解析导出的文件,自动还原成AE设计时的动画效果,开发者只需要做的是：引导用户选择素材，然后替换即可,执行后，即可得到用户自己的效果。
-*   客户参考：微商水印相机，熊猫动态壁纸,小柿饼等
-
-#### 图层容器操作举例：
-*   把给视频增加滤镜： 则你增加视频图层到容器上， 然后调节VideoPen中的滤镜属性即可。
-*   再比如： 你要在视频中增加文字： 则你增加[视频图层]+[UI图层]到容器中，在处理过程中，实时的调节他们即可。
-*   再比如：你要拍照的同时增加滤镜，或增加图片或视频在四周环绕， 则您可以增加[摄像头图层]+[图片图层]或[视频图层]到容器上，图片设置到四周，视频用滤镜处理成中间透明，就实现您要的效果。
-*   再比如：你想生成一段文字或把炫酷的动画转换为视频，则可以直接增加[UI图层]到容器上。
-*   再比如：你想给视频实时增加说话声，则可以直接增加[Mic图层]，当然如果仅仅是剪切替换声音，则直接用VideoEditor类中的替换方法就可以。
-
-
-#### 图层容器 更仅一步说:
-* 1，你用 【视频图层 VideoPen】在 容器 DrawPad上作画， 就得到 调整后的视频
-* 2，你用 【UI图层  ViewPen】在容器上作画， 就是把精美的UI界面转换为视频， 当然我们的设计，也可以后台处理。
-* 3， 你用 【视频图层】+ 【图片图层】 在容器上作画， 就得到动态的视频图片效果。
-* 4， 你用  【视频图层】 + 【MV图层】 在容器上作画， 就是在视频中叠加MV的效果。
-* 5， 当然： 容器 可以在前台工作， 也可以在后台处理。
-
-
-
-
-### 下载地址: 
-*  https://github.com/LanSoSdk/LanSongEditor_IOS
-
-### 我们有android版本的SDK，欢迎你的评估使用：
-*	android系统SDK--专业版本：https://github.com/LanSoSdk/LanSoEditor_advance
-
-### 集成方式
-- 1. 拖动LanSongEditorFramework.framework到你的项目中, 并在工程的Build Phases标签页的Link Binary With Libraries中把我们的framework放到最上面.
-2. 在Build Phases的<Link Binary With Libraries>中增加libz.tbd , libbz2.tbd, libc++.tbd, libiconv.tbd
-3. 在你代码中包括头文件： #import <LanSongEditorFramework/ LanSongEditor.h>
-4. LanSongEditorBundle.bundle 是我们sdk中 以LanSongIFxxx开头用到的一些滤镜图片,如果没用到LanSongIFxxx开头的滤镜，则不用增加此文件。如用到则把LanSongEditorBundle.bundle 拖动到你项目的 copy Bundle Resources中
-5. **其他的代码，各种资源，各种视频素材等均为演示所用，不属于sdk的一部分。**
-6. 如果您选择ios设备中的视频,则应该先拷贝到沙盒里,然后再用我们SDK处理.我们SDK提供了拷贝的方法LSOEditMode. 拷贝后再处理.
-7. 代码使用
- ```
-初始化
- 1.  [LanSongEditor initSDK:nil]//初始化SDK [必须]
- 2.  [LanSongEditor setTempFileDir:@"xxx"]; //设置SDK的临时文件路径 [可选]
-
-使用流程[仅参考]:
- 1.  明白我们SDK的各种DrawPad/Layer的意思. 我们每个公开类的注释,都在对应的.h头文件里, 您可以简单看下.
- 2.  先在我们demo上 运行您要的各种演示功能, 然后拷贝我们的相关demo代码,各种Activity.java, 在您的工程里运行一遍.
- 3.  我们每个Activity.java都有注释, 并尽量简单清晰. 您明白大概流程后, 整合归纳成您自己的代码. 
- ```
-### 联系方式:
-*   Email:support@lansongtech.com
-*   网站: www.lansongtech.com
-
-## 使用案例
-*   我们从事的是：商业SDK开发、更新和维护；
-*   当前包括500强 大公司在内的大约300+多个上线APP在使用，行业涉及 社交、微商、广场舞、直播、工具、母婴、舞蹈、厨艺、金融、炫酷等多种行业
-*   欢迎联系我们，索取相关案例信息和授权说明
+- Including: Video editing SDK and AE template SDK;
+- Our complete demo demo. you can download it from here:
+- app store : https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
+- If you want to test our SDK, you can ask us for all the demo source code.
+ 
+## SDK function introduction.
+#### Video editing SDK:
+  - The name of the class is: LSOConcatComposition: meaning: splicing and synthesis, which can splice the video and the picture together, and can also be superimposed; corresponding to ConcatLayer and overlayLayer respectively;
+  - **Front and back stitching**: Each stitching will return a layer object; use the layer object to adjust various attributes; insert, delete, sort, replace;
+  - **Top and bottom overlay**: While stitching pictures and videos, you can overlay pictures or videos, text, animations and other effects on the stitching. These are called top and bottom overlays; for example, picture-in-picture, you can set the starting position of the overlay , Size, angle, start time point, end time point, looping, support all methods of the layer, can adjust the order of the layer;
+  - **Thumbnail** After each video or picture is added, a corresponding thumbnail will be obtained, and the thumbnail API will be adjusted accordingly after the cut duration or reverse order or variable speed.
+  - **Gesture operation**: after adding pictures and videos, return to a layer, which is a layer-by-layer design. All layers support gestures; can be selected and moved with one finger; zoom and rotate with two fingers ;
+  - **Animation**: There are entrance animation, exit animation, and animation at any point in time; the animation is exported to the json format supported by the SDK after the Adobe After Effect software is completed, so that you can freely play different animations and SDKs Only one export file is needed at the end, and the animation effect can be presented after loading. Can be previewed, deleted, and applied to all;
+  - **Transition**: The exported json format designed by AE can be used for mask transition or mobile rotation zoom transparent transition, which can be deleted, previewed, and applied to all;
+  - **Special effects**: also designed with AE software, and then export the json or MP4 file we specified; the effect time can be adjusted, previewed, adjusted, deleted, and can be applied to all;
+  - **Mask** Produced in Photoshop on the PC, exported as a transparent image, and added to the SDK. With different effects, the SDK automatically adjusts the size of the picture, and adjusts the transparency of different areas of the video according to the transparency of the picture;
+  - **Edit function**: duration cut, frame picture crop, rotation, mirror image, picture zoom, opacity;
+  - **Filters**: Provide 18 common filters; and support customization;
+  - **Adjustment**: Brightness, contrast, saturation, highlight, shadow; hue, white balance;
+  - **Reverse Play**: Reverse playback; reverse play and variable speed can be set at the same time;
+  - **Variable speed**: Support 0.1--10 times sound increase;
+  - **Sound layer**; add music, recording, mp3 sound, sound extracted from video;
+  - **Volume**, the volume can be adjusted from 0 to 8.0 times; 0.0 is silent; 8.0 is almost soundless, 2.0 or 3.0 is recommended;
+  - **Picture layer**, can be used as static stickers, dynamic stickers, Gif stickers;
+  - **Picture in Picture**: Various other videos can be superimposed on the stitching layer, which is called a composite layer;
+  - **Export** can export different resolutions
+    
+#### AE template SDK
+- Designed the entire animation scene with Adobe After Effect on the PC, and allowed the user to replace the corresponding picture on the mobile phone. During the design, the picture can be rotated, zoomed, transparent, Gaussian blur, 3D effect;
+- SDK, which supports replacing pictures with pictures or videos during playback
+- If there is a deviation in the replaced position, you can use one finger to move, two fingers to zoom or rotate during playback.
+- Support for replacing sounds, adding logos, filtering screens, adding other text, etc.
+- Set different resolution when supporting export.
