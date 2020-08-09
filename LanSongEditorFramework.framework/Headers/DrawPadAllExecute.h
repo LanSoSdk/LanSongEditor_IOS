@@ -12,6 +12,8 @@
 #import "LSOViewPen.h"
 #import "LSOPen.h"
 #import "LSOBitmapPen.h"
+#import "LSOGifPen.h"
+
 #import "LSOMVPen.h"
 #import "LanSong.h"
 #import "LSOAeView.h"
@@ -94,6 +96,18 @@ NS_ASSUME_NONNULL_BEGIN
 -(LSOAeViewPen *)addAeViewPen:(LSOAeView *)aeView  startPadTime:(CGFloat )startS endPadTime:(CGFloat)endS;
 
 /**
+ 增加gif图层;
+ gif在增加后, 会循环播放;
+ */
+-(LSOGifPen *)addGifPenWithURL:(NSURL *)gifUrl;
+
+
+/// 增加gif图层
+/// @param gifUrl gif的完整路径
+/// @param startS 从容器的什么时间点增加,单位秒
+/// @param endS 增加到容器的什么时间点, 如果到容器结束,则设置为CGFLOAT_MAX
+-(LSOGifPen *)addGifPenWithURL:(NSURL *)gifUrl startPadTime:(CGFloat)startS endPadTime:(CGFloat)endS;
+/**
  增加一个图片图层,
  可多次调用
  在容器开始运行前增加
@@ -141,6 +155,10 @@ NS_ASSUME_NONNULL_BEGIN
 -(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS;
 
 -(LSOBitmapPen *)concatBitmapPen:(LSOBitmapAsset *)bmpAsset duration:(CGFloat)durationS overLapTime:(CGFloat)overLapTimeS;
+
+
+
+
 //----------------------
 /**
  开始执行
@@ -160,6 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(BOOL)setPenPosition:(LSOPen *)pen index:(int)index;
 
+-(void)setFrameRate:(int)frameRate;
 /**
  进度回调,
  此进度回调, 在 编码完一帧后,没有任意queue判断,直接调用这个block;

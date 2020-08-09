@@ -1,10 +1,15 @@
-### This is the simplest demo of Lansong SDK.
+### This is the simplest demo of Lansong SDK(SDK最简单的演示).
 
-#### The current version is 4.2.5
+- **Our SDK has been established for more than 3 years. To facilitate downloading, the code was migrated from the original warehouse.(sdk已经运行3年多, 为了方便下载,从原仓库迁移而来)**
+- Original warehouse address(原仓库地址):  https://github.com/LanSoSdk/LanSongEditor_IOS
+
+#### The current version is 4.2.8
  [中文说明](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/README.cn.md)
+ 
 - Including: Video editing SDK and AE template SDK;
+
 - Our complete demo demo. you can download it from here:
-- app store : https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
+- app store(演示下载) : https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
 - If you want to test our SDK, you can ask us for all the demo source code.
  
 ## SDK function introduction.

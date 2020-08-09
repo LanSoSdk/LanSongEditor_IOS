@@ -46,7 +46,7 @@
 + (unsigned char *)pixelBRGABytesFromImageRef:(CGImageRef)imageRef;
 
 
-
++(UIImage *)uiimageCopy2:(UIImage *)aImage scaleSize:(CGSize)scaleSize;
 
 /**
  二进制数据,转CGImageRef类型的图片;
@@ -93,4 +93,8 @@
 ///获取图片的缩略图
 /// @param image 输入图片;
 + (UIImage *)getThumbnailWithImage:(UIImage *)image;
+
++ (UIImage *)adjustImageToThumbnail:(UIImage *)image;
++ (UIImage *)adjustImageToThumbnail:(UIImage *)image cropWidth:(CGFloat)cropWidth;
+
 @end

@@ -47,7 +47,7 @@
      初始化SDK
      */
     if([LanSongEditor initSDK:nil]==NO){
-        [DemoUtils showDialog:@"SDK已经过期,请更新到最新的版本/或联系我们:"];
+        [DemoUtils showDialog:@"SDK已经过期(time out),请联系我们:"];
     }
     //初始化SDK.
     [LanSongFFmpeg initLanSongFFmpeg];

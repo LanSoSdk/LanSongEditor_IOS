@@ -27,7 +27,6 @@
 
 @interface LSOAeCompositionView : UIView
 
-
 /**
  增加第一层 : 背景视频
  如果没有没有第一层,则设置为nil; 或不调用;

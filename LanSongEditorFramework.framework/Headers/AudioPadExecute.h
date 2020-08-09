@@ -142,26 +142,26 @@
  举例1.
  -(void)testAudioPad
  {
- NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
- AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithURL:videoURL volume:0.5f onlyAudio:YES];
- 
- [audioPad setProgressBlock:^(CGFloat progess) {
- dispatch_async(dispatch_get_main_queue(), ^{
- LSOLog(@"progress  dispatch_get_main_queue  is :%f",progess);
- });
- }];
- 
- [audioPad setCompletionBlock:^(NSString *dstPath) {
- 
- dispatch_async(dispatch_get_main_queue(), ^{
- [MediaInfo checkFile:dstPath];
- });
- }];
- 
- //增加声音
- NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
- [audioPad addAudio:audioURL2 volume:0.1];
- [audioPad start];
+     NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"dy_xialu2" withExtension:@"mp4"];
+     AudioPadExecute *audioPad=[[AudioPadExecute alloc] initWithURL:videoURL volume:1.0f];
+
+     [audioPad setProgressBlock:^(CGFloat progess) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+                 LSOLog(@"progress   is :%f",progess);
+         });
+     }];
+
+     [audioPad setCompletionBlock:^(NSString *dstPath) {
+
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+         });
+     }];
+
+     //增加声音
+     NSURL *audioURL2 = [[NSBundle mainBundle] URLForResource:@"hongdou10s" withExtension:@"mp3"];
+     [audioPad addAudio:audioURL2 volume:1.0f];
+     [audioPad start];
  }
  
  举例2:

@@ -242,6 +242,16 @@
  */
 @property (nonatomic,readonly)LSOViewPen *firstJsonPen;
 
+
+/// 如果有背景视频,则无作用;
+-(void)pause;
+
+
+/// 如果有背景视频,则无作用;
+-(void)resume;
+
+-(BOOL)isPausing;
+
 //--------------------------一下不再使用-------------------------------
 -(id)initWithURL:(NSURL *)videoPath  LSO_DELPRECATED;
 -(id)initWithPath:(NSString *)videoPath LSO_DELPRECATED;

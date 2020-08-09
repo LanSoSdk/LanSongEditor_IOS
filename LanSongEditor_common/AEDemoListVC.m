@@ -31,7 +31,7 @@
     }];
     
     scrollView.delegate=self;
-    [scrollView  configureView:@[@"奥巴马举牌",@"紫霞仙子",@"早安(替换视频)",@"小黄鸭",@"多个图片合成",@"图片替换视频演示",@"卡点 模板"] width:self.view.frame.size.width];
+    [scrollView  configureView:@[@"紫霞仙子",@"早安(替换视频)",@"小黄鸭",@"多个图片合成",@"图片替换视频演示",@"卡点 模板"] width:self.view.frame.size.width];
 }
 - (void)LSOFullWidthButtonsViewSelected:(int)index
 {
@@ -40,31 +40,28 @@
     AEPreviewDemoVC  *pushVC=[[AEPreviewDemoVC alloc] init];
     switch (index) {
         case 0:
-            pushVC.AeType=kAEDEMO_AOBAMA;
-            break;
-        case 1:
             pushVC.AeType=kAEDEMO_XIANZI;
             break;
-        case 2:
+        case 1:
             pushVC.AeType=kAEDEMO_ZAO_AN;
             break;
-        case 3:
+        case 2:
             pushVC.AeType=kEDEMO_XIAOHUANGYA;
             break;
-        case 4:
+        case 3:
             pushVC.AeType=kEDEMO_MORE_PICTURE;
             break;
-        case 5:
+        case 4:
             pushVC.AeType=kEDEMO_REPLACE_VIDEO;
             break;
-        case 6:
+        case 5:
             pushVC.AeType=kEDEMO_KADIAN;
             break;
-        case 7:
+        case 6:
             pushVC.AeType=kEDEMO_GAUSSIAN_BLUR;
             break;
         default:
-            [DemoUtils showDialog:@"暂时没有这个举例."];
+            [DemoUtils showDialog:@"暂时没有这个举例(nothing)"];
             return;
     }
     [self.navigationController pushViewController:pushVC animated:NO];

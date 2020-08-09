@@ -72,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置一个图层为选中状态;
  当用户通过界面点击别的图层时,这个状态会被改变;
+ 可以设置, 如果设置不选中, 则设置为nil;
  */
 @property (nonatomic, readwrite) LSOLayer *selectedLayer;
 /**
@@ -119,6 +120,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ 增加mv动画层;
+ */
+- (LSOLayer *)addMVWithColorURL:(NSURL *)colorUrl maskUrl:(NSURL *) maskUrl atTime:(CGFloat)startTimeS;
+/**
  增加连续图片数组图层
  仅使用用有给每张图片带一个时间戳的场合,比如语音识别后的图片;
  /// @param imageDictionary 字典数组
@@ -161,14 +166,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 设置叠加层的位置
 /// @param layer 图层对象
-/// @param index 位置, 最里层是0, 最外层是 getPenSize-1
+/// @param index 位置, 最里层是0
 -(BOOL)setOverlayerLayerPosition:(LSOLayer *)layer index:(int)index;
+
+
+
+/// 设置拼接层的位置.
+/// @param layer 拼接的图层
+/// @param index 图层的index, 从前到后, 第一个层是0; 最后面的是: _concatLayerArray.count-1;
+-(BOOL)setConcatLayerPosition:(LSOLayer *)layer index:(int)index;
+
 
 /// 删除背景图层;
 - (void)removeBackGroundLayer;
 
 //----------------------一下是拼接层的操作----------------------------------------
-
 /**
  增加拼接图片图层;
   返回的layerAray :是当前新增加的图层对象数组
@@ -226,6 +238,9 @@ NS_ASSUME_NONNULL_BEGIN
  删除一个图层.
  */
 - (BOOL)removeLayer:(nullable LSOLayer *)layer;
+
+
+- (void)removeLayerArray:(nullable NSArray<LSOLayer *> *)layers;
 
 
 ///  根据合成中的一个时间点, 删除对应的图层
@@ -375,9 +390,33 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 /**
  当前用户选中的图层回调;
+ 如要工作在主线程,请使用:
+ dispatch_async(dispatch_get_main_queue(), ^{
+ });
  */
 @property(nonatomic, copy) void(^userSelectedLayerBlock)(LSOLayer *layer);
 
+/**
+  用户点击事件; 用户手指按下.
+ 中间不需要增加 dispatch_async(dispatch_get_main_queue(),;
+ */
+@property(nonatomic, copy) void(^ _Nullable userTouchDownLayerBlock)(LSOLayer * _Nullable layer);
+/**
+ 用户移动图层
+ */
+@property(nonatomic, copy) void(^ _Nullable userTouchMoveLayerBlock)(CGPoint point);
+/**
+ 用户缩放图层事件;
+ */
+@property(nonatomic, copy) void(^ _Nullable userTouchScaleLayerBlock)(CGSize size);
+/**
+ 用户旋转图层
+ */
+@property(nonatomic, copy) void(^ _Nullable userTouchRotationLayerBlock)(CGFloat rotation);
+/**
+ 用户手指抬起;
+ */
+@property(nonatomic, copy) void(^ _Nullable userTouchUpLayerBlock)();
 
 /**
  合成容器时间改变回调;

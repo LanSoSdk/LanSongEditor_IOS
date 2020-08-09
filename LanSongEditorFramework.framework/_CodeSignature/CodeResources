@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/AudioPadExecute.h</key>
 		<data>
-		zl00RRp+zWtajnNY/6whrKN9xgg=
+		ze5JqK3a5/w+sLlqa+IC8nyIVgQ=
 		</data>
 		<key>Headers/BitmapPadExecute.h</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Headers/DrawPadAEPreview.h</key>
 		<data>
-		W0wCzJbxxqEde/Jkmb/ZlHK1OiM=
+		IuAdaDkHVLQ2voKP1AtXydocBo0=
 		</data>
 		<key>Headers/DrawPadAeText.h</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Headers/DrawPadAllExecute.h</key>
 		<data>
-		uD8nO2FMLSttuY1qlet/Z0oE+co=
+		XBGiafI4Lwbu2g4F/eVGyFQB0ME=
 		</data>
 		<key>Headers/DrawPadAllPreview.h</key>
 		<data>
@@ -74,7 +74,7 @@
 		</data>
 		<key>Headers/LSOAeCompositionView.h</key>
 		<data>
-		JL0fX1Ewkb+M6cfmAe54YC/VdkU=
+		LuYTUskGvkitd7L9Nsv72oWPtyw=
 		</data>
 		<key>Headers/LSOAeImage.h</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Headers/LSOAeView.h</key>
 		<data>
-		IA58BYwUXR+dEqJX1XrBRCaU1yI=
+		F7a0e25VNwoT75KeiF8qL8jCUZg=
 		</data>
 		<key>Headers/LSOAeViewPen.h</key>
 		<data>
@@ -98,23 +98,31 @@
 		</data>
 		<key>Headers/LSOAexComposition.h</key>
 		<data>
-		In3iXZauG658+TTQ8sj5lcxVsRM=
+		Of0glT9N3v/mouUjOC+Wj6XBdMQ=
 		</data>
 		<key>Headers/LSOAexDisplayView.h</key>
 		<data>
-		J4knAEtqHjOVv9A26wabBE5a26M=
+		20f87qb+QHmmoT7qsiJHfPwpkuo=
 		</data>
 		<key>Headers/LSOAexImage.h</key>
 		<data>
-		rQHBZa0Dj0qTR2oshGrMM3KtVWY=
+		rRUZoK9KXjv6iW8Xirmb9Ol+vC0=
 		</data>
 		<key>Headers/LSOAexModule.h</key>
 		<data>
-		9Euh0TPbsjZcNjfcgfwKvJDfHzA=
+		kS4cBSdUe/Ok2IBpvMDbRtWL5KY=
+		</data>
+		<key>Headers/LSOAexOption.h</key>
+		<data>
+		kjoG6kvhrhzILJgHBj159GUpgRM=
+		</data>
+		<key>Headers/LSOAexText.h</key>
+		<data>
+		o8fgzmFi09yyyJJZHPDAWNtqQJo=
 		</data>
 		<key>Headers/LSOAnimation.h</key>
 		<data>
-		l73VH2GQ8MoIC21UBfY5wF/Cb9Y=
+		furhEcvx0/PoFFFwoeFh2X28qhk=
 		</data>
 		<key>Headers/LSOAsset.h</key>
 		<data>
@@ -146,7 +154,7 @@
 		</data>
 		<key>Headers/LSOConcatComposition.h</key>
 		<data>
-		qXsEG4nitPzxPxm6/WGC3/V3VbA=
+		kZuoRr6FtA7qIO3zDnMbuI2l2vc=
 		</data>
 		<key>Headers/LSODataPen.h</key>
 		<data>
@@ -154,7 +162,7 @@
 		</data>
 		<key>Headers/LSODisplayView.h</key>
 		<data>
-		uXMc3ZOiiWE1dBZf0O13ZXMpCj8=
+		tA1pQZPbRK3NwpSQcuH7kp62T8Q=
 		</data>
 		<key>Headers/LSODrawPadPreview.h</key>
 		<data>
@@ -176,9 +184,13 @@
 		<data>
 		RNO59ip/MsjFCl7CpuuCpYXgwE4=
 		</data>
+		<key>Headers/LSOGifPen.h</key>
+		<data>
+		0uI7kr8Y/nFX7FYJAOyxI1iy4WQ=
+		</data>
 		<key>Headers/LSOImageUtil.h</key>
 		<data>
-		/B9kHsxuEuxqxridaXn92J58OOI=
+		GsHvqTApbGuApcBXh2Ch2xj58tw=
 		</data>
 		<key>Headers/LSOKeypath.h</key>
 		<data>
@@ -186,7 +198,7 @@
 		</data>
 		<key>Headers/LSOLayer.h</key>
 		<data>
-		M8vZ1Tvw+t0ko7U6boWMRBmyNMs=
+		5F6VQhUU/aCAXWi1O+fseyYhzl4=
 		</data>
 		<key>Headers/LSOMVPen.h</key>
 		<data>
@@ -198,7 +210,7 @@
 		</data>
 		<key>Headers/LSOObject.h</key>
 		<data>
-		Vy1AhF5gfpFezhhHocc6DN9KSbo=
+		Uxvuockexu3poFuw8y/xULp4jI0=
 		</data>
 		<key>Headers/LSOOneLineText.h</key>
 		<data>
@@ -206,7 +218,7 @@
 		</data>
 		<key>Headers/LSOPen.h</key>
 		<data>
-		Dr47oyN3951lAsjsBL3by/V6cyc=
+		gfGQ9E05mQz6EdQenf8yJDUwWUg=
 		</data>
 		<key>Headers/LSORecordUIExecute.h</key>
 		<data>
@@ -228,6 +240,10 @@
 		<data>
 		9+G9ztJah/+3nKXD8Ukwg/Tx7Cw=
 		</data>
+		<key>Headers/LSOVideoCompositionExecute.h</key>
+		<data>
+		vCB4QjrOmM2hOZrvFFSAzV0982U=
+		</data>
 		<key>Headers/LSOVideoDecoder.h</key>
 		<data>
 		xTWuDu2bgrszDzCMyJNxzhQJzwg=
@@ -246,7 +262,7 @@
 		</data>
 		<key>Headers/LSOVideoOption.h</key>
 		<data>
-		8IGtLSOKxOTtA4wSxdZ9xWeKwCk=
+		yt3+G4ZuCwsS1pnZpVYuyhqVRCg=
 		</data>
 		<key>Headers/LSOVideoPen.h</key>
 		<data>
@@ -450,7 +466,7 @@
 		</data>
 		<key>Headers/LanSongEditor.h</key>
 		<data>
-		Vl2lahQEOVAGDeu87TcQrC/7Fy8=
+		euC0jO1cGQu+EMDpXkRm015dlY4=
 		</data>
 		<key>Headers/LanSongEmbossFilter.h</key>
 		<data>
@@ -1062,7 +1078,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		qK51Sz4i9Jnr0j8C/tkJyVeF1Zc=
+		dRpnfZqsaIRlFMXGBPy/8DsirUs=
+		</data>
+		<key>LanSongEditorFramework.KauutR</key>
+		<data>
+		DXppzn3TP32CSNFvaPLb9IaWQXA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -1082,11 +1102,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zl00RRp+zWtajnNY/6whrKN9xgg=
+			ze5JqK3a5/w+sLlqa+IC8nyIVgQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			b4l/qpldF3BH7h7YJOxrjghbTXIhwyFeUCs7WwCz3x4=
+			11lFqLtC6/nisJc1Nu2nMoGw0mMviBMQUPaLbqj6AJA=
 			</data>
 		</dict>
 		<key>Headers/BitmapPadExecute.h</key>
@@ -1126,11 +1146,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			W0wCzJbxxqEde/Jkmb/ZlHK1OiM=
+			IuAdaDkHVLQ2voKP1AtXydocBo0=
 			</data>
 			<key>hash2</key>
 			<data>
-			0diSzMUvyvrQ3RcfowpLEvbAuV6mhf5uhUH5WGEG2EQ=
+			ALOkL4nzJwlOHYfhQWUCg5MPP1p3YkdyUO4ZwTS+YT0=
 			</data>
 		</dict>
 		<key>Headers/DrawPadAeText.h</key>
@@ -1148,11 +1168,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uD8nO2FMLSttuY1qlet/Z0oE+co=
+			XBGiafI4Lwbu2g4F/eVGyFQB0ME=
 			</data>
 			<key>hash2</key>
 			<data>
-			lmBTbitIOoOMzsMEL1f8tLLw9PQ+XM/rBHXcoC0MCAE=
+			Z5IFTOVhWgKIiDWghQuF3ouuEKzqFn7vqtySpxEywaI=
 			</data>
 		</dict>
 		<key>Headers/DrawPadAllPreview.h</key>
@@ -1258,11 +1278,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JL0fX1Ewkb+M6cfmAe54YC/VdkU=
+			LuYTUskGvkitd7L9Nsv72oWPtyw=
 			</data>
 			<key>hash2</key>
 			<data>
-			P79akjrMNFsBC/P2ZJc1akiluiCS4tnhAR7cTajF2TU=
+			f2wz4DfT7f+fJDq89cntOp5j81+gTulmgphNr2kPass=
 			</data>
 		</dict>
 		<key>Headers/LSOAeImage.h</key>
@@ -1302,11 +1322,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IA58BYwUXR+dEqJX1XrBRCaU1yI=
+			F7a0e25VNwoT75KeiF8qL8jCUZg=
 			</data>
 			<key>hash2</key>
 			<data>
-			DAoQg9OYl2PZZq9EE0YIR6HLl3oEpPTEB4DLd/Y69UU=
+			k9nsml5+htG+AdKVyANj5imUgKZaBLXTIGLGemgMCoU=
 			</data>
 		</dict>
 		<key>Headers/LSOAeViewPen.h</key>
@@ -1324,55 +1344,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			In3iXZauG658+TTQ8sj5lcxVsRM=
+			Of0glT9N3v/mouUjOC+Wj6XBdMQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			7L7C/nZLQHG8pKdWYMz86pL6/DZD6BgM7QVE4aFPIMA=
+			r6TIPkDRKydaohpL/Q0r2MoUbNrOchJxGJrdDTjoWDM=
 			</data>
 		</dict>
 		<key>Headers/LSOAexDisplayView.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			J4knAEtqHjOVv9A26wabBE5a26M=
+			20f87qb+QHmmoT7qsiJHfPwpkuo=
 			</data>
 			<key>hash2</key>
 			<data>
-			3PHMp3U190WKBQWj9At347+u6WJWqEL2MhFpx2hFuQU=
+			qPeVhNBUlzUpdczkPUnl8uZXK/rbj4rqdaUz2tG31ok=
 			</data>
 		</dict>
 		<key>Headers/LSOAexImage.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rQHBZa0Dj0qTR2oshGrMM3KtVWY=
+			rRUZoK9KXjv6iW8Xirmb9Ol+vC0=
 			</data>
 			<key>hash2</key>
 			<data>
-			tgB3N64fCuQIt1AbsiKgytYu4GASrbVIJvt6L66sklg=
+			ax34c3SDhBaTeGjDAUzavf7IPnXygdYX0jpFnJMrwG0=
 			</data>
 		</dict>
 		<key>Headers/LSOAexModule.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9Euh0TPbsjZcNjfcgfwKvJDfHzA=
+			kS4cBSdUe/Ok2IBpvMDbRtWL5KY=
 			</data>
 			<key>hash2</key>
 			<data>
-			XT6QMVrcuxwDSYdCVJ9q0x4p+9eJv/gCgcGxIKGtktY=
+			xdeTz8YU9+CTBeYRR4ZVCe5Xomo1rRFQ2gkfKhSFIM4=
+			</data>
+		</dict>
+		<key>Headers/LSOAexOption.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kjoG6kvhrhzILJgHBj159GUpgRM=
+			</data>
+			<key>hash2</key>
+			<data>
+			zy+hVec1MBRNA/C6HWWp/rSsa7rizTm3zfBwP5dx2Rc=
+			</data>
+		</dict>
+		<key>Headers/LSOAexText.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			o8fgzmFi09yyyJJZHPDAWNtqQJo=
+			</data>
+			<key>hash2</key>
+			<data>
+			9kkI9OAY9K43CbmO3sh3hE8lHs0Gt4pQojFjqWBlGI4=
 			</data>
 		</dict>
 		<key>Headers/LSOAnimation.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l73VH2GQ8MoIC21UBfY5wF/Cb9Y=
+			furhEcvx0/PoFFFwoeFh2X28qhk=
 			</data>
 			<key>hash2</key>
 			<data>
-			JZo2mUhyq1lMxLffj3YnLMdDlCC7qZrX1LqGPkg3/AI=
+			IM/TTCtht+ploobVeHXIphSiFkF1HBa3TxTW6A1tCLk=
 			</data>
 		</dict>
 		<key>Headers/LSOAsset.h</key>
@@ -1456,11 +1498,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qXsEG4nitPzxPxm6/WGC3/V3VbA=
+			kZuoRr6FtA7qIO3zDnMbuI2l2vc=
 			</data>
 			<key>hash2</key>
 			<data>
-			DJuI6t+LQWshn5x3UgLSfDhqUzBQDXiM/XO2sWRQ3O0=
+			OCnU4v9ZXJjCy/fU1hc8jBZE1kXHUVgmRHlkgUvxPoU=
 			</data>
 		</dict>
 		<key>Headers/LSODataPen.h</key>
@@ -1478,11 +1520,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uXMc3ZOiiWE1dBZf0O13ZXMpCj8=
+			tA1pQZPbRK3NwpSQcuH7kp62T8Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			ypgxeqeOC1vtRVT/VpCnr3H+X2M379XAzlmE7NhBI+M=
+			IFMdLP/Tjfu8VH1WC8Pq+u9qVlkNj9wY69skCBXxWn4=
 			</data>
 		</dict>
 		<key>Headers/LSODrawPadPreview.h</key>
@@ -1540,15 +1582,26 @@
 			yPVa8KlGEDKEUmy65tyDWUsc86YyqsVBevAxfquP4SQ=
 			</data>
 		</dict>
+		<key>Headers/LSOGifPen.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0uI7kr8Y/nFX7FYJAOyxI1iy4WQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			KXh9xAdrUOu+TMzuzI8myFfYGg4i2bTq8qGKEpeUezY=
+			</data>
+		</dict>
 		<key>Headers/LSOImageUtil.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/B9kHsxuEuxqxridaXn92J58OOI=
+			GsHvqTApbGuApcBXh2Ch2xj58tw=
 			</data>
 			<key>hash2</key>
 			<data>
-			QcneFl1jEPXrtTTcLVIdJS+3fepN7/ADlAsZa7UdxxE=
+			Vr5ASazo1C/zhlVPVtlzbcfusRUQaYCT2+n4RjpoZeY=
 			</data>
 		</dict>
 		<key>Headers/LSOKeypath.h</key>
@@ -1566,11 +1619,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			M8vZ1Tvw+t0ko7U6boWMRBmyNMs=
+			5F6VQhUU/aCAXWi1O+fseyYhzl4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Pb9ZznJRaFDAT7ldAH73OYGeeEjLGZO33Bowa+gquSs=
+			o+I3LrmhJefznzoXumUZ2RNPerbi4FXN9C6QeG3/8K4=
 			</data>
 		</dict>
 		<key>Headers/LSOMVPen.h</key>
@@ -1599,11 +1652,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vy1AhF5gfpFezhhHocc6DN9KSbo=
+			Uxvuockexu3poFuw8y/xULp4jI0=
 			</data>
 			<key>hash2</key>
 			<data>
-			kJM4+q9IM269PSbU1+40WOgmTWgoMzI+OoYTPMRR85U=
+			vHJtLM9TJhvlV6+PQ2+7RoK+VWsH810Da2iQzNxbliI=
 			</data>
 		</dict>
 		<key>Headers/LSOOneLineText.h</key>
@@ -1621,11 +1674,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Dr47oyN3951lAsjsBL3by/V6cyc=
+			gfGQ9E05mQz6EdQenf8yJDUwWUg=
 			</data>
 			<key>hash2</key>
 			<data>
-			hxtFWVfn9Z/CVrVygKh1rJpLbLC7yedRV1M3/mM/otQ=
+			qiNf8Q+J0YNDECpM0MkLJ0NtXsw5HFpxWvHJTHvjlW4=
 			</data>
 		</dict>
 		<key>Headers/LSORecordUIExecute.h</key>
@@ -1683,6 +1736,17 @@
 			zdFjEFe+1RGIdBy0Wv1cYgrCMvSL8DFPqEKBxVNjjuY=
 			</data>
 		</dict>
+		<key>Headers/LSOVideoCompositionExecute.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vCB4QjrOmM2hOZrvFFSAzV0982U=
+			</data>
+			<key>hash2</key>
+			<data>
+			sA/YU79+JGzcqgRPbwDOP4IIo4lQBMvrY+rT7sz36y8=
+			</data>
+		</dict>
 		<key>Headers/LSOVideoDecoder.h</key>
 		<dict>
 			<key>hash</key>
@@ -1731,11 +1795,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8IGtLSOKxOTtA4wSxdZ9xWeKwCk=
+			yt3+G4ZuCwsS1pnZpVYuyhqVRCg=
 			</data>
 			<key>hash2</key>
 			<data>
-			nbefi2gzEWZSXrwlXtL9I+RyhWiHSH7ldDSDtVtMMI8=
+			3ZGkYC/f1/BsjpvDmyV4qBbHE8y2gVmwLFtv0nGH8Ek=
 			</data>
 		</dict>
 		<key>Headers/LSOVideoPen.h</key>
@@ -2292,11 +2356,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vl2lahQEOVAGDeu87TcQrC/7Fy8=
+			euC0jO1cGQu+EMDpXkRm015dlY4=
 			</data>
 			<key>hash2</key>
 			<data>
-			32Eq+qud0rFtAg2Larmz8tVu4gqFz07VqAcB3t9i4Go=
+			81KMvJcEi3nxMB+3NswQXI+wG8nVrJtCkE/FNRopORw=
 			</data>
 		</dict>
 		<key>Headers/LanSongEmbossFilter.h</key>
@@ -3969,6 +4033,17 @@
 			<key>hash2</key>
 			<data>
 			ktsA9ZsE4Mj89ZISYZ2KyOTmHdTkYkH1No8Sl1K06vw=
+			</data>
+		</dict>
+		<key>LanSongEditorFramework.KauutR</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			DXppzn3TP32CSNFvaPLb9IaWQXA=
+			</data>
+			<key>hash2</key>
+			<data>
+			jQpnkUPcCzIwn1eq2pkRzw+yIz0iN8zc4Ez9qyVdDRA=
 			</data>
 		</dict>
 	</dict>

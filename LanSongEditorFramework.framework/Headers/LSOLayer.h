@@ -56,8 +56,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
-  在合成中的开始时间;
-  放到concat中的时候, 内部设置.
+当前图层在总合成中的序号;
+  只读,用来让你知道,当前这个图层在容器中是第几个.没有其他用处;
+ 如果是拼接的图层,第一个的index=0;
+ 如果是叠加的图层,则最下面的index=0;
+ */
+@property (readonly,assign) int layerIndex;
+/**
+ 在合成中的开始时间;
+ 放到concat中的时候, 内部设置.
  用addXXXLayer, 是外部设置的.
  用 layerDurationS获取当前
  */
@@ -111,6 +118,18 @@ NS_ASSUME_NONNULL_BEGIN
  顺时针旋转.
  */
 @property (readwrite, nonatomic)  CGFloat rotateAngle;
+
+/**
+ 触摸时的角度;
+ 会在旋转的时候, 累加;
+ */
+@property (readwrite, nonatomic)  CGFloat touchRotateAngle;
+
+/**
+ 用户自己设置的各种选项,内部没有使用;
+ */
+@property(nonatomic,readwrite) NSObject *userSetting;
+
 /**
  *
  设置或读取  <当前图层的中心点>在容器中的坐标;
@@ -123,6 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  以当前显示窗口为单位, 图层的中心点;
+ 预览时有效
  */
 @property (readwrite, nonatomic) CGPoint centerPointInView;
 
@@ -143,16 +163,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIColor *selectedColor;
 
 /**
- 缩放具体大小;
+ 缩放到图层在容器中的具体大小;
  */
 @property (readwrite, nonatomic) CGSize scaleSize;
 
 /**
- 以显示窗口为单位, 缩放到的大小
+ 以显示窗口为单位, 缩放大小, 此宽高是相对于LSODisplayView而言;
+ 预览时有效
  */
 @property (readwrite, nonatomic) CGSize scaleSizeInView;
 /**
  以显示窗口为单位, 获取图层的宽高;
+ 预览时有效
  */
 @property (readonly, nonatomic) CGSize layerSizeInView;
 
@@ -162,7 +184,6 @@ NS_ASSUME_NONNULL_BEGIN
  0.5 是缩小1倍;
  2.0是放大一倍;
  范围是0---10.0f;
- 
  */
 @property(readwrite, nonatomic)  CGFloat scaleFactor;
 /**
@@ -285,6 +306,7 @@ NS_ASSUME_NONNULL_BEGIN
  宽高坐标可以通过getCurrentRectInView 获取到当前图层在compositionView中的位置;
  
  我们举例最大4个马赛克区域;如果你需要更多的马赛克区域, 则用LSOMosaicRectFilter执行增加;
+ 预览时有效
  */
 @property(readwrite, nonatomic) CGRect mosaicRect1InView;
 @property(readwrite, nonatomic) BOOL mosaic1Enable;
@@ -313,15 +335,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readwrite, nonatomic) BOOL mosaic4Enable;
 @property(readwrite, nonatomic) CGFloat mosaicPixelWidth4;
 
-
-
-
 //-------------------------FILTER(滤镜)----------------------------
 /**
  设置美颜,
  范围是0.0---1.0; 0.0是关闭美颜; 默认是0.0;
  */
-- (void)setBeautyLevel:(CGFloat)level;
+@property (readwrite,nonatomic) CGFloat beautyLevel;
 
 /**
 设置一个滤镜, 设置后, 之前增加的滤镜将全面清空.
@@ -335,7 +354,7 @@ NS_ASSUME_NONNULL_BEGIN
  增加后, 会在上一个滤镜的后面增加一个新的滤镜.
  是级联的效果
  
- 源图像--->滤镜1--->滤镜2--->滤镜3--->移动旋转缩放透明遮罩处理--->容器混合;
+ 源图像--->滤镜1--->滤镜2--->滤镜3--->移动旋转缩放透明遮罩处理--->与别的图层做混合;
  */
 -(void)addFilter:(nullable LanSongFilter *)filter;
 
@@ -354,7 +373,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  如果素材有音量,则设置, 如果没有音量,则无效;
  范围是0.0---8.0;
- 1.0是原始音量; 大于1.0,是放大; 小于1.0是缩小;
+ 1.0是原始音量; 大于1.0,是放大; 小于1.0是减低, 如果降低建议是0.1;
  如果是0.0则无声,
  */
 @property (nonatomic, assign)CGFloat audioVolume;
@@ -365,7 +384,7 @@ NS_ASSUME_NONNULL_BEGIN
  范围是 0.1---10.0
  默认1.0; 正常播放;
  建议的设置参数是:
- 变慢:0.1, 0.2, 0.4, 0.6,0.8
+ 变慢: 0.1, 0.2, 0.4, 0.6,0.8
  变快: 2.0, 3.0, 4.0, 6.0,8.0;
  当前仅是画面变速, 变速过程中暂时无声音;
  */
@@ -390,14 +409,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly)BOOL isReverse;
 //------------获取缩略图
 /**
- 异步 获取缩略图;
+ 获取当前异步 获取缩略图;
  当前是每秒钟获取一帧;, 一帧宽高最大是100x100;
  image 是获取到的每一张缩略图;
  finish是 是否获取完毕;
- 
+ 获取的缩略图的高度是192像素,高度是192,返回所有图片的宽度总和是 当前要显示时长乘以192;
+ 比如当前图层显示时长是6.2秒; 则返回的缩略图是 6张192x192的图片和一张 38x192 (38=192*0.2);
  */
 - (void)getThumbnailAsyncWithHandler:(void (^)(UIImage *image, BOOL finish))handler;
 
+
+/// 获取原视频的缩略图;
+/// 从原视频的 第0秒,到最后; 返回的所有图片都是192x192像素大小;
+/// @param count 要获取的张数  , 如果不清楚获取几张图片, 则用(int)originalDurationS;
+/// @param handler 获取的异步回调;
+- (void)getOriginalThumbnailAsyncwithCount:(int)count handler:(void (^)(UIImage *image, BOOL finish))handler;
+
+
+/// 获取指定时长的缩略图;
+/// 从当前裁剪的开始时间,计算, 每秒钟返回一帧, 一帧的宽高是192
+/// @param durationS 要的时长
+/// @param handler 异步回调;
+- (void)getThumbnailAsyncWithDuration:(CGFloat)durationS handler:(void (^)(UIImage *image, BOOL finish))handler;
+
+/// 缩略图的显示时间;
+@property (readonly,assign) CGFloat thumbnailDisplayTimeS;
 /**
  在你第一次调用过getThumbnailAsyncWithHandler后. 内部会保存到这个属性中.
  在下次获取的时候, 则可以直接读取;
@@ -470,7 +506,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param jsonPath 特效的json文件
 - (LSOEffect *) addEffectWithJsonAtLayerHead:(NSString *)jsonPath;
 
-
 /// 在图层的尾部增加一个特效
 /// @param jsonPath 特效的json文件
 - (LSOEffect *) addEffectWithJsonAtLayerEnd:(NSString *)jsonPath;
@@ -504,9 +539,18 @@ NS_ASSUME_NONNULL_BEGIN
  在设置转场后有效;
  时间范围是0---5.0秒;
  如转场时间 大于图层时间, 则等于图层时间;
+ 可以通过转场时间,判断当前图层是否有转场功能;
  */
 @property(readwrite, assign)CGFloat transitionDurationS;
 
+/**
+ 转场可设置的最大值;
+ 只能获取;
+ 最大值等于, 当前图层的1/3 和下一个图层时长的1/3 和3秒 的最小值;
+ */
+@property(readonly, nonatomic)CGFloat transitionMaxDurationS;
+
+@property(readonly, nonatomic)BOOL isAddTransition;
 /**
  预览转场;
  你需要在设置转场后调用才有效;
@@ -525,6 +569,30 @@ NS_ASSUME_NONNULL_BEGIN
  如果是拼接的是视频, 或叠加的是视频, 则可以获取到videoURL路径;
  */
 @property (readwrite,nonatomic)NSURL *videoURL;
+
+/**
+ 获取倒序的视频路径;
+ 在设置倒序,并倒序完成后获取;
+ 在容器释放或 图层释放后, 内部会删除;
+ */
+@property (readonly, nonatomic, nullable) NSURL *reverseVideoUrl;
+
+/**
+ 特定客户使用;
+ 
+ 设置当前图层画面的可见区域: 四方形
+ 
+ x是从左到右. 范围是0.0--1.0; 你可以认为是百分比,和视频宽高无关;
+ y是从上到下; 范围是0.0--1.0;
+ @param startX 始透明的开始X坐标
+ @param endX 透明的结束X坐标 最大是1.0;
+ @param startY 透明的开始Y坐标
+ @param endY 透明的结束Y坐标,最大是1.0;
+ 
+ */
+-(void)setVisibleRectWithX:(CGFloat)startX endX:(CGFloat)endX startY:(CGFloat)startY endY:(CGFloat)endY;
+
+
 
 
 

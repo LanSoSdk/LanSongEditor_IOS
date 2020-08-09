@@ -13,7 +13,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-/// 视频在增加到容器中的选项:比如裁剪时长, 裁剪画面,是否循环等;
 @interface LSOVideoOption : LSOObject
 
 
@@ -35,6 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 音量大小,默认是1.0; 大于1.0是放大, 小于1.0是减小, 等于0则无声;
 @property (nonatomic, assign) CGFloat audioVolume;
+
+/**
+  视频是否循环. 仅用在DrawPadAllExecute中;
+ 默认不循环;
+ */
+@property (nonatomic,assign)BOOL  looping;
+
 
 /**
  是否保持第一帧;

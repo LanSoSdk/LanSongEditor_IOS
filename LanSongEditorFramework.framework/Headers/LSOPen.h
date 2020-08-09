@@ -141,8 +141,6 @@
  */
 @property(readwrite, nonatomic)  CGFloat scaleWidthValue,scaleHeightValue;
 
-//
-
 /// 让当前图层全部覆盖整个容器, 无论图片的比例如果, 都完整的覆盖整个容器;
 @property(readwrite, nonatomic) BOOL  fillScale;
 

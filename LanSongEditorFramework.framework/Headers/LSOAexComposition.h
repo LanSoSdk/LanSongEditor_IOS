@@ -11,6 +11,7 @@
 
 #import "LSOAexDisplayView.h"
 #import "LSOAexModule.h"
+#import "LSOLayer.h"
 
 
 //叠加层;
@@ -49,11 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) CGFloat currentTimeS;
 
-/**
- 当前内部有多少个叠加层;
- 如果你获取使用此变量, 则会拷贝一份新的NSMutableArray, 请不要一直拷贝;
- */
-@property (strong,atomic, readonly) NSMutableArray *overlayLayerArray;
 
 /**
  当前有多少个音频层;
@@ -65,17 +61,64 @@ NS_ASSUME_NONNULL_BEGIN
  设置一个图层为选中状态;
  当用户通过界面点击别的图层时,这个状态会被改变;
  */
--(void)setCompositionView:(LSOAexDisplayView *)view;
+-(void)setAexDisplayView:(LSOAexDisplayView *)view;
 
+
+/**
+ 给每个AexImage设置后， 你需要调用此代码， 告知合成类， 刷新界面；
+ */
+-(BOOL)updateAexImage:(LSOAexImage *)aexImage;
+
+/**
+ 在更新完LSOAexText后, 调用此方法, 告知合成类, 让合成类刷新;
+ */
+- (BOOL)updateAexText:(LSOAexText *)aexText;
+/**dis
+ 增加声音图层;
+ 可设置从容器的什么时间点增加;
+ */
+- (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
 /**
  增加一个声音图层;
  */
-- (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
+- (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url;
 
+/**
+ 删除一个声音图层;
+ */
+- (void)removeAudioLayer:(LSOAudioLayer *)audioLayer;
+/**)
+ 增加logo图片
+ posititon: 枚举类型;
+ */
+- (void)addLogoUIImage:(UIImage *)image position:(LSOPositionType)posititon;
 
+/**
+ 增加logo图片
+ centerPosition: 中心点位置;
+ */
+- (void)addLogoUIImage:(UIImage *)image certerPosition:(CGPoint )centerPosition;
 
-//----------------------控制类方法-------------------------------
+///**
+// 增加图片图层,
+// 你可以用这个来增加一个图片, 或把文字转图片;
+// */
+//- (LSOLayer *)addImageLayerWithImage:(UIImage *)image atTime:(CGFloat)startTimeS;
+//
+///**
+// 增加一个gif图层;
+// 增加后, 返回一个图层对象, 根据图层对象去调节;
+// */
+//- (LSOLayer *)addGifLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
+//
+//
+///**
+// 删除一个图层
+// 对象是在addXXX的输入的;
+// */
+//- (BOOL)removeLayer:(nullable LSOLayer *)layer;
 
+//------------------------------------控制类方法---------------------------------------------
 /**
  当用户从下向上滑动, 让整个APP进入后台的时候,
  你可以调用整个方法, 让合成线程进入后台;
@@ -109,10 +152,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)seekToTimeS:(CGFloat)timeS;
 
+/**
+ 定位到指定的AE图片;
+ 定位后,会触发_aexImageChangedBlock 和 _playProgressBlock回调;
+ */
+- (void)seekToAexImage:(LSOAexImage *)aexImage;
 
 /**
+ 定位到指定的AE文本
+ 定位后,会触发 _playProgressBlock回调;
+ */
+- (void)seekToAexText:(LSOAexText *)aexText;
+/**
  在调用此方法前
- [内部会开启一个线程, ]
+ [内部会开启一个线程执行]
  */
 -(BOOL)startPreview;
 /**
@@ -163,6 +216,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) void(^playProgressBlock)(CGFloat progress,CGFloat percent);
 
+/**
+ 
+ */
+@property(nonatomic, copy) void(^aexImageChangedBlock)(LSOAexImage *aexImage,int index);
+
+
 
 @property(nonatomic, copy) void(^playCompletionBlock)();
 
@@ -184,19 +243,39 @@ dispatch_async(dispatch_get_main_queue(), ^{
 @property(nonatomic, copy) void(^exportCompletionBlock)(NSString *dstPath);
 
 
+/**
+ 当前选中的图片
+ */
+@property (nonatomic, readonly) LSOAexImage *selectedAexImage;
+
+/**
+当前选中的文字
+ */
+@property (nonatomic, readwrite) LSOAexText *selectedAexText;
+
+/**
+ 当前用户选中了正在播放的一张图片;
+ 选中后, 会暂停当前画面的播放;
+ */
+@property(nonatomic, copy) void(^userSelectedAexImageBlock)(LSOAexImage *aexImage,int index);
+
+/**
+ 当前用户选中了正在播放的文字;
+ 选中后, 会暂停当前画面 的播放;
+ */
+@property(nonatomic, copy) void(^userSelectedAexTextBlock)(LSOAexText *text,int index);
 
 
 /**
- 合成容器时间改变回调;
- 当整个容器的合成时间改变了, 则触发回调;
- 比如你对视频做裁剪,则会触发这里.
- durationS
+ 禁止图片点击事件;
+ 默认不禁止;
  */
-@property(nonatomic, copy) void(^compositionDurationChangedBlock)(CGFloat durationS);
+@property (nonatomic, assign) BOOL disableAexImageTouchEvent;
 
-
-/// 禁止图层的touch事件;
-@property (nonatomic, assign) BOOL disableTouchEvent;
+/**
+ 禁止文字点击事件;
+ */
+@property (nonatomic, assign) BOOL disableAexTextTouchEvent;
 
 
 @end

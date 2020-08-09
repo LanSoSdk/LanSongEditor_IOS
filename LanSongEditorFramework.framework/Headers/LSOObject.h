@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSOAEViewLayer,
     kLSOMVLayer,
     kLSOImageLayer,
+    kLSOViewLayer,
     kLSOGIFLayer,
     kLSOImageArrayLayer
 };
@@ -98,7 +99,6 @@ typedef enum : NSInteger {
     kLSOPenLeft,
     kLSOPenRight,
     
-    
     kLSOPenLeftTop,
     kLSOPenLeftBottom,
     kLSOPenRightTop,
@@ -134,14 +134,6 @@ void runSyncQueueLSO(dispatch_queue_t queue, void (^block)(void));
 void runAsyncQueueLSO(dispatch_queue_t queue, void (^block)(void));
 
 
-/*******************一下内部使用 LSDEMO_DELETE********************************************************************/ //LSDEMO
-//LSDEMO_DELETE
--(id)getId1BySDK; //LSDEMO
--(id)getId2BySDK; //LSDEMO
--(void)releaseLSO; //LSDEMO
-+(CGSize)convertScaleType:(LSOScaleType)scaleType assetSize:(CGSize)assetSize compSize:(CGSize)compSize; //LSDEMO
-+(CGPoint )convertPositionType:(LSOPositionType)positionType  assetSize:(CGSize)scaleSize compSize:(CGSize)compSize; //LSDEMO
-/*******************内部使用 END  LSDEMO_DELETE********************************************************************/ //LSDEMO
 
 
 @end
