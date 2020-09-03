@@ -321,10 +321,6 @@
  */
 -(void)switchFilter:(LanSongTwoInputFilter *)filter secondInput:(LanSongOutput *)secondFilter;
 
-
-
-
-
 /**
  增加一个子图层, 内部维护一个数组, 把每次增加的 子图层放到数组里
  @return 返回增加后的子图层对象

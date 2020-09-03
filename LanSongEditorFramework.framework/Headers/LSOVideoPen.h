@@ -16,9 +16,6 @@
 只工作在预览界面;
  */
 @interface LSOVideoPen : LSOPen
-
-
-
 /**
  当前视频的总时长
  单位:秒; 
@@ -70,11 +67,6 @@
 -(void)seekToPercent:(CGFloat)percent;
 
 
-
-///**
-// LSTODO .
-// */
-//@property CGRect cropRectWithRelayout;
 
 
 /**

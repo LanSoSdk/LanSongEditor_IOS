@@ -72,8 +72,6 @@
  @return 返回mv图层对象
  */
 -(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
-
-
 /**
  删除图层
  */
@@ -88,7 +86,6 @@
 
 -(void)stopPreview;
 
-
 /**
  设置录制大小,[默认用drawpadsize;不建议调用]
  */
@@ -101,7 +98,6 @@
 -(void)setRecordBitrate:(int)bitrate;
 /**
  开始执行,并实时录制;
- 
  @return
  */
 -(BOOL)startRecord;
@@ -137,45 +133,6 @@
 
 /**
  在录制的时候, 音频的采样点回调,
- [可选]
- 
- samples: 采样点;指向指针的指针;
- numSamples: 一帧采样点的数量;
- 
- 采样率:44100;单通道,是通过一下代码获取的:
-  AVAudioSession *sharedAudioSession = [AVAudioSession sharedInstance];
-  [sharedAudioSession sampleRate];
- 
- 
- 您操作后, 输入到原来的指针地方, 我们内部则会编码你修改的音频数据.
- 内部源代码是:
- audioBuffer:从Camera得到的当前帧的CMSampleBufferRef类型的数据;
- CMBlockBufferRef buffer = CMSampleBufferGetDataBuffer(audioBuffer);
- CMItemCount numSamplesInBuffer = CMSampleBufferGetNumSamples(audioBuffer);
- AudioBufferList audioBufferList;
- 
- CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(audioBuffer,
-                                                         NULL,
-                                                         &audioBufferList,
-                                                         sizeof(audioBufferList),
-                                                         NULL,
-                                                         NULL,
-                                                         kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment,
-                                                         &buffer
-                                                         );
- for (int bufferCount=0; bufferCount < audioBufferList.mNumberBuffers; bufferCount++) {
-     SInt16 *samples = (SInt16 *)audioBufferList.mBuffers[bufferCount].mData;
-     self.audioProcessingCallback(&samples, numSamplesInBuffer); //<---注意.这里是指向指针的指针, 内存还是在我们内部.
- }
- 
- 我们的举例是:
- [drawPadCamera setAudioProcessingCallback:^(SInt16 **samples, CMItemCount numSamples) {
-         SInt16  *sample1=*samples;
-         for(int i=0;i<numSamples;i++){
-             *sample1=i;  //<---修改声音采样点为数字递增, 录制后的声音就是嘟嘟嘟嘟.
-             sample1++;
-         }
- }];
  */
 @property(nonatomic, copy) void(^audioProcessingCallback)(SInt16 **samples, CMItemCount numSamples);
 /**
@@ -183,8 +140,6 @@
  */
 @property (nonatomic,readonly) BOOL isRunning;
 @property (nonatomic,readonly) BOOL isRecording;
-
-
 
 /**
  特定用户使用;

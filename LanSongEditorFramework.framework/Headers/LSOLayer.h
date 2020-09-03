@@ -179,11 +179,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) CGSize layerSizeInView;
 
 /**
- 缩放因子
- 1.0 不缩放;
- 0.5 是缩小1倍;
- 2.0是放大一倍;
- 范围是0---10.0f;
+ 缩放系数
+ 从视频或图片放入到容器中的默认缩放大小为基准, 乘以缩放系数;
  */
 @property(readwrite, nonatomic)  CGFloat scaleFactor;
 /**
@@ -218,6 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  裁剪时长的开始时间
+ 相对于原视频的时间而言;
  仅对视频有效;
  */
 @property (readwrite,assign) CGFloat cutStartTimeS;
@@ -237,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
  1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
  */
--(void)setBrightnessPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat brightnessPercent;
 /**
  调节对比度的百分比.
  这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -246,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
  1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
  */
--(void)setContrastFilterPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat contrastFilterPercent;
 /**
  调节饱和度的百分比.
  这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -255,7 +253,7 @@ NS_ASSUME_NONNULL_BEGIN
  1.0---2.0 是调大;
   如要关闭,则调整为 1.0.默认是关闭;
  */
--(void)setSaturationFilterPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat saturationFilterPercent;
 /**
 调节锐化的百分比.
 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -264,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
 1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
 */
--(void)setSharpFilterPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat sharpFilterPercent;
 /**
 调节色温的百分比.
 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -273,7 +271,7 @@ NS_ASSUME_NONNULL_BEGIN
 1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
 */
--(void)setWhiteBalanceFilterPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat whiteBalanceFilterPercent;
 /**
 调节色调的百分比.
 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -282,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
 1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
 */
--(void)setHueFilterPercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat hueFilterPercent;
 /**
 调节曝光度的百分比.
 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
@@ -291,7 +289,7 @@ NS_ASSUME_NONNULL_BEGIN
 1.0---2.0 是调大;
  如要关闭,则调整为 1.0.默认是关闭;
 */
--(void)setExposurePercent:(CGFloat)percent2X;
+@property (readwrite, assign) CGFloat exposurePercent;
 
 
 //-----------------------马赛克:----------
@@ -398,11 +396,16 @@ NS_ASSUME_NONNULL_BEGIN
  percent:预处理百分比: 0---1.0;
  当前暂时不支持声音倒序. 在倒序时, 默认音量为0;
  调用此方法,会先触发容器暂停;
- 回调是在别的线程, 如执行UI的代码,则用如下代码:
+ 在异步线程执行此block; 请在一下代码里调用;
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
 -(void)setVideoReverseAsync:(BOOL)isReverse asyncHandler:(void (^)(CGFloat percent, BOOL finish))handler;
+
+/**
+ 取消正在执行的视频倒序功能;
+ */
+- (void)cancelVideoReverse;
 
 
 /// 当前是否在倒序状态;
@@ -609,8 +612,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-/**
-*/
 
 
 

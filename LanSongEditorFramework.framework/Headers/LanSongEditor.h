@@ -16,13 +16,12 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  当前此SDK的版本号.
  内部使用,请勿修改.
  */
-#define  LANSONGEDITOR_VISION  "4.2.8"
+#define  LANSONGEDITOR_VISION  "4.2.11"
 
-#define  LANSONGEDITOR_BUILD_TIME  "20200807_1836"
+#define  LANSONGEDITOR_BUILD_TIME  "20200831_1445"
 
 //所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
-
 
 //aex的一些类---------------------------
 #import <LanSongEditorFramework/LSOAexModule.h>

@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/DrawPadCameraPreview.h</key>
 		<data>
-		P57mbbvxQCJLu+TfRblReJw8pbU=
+		1zuyvYcS4Nl5oipFEZGhndc9trs=
 		</data>
 		<key>Headers/DrawPadConcatVideoExecute.h</key>
 		<data>
@@ -98,7 +98,7 @@
 		</data>
 		<key>Headers/LSOAexComposition.h</key>
 		<data>
-		Of0glT9N3v/mouUjOC+Wj6XBdMQ=
+		qn6nUxzPUM3oNHWqWJC3fz2627Y=
 		</data>
 		<key>Headers/LSOAexDisplayView.h</key>
 		<data>
@@ -154,7 +154,7 @@
 		</data>
 		<key>Headers/LSOConcatComposition.h</key>
 		<data>
-		kZuoRr6FtA7qIO3zDnMbuI2l2vc=
+		Jqe/KS/ABWJJE4Htn48UTBPEzPw=
 		</data>
 		<key>Headers/LSODataPen.h</key>
 		<data>
@@ -162,7 +162,7 @@
 		</data>
 		<key>Headers/LSODisplayView.h</key>
 		<data>
-		tA1pQZPbRK3NwpSQcuH7kp62T8Q=
+		Ph7nb7PncHd3BtpODZTCyNGG0Ig=
 		</data>
 		<key>Headers/LSODrawPadPreview.h</key>
 		<data>
@@ -198,7 +198,7 @@
 		</data>
 		<key>Headers/LSOLayer.h</key>
 		<data>
-		5F6VQhUU/aCAXWi1O+fseyYhzl4=
+		LmHxae2KtNV1fI50UQqzPZo2bYM=
 		</data>
 		<key>Headers/LSOMVPen.h</key>
 		<data>
@@ -210,7 +210,7 @@
 		</data>
 		<key>Headers/LSOObject.h</key>
 		<data>
-		Uxvuockexu3poFuw8y/xULp4jI0=
+		+bR+jqN4Gmf9lyTzsfB6yInbqKI=
 		</data>
 		<key>Headers/LSOOneLineText.h</key>
 		<data>
@@ -218,7 +218,7 @@
 		</data>
 		<key>Headers/LSOPen.h</key>
 		<data>
-		gfGQ9E05mQz6EdQenf8yJDUwWUg=
+		kbcYeNExjkVSfK1OzWHstdSXRxk=
 		</data>
 		<key>Headers/LSORecordUIExecute.h</key>
 		<data>
@@ -266,7 +266,7 @@
 		</data>
 		<key>Headers/LSOVideoPen.h</key>
 		<data>
-		kQ+osVSRyWJ5njnq4V/K/eFjCbs=
+		aE0PchFXfR4Fmrf/fWnKFh+H8pQ=
 		</data>
 		<key>Headers/LSOVideoPen2.h</key>
 		<data>
@@ -278,7 +278,7 @@
 		</data>
 		<key>Headers/LSOXAssetInfo.h</key>
 		<data>
-		piPliVzIbXOhyPipEP2Q34/ZtsU=
+		6e0/UkFvkUNigEv1D8hxNbjCldA=
 		</data>
 		<key>Headers/LanSong.h</key>
 		<data>
@@ -414,7 +414,7 @@
 		</data>
 		<key>Headers/LanSongContext.h</key>
 		<data>
-		3ch75MlCjun3jddHkTdVJW9vXTk=
+		x9hw67fDSfkyDrZrr281FLFXFlQ=
 		</data>
 		<key>Headers/LanSongContrastFilter.h</key>
 		<data>
@@ -466,7 +466,7 @@
 		</data>
 		<key>Headers/LanSongEditor.h</key>
 		<data>
-		euC0jO1cGQu+EMDpXkRm015dlY4=
+		u4PdWrhaZx5SwWF/ILAXHrcfvk0=
 		</data>
 		<key>Headers/LanSongEmbossFilter.h</key>
 		<data>
@@ -890,7 +890,7 @@
 		</data>
 		<key>Headers/LanSongSaturationFilter.h</key>
 		<data>
-		hc/uO1zsFpPs4VyPD85sVz73QOo=
+		YNDEJSWEU3XWqWHUnu8+zhukRBY=
 		</data>
 		<key>Headers/LanSongScreenBlendFilter.h</key>
 		<data>
@@ -1078,11 +1078,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		dRpnfZqsaIRlFMXGBPy/8DsirUs=
-		</data>
-		<key>LanSongEditorFramework.KauutR</key>
-		<data>
-		DXppzn3TP32CSNFvaPLb9IaWQXA=
+		qK51Sz4i9Jnr0j8C/tkJyVeF1Zc=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -1190,11 +1186,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			P57mbbvxQCJLu+TfRblReJw8pbU=
+			1zuyvYcS4Nl5oipFEZGhndc9trs=
 			</data>
 			<key>hash2</key>
 			<data>
-			lgPzBP3zJnGwpbmPaV1T0Od3pD2zl+J70b4f2P+fWP0=
+			WkgriGAHNtSSx1258qu9GaeLJbolrVQ/Mo3c1u6Sbts=
 			</data>
 		</dict>
 		<key>Headers/DrawPadConcatVideoExecute.h</key>
@@ -1344,11 +1340,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Of0glT9N3v/mouUjOC+Wj6XBdMQ=
+			qn6nUxzPUM3oNHWqWJC3fz2627Y=
 			</data>
 			<key>hash2</key>
 			<data>
-			r6TIPkDRKydaohpL/Q0r2MoUbNrOchJxGJrdDTjoWDM=
+			+40ZwIgrbMrZF2Aj+w56RTTxPJw8ZNVonl8eSqDD7ms=
 			</data>
 		</dict>
 		<key>Headers/LSOAexDisplayView.h</key>
@@ -1498,11 +1494,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kZuoRr6FtA7qIO3zDnMbuI2l2vc=
+			Jqe/KS/ABWJJE4Htn48UTBPEzPw=
 			</data>
 			<key>hash2</key>
 			<data>
-			OCnU4v9ZXJjCy/fU1hc8jBZE1kXHUVgmRHlkgUvxPoU=
+			qgEJtkvPg0kHmkYKSob4PQf5UrOdpk6smFdgpQ/kd5s=
 			</data>
 		</dict>
 		<key>Headers/LSODataPen.h</key>
@@ -1520,11 +1516,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			tA1pQZPbRK3NwpSQcuH7kp62T8Q=
+			Ph7nb7PncHd3BtpODZTCyNGG0Ig=
 			</data>
 			<key>hash2</key>
 			<data>
-			IFMdLP/Tjfu8VH1WC8Pq+u9qVlkNj9wY69skCBXxWn4=
+			JQ58d+qAdfsrk3PLcVg+juKZEq8c0OpC7v5wuxLgOZc=
 			</data>
 		</dict>
 		<key>Headers/LSODrawPadPreview.h</key>
@@ -1619,11 +1615,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5F6VQhUU/aCAXWi1O+fseyYhzl4=
+			LmHxae2KtNV1fI50UQqzPZo2bYM=
 			</data>
 			<key>hash2</key>
 			<data>
-			o+I3LrmhJefznzoXumUZ2RNPerbi4FXN9C6QeG3/8K4=
+			/AOJnCdroRs/sB3apF5EB7aq7HCkrbIR4nf994XkeNM=
 			</data>
 		</dict>
 		<key>Headers/LSOMVPen.h</key>
@@ -1652,11 +1648,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Uxvuockexu3poFuw8y/xULp4jI0=
+			+bR+jqN4Gmf9lyTzsfB6yInbqKI=
 			</data>
 			<key>hash2</key>
 			<data>
-			vHJtLM9TJhvlV6+PQ2+7RoK+VWsH810Da2iQzNxbliI=
+			pvkxgGRPzZUr1a1qHqWLB37veoHgPgKdG+hq9T4mOog=
 			</data>
 		</dict>
 		<key>Headers/LSOOneLineText.h</key>
@@ -1674,11 +1670,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gfGQ9E05mQz6EdQenf8yJDUwWUg=
+			kbcYeNExjkVSfK1OzWHstdSXRxk=
 			</data>
 			<key>hash2</key>
 			<data>
-			qiNf8Q+J0YNDECpM0MkLJ0NtXsw5HFpxWvHJTHvjlW4=
+			WixVDLKzloZrOBwlbqm5K+klVWpm75U1mAx4lp2t3MY=
 			</data>
 		</dict>
 		<key>Headers/LSORecordUIExecute.h</key>
@@ -1806,11 +1802,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kQ+osVSRyWJ5njnq4V/K/eFjCbs=
+			aE0PchFXfR4Fmrf/fWnKFh+H8pQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			58elIQ7bFhfwnPbOJ7jLvHHxdADWDzIkCvBEMlgbBWA=
+			Q6hrsmrwDwtSWQ8bXILwX+LA4VnkRVxBoIUUNNEWGCc=
 			</data>
 		</dict>
 		<key>Headers/LSOVideoPen2.h</key>
@@ -1839,11 +1835,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			piPliVzIbXOhyPipEP2Q34/ZtsU=
+			6e0/UkFvkUNigEv1D8hxNbjCldA=
 			</data>
 			<key>hash2</key>
 			<data>
-			7qd7XKa1ptc7CIp1MwShsMnw6EC6lSV+nX4xDHruDbI=
+			zLUXMRiU0mW39H6pPGqA1dkx2YOJ4sznzupSs3GJUBk=
 			</data>
 		</dict>
 		<key>Headers/LanSong.h</key>
@@ -2213,11 +2209,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3ch75MlCjun3jddHkTdVJW9vXTk=
+			x9hw67fDSfkyDrZrr281FLFXFlQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			Dc7DJlyab8yLqRlXJiS19e2I/R1kvmNayi5chjY2LWQ=
+			rZhGHAXpQ9j4aGGxVgKyaiottL53iKmMmJYwIYgH1sw=
 			</data>
 		</dict>
 		<key>Headers/LanSongContrastFilter.h</key>
@@ -2356,11 +2352,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			euC0jO1cGQu+EMDpXkRm015dlY4=
+			u4PdWrhaZx5SwWF/ILAXHrcfvk0=
 			</data>
 			<key>hash2</key>
 			<data>
-			81KMvJcEi3nxMB+3NswQXI+wG8nVrJtCkE/FNRopORw=
+			irgxyn3Vc2JJr/WK/+OpQONSDjl7Uz5/A0SLd+vAEME=
 			</data>
 		</dict>
 		<key>Headers/LanSongEmbossFilter.h</key>
@@ -3522,11 +3518,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hc/uO1zsFpPs4VyPD85sVz73QOo=
+			YNDEJSWEU3XWqWHUnu8+zhukRBY=
 			</data>
 			<key>hash2</key>
 			<data>
-			URB/Azfgx4FEff3IS6FG52cUzARtxoowpG5V4beJ46k=
+			u0NukG8F/CjdlyYigK8Z9YdExNETTONIKxB+WIKmy1A=
 			</data>
 		</dict>
 		<key>Headers/LanSongScreenBlendFilter.h</key>
@@ -4033,17 +4029,6 @@
 			<key>hash2</key>
 			<data>
 			ktsA9ZsE4Mj89ZISYZ2KyOTmHdTkYkH1No8Sl1K06vw=
-			</data>
-		</dict>
-		<key>LanSongEditorFramework.KauutR</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			DXppzn3TP32CSNFvaPLb9IaWQXA=
-			</data>
-			<key>hash2</key>
-			<data>
-			jQpnkUPcCzIwn1eq2pkRzw+yIz0iN8zc4Ez9qyVdDRA=
 			</data>
 		</dict>
 	</dict>

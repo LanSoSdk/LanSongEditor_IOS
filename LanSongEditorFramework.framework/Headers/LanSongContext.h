@@ -61,7 +61,6 @@ typedef NS_ENUM(NSUInteger, LanSongRotationMode) {
  */
 +(void)setOpengles30:(BOOL)is;
 
-// Manage fast texture upload
 + (BOOL)supportsFastTextureUpload;
 
 @end

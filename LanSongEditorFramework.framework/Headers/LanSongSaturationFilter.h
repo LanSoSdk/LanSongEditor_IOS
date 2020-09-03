@@ -7,7 +7,9 @@
     GLint saturationUniform;
 }
 
-/** Saturation ranges from 0.0 (fully desaturated) to 2.0 (max saturation), with 1.0 as the normal level
+/**
+ 
+ Saturation ranges from 0.0 (fully desaturated) to 2.0 (max saturation), with 1.0 as the normal level
  */
 @property(nonatomic,readonly) CGFloat minValue;
 @property(nonatomic,readonly) CGFloat maxValue;

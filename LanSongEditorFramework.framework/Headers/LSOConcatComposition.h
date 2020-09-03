@@ -256,7 +256,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)cutTimeFromEndWithLayer:(LSOLayer *)layer cutEndTimeS:(CGFloat)timeS;
 /**
  根据当前在合成中的时间点, 来获取一个图层对象;
- 当前返回的是 LSOConcatLayer对象, 后续可能是OverLayer对象等等;
+ 当前返回的是 LSOLayer对象
  */
 -(LSOLayer *)getCurrentConcatLayerByTime:(CGFloat)compTimeS;
 
@@ -367,21 +367,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) void(^playProgressBlock)(CGFloat progress,CGFloat percent);
 
-
+/**
+ 在异步线程执行此block; 请用一下代码后调用;
+ dispatch_async(dispatch_get_main_queue(), ^{
+ });
+ */
 @property(nonatomic, copy) void(^playCompletionBlock)();
 
 
 
 /**
  导出进度回调;
+ 在异步线程执行此block; 请用一下代码后调用;
+ dispatch_async(dispatch_get_main_queue(), ^{
+ });
  */
 @property(nonatomic, copy) void(^exportProgressBlock)(CGFloat progress,CGFloat percent);
 
 /**
 编码完成回调, 完成后返回生成的视频路径;
 注意:生成的dstPath目标文件, 我们不会删除.
-工作在其他线程,
-如要工作在主线程,请使用:
+在异步线程执行此block; 请用一下代码后调用;
 dispatch_async(dispatch_get_main_queue(), ^{
 });
 */
@@ -390,7 +396,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 /**
  当前用户选中的图层回调;
- 如要工作在主线程,请使用:
+ 在异步线程执行此block; 请用一下代码后调用;
  dispatch_async(dispatch_get_main_queue(), ^{
  });
  */
@@ -422,10 +428,12 @@ dispatch_async(dispatch_get_main_queue(), ^{
  合成容器时间改变回调;
  当整个容器的合成时间改变了, 则触发回调;
  比如你对视频做裁剪,则会触发这里.
- durationS
+ 
+ 在异步线程执行此block; 请用一下代码后调用;
+ dispatch_async(dispatch_get_main_queue(), ^{
+ });
  */
 @property(nonatomic, copy) void(^compositionDurationChangedBlock)(CGFloat durationS);
-
 
 /// 禁止图层的touch事件;
 @property (nonatomic, assign) BOOL disableTouchEvent;

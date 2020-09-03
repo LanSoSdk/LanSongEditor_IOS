@@ -47,18 +47,11 @@
 @property(nonatomic,readonly) int videoAngle;
 
 
-//一下拿不到;
-//@property(nonatomic) int aSampleRate;
-//@property(nonatomic) int aChannels;
-//@property(nonatomic) int64_t aBitRate;
-
 -(id)initWithPath:(NSString *)filepath;
 
 - (id)initWithURL:(NSURL *)url;
 
-
 - (BOOL)prepare;
-
 
 +(void) checkFileWithURL:(NSURL *)url;
 @end

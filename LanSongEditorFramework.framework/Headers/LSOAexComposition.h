@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  给每个AexImage设置后， 你需要调用此代码， 告知合成类， 刷新界面；
  */
--(BOOL)updateAexImage:(LSOAexImage *)aexImage;
+-(void)updateAexImageAsync:(LSOAexImage *)aexImage completed:(void (^)(void))handler;
 
 /**
  在更新完LSOAexText后, 调用此方法, 告知合成类, 让合成类刷新;
@@ -163,6 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
  定位后,会触发 _playProgressBlock回调;
  */
 - (void)seekToAexText:(LSOAexText *)aexText;
+
+/**
+ 异步准备一下;
+ */
+- (void)prepareModuleAsync:(void (^)(void))handler;
 /**
  在调用此方法前
  [内部会开启一个线程执行]
