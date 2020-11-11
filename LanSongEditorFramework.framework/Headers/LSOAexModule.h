@@ -10,6 +10,7 @@
 #import "LSOObject.h"
 #import "LSOAexImage.h"
 #import "LSOAexText.h"
+#import "LSOFileUtil.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

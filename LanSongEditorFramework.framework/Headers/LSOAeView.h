@@ -172,14 +172,6 @@ typedef void (^LXAEAnimationCompletionBlock)(BOOL animationFinished);
  */
 - (BOOL)setVideoDecoderFrameBlock:(NSString *)key updateblock:(UIImage *(^)(CGFloat framePts,CIImage *image,CGFloat angle))frameUpdateBlock;
 /**
- 更新文字, 用图层的名字来更新;
-
- @param layerName 图层名字
- @param newText 新的文字;
- @return 更新成功返回YES
- */
-- (BOOL) updateTextWithLayerName:(NSString *)layerName newText:(NSString *)newText;
-/**
  更新文本
  @param textText: json中的文字; 可以用textInfoArray获得;LSOAeText 中的 textContents变量
  @param newText: 新的文字

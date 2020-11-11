@@ -94,7 +94,5 @@
 /// @param image 输入图片;
 + (UIImage *)getThumbnailWithImage:(UIImage *)image;
 
-+ (UIImage *)adjustImageToThumbnail:(UIImage *)image;
-+ (UIImage *)adjustImageToThumbnail:(UIImage *)image cropWidth:(CGFloat)cropWidth;
 
 @end

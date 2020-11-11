@@ -54,3 +54,4 @@ typedef NS_ENUM(NSUInteger, LanSongFillModeType2) {
 -(void)resetDriver;
 @property (nonatomic)BOOL forceUpdate;
 @end
+

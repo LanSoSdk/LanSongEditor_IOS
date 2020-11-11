@@ -3,7 +3,7 @@
 - **Our SDK has been established for more than 3 years. To facilitate downloading, the code was migrated from the original warehouse.(sdk已经运行3年多, 为了方便下载,从原仓库迁移而来)**
 - Original warehouse address(原仓库地址):  https://github.com/LanSoSdk/LanSongEditor_IOS
 
-#### The current version is 4.2.8
+#### The current version is 4.3.2
  [中文说明](https://github.com/LanSoSdk/LanSongEditor_IOS/blob/master/README.cn.md)
  
 - Including: Video editing SDK and AE template SDK;

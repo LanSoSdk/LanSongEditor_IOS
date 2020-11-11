@@ -19,9 +19,6 @@ void setLSOColorConvert709( GLfloat conversionMatrix[9] );
 @end
 
 
-/**
- A LanSongOutput that provides frames from either camera
-*/
 @interface LanSongVideoCamera : LanSongOutput <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 {
     NSUInteger numberOfFramesCaptured;
@@ -43,19 +40,12 @@ void setLSOColorConvert709( GLfloat conversionMatrix[9] );
     __unsafe_unretained id<LanSongVideoCameraDelegate> _delegate;
 }
 
-/// Whether or not the underlying AVCaptureSession is running
 @property(readonly, nonatomic) BOOL isRunning;
 
-/// The AVCaptureSession used to capture from the camera
 @property(readonly, retain, nonatomic) AVCaptureSession *captureSession;
 
-/// This enables the capture session preset to be changed on the fly
 @property (readwrite, nonatomic, copy) NSString *captureSessionPreset;
 
-/// This sets the frame rate of the camera (iOS 5 and above only)
-/**
- Setting this to 0 or below will set the frame rate back to the default setting for a particular preset.
- */
 @property (readwrite) int32_t frameRate;
 
 /// Easy way to tell which cameras are present on device

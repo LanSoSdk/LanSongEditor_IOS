@@ -11,8 +11,10 @@
 
 #import <UIKit/UIKit.h>
 #import "LanSongContext.h"
-
-
+#import "LanSongFilter.h"
+#import <AVFoundation/AVFoundation.h>
+#import "LSOLayer.h"
+#import "LSOAudioLayer.h"
 
 @class LSOLayer;
 

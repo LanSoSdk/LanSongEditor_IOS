@@ -12,11 +12,12 @@
 #import "LanSongOutput.h"
 #import "LanSongFilter.h"
 #import "LanSongTwoInputFilter.h"
-
+#import "LSOFileUtil.h"
 
 
 @class LSOEffect;
 @class LSOAnimation;
+@class LSOSubLayer;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 是否是图片数组图层
 @property (readonly, nonatomic) BOOL isImageArrayLayer;
+
+
 
 
 /**
@@ -225,6 +228,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readwrite,assign) CGFloat cutEndTimeS;
 
+//----------关键帧功能----------
+ //添加关键帧
+-(void)addKeyFrameAtCompTime:(CGFloat)compTimeS;
+//删除关键帧
+-(void)removeKeyFrameWithCompTime:(CGFloat)compTimeS;
+//删除所有关键帧
+-(void)removeAllKeyframe;
+
+
+
+
+
 
 //-------------------各种颜色调节-----------------
 /**
@@ -378,6 +393,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ 音量淡出时长设置/获取;
+ 默认是0.0,无淡出效果;
+ 最大为当前有效时长的1/3;
+ LSTODO
+ */
+@property (readwrite, assign) CGFloat volumeFadeOutDurationS;
+
+/**
+ 音量淡入时长设置/获取;
+ 默认是0.0; 无淡入效果;
+ 最大为当前有效时长的1/3;
+ LSTODO
+ */
+@property (readwrite, assign) CGFloat volumeFadeInDurationS;
+
+/**
  视频的播放速度;
  范围是 0.1---10.0
  默认1.0; 正常播放;
@@ -387,6 +418,8 @@ NS_ASSUME_NONNULL_BEGIN
  当前仅是画面变速, 变速过程中暂时无声音;
  */
 @property (nonatomic, assign)CGFloat videoSpeed;
+
+- (void)setSegmentedSpeed:(id)data;
 
 
 /**
@@ -537,6 +570,15 @@ NS_ASSUME_NONNULL_BEGIN
  设置后, 默认转场时间为1秒;
  */
 @property(readwrite, assign)NSURL *transitionJsonUrl;
+
+/**
+ 增加mg转场动画;
+ */
+//@property(readwrite, assign)NSURL *transitionMgVideoUrl;
+
+- (void)setMGTransitionWithColorUrl:(NSURL *)colorUrl maskUrl:(NSURL *)maskUrl;
+
+
 /**
  设置或获取转场时间
  在设置转场后有效;
@@ -573,6 +615,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readwrite,nonatomic)NSURL *videoURL;
 
+
+/**
+ 拼接或叠加一张图片时, 增加的图片对象;
+ */
+@property (readwrite,nonatomic)UIImage *uiImage;
+
+
+
 /**
  获取倒序的视频路径;
  在设置倒序,并倒序完成后获取;
@@ -604,6 +654,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+ 
+
+
+
+
+
+
+ 
+
+
+//合成的帧率;
 
 
 
@@ -616,5 +677,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+@property(nonatomic, assign)BOOL isEndLayer;
+
+@property (readonly, nonatomic) LSOSubLayer  *mgLayer;
 @end
 NS_ASSUME_NONNULL_END

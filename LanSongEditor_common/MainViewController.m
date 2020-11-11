@@ -99,9 +99,9 @@
     
     UIView *view=[self newLanSongTech:container];
     
-    view=[self newButton:view index:101 hint:@"视频编辑 基本演示"];
+    view=[self newButton:view index:101 hint:@"Video Edit"];
     
-    view=[self newButton:view index:102 hint:@"AE模板 演示"];
+    view=[self newButton:view index:102 hint:@"AE Template"];
     
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(view.mas_bottom).with.offset(40);
@@ -133,7 +133,7 @@
     
     labPath=[[UILabel alloc] init];
     NSString *text1=[NSString stringWithFormat:
-                     @" 此为最基本的演示\n 获取完整UI演示代码:www.lansongtech.com.\n\n 当前版本:%@, \n  到期时间是:%d 年 %d 月之前  \n\n 下面二维码是APP Store中演示链接",[LanSongEditor getVersion],
+                     @" The simplest demo\n current version:%@, \n Expire date::%d  %d   \n\n full demo App Store link:",[LanSongEditor getVersion],
                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
     
     

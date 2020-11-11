@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ 
  当前在容器中的声音的有效时间;
  当你没有没有做裁剪操作, 则等于assetDurationS;
  当裁剪了,则等于cutEndTimeS - cutStartTimeS;
@@ -72,6 +73,28 @@ NS_ASSUME_NONNULL_BEGIN
  如果是0.0则无声,
  */
 @property (nonatomic, assign)CGFloat audioVolume;
+
+/**
+ 音量淡出时长设置/获取;
+ 默认是0.0,无淡出效果;
+ 最大为当前有效时长的1/3;
+ LSTODO
+ */
+@property (readwrite, assign) CGFloat volumeFadeOutDurationS;
+
+/**
+ 音量淡入时长设置/获取;
+ 默认是0.0; 无淡入效果;
+ 最大为当前有效时长的1/3;
+ LSTODO 
+ */
+@property (readwrite, assign) CGFloat volumeFadeInDurationS;
+
+
+@property (nonatomic, assign)CGFloat audioFadeInDurationS;
+@property (nonatomic, assign)CGFloat audioFadeOutDurationS;
+@property (nonatomic, readonly)CGFloat audioFade;
+
 
 
 

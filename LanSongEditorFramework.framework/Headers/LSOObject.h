@@ -40,7 +40,10 @@ typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSOImageLayer,
     kLSOViewLayer,
     kLSOGIFLayer,
-    kLSOImageArrayLayer
+    kLSOImageArrayLayer,
+    kLSOSubLayer,
+    kLSOMGSubLayer,
+    kLSOCameraLayer
 };
 
 
@@ -106,6 +109,29 @@ typedef enum : NSInteger {
     kLSOPenCenter,
 } LSOPosition;
 
+
+//比例;
+typedef enum {
+    kLSOSizeRatio_NONE,
+    LSOSizeRatio_ORIGINAL,
+    kLSOSizeRatio_9_16,
+    kLSOSizeRatio_16_9,
+    kLSOSizeRatio_1_1,
+    kLSOSizeRatio_4_3,
+    kLSOSizeRatio_3_4,
+    kLSOSizeRatio_2_1,
+    kLSOSizeRatio_1_2,
+    kLSOSizeRatio_235_1,
+    kLSOSizeRatio_185_1
+}LSOSizeRatio;
+
+
+//导出选项
+typedef enum {
+    kLSOExportSize_540p,
+    kLSOExportSize_720p,
+    kLSOExportSize_1080p
+}LSOExportSize;
 
 @interface LSOObject : NSObject
 

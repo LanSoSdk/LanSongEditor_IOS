@@ -85,13 +85,13 @@
     displayView=[DemoUtils createLSOCompositionView:self.view.frame.size drawpadSize:compSize];
     [self.view addSubview:displayView];
     
-    progressSlider=[self createSlide:displayView min:0.0f max:1.0f value:0.5f tag:101 labText:@"容器seek"];
+    progressSlider=[self createSlide:displayView min:0.0f max:1.0f value:0.5f tag:101 labText:@"seek"];
     
-    UIView *view=[self newButton:progressSlider leftView:self.view index:202 hint:@"暂停"];
-    view=[self newButton:progressSlider leftView:view index:203 hint:@"继续"];
-    view=[self newButton:progressSlider leftView:view index:204 hint:@"增删贴纸"];
+    UIView *view=[self newButton:progressSlider leftView:self.view index:202 hint:@"pause"];
+    view=[self newButton:progressSlider leftView:view index:203 hint:@"resume"];
+    view=[self newButton:progressSlider leftView:view index:204 hint:@"stick"];
     
-    view= [self newButton:view leftView:self.view index:302 hint:@"后台处理(导出)"];
+    view= [self newButton:view leftView:self.view index:302 hint:@"export"];
     
     //显示进度;
     labProgress=[[UILabel alloc] init];
@@ -166,22 +166,22 @@
     if(concatComposition.isRunning){
         return;
     }
-    
-    //----------------------start------------------------
-    concatComposition=[[LSOConcatComposition alloc] initWithCompositionSize:compSize];
-    
     NSMutableArray *array=[[NSMutableArray alloc] init];
     [array addObject:LSOBundleURL(@"dy_xialu2.mp4")];
     
+    //----------------------start------------------------
+    concatComposition=[[LSOConcatComposition alloc] initWithUrlArray:array ratio:kLSOSizeRatio_NONE];
+    
+  
+    
     //异步的形式增加视频
     WS(weakSelf)
-    [concatComposition addConcatLayerWithArray:array completedHandler:^(NSArray * _Nonnull layerAray) {
+    [concatComposition prepareConcatLayerAsync:^(NSArray * _Nonnull layerAray) {
         dispatch_async(dispatch_get_main_queue(), ^{
             concatLayer1=[layerAray objectAtIndex:0];
             [weakSelf addOtherLayer];
         });
     }];
-    
 }
 
 - (void)addOtherLayer
@@ -334,7 +334,7 @@
             break;
         case 302:  //后台处理
             LSDELETE(@"------------> 开始后台导出------------------------>")
-            [concatComposition startExport];
+            [concatComposition startExportWithRatio:kLSOExportSize_720p];
             break;
         default:
             break;

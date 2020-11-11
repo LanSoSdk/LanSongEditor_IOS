@@ -79,6 +79,8 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 @property(readonly) CVPixelBufferRef renderTarget;
 @property(readwrite, nonatomic) BOOL preventRendering;  //是否阻止渲染;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
+- (id)initWithTranformShader;
+- (id)initWithTranformTest;
 - (id)initWithVertexShaderFromString:(NSString *)vertexShaderString fragmentShaderFromString:(NSString *)fragmentShaderString;
 - (id)initWithFragmentShaderFromString:(NSString *)fragmentShaderString;
 - (id)initWithFragmentShaderFromFile:(NSString *)fragmentShaderFilename;

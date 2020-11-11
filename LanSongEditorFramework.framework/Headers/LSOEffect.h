@@ -12,7 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
+/*
+测试git 冲突问题.
+*/
 @interface LSOEffect : LSOObject
 
 

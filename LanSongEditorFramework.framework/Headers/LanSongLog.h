@@ -1,3 +1,4 @@
+
 //
 //  LanSongLog.h
 //  LanSongEditorFramework
@@ -43,6 +44,9 @@
 //计算时间.
 #define CHECK_TIME_START_LSDELETE CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
 #define CHECK_TIME_END_LSDELETE LSOLog(@"当前消耗的时间是: %0.3f(秒)", (CFAbsoluteTimeGetCurrent() - start));
+
+#define LSO_CURRENT_TIME CFAbsoluteTimeGetCurrent();
+
 // do something
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;

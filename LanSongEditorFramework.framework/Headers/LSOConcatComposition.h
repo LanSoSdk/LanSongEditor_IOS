@@ -21,20 +21,17 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
-/**
- 视频合成.
- 是一个容器, 可以把视频, 图片, 文字,动画, 声音等合成为视频.
- 有预览, 和预览后的导出
- */
 @interface LSOConcatComposition : LSOObject
 
 
-/// 初始化
-/// @param size 合成宽高, 其中的宽度和高度一定是2的倍数
--(id)initWithCompositionSize:(CGSize)size;
+
+/// init
+/// @param urlArray 用户选中的视频/图片
+/// @param ratio 容器的比例, 如果原始比例, 则填入LSOSizeRatio_ORIGINAL
+-(id)initWithUrlArray:(NSArray<NSURL *> *)urlArray ratio:(LSOSizeRatio)ratio;
+
 
 /*
- 
  读当前合成(容器)的总时长.单位秒;
  (当你设置每个图层的时长后, 此属性会改变.);
  */
@@ -45,6 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
  暂时不支持在合成执行过程中, 调整合成的宽高.
  */
 @property (nonatomic,readonly) CGSize compositionSize;
+ 
+/**
+ 设置帧率,
+ 
+ LSNEW : 优化视频帧率
+ */
+@property (nonatomic,assign) CGFloat frameRate;
 
 /**
  获取,当前播放的时间点;
@@ -85,15 +89,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (LSOLayer *)setBackGroundImageLayerWithImage:(UIImage *)image;
 
-/// 设置容器的帧率.[可选, 默认是25]
-/// 范围是>=25; 并小于33;如果您都是json增加, 则建议设置为json的帧率;
-/// @param frameRate
--(void)setFrameRate:(CGFloat)frameRate;
+///// 设置容器的帧率.[可选, 默认是25]
+///// 范围是>=25; 并小于33;如果您都是json增加, 则建议设置为json的帧率;
+///// @param frameRate
+//-(void)setFrameRate:(CGFloat)frameRate;
 /**
  增加预览的显示创建;
  @param view 设置一个合成的显示窗口, 显示窗口一定要和合成(容器)的宽高成比例, 可以不相等.
  */
 -(void)setCompositionView:(LSODisplayView *)view;
+
+
+
 
 //----------------------叠加层操作 start----------------------------------------
 /**
@@ -123,45 +130,19 @@ NS_ASSUME_NONNULL_BEGIN
  增加mv动画层;
  */
 - (LSOLayer *)addMVWithColorURL:(NSURL *)colorUrl maskUrl:(NSURL *) maskUrl atTime:(CGFloat)startTimeS;
-/**
- 增加连续图片数组图层
- 仅使用用有给每张图片带一个时间戳的场合,比如语音识别后的图片;
- /// @param imageDictionary 字典数组
- /// @param durationS 整个连续图片的总显示时长
- /// @param startTimeS 从容器的什么位置开始显示;
- 
- 
- 举例:
- NSMutableDictionary *dictory=[[NSMutableDictionary alloc] init];
- dictory = [[NSMutableDictionary alloc] init];
-    [dictory setObject:uiimage1 forKey:[NSNumber numberWithFloat:0.5f]];
-    [dictory setObject:uiimage2" forKey:[NSNumber numberWithFloat:2.5f]];
- 这样就是在0.5秒至2.5秒前一直显示 uiimage1; 2.5秒后一直显示uiimage2,只到总时间显示完毕;
- */
-- (LSOLayer *)addImageArrayLayerWithDictionary:(NSDictionary<NSNumber *, UIImage *> *)imageDictionary durationS:(CGFloat)durationS atTime:(CGFloat)startTimeS;
 
-/**
- 
- /// 语音识别的结果回调
- /// @param imageDictionary 识别的结果,
- /// @param layer 对哪个视频图层做的识别;
- 
- 举例:
- NSMutableDictionary *dictory=[[NSMutableDictionary alloc] init];
- dictory = [[NSMutableDictionary alloc] init];
-    [dictory setObject:uiimage1 forKey:[NSNumber numberWithFloat:0.5f]];
-    [dictory setObject:uiimage2" forKey:[NSNumber numberWithFloat:2.5f]];
- 这样就是在0.5秒至2.5秒前一直显示 uiimage1; 2.5秒后一直显示uiimage2,只到总时间显示完毕;
- */
-- (LSOLayer *)addVoiceRecognitionWithDictionary:(NSDictionary<NSNumber *, UIImage *> *)imageDictionary fromLayer:(LSOLayer *)layer;
+
+
+- (LSOLayer *)addImageArrayLayerWithDictionary:(NSDictionary<NSNumber *, UIImage *> *)imageDictionary durationS:(CGFloat)durationS atTime:(CGFloat)startTimeS;
 //----------------------叠加层操作 end----------------------------------------
-/**
- 增加一个声音图层;
- */
+
+/// 增加一个声音图层;
+/// @param url url路径
+/// @param startTimeS 开始时间;
 - (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
-/**
- 删除声音图层
- */
+
+///  删除声音图层
+/// @param audioLayer 声音图层对象
 - (void)removeAudioLayer:(LSOAudioLayer *)audioLayer;
 
 /// 设置叠加层的位置
@@ -180,59 +161,67 @@ NS_ASSUME_NONNULL_BEGIN
 /// 删除背景图层;
 - (void)removeBackGroundLayer;
 
+
+/// 设置合成的比例
+/// @param ratio 设置的比例.
+- (CGSize)updateCompositionRatio:(LSOSizeRatio)ratio;
+- (void)updateDisplaySizeAfterRatio:(CGSize)displaySize;
+
+
 //----------------------一下是拼接层的操作----------------------------------------
+
+/// 在init后, 准备拼接的图层
+/// @param handler 返回拼接好的图层对象
+- (void)prepareConcatLayerAsync:(void (^)(NSArray *layerAray))handler;
 /**
  增加拼接图片图层;
   返回的layerAray :是当前新增加的图层对象数组
  */
-- (void)addConcatLayerWithImageArray:(NSArray<UIImage *> *)imageArray completedHandler:(void (^)(NSArray *layerAray))handler;
-/**
- 异步增加多个 要拼接的视频
- 返回的layerAray :是当前新增加的图层对象数组
- */
-- (void)addConcatLayerWithArray:(NSArray<NSURL *> *)urlArray completedHandler:(void (^)(NSArray *layerAray))handler;
+- (void)insertConcatLayerWithImageArray:(NSArray<UIImage *> *)imageArray completedHandler:(void (^)(NSArray *layerAray))handler;
 
 /// 在容器的指定位置增加资源
+/// 在容器的指定时间点插入, 时间点在图层前半部分,插入图层前,反之插入到图层后;
 /// @param urlArray url数组
-/// @param compTimeS 在容器的指定时间点插入, 时间点如果在一个图层时间范围的前半部分, 则插入到当前图层的前面; 如果在后半部分,则插入到图层的后面;
+/// @param compTimeS 在容器的指定时间点插入,
 /// @param handle 完成后的回调,是当前新增加的图层对象数组
 - (void)insertConcatLayerWithArray:(NSArray<NSURL *> *)urlArray atTime:(CGFloat)compTimeS  completedHandler:(void (^)(NSArray *layerArray,BOOL insertBefore))handler;
 
+
+
 ///  在容器的指定位置增加图片数组
 /// @param imageArray 图片数组
-/// @param compTimeS 在容器的指定时间点插入, 时间点如果在一个图层时间范围的前半部分, 则插入到当前图层的前面; 如果在后半部分,则插入到图层的后面;
+/// @param compTimeS 指定时间点插入
 /// @param handler 完成后的回调,是当前新增加的图层对象数组
 - (void)insertConcatLayerWitImageArray:(NSArray<UIImage *> *)imageArray atTime:(CGFloat)compTimeS  completedHandler:(void (^)(NSArray *layerArray,BOOL insertBefore))handler;
+
+
 
 /// 替换一个图层
 /// @param currentLayer 当前要替换的图层
 /// @param url 要替换的路径 NSURL 格式
 /// @param handler 替换完成后的回调;
 - (void)replaceConcatLayerWithLayer:(LSOLayer *)currentLayer replaceUrl:(NSURL *)url completedHandler:(void (^)(LSOLayer *replacedLayer))handler;
+
+
 /**
  用图片  增加一个拼接层;
  可以多次调用.返回一个拼接图层对象, 用对象可以调试各种参数.
  */
--(LSOLayer *)addConcatLayerWithUIImage:(UIImage *)url;
+-(LSOLayer *)insertConcatLayerWithUIImage:(UIImage *)url;
 
-///**
-// 还没有调试好, 暂时屏蔽;
-// 分割一个图层,
-// 返回是否分割成功.
-// */
-//-(LSOLayer *)splitConcatLayerByTime:(CGFloat)compTimeS;
-//
-///**
-// 还没有调试好, 暂时屏蔽;
-// 根据合成的时间点 拷贝一个拼接图层
-// compTimeS:当前标尺指向的时间点 内部会根据这个时间点, 找到对应的图层, 从而拷贝这个图层;
-// */
-//-(LSOLayer *)copyConcatLayerByTime:(CGFloat)compTimeS;
-///**
-// 还没有调试好, 暂时屏蔽;
-// 根据拼接图层, 复制一个拼接图层;
-// */
-//-(LSOLayer *)copyConcatLayerByLayer:(LSOLayer *)layer;
+
+/// 分割图层
+/// @param compTimeS
+/// @param layer
+-(void)splitConcatLayerByTime:(CGFloat)compTimeS layer:(LSOLayer *)layer;
+
+
+
+/// 复制一个图层
+/// @param layer
+/// @param completeBlock
+-(void)copyConcatLayerByLayer:(LSOLayer *)layer complete:(void(^)(void))completeBlock;
+
 
 /**
  删除一个图层.
@@ -240,6 +229,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)removeLayer:(nullable LSOLayer *)layer;
 
 
+/// 删除一组图层
+/// @param layers <#layers description#>
 - (void)removeLayerArray:(nullable NSArray<LSOLayer *> *)layers;
 
 
@@ -247,12 +238,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param compTimeS 在合成中的时间,单位秒;
 - (BOOL)removeLayerByCompTime:(CGFloat )compTimeS;
 
-/**
- */
 - (BOOL)cutTimeFromStartWithLayer:(LSOLayer *)layer cutStartTimeS:(CGFloat)timeS;
-/**
- 裁剪尾部的绝对变量;
- */
 -(BOOL)cutTimeFromEndWithLayer:(LSOLayer *)layer cutEndTimeS:(CGFloat)timeS;
 /**
  根据当前在合成中的时间点, 来获取一个图层对象;
@@ -328,22 +314,12 @@ NS_ASSUME_NONNULL_BEGIN
 是否暂停;
  */
 @property (readonly) BOOL isPausing;
-/**
- 开始导出.
-  导出使用之前设置的容器合成分辨率为导出视频的b分辨率:compositionSize
- [异步工作]
- 在预览的过程中, 调用startExport既导出当前的各种设置.
- */
--(void)startExport;
 
 
 /**
- 开始导出, 可设置导出视频的分辨率.
- 建议分辨率和容器合成分辨率等比例;
- [异步工作]
- 在预览的过程中, 调用startExport既导出当前的各种设置.
+ 开始导出,
  */
--(void)startExportWithSize:(CGSize)size;
+-(void)startExportWithRatio:(LSOExportSize)ratioType;
 /**
  当前是否正在导出.
  */
