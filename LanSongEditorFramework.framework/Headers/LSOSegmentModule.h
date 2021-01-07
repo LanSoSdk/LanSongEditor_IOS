@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  增加背景图片
  [可选],
- 背景视频和图片不可同时设置, 如设置以视频为准;
+ 背景视频和图片不可同时设置, 如设置,以视频为准;
  */
 @property(nonatomic,readwrite) UIImage *bgImage;
 
@@ -33,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
  前景视频和图片不可同时设置, 如设置以视频为准;
  */
 - (void)setMVWithColorUrl:(NSURL *)colorUrl maskUrl:(NSURL *)maskUrl;
-
 /**
  前景图片
  [可选]

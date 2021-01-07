@@ -12,13 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//录制的视频段;
+@interface LSORecordFile: NSObject
+
+@property (assign, nonatomic) CGFloat duration;
+@property (strong, nonatomic) NSString *videoPath;
+@property (strong, nonatomic) NSString *audioPath;
+@end
+
 @interface LSOCamera : LSOObject
-
-
-+(NSString *)cameraVersion;
-
-
-+(void )setCameraCaptureAsRGBA:(BOOL)is;
 
 /**
  初始化
@@ -28,13 +30,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(id)initFullScreen:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
 
-
 /**
  录制最大时长. 在init后设置;
  */
 @property (nonatomic, assign) float recordMaxDuration;
 
-@property (nonatomic) CGSize drawpadSize;
+/**
+ 当前已经录制的时长;
+ */
+@property (nonatomic,readonly)    CGFloat  recordDuration;
+
+
+/**
+ 录制的几段视频;
+ 只读使用,请勿写入文件
+ */
+@property (nonatomic, readonly)NSMutableArray<LSORecordFile *> *recordArray;
+
+
+/**
+ 录像大小;
+ */
+@property (nonatomic, readonly) CGSize cameraSize;
 
 /**
  开始执行
@@ -55,38 +72,29 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setRecordBitrate:(int)bitrate;
 
 
-
+/**
+ 开始录制
+ */
 -(BOOL)startRecord;
 
+/**
+ 暂停录制
+ */
 -(void)pauseRecord;
 
 /**
  停止录制, 异步停止;
- 停止后, 会通过recordCompletionBlock返回得到的视频;
  */
--(void)stopRecordAsync;
+-(BOOL)stopRecordAsync;
 
 /**
  删除上一段
  */
 -(BOOL)deleteLastRecord;
-
-
-/**
- 当前已经录制的时长;
- */
-@property (readonly, nonatomic)    CGFloat  currentRecordDuration;
-
 /**
  切换前后镜头
  */
 - (void)changeCamera;
-/**
- 禁止麦克风;
- 默认不禁止; 录制时设置无效;
- */
-@property (nonatomic,assign) BOOL disableMic;
-
 /**
  是否是前置相机
  */
@@ -96,6 +104,13 @@ NS_ASSUME_NONNULL_BEGIN
  打开闪光灯/手电筒
  */
 @property (nonatomic,assign) BOOL flashOn;
+
+
+/**
+ 录制mic;
+默认是录制mic; 当有外音或前景视频声音时, 禁止录制外音;
+ */
+@property (nonatomic,assign) BOOL recordMic;
 
 /**
  设置美颜,
@@ -180,9 +195,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, copy) NSString *_Nullable(^concatFunctionBlock)(NSMutableArray *array);
 /**
+ 适配ios13  必须按照demo中的设置;
+ */
+@property(nonatomic, copy) NSString *_Nullable(^mergeAVBlock)(NSString *video, NSString *audio);
+/**
  当前是否在运行;
  */
 @property (nonatomic,readonly) BOOL isRunning;
+
+/**
+ 是否在录制中;
+ */
 @property (nonatomic,readonly) BOOL isRecording;
 
 
@@ -193,35 +216,25 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)addUIView:(UIView *)uiView;
 
 /**
- 增加一层透明动画;
- 设置为nil,则移出动画,多次增加则切换动画
+ 设置前景视频
+ 在开始录制前设置;
  */
-- (BOOL)addMVWithColorURL:(NSURL *)colorUrl maskUrl:(NSURL *) maskUrl;
-/**
- 增加一个图片;
- 可以多次增加, 多次增加则返回多个图层对象;
- */
-- (LSOCamLayer *) addImageLayer:(UIImage *)uiImage;
+- (BOOL)setForeGroundVideoWithColorUrl:(NSURL *_Nullable)colorUrl maskUrl:(NSURL *_Nullable) maskUrl;
 
 /**
-增加一个图片;
-可以多次增加, 多次增加则返回多个图层对象;
+ 设置前景图片;
  */
-- (LSOCamLayer *) addImageLayerWithUrl:(NSURL *)url;
-/**
- 删除图层;
- */
-- (void)removeLayer:(nullable LSOCamLayer *)layer;
+- (BOOL) setForeGroundImageWithUrl:(NSURL *_Nullable)url;
 
 /**
- 增加一个背景视频;
- 设置为nil,则移出视频,多次增加则切换视频;
- [抠图时使用]
+ 设置音乐;
  */
-- (BOOL)addBackGroundVideoLayerWithURL:(NSURL *)url;
+- (BOOL)setMusicWithUrl:(NSURL *)url;
 
+/**
+ 拍照
+ */
+-(UIImage *)takePicture;
 
-@property(nonatomic, copy) unsigned char *_Nullable(^outDataCallBack)(void);
-- (void)setDataMattingIOEnable:(BOOL)enable;
 @end
 NS_ASSUME_NONNULL_END

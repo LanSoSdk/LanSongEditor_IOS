@@ -34,7 +34,7 @@
  用在前台预览,
  当前播放走到文件尾部的回调. 如果你设置了循环播放,则会再次循环;
  */
-@property(nonatomic, copy) void(^onAVPlayerToEndBlock)();
+@property(nonatomic, copy) void(^onAVPlayerToEndBlock)(void);
 
 /**
  当使用DrawPadPreview前台预览处理的时候, 用系统自带的AVPlayer作为播放器

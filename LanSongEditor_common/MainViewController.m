@@ -56,6 +56,8 @@
      */
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
+    
+    [DemoUtils showDialog:@"这是最简单的演示, 完整版见二维码链接(simplest demo. see QR code link)"];
 }
 - (void)viewDidAppear:(BOOL)animated
 {

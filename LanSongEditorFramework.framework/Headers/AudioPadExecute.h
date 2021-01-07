@@ -10,19 +10,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LanSongLog.h"
 #import "LSOObject.h"
-/**
- 音频容器
- 用处1:给视频各种声音.
- 用处2:先设置声音总长度, 然后增加各种其他声音,最后合成声音;
- */
+
+
 @interface AudioPadExecute : LSOObject
 
 
 
-/// <#Description#>
-/// @param srcInput <#srcInput description#>
-/// @param cutDurationS <#cutDurationS description#>
-/// @param volume <#volume description#>
 -(id)initWithURL:(NSURL *)srcInput duration:(CGFloat)cutDurationS volume:(CGFloat)volume;
 /**
  给视频或音频 增加其他音频;

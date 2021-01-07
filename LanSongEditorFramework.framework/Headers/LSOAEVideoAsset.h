@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
         ---CODE-----
  });
  */
-@property(nonatomic, copy) void(^exportCompletionBlock)();
+@property(nonatomic, copy) void(^exportCompletionBlock)(void);
 
 /**
  执行错误;
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
         ---CODE-----
  });
  */
-@property(nonatomic, copy) void(^exportErrorBlock)();
+@property(nonatomic, copy) void(^exportErrorBlock)(void);
 
 
 //----------------------------一下是内部使用-----------------------------------------------

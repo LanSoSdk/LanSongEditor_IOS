@@ -6,8 +6,13 @@
 
 dispatch_queue_attr_t LanSongDefaultQueueAttribute(void);
 void runOnMainQueueWithoutDeadlock(void (^block)(void));
+
+//LSTODO 改这里为 runOnLanSongThread
 void runSynchronouslyOnVideoProcessQueue(void (^block)(void));
+//LSTODO 改为 runOnLanSongThreadAsync
 void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
+
+
 
 
 void runSyncOnContextQueue(LanSongContext *context, void (^block)(void));

@@ -117,6 +117,7 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
+    [DemoUtils showDialog:@"这是最简单的演示, 完整版见二维码链接(simplest demo. see QR code link)"];
 }
 
 
@@ -171,9 +172,6 @@
     
     //----------------------start------------------------
     concatComposition=[[LSOConcatComposition alloc] initWithUrlArray:array ratio:kLSOSizeRatio_NONE];
-    
-  
-    
     //异步的形式增加视频
     WS(weakSelf)
     [concatComposition prepareConcatLayerAsync:^(NSArray * _Nonnull layerAray) {
@@ -182,6 +180,7 @@
             [weakSelf addOtherLayer];
         });
     }];
+    
 }
 
 - (void)addOtherLayer
@@ -218,6 +217,12 @@
             [weakSelf drawpadCompleted: dstPath];
         });
     }];
+    
+    //适配ios13的系统bug问题;
+    [concatComposition setMergeAVBlock:^NSString * _Nullable(NSString * _Nonnull video, NSString * _Nonnull audio) {
+        return [VideoEditorDemoVC mergeAV:video audio:audio];
+    }];
+    
     [concatComposition setCompositionDurationChangedBlock:^(CGFloat durationS) {
         LSDELETE(@"---总合成回调block: %f", durationS);
     }];
@@ -417,6 +422,44 @@
         make.right.mas_equalTo(self.view.mas_right).offset(-padding);
     }];
     return slider;
+}
+
++ (NSString *)mergeAV:(NSString *)videoPath audio:(NSString *)audioPath
+{
+    NSString *dstPath=[LSOFileUtil genTmpMp4Path];
+    NSMutableArray *cmdArray = [[NSMutableArray alloc] init];
+    
+    [cmdArray addObject:@"ffmpeg"];
+    
+    [cmdArray addObject:@"-i"];
+    [cmdArray addObject:videoPath];
+    [cmdArray addObject:@"-i"];
+    [cmdArray addObject:audioPath];
+    
+    [cmdArray addObject:@"-map"];
+    [cmdArray addObject:@"0:v"];
+    
+    [cmdArray addObject:@"-map"];
+    [cmdArray addObject:@"1:a"];
+    
+    [cmdArray addObject:@"-acodec"];
+    [cmdArray addObject:@"copy"];
+    
+    [cmdArray addObject:@"-vcodec"];
+    [cmdArray addObject:@"copy"];
+    
+    [cmdArray addObject:@"-absf"];
+    [cmdArray addObject:@"aac_adtstoasc"];
+    
+    [cmdArray addObject:@"-y"];
+    
+    [cmdArray addObject:dstPath];
+    
+    if([LSOVideoEditor executeCmd:cmdArray]){
+        return dstPath;
+    }else{
+        return videoPath;
+    }
 }
 
 -(void)dealloc

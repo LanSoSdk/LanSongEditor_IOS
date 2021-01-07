@@ -14,7 +14,6 @@
 #import "LSOLayer.h"
 
 
-//叠加层;
 @class LSOAudioLayer;
 
 
@@ -53,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  当前有多少个音频层;
- 如果你获取使用此变量, 则会拷贝一份新的NSMutableArray, 请不要一直拷贝;
+ 获取会拷贝一份新的NSMutableArray, 请不要一直拷贝;
  */
 @property (strong,atomic, readonly) NSMutableArray *audioLayerArray;
 
@@ -98,25 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
  centerPosition: 中心点位置;
  */
 - (void)addLogoUIImage:(UIImage *)image certerPosition:(CGPoint )centerPosition;
-
-///**
-// 增加图片图层,
-// 你可以用这个来增加一个图片, 或把文字转图片;
-// */
-//- (LSOLayer *)addImageLayerWithImage:(UIImage *)image atTime:(CGFloat)startTimeS;
-//
-///**
-// 增加一个gif图层;
-// 增加后, 返回一个图层对象, 根据图层对象去调节;
-// */
-//- (LSOLayer *)addGifLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
-//
-//
-///**
-// 删除一个图层
-// 对象是在addXXX的输入的;
-// */
-//- (BOOL)removeLayer:(nullable LSOLayer *)layer;
 
 //------------------------------------控制类方法---------------------------------------------
 /**
@@ -227,8 +207,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) void(^aexImageChangedBlock)(LSOAexImage *aexImage,int index);
 
 
-
-@property(nonatomic, copy) void(^playCompletionBlock)();
+/**
+ 播放完成.
+ */
+@property(nonatomic, copy) void(^playCompletionBlock)(void);
 
 
 
@@ -245,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
 dispatch_async(dispatch_get_main_queue(), ^{
 });
 */
-@property(nonatomic, copy) void(^exportCompletionBlock)(NSString *dstPath);
+@property(nonatomic, copy) void(^exportCompletionBlock)(NSString *_Nullable dstPath);
 
 
 /**
@@ -270,6 +252,11 @@ dispatch_async(dispatch_get_main_queue(), ^{
  */
 @property(nonatomic, copy) void(^userSelectedAexTextBlock)(LSOAexText *text,int index);
 
+
+/**
+ 适配ios13; 必须按照demo中的设置;
+ */
+@property(nonatomic, copy) NSString *_Nullable(^mergeAVBlock)(NSString *video, NSString *audio);
 
 /**
  禁止图片点击事件;

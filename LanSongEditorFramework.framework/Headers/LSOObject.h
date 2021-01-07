@@ -112,7 +112,7 @@ typedef enum : NSInteger {
 
 //比例;
 typedef enum {
-    kLSOSizeRatio_NONE,
+    kLSOSizeRatio_NONE = 0,
     LSOSizeRatio_ORIGINAL,
     kLSOSizeRatio_9_16,
     kLSOSizeRatio_16_9,
@@ -122,12 +122,15 @@ typedef enum {
     kLSOSizeRatio_2_1,
     kLSOSizeRatio_1_2,
     kLSOSizeRatio_235_1,
-    kLSOSizeRatio_185_1
+    kLSOSizeRatio_185_1,
+    kLSOSizeRatio_4_5,
+    kLSOSizeRatio_6_7
 }LSOSizeRatio;
 
 
 //导出选项
 typedef enum {
+    kLSOExportSize_480p,
     kLSOExportSize_540p,
     kLSOExportSize_720p,
     kLSOExportSize_1080p
