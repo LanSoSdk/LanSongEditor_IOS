@@ -82,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url;
 
+- (LSOLayer *)addImageLayerWithImage:(UIImage *)image atTime:(CGFloat)startTimeS;
+
 /**
  删除一个声音图层;
  */
@@ -91,6 +93,9 @@ NS_ASSUME_NONNULL_BEGIN
  posititon: 枚举类型;
  */
 - (void)addLogoUIImage:(UIImage *)image position:(LSOPositionType)posititon;
+
+
+
 
 /**
  增加logo图片

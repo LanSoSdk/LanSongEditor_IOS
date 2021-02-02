@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  多个视频拼接.
  如果视频的开始时间不是0; 可以先用LanSongEditMode来转换一下;
  */
-@interface DrawPadConcatVideoExecute : NSObject LSO_DELPRECATED
+@interface DrawPadConcatVideoExecute : NSObject
 /**
  初始化
  初始化后, 输出文件宽高等于第一个视频的宽高
@@ -162,4 +162,41 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,readonly) BOOL isRunning;
 @end
+/********************************************************
+ 例子代码(demo):
+ DrawPadConcatVideoExecute *execute;
+ -(void)testConcatVideos
+ {
+     NSMutableArray *videoArray=[[NSMutableArray alloc] init];
+     NSURL *inputVideo1 = [[NSBundle mainBundle] URLForResource:@"aobama" withExtension:@"mp4"];
+     [videoArray addObject:inputVideo1];
+ 
+     NSURL *inputVideo2 = [[NSBundle mainBundle] URLForResource:@"xiaoYa_mvColor" withExtension:@"mp4"];
+     [videoArray addObject:inputVideo2];
+ 
+     NSURL *inputVideo3 = [[NSBundle mainBundle] URLForResource:@"a960x540_90" withExtension:@"MP4"];
+     [videoArray addObject:inputVideo3];
+ 
+ 
+     execute=[[DrawPadConcatVideoExecute alloc] initWithURLArray:videoArray drawPadSize:CGSizeMake(540, 960)];
+ 
+     //    execute=[[DrawPadConcatVideoExecute alloc] initWithURLArray:videoArray];  //ok
+ 
+     WS(weakSelf);
+     [execute setProgressBlock:^(CGFloat progess,CGFloat percent) {
+     LSOLog(@"progress  is :%f, percent:%f",progess,percent)
+     }];
+ 
+     //增加一个背景图片
+     BitmapPen *pen=[execute addBitmapPen:[UIImage imageNamed:@"t14.jpg"]];
+     [execute setPenPosition:pen index:0]; //放到最低层.
+ 
+     [execute setCompletionBlock:^(NSString *dstPath) {
+     dispatch_async(dispatch_get_main_queue(), ^{
+     [DemoUtils startVideoPlayerVC:weakSelf.navigationController dstPath:dstPath];
+     });
+     }];
+     [execute start];
+ }
+ */
 NS_ASSUME_NONNULL_END

@@ -52,11 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  option: 选项, 缩放形式;
  */
 - (BOOL)updateWithUIImage:(UIImage *)image option:(LSOAexOption *_Nullable )option;
-
-/**
- 特定客户使用, 请勿使用;
- */
-- (BOOL)updateWithMVColorURL:(NSURL *)colorUrl maskUrl:(NSURL *)maskUrl option:(LSOAexOption *_Nullable)option;
 /**
  用户设置的视频路径;
  */

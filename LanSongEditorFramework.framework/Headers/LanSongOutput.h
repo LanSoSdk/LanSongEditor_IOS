@@ -5,11 +5,11 @@
 #import <UIKit/UIKit.h>
 
 dispatch_queue_attr_t LanSongDefaultQueueAttribute(void);
-void runOnMainQueueWithoutDeadlock(void (^block)(void));
+void runOnMainQueueWithoutDeadlockLSO(void (^block)(void));
 
-//LSTODO 改这里为 runOnLanSongThread
+//LSDELETE
 void runSynchronouslyOnVideoProcessQueue(void (^block)(void));
-//LSTODO 改为 runOnLanSongThreadAsync
+//LSDELETE
 void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
 
 

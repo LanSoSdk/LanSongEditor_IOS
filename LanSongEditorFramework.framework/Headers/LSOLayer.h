@@ -66,44 +66,49 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readonly,assign) int layerIndex;
 /**
- 在播放器中的开始时间, 只工作在叠加的一些图层; 比如叠加的图片/视频等;
+ 在合成中的开始时间;
+ 放到concat中的时候, 内部设置.
+ 用addXXXLayer, 是外部设置的.
+ 用 layerDurationS获取当前
  */
 @property(readwrite,assign) CGFloat startTimeOfComp;
 
 /**
  素材的原始时长.
- 比如视频本身的长度, 只读.不会改变;
  */
 @property (readonly,assign)CGFloat originalDurationS;
 /**
  当前图层的显示时长;
- 在没有裁剪时后变速等操作时, 等于原始时长;
+ 在设置裁剪时长后, 会变化;
  */
 @property (readwrite,assign) CGFloat displayDurationS;
 /*
-当前播放器的总时长;
+读当前合成的总时长.
+(当你设置每个图层的时长后, 此属性会改变.);
 */
 @property (readonly,assign) CGFloat compDurationS;
 
+//---------------------尺寸------------
 /**
   输入资源的原始大小;
  */
 @property (nonatomic,readonly) CGSize originalSize;
 
+
+
 /**
   图层在容器中的大小.
- 视频放到容器中后, 默认是对齐到边缘的,故图层大小会变;
- 视频默认对齐到播放器的边缘. 图片居中显示;
+ 视频放到容器中后, 默认是对齐到边缘的,故图层大小会变换;
  */
 @property  (nonatomic,readonly) CGSize layerSize;
 /**
- 播放器的尺寸
+ 当前图层的合成尺寸;
  */
 @property  (nonatomic,readonly) CGSize compositionSize;
 
 /**
- 叠加图层是否循环播放;
- 拼接图层设置后无效
+ 图层是否循环播放;
+ 放到concat中的, 请不要设置此方法;
  */
 @property (readwrite,assign) BOOL looping;
 
@@ -148,19 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  设置当前位置, 枚举类型.
- 我们举例了常见的位置枚举类型:
- 上下左右/左上/左下/右上/右下/居中, 如果这些类型不满足您的需求, 可以通过centerPoint来设置每个素材的位置;
  */
 @property (readwrite,nonatomic) LSOPositionType positionType;
 
 /**
  缩放的枚举类型;
- kLSOScaleNONE: 无缩放形式.则内部会根据不同的素材,采用默认形式;
- kLSOScaleOriginal: 原始大小 直接放入, 不做任意处理;
- kLSOScaleFillComposition: 忽略百分比,把宽度等于容器的宽度, 高度等于容器的高度,填满整个容器.
- kLSOScaleCropFillComposition: 匹配放入到容器中,等比例填满整个容器, 把多的部分显示到容器的外面去;
- kLSOScaleVideoScale:视频缩放模式,如果视频宽度大于高度, 则宽度和容器对齐, 然后等比例调整高度; 反之亦然
- 如果以上不满足您的需求, 则可以 scaleSize设置具体缩放到的大小;
  */
 @property (readwrite,nonatomic) LSOScaleType scaleType;
 
@@ -171,8 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIColor *selectedColor;
 
 /**
- 把图层缩放到指定的大小;
- 以像素为单位;
+ 缩放到图层在容器中的具体大小;
  */
 @property (readwrite, nonatomic) CGSize scaleSize;
 
@@ -181,6 +177,8 @@ NS_ASSUME_NONNULL_BEGIN
  预览时有效
  */
 @property (readwrite, nonatomic) CGSize scaleSizeInView;
+
+
 /**
  以显示窗口为单位, 获取图层的宽高;
  预览时有效
@@ -198,12 +196,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readwrite, nonatomic) BOOL isConvertScalePosition;
 //------------mirror(镜像)--------------
-
-/// 在绘制的时候, 横向图像镜像, 左边的在右边, 右边的在左边;
+//在绘制的时候, 横向图像镜像, 左边的在右边, 右边的在左边;
 @property (nonatomic,assign)BOOL mirrorDrawX;
 
-
-/// 竖向图像镜像, 上面的放下面, 下面的放上面. 默认不调整;
+//竖向图像镜像, 上面的放下面, 下面的放上面. 默认不调整;
 @property (nonatomic,assign)BOOL mirrorDrawY;
 
 
@@ -230,11 +226,15 @@ NS_ASSUME_NONNULL_BEGIN
  仅对视频有效;
  */
 @property (readwrite,assign) CGFloat cutStartTimeS;
+//- (void)setCutStartimeS:(CGFloat)cutStartTimeS needUpdate:(BOOL)update;
+
 /**
  裁剪时长的结束时间;
  仅对视频有效
  */
 @property (readwrite,assign) CGFloat cutEndTimeS;
+
+- (void)setCutEndTimeS:(CGFloat)cutEndTimeS needUpdate:(BOOL)update;
 
 //----------关键帧功能----------
  //添加关键帧
@@ -352,6 +352,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readwrite, nonatomic) BOOL mosaic4Enable;
 @property(readwrite, nonatomic) CGFloat mosaicPixelWidth4;
 
+
+@property (readwrite,nonatomic) CGRect cropRect;
+-(void)setCropRect:(CGRect)cropRect scaleSizeInView:(CGSize)scaleSizeInView scaleSize:(CGSize)scaleSize;
+
 //-------------------------FILTER(滤镜)----------------------------
 /**
  设置美颜,
@@ -394,6 +398,7 @@ NS_ASSUME_NONNULL_BEGIN
  如果是0.0则无声,
  */
 @property (nonatomic, assign)CGFloat audioVolume;
+
 
 /**
  音量淡出时长设置/获取;
@@ -485,12 +490,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign)BOOL touchEnable;
 
-/**
- 背景虚化值.
- 设置为0,取消背景;
- */
-@property (nonatomic, assign) CGFloat backGroundBlurLevel;
-
 /// 获取当前图层在容器合成中的坐标
 - (CGRect ) getCurrentRectInComp;
 
@@ -580,11 +579,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(readwrite, assign)NSURL *transitionJsonUrl;
 
+@property(readwrite, strong)NSString *transitionName;
 
-/// 增加mg转场动画;
-/// @param colorUrl 透明动画中的彩色视频url路径
-/// @param maskUrl 透明动画中的黑白视频url路径
+/**
+ 增加mg转场动画;
+ */
+//@property(readwrite, assign)NSURL *transitionMgVideoUrl;
+
 - (void)setMGTransitionWithColorUrl:(NSURL *)colorUrl maskUrl:(NSURL *)maskUrl;
+
+@property(readwrite, assign)NSURL *MGtransitionColorUrl;
+@property(readwrite, assign)NSURL *MGtransitionMaskUrl;
 
 
 /**
@@ -603,8 +608,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(readonly, nonatomic)CGFloat transitionMaxDurationS;
 
-
-/// 是否已经增加了转场
 @property(readonly, nonatomic)BOOL isAddTransition;
 /**
  预览转场;
@@ -666,11 +669,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-
-
  
 @property (nonatomic,readwrite) CGSize touchLastScaleSize; 
 
+//内部使用;
+-(void)setTouchScaleFactor:(CGFloat)scaleFactor;
 
 
 
@@ -694,10 +697,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+@property (readwrite, nonatomic) NSMutableArray *keyFrameArray;  
 
 
 @property(nonatomic, assign)BOOL isEndLayer;
 
 @property (readonly, nonatomic) LSOSubLayer  *mgLayer;
+
+
+@property (readwrite,nonatomic) NSURL  *lxq_effectColorURL;//
+@property (readwrite,nonatomic) NSURL  *lxq_effectMaskURL;//
+
+
+-(void)updateFilterLink;
+
+
 @end
 NS_ASSUME_NONNULL_END

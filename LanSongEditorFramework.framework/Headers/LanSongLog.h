@@ -52,7 +52,7 @@
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 //废弃的标注;
-#define LSO_DELPRECATED  __attribute__((deprecated));
+#define LSO_DELPRECATED  __attribute__((deprecated))
 
 //隐藏函数,在函数声明后调用;
 #define LSO_HIDDEN_FUNCTION __attribute__((visibility("hidden")))

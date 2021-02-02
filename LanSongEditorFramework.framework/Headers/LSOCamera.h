@@ -20,15 +20,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *audioPath;
 @end
 
+@class LSOCamLayer;
+
 @interface LSOCamera : LSOObject
 
 /**
  初始化
-
  @param view 显示view
  @param isFront 是否设置为前置
  */
 -(id)initFullScreen:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
+
+
+/**
+ 仅仅用在绿幕抠图, 虚拟直播的场景;
+ */
+-(id)initFullScreen2:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
+
+
 
 /**
  录制最大时长. 在init后设置;
@@ -51,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  录像大小;
  */
-@property (nonatomic, readonly) CGSize cameraSize;
+@property (nonatomic, readonly) CGSize compSize;
 
 /**
  开始执行
@@ -72,6 +81,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setRecordBitrate:(int)bitrate;
 
 
+
+/// 获得相机图层;
+- (LSOCamLayer *)getCameraLayer;
 /**
  开始录制
  */
@@ -143,6 +155,37 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)removeAllFilter;
 
+/**
+ 是否绿幕抠图
+ */
+@property (nonatomic,assign) BOOL isGreenMatting;
+
+
+/// 设置前景图片
+/// @param url 前景图片的URL路径;
+- (BOOL) setForeGroundImageWithUrl:(NSURL *_Nullable)url;
+
+/// 设置前景视频
+/// @param colorUrl 前景透明颜色视频
+/// @param maskUrl 前景透明mask视频;
+- (BOOL)setForeGroundVideoWithColorUrl:(NSURL *_Nullable)colorUrl maskUrl:(NSURL *_Nullable) maskUrl;
+
+
+/// 取消前景;
+- (void)cancelForeGround;
+
+/// 设置背景图片
+/// @param imageUrl 背景图片的URL路径
+- (LSOCamLayer *)setBackGroundImageUrl:(NSURL *_Nullable)imageUrl;
+
+/// 设置背景视频
+/// @param videoUrl 背景视频url路径
+/// @param audioVolume 背景视频音量, 静音是0.0; 1.0是正常声音;
+- (LSOCamLayer *)setBackGroundVideoUrl:(NSURL *_Nullable)videoUrl audioVolume:(float)audioVolume;
+
+
+/// 取消背景
+- (void)cancelBackGround;
 
 
 /**
@@ -214,20 +257,9 @@ NS_ASSUME_NONNULL_BEGIN
  设置为nil,则不录制;
  */
 -(BOOL)addUIView:(UIView *)uiView;
-
-/**
- 设置前景视频
- 在开始录制前设置;
- */
-- (BOOL)setForeGroundVideoWithColorUrl:(NSURL *_Nullable)colorUrl maskUrl:(NSURL *_Nullable) maskUrl;
-
-/**
- 设置前景图片;
- */
-- (BOOL) setForeGroundImageWithUrl:(NSURL *_Nullable)url;
-
 /**
  设置音乐;
+ 设置后, 不再录制外音;
  */
 - (BOOL)setMusicWithUrl:(NSURL *)url;
 

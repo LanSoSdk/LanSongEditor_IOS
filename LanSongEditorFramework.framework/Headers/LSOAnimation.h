@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface LSOAnimation : LSOObject
 
 
@@ -32,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+@property (nonatomic, assign) CGFloat layerStartFromCompS;  
+
+@property (nonatomic, strong) NSString *jsonName; 
+@property (nonatomic, assign) int animType;
 
 
 

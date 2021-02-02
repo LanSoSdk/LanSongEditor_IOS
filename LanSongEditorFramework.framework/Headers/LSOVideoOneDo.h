@@ -14,20 +14,41 @@
 
 
 /**
- 已经废弃, 请不要使用;
+ 视频的常见处理:
+ 当前可以完成:
+ 1.增加多个背景音乐+调节音量,2.裁剪时长,3.裁剪画面,4.缩放,5.增加Logo,6.增加文字,7.设置滤镜,8.设置码率(压缩),
+ 9.增加美颜,10.增加封面,11增加UI界面,12,增加马赛克.13,旋转视频, 14, 叠加图片
+ 
+ 调用流程是:
+ init--->setXXX--->设置进度完成回调--->start;
  */
 @interface LSOVideoOneDo : LSOObject
 
+/// 初始化对象, 如果视频不存在, 或者无法解码,则返回 nil;
+/// @param videoURL 视频路径;
 -(id)initWithNSURL:(NSURL *)videoURL;
 
+/**
+ 在init后,获取视频的信息
+ */
 @property (nonatomic,readonly)CGFloat videoWidth;
 @property (nonatomic,readonly)CGFloat videoHeight;
 
+/// 获取视频的时长,单位秒;
 @property (nonatomic,readonly)CGFloat videoDurationS;
 
+/**
+ 是否在运行
+ */
 @property (readonly)BOOL  isRunning;
 
-
+/**
+ 设置视频的音量大小.
+ 在需要增加其他声音前调用(addAudio后调用无效).
+ 不调用默认是原来的声音大小;
+ 1.0 是原音量; 0.5是降低一倍. 2.0是提高一倍;
+ 设置为0, 则静音;
+ */
 @property(readwrite, nonatomic) float videoUrlVolume;
 /**
  裁剪开始时长
@@ -50,7 +71,13 @@
  [清除所有设置的参数]
  */
 -(void)resetAllValue;
-
+/**
+ 视频裁剪;
+ 注意:
+ 1.CGRect中的x,y如是小数,则调整为整数;
+ 2.CGRect中的width,height如是奇数,则调整为偶数.(能被2整除的数)
+ 3.如果您设置了rotationAngle, 则先旋转,再裁剪;
+ */
 @property (readwrite,nonatomic)CGRect cropRect;
 
 /**
@@ -266,10 +293,59 @@
 @property(nonatomic, copy) void(^videoProgressBlock)(CGFloat currentFramePts,CGFloat percent);
 /**
  结束回调.
- 执行后返回结果.请放到主线程执行
+ 执行后返回结果.
  dispatch_async(dispatch_get_main_queue(), ^{
  .....CODEC....
  });
  */
 @property(nonatomic, copy) void(^completionBlock)(NSString *video);
 @end
+
+
+/*
+ 举例如下:
+ LSOVideoOneDo *videoOneDo;
+ -(void)testVideoOneDo:(NSURL *)video
+ {
+ videoOneDo=[[LSOVideoOneDo alloc] initWithNSURL:video];
+ 
+ //时长剪切
+ videoOneDo.cutStartTimeS=3;
+ videoOneDo.cutDurationTimeS=10;
+ 
+ //画面裁剪
+ [videoOneDo setCropRect:CGRectMake(0.0, 0.0, 540, 540)];
+ 
+ //增加马赛克
+ [videoOneDo addMosaicRect:CGRectMake(0.0, 0.0, 270, 270)];
+ 
+ //增加一个View来叠加logo,文字等.
+ [videoOneDo setUIView:[self createUIView]];
+ 
+ [videoOneDo setCompletionBlock:^(NSString * _Nonnull video) {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [DemoUtils startVideoPlayerVC:self.navigationController dstPath:video];
+ });
+ }];
+ [videoOneDo setVideoProgressBlock:^(CGFloat progess,CGFloat percent) {
+ LSOLog(@"进度是:%f, 百分比:%f",progess,percent);
+ }];
+ [videoOneDo start];
+ }
+ -(UIView *)createUIView
+ {
+     UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 540,540)];
+     rootView.backgroundColor = [UIColor clearColor];
+     UIImage *image = [UIImage imageNamed:@"small"];
+     UIImageView *imageView=[[UIImageView alloc] initWithImage:image];
+     imageView.center = CGPointMake(rootView.bounds.size.width/2, rootView.bounds.size.height/2);
+     
+     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 540, 120)];
+     label.text=@"杭州蓝松科技";
+     label.textColor=[UIColor redColor];
+     [rootView addSubview:label];
+     [rootView addSubview:imageView];
+     return rootView;
+ }
+ 
+ */

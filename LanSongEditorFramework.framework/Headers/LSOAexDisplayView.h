@@ -19,6 +19,7 @@
 @interface LSOAexDisplayView : UIView <LanSongInput>
 
 
+@property (nonatomic, strong)NSMutableArray *overlayLayerArray;
 
 
 
@@ -32,6 +33,11 @@
 
 
 
+
+
+
+
+- (void)setOverlayLayerArray:(NSMutableArray *)array;
 
 
 

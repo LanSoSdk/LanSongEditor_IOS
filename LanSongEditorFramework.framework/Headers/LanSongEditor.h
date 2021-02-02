@@ -16,9 +16,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  当前此SDK的版本号.
  内部使用,请勿修改.
  */
-#define  LANSONGEDITOR_VISION  "4.3.3"
+#define  LANSONGEDITOR_VISION  "4.3.5"
 
-#define  LANSONGEDITOR_BUILD_TIME  "20201217_1627"
+#define  LANSONGEDITOR_BUILD_TIME  "20210125_1834"
 
 //所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
@@ -47,6 +47,11 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOConcatComposition.h>
 #import <LanSongEditorFramework/LSODisplayView.h>
 #import <LanSongEditorFramework/LanSongLog.h>
+
+
+#import <LanSongEditorFramework/LSOCamLayer.h>
+
+
 
 
 #import <LanSongEditorFramework/LSOVideoCompositionExecute.h>
@@ -100,6 +105,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>
 #import <LanSongEditorFramework/LSOAEVideoSetting.h>
+//#import <LanSongEditorFramework/LanSongTESTVC.h>
 
 @interface LanSongEditor : NSObject
 

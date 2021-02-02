@@ -91,4 +91,43 @@ NS_ASSUME_NONNULL_END
  当前是否在运行;
  */
 @property (nonatomic,readonly) BOOL isRecording;
+
+/*
+ 测试代码:
+ LSORecordUIExecute *uiExecute;
+ UILabel *label;
+ int labelCnt;
+ -(void)testRecordUI
+ {
+ UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 540, 960)];
+ label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 400, 120)];
+ label.textColor=[UIColor redColor];
+ label.text=@"测试文字abc124";
+ label.font = [UIFont systemFontOfSize:40];  //<----设置字号.
+ [view addSubview:label];
+ 
+ 
+ 
+ uiExecute=[[LSORecordUIExecute alloc] initWithView:view recordSize:CGSizeMake(540, 960) frameRate:15 duration:12.5f];  //临时这样;
+ [uiExecute setProgressBlock:^(CGFloat progess) {
+ 
+ label.text=[NSString stringWithFormat:@"测试自:%d",labelCnt];
+ labelCnt++;
+ 
+ dispatch_async(dispatch_get_main_queue(), ^{
+     CGPoint point=CGPointMake(label.center.x+2, label.center.y);
+     label.center=point;
+     LSOLog(@"progress is %f",progess);
+ });
+ 
+ }];
+ [uiExecute setCompletionBlock:^(NSString *dstPath) {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [DemoUtils startVideoPlayerVC:self.navigationController dstPath:dstPath];
+ });
+ 
+ }];
+ [uiExecute start];
+ }
+ */
 @end
