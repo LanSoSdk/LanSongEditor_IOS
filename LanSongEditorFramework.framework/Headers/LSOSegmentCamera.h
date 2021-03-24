@@ -10,6 +10,8 @@
 #import "LSOObject.h"
 #import "LSOCameraView.h"
 #import "LSOSegmentModule.h"
+#import "LSOCamLayer.h"
+
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LSOSegmentCamera : LSOObject
 
 
-+(NSString *)cameraVersion;
 
 
 +(void )setCameraCaptureAsRGBA:(BOOL)is;
@@ -85,6 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) BOOL disableBackGround;
 
+/**
+ 获取摄像头图层;
+ */
+- (LSOCamLayer *)getCameraLayer;
 
 /**
  设置 导出时的模板声音音量
@@ -134,7 +139,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, copy) unsigned char *_Nullable(^outDataCallBack)(void);
 
-- (void)setDataMattingIOEnable:(BOOL)enable;
+//设置为禁止抠图模式
+@property(atomic, assign) BOOL disableSegmentMode;
+
+
+- (LSOCamLayer *)addForeGroundVideoUrl:(NSURL *)url;
+
+
+- (void)setSegmentEnable:(BOOL)enable;
 
 /**
  取消;
@@ -142,4 +154,5 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)cancel;
 @end
 NS_ASSUME_NONNULL_END
+
 

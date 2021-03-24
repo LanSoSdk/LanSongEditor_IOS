@@ -19,7 +19,6 @@
 @interface LSOAexDisplayView : UIView <LanSongInput>
 
 
-@property (nonatomic, strong)NSMutableArray *overlayLayerArray;
 
 
 
@@ -27,17 +26,16 @@
 
 
 
+@property(nonatomic, copy) void(^ _Nullable userSelectedTextLayerBlock)(LSOObject * _Nullable layer);
 
 
 
 
 
 
+- (void)addOverlayLayerArray:(NSMutableArray *)array;
 
 
-
-
-- (void)setOverlayLayerArray:(NSMutableArray *)array;
 
 
 

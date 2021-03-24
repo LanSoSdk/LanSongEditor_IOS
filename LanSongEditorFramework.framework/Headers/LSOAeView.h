@@ -95,6 +95,8 @@ typedef void (^LXAEAnimationCompletionBlock)(BOOL animationFinished);
 @property (nonatomic) NSMutableArray *imageLayerArray;
 
 
+
+
 /**
  在开始执行前调用, 替换指定key的图片
 [图片请不要大于720x1280]
@@ -267,6 +269,8 @@ typedef void (^LXAEAnimationCompletionBlock)(BOOL animationFinished);
 + (nonnull instancetype)animationNamed:(nonnull NSString *)animationName inBundle:(nonnull NSBundle *)bundle NS_SWIFT_NAME(init(name:bundle:));
 + (nonnull instancetype)animationFromJSON:(nonnull NSDictionary *)animationJSON NS_SWIFT_NAME(init(json:));
 + (nonnull instancetype)animationWithFileData:(nonnull NSData *)fileData;
+
+
 
 
 

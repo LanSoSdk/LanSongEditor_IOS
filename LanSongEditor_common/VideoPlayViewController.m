@@ -40,7 +40,7 @@
     _notificationToken=0;
     
     
-    NSLog(@"-----------start  VideoPlayViewController-------.");
+    NSLog(@"---start  VideoPlayViewController-------.");
     [DemoUtils setViewControllerPortrait];
     
     mInfo=[[LSOXAssetInfo alloc] initWithPath:self.videoPath];

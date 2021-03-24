@@ -32,10 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(id)initFullScreen:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
 
 
-/**
- 仅仅用在绿幕抠图, 虚拟直播的场景;
- */
--(id)initFullScreen2:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
 
 
 
@@ -187,6 +183,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// 取消背景
 - (void)cancelBackGround;
 
+
+/**
+ 增加一个视频图层;
+ 只使用在绿幕直播
+ */
+- (LSOCamLayer *)addForeGroundVideoUrl:(NSURL *)url;
+
+/**
+ 只使用在绿幕直播;
+ */
+-(void)removeVideoLayer:(LSOCamLayer *)layer;
 
 /**
  从ios的Camera回调拿到的相机实时图像;

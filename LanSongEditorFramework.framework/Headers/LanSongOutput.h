@@ -7,9 +7,7 @@
 dispatch_queue_attr_t LanSongDefaultQueueAttribute(void);
 void runOnMainQueueWithoutDeadlockLSO(void (^block)(void));
 
-//LSDELETE
 void runSynchronouslyOnVideoProcessQueue(void (^block)(void));
-//LSDELETE
 void runAsynchronouslyOnVideoProcessQueue(void (^block)(void));
 
 

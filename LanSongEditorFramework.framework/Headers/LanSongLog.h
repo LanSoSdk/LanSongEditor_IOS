@@ -47,6 +47,11 @@
 
 #define LSO_CURRENT_TIME CFAbsoluteTimeGetCurrent();
 
+// 异步全局线程执行
+#define LSO_RunOnGlobalQueue(code)      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{code;});
+
+
+
 // do something
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;

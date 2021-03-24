@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readwrite, nonatomic) CGFloat opacityPercent;
 
 
-
+- (AVPlayer *)getAVPlayer;
 
 //-------------------各种颜色调节-----------------
 /**
@@ -245,48 +245,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite, assign) CGFloat exposurePercent;
 
 
-//-----------------------马赛克:----------
-/**
- 马赛克区域:
- xy以左上角开始, 左上角是0.0,0.0;
- 宽度是一个百分比, 最大是 1.0;
- 高度是 一个百分比. 最大是1.0;
- 
- 你实时传递过来的宽高和坐标, 除以当前图层的宽高,转换为百分比后设置过来,
- 
- 宽高坐标可以通过getCurrentRectInView 获取到当前图层在compositionView中的位置;
- 
- 我们举例最大4个马赛克区域;如果你需要更多的马赛克区域, 则用LSOMosaicRectFilter执行增加;
- 预览时有效
- */
-@property(readwrite, nonatomic) CGRect mosaicRect1InView;
-@property(readwrite, nonatomic) BOOL mosaic1Enable;
-/**
- 马赛克1的每个小格子的大小;
- 范围0.01---0.2; 默认是0.08
- */
-@property(readwrite, nonatomic) CGFloat mosaicPixelWidth1;
-
-
-
-/// 马赛克2的方法
-@property(readwrite, nonatomic) CGRect mosaicRect2InView;
-@property(readwrite, nonatomic) BOOL mosaic2Enable;
-@property(readwrite, nonatomic) CGFloat mosaicPixelWidth2;
-
-
-/// 马赛克3的方法
-@property(readwrite, nonatomic) CGRect mosaicRect3InView;
-@property(readwrite, nonatomic) BOOL mosaic3Enable;
-@property(readwrite, nonatomic) CGFloat mosaicPixelWidth3;
-
-
-/// 马赛克4的方法
-@property(readwrite, nonatomic) CGRect mosaicRect4InView;
-@property(readwrite, nonatomic) BOOL mosaic4Enable;
-@property(readwrite, nonatomic) CGFloat mosaicPixelWidth4;
-
-
 /**
  是否绿幕抠图
  */
@@ -294,18 +252,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  绿幕抠图的调节级别
- 默认是0.5;
- 1.0很小抠像;  0.5是适中; 0.1是最大抠像;
- 0.0是禁止抠像;
+ 范围是:
+ 0--1.0f;
+ 0是禁止抠像; 0.1抠的很弱; 0.5适中; 1.0是抠的最强(可能会把一些不是绿的也抠去;
  */
+
 @property (nonatomic,assign) CGFloat greenMattingLevel;
 
 
-//设置遮罩;
-- (void) setMaskWithUIImage:(UIImage *)image;
-
-//取消遮罩;
-- (void) cancelMask;
 
 //-------------------------FILTER(滤镜)----------------------------
 /**
@@ -339,6 +293,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)removeAllFilter;
 
+- (void) setMaskWithUIImage:(UIImage *)image;
+
+- (void) cancelMask;
+
 
 /**
  调节素材中的音频音量.
@@ -351,55 +309,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign)CGFloat audioVolume;
 
 
-/**
- 视频的播放速度;
- 范围是 0.1---10.0
- 默认1.0; 正常播放;
- 建议的设置参数是:
- 变慢: 0.1, 0.2, 0.4, 0.6,0.8
- 变快: 2.0, 3.0, 4.0, 6.0,8.0;
- 当前仅是画面变速, 变速过程中暂时无声音;
- */
-@property (nonatomic, assign)CGFloat videoSpeed;
-
-
-//------------获取缩略图
-/**
- 获取当前异步 获取缩略图;
- 当前是每秒钟获取一帧;, 一帧宽高最大是100x100;
- image 是获取到的每一张缩略图;
- finish是 是否获取完毕;
- 获取的缩略图的高度是192像素,高度是192,返回所有图片的宽度总和是 当前要显示时长乘以192;
- 比如当前图层显示时长是6.2秒; 则返回的缩略图是 6张192x192的图片和一张 38x192 (38=192*0.2);
- */
-- (void)getThumbnailAsyncWithHandler:(void (^)(UIImage *image, BOOL finish))handler;
-
-
-/// 获取原视频的缩略图;
-/// 从原视频的 第0秒,到最后; 返回的所有图片都是192x192像素大小;
-/// @param count 要获取的张数  , 如果不清楚获取几张图片, 则用(int)originalDurationS;
-/// @param handler 获取的异步回调;
-- (void)getOriginalThumbnailAsyncwithCount:(int)count handler:(void (^)(UIImage *image, BOOL finish))handler;
-
-
-/// 获取指定时长的缩略图;
-/// 从当前裁剪的开始时间,计算, 每秒钟返回一帧, 一帧的宽高是192
-/// @param durationS 要的时长
-/// @param handler 异步回调;
-- (void)getThumbnailAsyncWithDuration:(CGFloat)durationS handler:(void (^)(UIImage *image, BOOL finish))handler;
-
-/// 缩略图的显示时间;
-@property (readonly,assign) CGFloat thumbnailDisplayTimeS;
-/**
- 在你第一次调用过getThumbnailAsyncWithHandler后. 内部会保存到这个属性中.
- 在下次获取的时候, 则可以直接读取;
- */
-@property(nonatomic, readwrite)  NSMutableArray<UIImage *> *thumbImageArray;
-
-/**
- 当前图层是否需要touch事件;
- 默认是需要的;
- */
 @property (nonatomic, assign)BOOL touchEnable;
 
 /// 获取当前图层在容器合成中的坐标
@@ -416,88 +325,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前图层是否在显示状态;
 -(BOOL)isDisplay;
 
-//-------------------动画类--------------------------------
-
-///用AE的json形式增加一个动画
-/// @param jsonPath 动画文件
-/// @param atCompS 从合成容器的什么位置增加
-- (LSOAnimation *) addAnimationWithJsonPath:(NSString *)jsonPath atCompS:(CGFloat) atCompS;
-
-
-/// 在图层的头部增加一个动画
-/// @param jsonPath 动画文件,json格式
-- (LSOAnimation *) setAnimationAtLayerHead:(NSString *)jsonPath;
-
-
-/// 在图层的尾部增加一个动画
-/// @param jsonPath 动画文件, json格式
-- (LSOAnimation *) setAnimationAtLayerEnd:(NSString *)jsonPath;
-
-
-/// 删除一个动画
-/// @param animation 动画对象,在addAnimation的时候增加的.
-- (void)removeAnimation:(LSOAnimation *)animation;
-
-
-/// 删除所有动画
-- (void)removeAllAnimationArray;
-
-/// 获取所有的动画对象数组
-- (NSMutableArray *)getAllAnimationArray;
-
-
-
-/// 预览一个动画
-/// @param animation 预览会从动画的开始时间点,播放到结束时间点;
--(BOOL) playAnimation:(LSOAnimation *)animation;
-//----------------------------------特效类----------------------------------------
-
-/// 用AE的json文件形式在指定时间点增加一个特效
-/// @param jsonPath 特效的json
-/// @param atCompS 从容器的指定时间点
-- (LSOEffect *) addEffectWithJsonPath:(NSString *)jsonPath atCompS:(CGFloat) atCompS;
-
-
-/// 在图层的头部增加一个特效
-/// @param jsonPath 特效的json文件
-- (LSOEffect *) addEffectWithJsonAtLayerHead:(NSString *)jsonPath;
-
-/// 在图层的尾部增加一个特效
-/// @param jsonPath 特效的json文件
-- (LSOEffect *) addEffectWithJsonAtLayerEnd:(NSString *)jsonPath;
-
-
-/// 删除一个特效,
-/// @param effect 特效对象,从addEffectXXX得到的特效对象
-- (void)removeEffect:(LSOEffect *)effect;
-
-
-/// 删除所有的特效
-- (void)removeAllEffectArray;
-
-
-/// 预览一个特效
-/// @param effect 预览会从特效的开始时间点,播放到结束时间点;
--(BOOL) playEffect:(LSOEffect *)effect;
-
-
-/// 获取所有的特效对象数组
-- (NSMutableArray *)getAllEffectArray;
-//------------------转场类方法
-/**
- 设置转场的动画路径, json格式;
- 可通过这个获取是否设置了转场; 如果要取消转场;则这里等于nil;
- 设置后, 默认转场时间为1秒;
- */
-@property(readwrite, assign)NSURL *transitionJsonUrl;
-/**
- 设置或获取转场时间
- 在设置转场后有效;
- 时间范围是0---5.0秒;
- 如转场时间 大于图层时间, 则等于图层时间;
- 可以通过转场时间,判断当前图层是否有转场功能;
- */
-@property(readwrite, assign)CGFloat transitionDurationS;
 
 /**
  转场可设置的最大值;
@@ -507,46 +334,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, nonatomic)CGFloat transitionMaxDurationS;
 
 @property(readonly, nonatomic)BOOL isAddTransition;
-/**
- 预览转场;
- 你需要在设置转场后调用才有效;
- */
-- (BOOL)playTransition;
-/**
- 取消转场
- */
-- (void)cancelTransition;
-/**
- 转场相对于合成的 开始时间;
- */
-@property (nonatomic, readonly) CGFloat transitionStartTimeOfCompS;
 
-/**
- 如果是拼接的是视频, 或叠加的是视频, 则可以获取到videoURL路径;
- */
 @property (readwrite,nonatomic)NSURL *videoURL;
 
-/**
- 获取倒序的视频路径;
- 在设置倒序,并倒序完成后获取;
- 在容器释放或 图层释放后, 内部会删除;
- */
-@property (readonly, nonatomic, nullable) NSURL *reverseVideoUrl;
 
-/**
- 特定客户使用;
- 
- 设置当前图层画面的可见区域: 四方形
- 
- x是从左到右. 范围是0.0--1.0; 你可以认为是百分比,和视频宽高无关;
- y是从上到下; 范围是0.0--1.0;
- @param startX 始透明的开始X坐标
- @param endX 透明的结束X坐标 最大是1.0;
- @param startY 透明的开始Y坐标
- @param endY 透明的结束Y坐标,最大是1.0;
- 
- */
--(void)setVisibleRectWithX:(CGFloat)startX endX:(CGFloat)endX startY:(CGFloat)startY endY:(CGFloat)endY;
+
+
+
+
+
+
+
 
 
 
@@ -579,4 +377,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 NS_ASSUME_NONNULL_END
+
 

@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
       NSObject *framebufferLock;  //数据的同步锁. 内部使用.
 }
 
++ (CGSize)getScaleSizeWithType:(LSOScaleType)scaleType originalSize:(CGSize)originalSize compSize:(CGSize)compSize;
+
 /**
  *  当前图层的类型
  */
@@ -332,14 +334,16 @@ NS_ASSUME_NONNULL_BEGIN
  范围0.01---0.2; 默认是0.08
  */
 @property(readwrite, nonatomic) CGFloat mosaicPixelWidth1;
-
+@property(readwrite, nonatomic) CGFloat mosaic1StartTime;
+@property(readwrite, nonatomic) CGFloat mosaic1EndTime;
 
 
 /// 马赛克2的方法
 @property(readwrite, nonatomic) CGRect mosaicRect2InView;
 @property(readwrite, nonatomic) BOOL mosaic2Enable;
 @property(readwrite, nonatomic) CGFloat mosaicPixelWidth2;
-
+@property(readwrite, nonatomic) CGFloat mosaic2StartTime;
+@property(readwrite, nonatomic) CGFloat mosaic2EndTime;
 
 /// 马赛克3的方法
 @property(readwrite, nonatomic) CGRect mosaicRect3InView;
@@ -351,6 +355,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readwrite, nonatomic) CGRect mosaicRect4InView;
 @property(readwrite, nonatomic) BOOL mosaic4Enable;
 @property(readwrite, nonatomic) CGFloat mosaicPixelWidth4;
+
+
+
+/**
+ 是否绿幕抠图
+ */
+@property (nonatomic,assign) BOOL isGreenMatting;
+
+/**
+ 绿幕抠图的调节级别
+ 范围是:
+ 0--1.0f;
+ 0是禁止抠像; 0.1抠的很弱; 0.5适中; 1.0是抠的最强(可能会把一些不是绿的也抠去;
+ */
+
+@property (nonatomic,assign) CGFloat greenMattingLevel;
+
+
+//设置遮罩;
+- (void) setMaskWithUIImage:(UIImage *)image;
+
+//取消遮罩;
+- (void) cancelMask;
+
 
 
 @property (readwrite,nonatomic) CGRect cropRect;

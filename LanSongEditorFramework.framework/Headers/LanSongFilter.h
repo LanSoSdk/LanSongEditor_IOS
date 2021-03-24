@@ -36,7 +36,6 @@ struct LanSongMatrix4x4 {
     LanSongVector4 three;
     LanSongVector4 four;
 };
-
 typedef struct LanSongMatrix4x4 LanSongMatrix4x4;
 
 struct LanSongMatrix3x3 {
@@ -71,10 +70,8 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 /// 是否支持调节;
 @property(readwrite, nonatomic) BOOL isSupportAdjust;
 
-/*******************************一下是内部使用*********************************************************/
-/**
- 内部使用;
- */
+
+
 @property(readwrite, nonatomic) BOOL disableFilter;
 @property(readonly) CVPixelBufferRef renderTarget;
 @property(readwrite, nonatomic) BOOL preventRendering;  //是否阻止渲染;
@@ -115,4 +112,7 @@ typedef struct LanSongMatrix3x3 LanSongMatrix3x3;
 - (void)setAndExecuteUniformStateCallbackAtIndex:(GLint)uniform forProgram:(LanSongProgram *)LanSongProgram toBlock:(dispatch_block_t)uniformStateBlock;
 - (void)setUniformsForProgramAtIndex:(NSUInteger)programIndex;
 
+
 @end
+
+

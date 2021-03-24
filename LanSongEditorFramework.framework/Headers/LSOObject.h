@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSOConcatVideoLayer,
     kLSOConcatImageLayer,
     kLSOVideoLayer,
+    kLSOAVPlayerLayer,
     kLSOAEViewLayer,
     kLSOMVLayer,
     kLSOImageLayer,
@@ -43,8 +44,15 @@ typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSOImageArrayLayer,
     kLSOSubLayer,
     kLSOMGSubLayer,
-    kLSOCameraLayer
+    kLSOCameraLayer,
+    kLSOSegmentLayer,
+    kLSOSegmentCopyLayer,
+    kLSOVLogDrawLayer,
+    kLSOAexLayer,
+    kLSOEndTextLayer
+    
 };
+
 
 
 //图层位置枚举;
@@ -133,8 +141,16 @@ typedef enum {
     kLSOExportSize_480p,
     kLSOExportSize_540p,
     kLSOExportSize_720p,
-    kLSOExportSize_1080p
+    kLSOExportSize_1080p,
+    kLSOExportSize_original
 }LSOExportSize;
+
+
+typedef enum {
+    kLSOStatePause,
+    kLSOStatePlaying,
+}LSOPlayerState;
+
 
 @interface LSOObject : NSObject
 

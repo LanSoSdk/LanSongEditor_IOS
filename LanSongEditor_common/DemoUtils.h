@@ -23,10 +23,6 @@
 
 
 
-
-
-
-
 #define DEVICE_BOUNDS [[UIScreen mainScreen] applicationFrame]
 #define DEVICE_SIZE [[UIScreen mainScreen] applicationFrame].size
 #define DEVICE_OS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]

@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(readwrite, nonatomic) CGRect mosaicRect;
 
+
+
+@property (atomic, assign) CGFloat startTimeFromComp;
+
+@property (atomic, assign) CGFloat endTimeFromComp;
+
 @end
 NS_ASSUME_NONNULL_END
 

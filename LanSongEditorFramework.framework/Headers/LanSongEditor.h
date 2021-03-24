@@ -16,9 +16,9 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  当前此SDK的版本号.
  内部使用,请勿修改.
  */
-#define  LANSONGEDITOR_VISION  "4.3.5"
+#define  LANSONGEDITOR_VISION  "4.5.0"
 
-#define  LANSONGEDITOR_BUILD_TIME  "20210125_1834"
+#define  LANSONGEDITOR_BUILD_TIME  "20210320_1712"
 
 //所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
@@ -26,8 +26,11 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 #import <LanSongEditorFramework/LSOCameraView.h>
 #import <LanSongEditorFramework/LSOCamera.h>
+#import <LanSongEditorFramework/LSOCameraLive.h>
+
 #import <LanSongEditorFramework/LSOSegmentCamera.h>
 #import <LanSongEditorFramework/LSOSegmentModule.h>
+
 
 
 //aex的一些类---------------------------
@@ -53,8 +56,18 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 
 
 
+//segment
+#import <LanSongEditorFramework/LSOSegmentVideo.h>
+#import <LanSongEditorFramework/LSOSegmentPlayer.h>
+#import <LanSongEditorFramework/LSOSegment2.h>
 
-#import <LanSongEditorFramework/LSOVideoCompositionExecute.h>
+// vlog的类
+
+#import <LanSongEditorFramework/LSOVLogModule.h>
+#import <LanSongEditorFramework/LSOVLogAsset.h>
+#import <LanSongEditorFramework/LSOVLogPlayer.h>
+#import <LanSongEditorFramework/LSOVLogDisplayView.h>
+#import <LanSongEditorFramework/LSOVLogLayer.h>
 
 
 
@@ -179,6 +192,8 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  */
 +(void)setEncodeVideoAsEditMode:(BOOL)as;
 
+
++(NSString *)getDemoServerUrl;
 
 
 @end

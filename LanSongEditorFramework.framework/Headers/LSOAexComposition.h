@@ -81,8 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
  增加一个声音图层;
  */
 - (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url;
+/**
+ 增加一个图片图层;
+ */
 
 - (LSOLayer *)addImageLayerWithImage:(UIImage *)image atTime:(CGFloat)startTimeS;
+- (void)removeImageLayer:(LSOLayer *)imageLayer;
+
 
 /**
  删除一个声音图层;
@@ -94,14 +99,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addLogoUIImage:(UIImage *)image position:(LSOPositionType)posititon;
 
-
-
-
 /**
  增加logo图片
  centerPosition: 中心点位置;
  */
 - (void)addLogoUIImage:(UIImage *)image certerPosition:(CGPoint )centerPosition;
+
+
+
+
 
 //------------------------------------控制类方法---------------------------------------------
 /**
@@ -257,6 +263,10 @@ dispatch_async(dispatch_get_main_queue(), ^{
  */
 @property(nonatomic, copy) void(^userSelectedAexTextBlock)(LSOAexText *text,int index);
 
+
+@property(nonatomic, copy) void(^userSelectedLayerBlock)(LSOLayer *layer);
+
+@property(nonatomic, copy) void(^userSelectedImageLayerBlock)(LSOLayer *layer);
 
 /**
  适配ios13; 必须按照demo中的设置;
