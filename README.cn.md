@@ -1,8 +1,8 @@
 ### 这是蓝松SDK最简单的演示.
-#### 当前版本是4.5.0
+#### 当前版本是4.5.6
 - 包括:视频编辑SDK和 AE模板SDK; 
 - 我们完整的演示demo  你可以从这里下载:
-- App store :https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
+- 下载地址 :https://www.pgyer.com/LanSongIOS
 - 如果你想测试我们的SDK, 欢迎向我们索取全部的演示源代码. 
  
  ## SDK功能介绍.

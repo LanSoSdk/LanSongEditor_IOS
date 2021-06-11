@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithJsonPath:(NSString *)jsonPath;
 
-
-
 /// 当前Ae模板的总时长;
 @property (nonatomic,readonly) CGFloat durationS;
 

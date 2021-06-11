@@ -17,10 +17,6 @@
 @class LSOLayer;
 @class LanSongFilter;
 
-//叠加层;
-@class LSOAudioLayer;
-
-
 NS_ASSUME_NONNULL_BEGIN
 @interface LSOSegmentPlayer : LSOObject
 
@@ -36,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  您在init的时候, 设置的合成宽高.
- 暂时不支持在合成执行过程中, 调整合成的宽高.
  */
 @property (nonatomic,readonly) CGSize playerSize;
  
@@ -58,17 +53,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-/// 抠像视频的音量; 0.0是静音, 1.0是最大;
-@property(nonatomic, assign) CGFloat segmentVideoVolume;
 
 
-/// 声音图层数组;
-@property (strong,atomic, readonly) NSMutableArray *audioLayerArray;
 
 /// 设置背景为一个视频
 /// @param url 视频路径
 /// @param handler 设置完毕后,返回图层对象;
 - (void)setBackGroundVideoLayerWithURL:(NSURL *)url completedHandler:(void (^)(LSOLayer *videoLayer))handler;
+
 
 /// 设置背景为一张图片
 /// @param image 图片对象
@@ -114,23 +106,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDisplayView:(LSODisplayView *)view;
 
 
-/// 增加一个声音图层;
-/// @param url url路径
-/// @param startTimeS 开始时间;
-- (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
-
-///  删除声音图层
-/// @param audioLayer 声音图层对象
-- (void)removeAudioLayer:(LSOAudioLayer *)audioLayer;
-
-
-/// 删除所有的声音图层;
-- (void)removeALLAudioLayer;
-
 
 /// 删除图层
 /// @param layer 图层对象
 - (BOOL)removeLayer:(nullable LSOLayer *)layer;
+
+
+/// 设置一个声音路径
+/// @param url 声音的url
+/// @param cutStart 对声音裁剪的开始时间, 如果没有裁剪则为0
+/// @param cutEnd 声音裁剪的结束时间, 如果没有裁剪,则为CGFLOAT_MAX
+- (void)setAudioUrl:(NSURL *)url cutStartTime:(CGFloat)cutStart cutEndTime:(CGFloat)cutEnd;
+
+
+@property (nonatomic, readonly) CGFloat audioCutStartTimeS;
+
+
+/// 获取音乐裁剪结束时间;
+@property (nonatomic, readonly) CGFloat audioCutEndTimeS;
+
 
 
 
@@ -167,6 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)seekToTimeS:(CGFloat)timeS;
 
+
 /**
  在调用此方法前
  [内部会开启一个线程, ]
@@ -188,10 +183,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+/// 背景模糊的时候, 是否用原来的视频做背景;
+@property (nonatomic, assign) BOOL  useOriginalVideoWhenBlur;
+
+
+
+/// 背景模糊调节. 范围是0.0--1.0;默认是0.24;
+/// 没有背景或设置了useOriginalVideoWhenBlur;则用原视频为背景视频;
+@property (nonatomic, assign) CGFloat backGroundBlurLevel;
+
+
+/// 给背景设置滤镜;
+@property (nonatomic, strong) LanSongFilter *backGroundFilter;
+
+
+/// 异步获取
+/// @param handler 每得到一张图片,回调一次;
+-(void)getThumbnailAsyncWithHandler:(void (^)(UIImage *image, BOOL finish))handler;
+
+
 /**
  开始导出,
  */
 -(void)startExportWithRatio:(LSOExportSize)ratioType;
+
 /**
  当前是否正在导出.
  */
@@ -259,21 +274,9 @@ dispatch_async(dispatch_get_main_queue(), ^{
  中间不需要增加 dispatch_async(dispatch_get_main_queue(),;
  */
 @property(nonatomic, copy) void(^ _Nullable userTouchDownLayerBlock)(LSOLayer * _Nullable layer);
-/**
- 用户移动图层
- */
 @property(nonatomic, copy) void(^ _Nullable userTouchMoveLayerBlock)(CGPoint point);
-/**
- 用户缩放图层事件;
- */
 @property(nonatomic, copy) void(^ _Nullable userTouchScaleLayerBlock)(CGSize size);
-/**
- 用户旋转图层
- */
 @property(nonatomic, copy) void(^ _Nullable userTouchRotationLayerBlock)(CGFloat rotation);
-/**
- 用户手指抬起;
- */
 @property(nonatomic, copy) void(^ _Nullable userTouchUpLayerBlock)(void);
 
 @property(nonatomic, copy) void(^userSelectedLayerBlock)(LSOLayer *layer);

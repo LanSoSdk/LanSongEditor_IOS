@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOCameraLive : LSOObject
 
++(void )setCameraCaptureAsRGBA:(BOOL)is;
+
 /**
  绿幕抠图, 虚拟直播的场景;
  */
@@ -47,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  切换前后镜头
  */
 - (void)changeCamera;
+
 /**
  是否是前置相机
  */
@@ -57,6 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,assign) BOOL flashOn;
 
+
+@property (nonatomic,assign) LSOCameraSize cameraSize;
 
 
 /**
@@ -98,16 +103,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isGreenMatting;
 
 
-/// 设置前景图片
-/// @param url 前景图片的URL路径;
-- (BOOL) setForeGroundImageWithUrl:(NSURL *_Nullable)url;
+
+/// 增加一个绿色背景的视频/图片
+/// 注: 视频最大个数为5个;
+/// @param url 视频或图片的url
+- (LSOCamLayer *)addGreenFileWithURL:(NSURL *)url;
 
 
+/// 增加gif
+/// @param url gif文件路径
+- (LSOCamLayer *)addGifFileWithURL:(NSURL *)url;
 
-/// 设置前景视频
-/// @param colorUrl 前景透明颜色视频
-/// @param maskUrl 前景透明mask视频;
-- (BOOL)setForeGroundVideoWithColorUrl:(NSURL *_Nullable)colorUrl maskUrl:(NSURL *_Nullable) maskUrl;
+
+/// 删除增加的一个图层;
+/// @param layer 图层对象;
+-(void)removeLayer:(LSOCamLayer *)layer;
 
 
 /// 取消前景;
@@ -115,32 +125,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+/// 设置背景,背景可以是图片或视频
+/// @param url 图片或视频的url
+/// @param audioVolume 如果是视频,可设置音量; 如果是图片则忽略
+/// @param handler 完整后的回调;
+- (void)setBackGroundUrl:(NSURL *_Nullable)url audioVolume:(float)audioVolume handler:(void (^)(LSOCamLayer *))handler;
 
-/// 设置背景图片
-/// @param imageUrl 背景图片的URL路径
-/// @param handler 异步完成的回调, 完成后工作在dispatch_get_main_queue中;
-- (void)setBackGroundImageUrl:(NSURL *_Nullable)imageUrl handler:(void (^)(LSOCamLayer *))handler;
-
-
-/// 设置背景视频
-/// @param videoUrl 背景视频url路径
-/// @param audioVolume 背景视频音量, 静音是0.0; 1.0是正常声音;
-/// @param handle 异步完成的回调, 完成后工作在dispatch_get_main_queue中;
-- (void)setBackGroundVideoUrl:(NSURL *_Nullable)videoUrl audioVolume:(float)audioVolume handler:(void (^)(LSOCamLayer *))handler;
 
 
 /// 取消背景
 - (void)cancelBackGround;
 
 
-/// 背景视频暂停;
-@property (nonatomic, assign) BOOL pauseBackGroundVideo;
+
+/// 获取背景视频的avplayer播放器;
+- (AVPlayer *)backGroundAVPlayer;
 
 
-/**
- 只使用在绿幕直播;
- */
--(void)removeVideoLayer:(LSOCamLayer *)layer;
+
 
 /**
  从ios的Camera回调拿到的相机实时图像;
@@ -182,6 +184,12 @@ NS_ASSUME_NONNULL_BEGIN
  拍照
  */
 -(UIImage *)takePicture;
+
+
+@property(nonatomic, copy) void(^userSelectedLayerBlock)(LSOCamLayer *layer);
+
+@property (nonatomic, assign) BOOL disableTouchEvent;
+
 
 @end
 NS_ASSUME_NONNULL_END

@@ -13,7 +13,7 @@
 
 @interface VideoEditorDemoVC ()
 {
-    LSOConcatComposition *concatComposition;
+    LSOEditPlayer *concatComposition;
     
     LSODisplayView *displayView;
     CGSize compSize;
@@ -117,7 +117,7 @@
         make.size.mas_equalTo(CGSizeMake(size.width, 40));
     }];
     
-    [DemoUtils showDialog:@"这是最简单的演示, 完整版见二维码链接(simplest demo. see QR code link)"];
+    [DemoUtils showDialog:@"这是最简单的演示, 完整功能请联系我们索取."];
 }
 
 
@@ -171,7 +171,7 @@
     [array addObject:LSOBundleURL(@"dy_xialu2.mp4")];
     
     //----------------------start------------------------
-    concatComposition=[[LSOConcatComposition alloc] initWithUrlArray:array ratio:kLSOSizeRatio_NONE];
+    concatComposition=[[LSOEditPlayer alloc] initWithUrlArray:array ratio:kLSOSizeRatio_NONE];
     //异步的形式增加视频
     WS(weakSelf)
     [concatComposition prepareConcatLayerAsync:^(NSArray * _Nonnull layerAray) {
@@ -239,7 +239,7 @@
 -(void)playProgressBlock:(CGFloat) progress percent:(CGFloat)percent
 {
     labProgress.text=[NSString stringWithFormat:@"当前进度 %f,百分比是:%f",progress,percent];
-    progressSlider.value=progress/concatComposition.compDurationS;
+    progressSlider.value=progress/concatComposition.durationS;
 }
 -(void)playCompletedBlock
 {
@@ -250,7 +250,7 @@
 {
     NSString *str=[NSString stringWithFormat:@"当前进度 %f,百分比是:%f",progress,percent];;
     labProgress.text=str;
-    progressSlider.value=progress/concatComposition.compDurationS;
+    progressSlider.value=progress/concatComposition.durationS;
     [hud showProgress:str];
 }
 
@@ -361,7 +361,7 @@
     switch (sender.tag) {
         case 101:
         {
-            CGFloat timeS=sender.value * concatComposition.compDurationS;
+            CGFloat timeS=sender.value * concatComposition.durationS;
             [concatComposition seekToTimeS:timeS];
         }
             break;

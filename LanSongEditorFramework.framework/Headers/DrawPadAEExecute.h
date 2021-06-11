@@ -48,55 +48,35 @@
 //----------------一下为具体方法-------------------------
 /**
  初始化;
- 容器大小,生成视频的帧率,时长等于第一个增加的AEJson 图层或 MV图层的分辨率;
- @return
  */
 -(id)init;
 /**
  增加背景视频层
- [AE模板中背景视频只有一个,故最多只能调用一次]
  @param videoPath 背景视频
  @return 成功返回YES
  */
 -(BOOL)addBgVideoWithPath:(NSString *)videoPath;
 /**
 增加背景视频层
-[AE模板中背景视频只有一个,故最多只能调用一次]
 @param videoPath 背景视频
 @return 成功返回YES
 */
 -(BOOL)addBgVideoWithURL:(NSURL *)videoUrl;
 /**
- 增加UI图层;
- [如果UI不变化, 建议把UIView转UIImage然后用addBitmapPen图片的形式增加, 不建议用此方法;]
- @param view UI图层
- @return 返回对象
- */
--(LSOViewPen *)addViewPen:(UIView *)view;
-/**
  增加AE的json文件;
- 返回LSOAeView对象; 拿着对象可以做updateImage,updateText,updateVideo;
- 几乎等于:addAEView:(LSOAeView *)view
  */
 -(LSOAeView *)addAEJsonPath:(NSString *)jsonPath;
 
 /**
  增加一层Ae json层;
- 
- [和 addAEJsonPath不同的是: 你可以通过对json加密, 解密后的数据通过这个接口输入]
- @param jsonData json文件解析后的数据;
  */
 -(LSOAeView *)addAEJsonWithData:(NSData *)jsonData;
 /**
  增加一个图片图层,
- 可以增加多个.
-
- 在容器开始运行前增加
  */
 -(LSOBitmapPen *)addBitmapPen:(UIImage *)image;
 /**
  增加一个图片图层
- 
  可以增加多个.
  在容器开始运行前,
  @param image 图片对象
@@ -113,6 +93,13 @@
  @return 增加后,返回mv图层对象
  */
 -(LSOMVPen *)addMVPen:(NSURL *)colorPath withMask:(NSURL *)maskPath;
+
+/**
+ 增加UI图层;
+ @param view UI图层
+ @return 返回对象
+ */
+-(LSOViewPen *)addViewPen:(UIView *)view;
 
 /**
  开始执行
@@ -230,21 +217,4 @@
  */
 @property (nonatomic,readonly)LSOViewPen *firstJsonPen;
 
-//-----------一下不再使用
-/**
- 增加AE对象;
- [不建议使用]
- 增加后, 作为一个图层叠加在其他层的上面;
- */
--(void)addAEView:(LSOAeView *)view;
--(id)initWithDrawPadSize:(CGSize)size LSO_DELPRECATED;
-/**
- 不再使用
- */
--(id)initWithURL:(NSURL *)videoPath  LSO_DELPRECATED;
-
-/**
- 不再使用
- */
--(id)initWithPath:(NSString *)videoPath LSO_DELPRECATED;
 @end

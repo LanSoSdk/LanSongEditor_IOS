@@ -37,8 +37,6 @@ typedef struct LSOTextureOptions {
 @property(readonly) BOOL missingFramebuffer;
 
 
-
-
 - (id)initWithSize:(CGSize)framebufferSize;
 - (id)initWithSize:(CGSize)framebufferSize textureOptions:(LSOTextureOptions)fboTextureOptions onlyTexture:(BOOL)onlyGenerateTexture;
 - (id)initWithSize:(CGSize)framebufferSize overriddenTexture:(GLuint)inputTexture;

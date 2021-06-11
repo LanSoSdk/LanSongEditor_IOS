@@ -24,15 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LSOCamera : LSOObject
 
+
++(void )setCameraCaptureAsRGBA2:(BOOL)is;
+
 /**
  初始化
  @param view 显示view
  @param isFront 是否设置为前置
  */
 -(id)initFullScreen:(LSOCameraView *)view isFrontCamera:(BOOL)isFront;
-
-
-
 
 
 /**
@@ -53,20 +53,41 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly)NSMutableArray<LSORecordFile *> *recordArray;
 
 
+
+/**
+ 是否人像分割使能
+ */
+@property (nonatomic,assign) BOOL isBodySegment;
+
+
+/// 抠像时,设置精细模式
+/// 设置后,部分手机会卡顿;但抠像效果好;
+- (void) setUseGoodModel;
+
+
+/// 抠像时 设置经典模式, 默认设置为这个模型;
+- (void) setUseFastModel;
+
+/**
+ 抠像时, 是否使用快速模型;
+ */
+@property (nonatomic,readonly) BOOL isSegmentFastModel;
+
+
+
 /**
  录像大小;
  */
 @property (nonatomic, readonly) CGSize compSize;
 
 /**
- 开始执行
- 这个只是预览, 开始后,不会编码, 不会有完成回调
- @return 执行成功返回YES, 失败返回NO;
+ 开始预览
  */
--(BOOL)startPreview;
+-(void) startPreview;
 
 /**
  停止预览
+ 如果在录制中, 则会先取消录制.
  */
 -(void)stopPreview;
 
@@ -114,6 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL flashOn;
 
 
+
 /**
  录制mic;
 默认是录制mic; 当有外音或前景视频声音时, 禁止录制外音;
@@ -127,8 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite,nonatomic) CGFloat beautyLevel;
 
 /**
-设置一个滤镜, 设置后, 之前增加的滤镜将全面清空.
-类似滤镜一个一个的切换.新设置一个, 会覆盖上一个滤镜.
+设置一个滤镜
 如果滤镜是无, 或清除之前的滤镜, 这里填nil;
 */
 @property (nonatomic,nullable, copy)LanSongFilter  *filter;

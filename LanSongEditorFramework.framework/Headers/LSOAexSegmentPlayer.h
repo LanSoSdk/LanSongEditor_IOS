@@ -1,16 +1,17 @@
 //
-//  LXAexComposition.h
+//  LSOAexSegmentPlayer.h
 //  LanSongEditorFramework
 //
-//  Created by sno on 2020/6/30.
-//  Copyright © 2020 sno. All rights reserved.
+//  Created by sno on 2021/5/25.
+//  Copyright © 2021 sno. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 
+
 #import "LSOAexDisplayView.h"
-#import "LSOAexModule.h"
+#import "LSOAexSegmentModule.h"
 #import "LSOLayer.h"
 
 
@@ -21,15 +22,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 /**
- 视频合成.
- 是一个容器, 可以把视频, 图片, 文字,动画, 声音等合成为视频.
- 有预览, 和预览后的导出
+ 
  */
-@interface LSOAexComposition : LSOObject
+@interface LSOAexSegmentPlayer : LSOObject
 
 
 /// 初始化
-- (id)initWithLSOAexModule:(LSOAexModule *)module;
+- (id)initWithSegmentModule:(LSOAexSegmentModule *)module;
 
 /*
  
@@ -37,6 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
  (当你设置每个图层的时长后, 此属性会改变.);
  */
 @property(readonly,atomic) CGFloat compDurationS;
+
+
+/*
+ 
+ 背景音乐音量
+ */
+@property (nonatomic, assign)CGFloat audioVolume;
 
 /**
  您在init的时候, 设置的合成宽高.
@@ -62,7 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)setAexDisplayView:(LSOAexDisplayView *)view;
 
-
 /**
  给每个AexImage设置后， 你需要调用此代码， 告知合成类， 刷新界面；
  */
@@ -72,11 +77,17 @@ NS_ASSUME_NONNULL_BEGIN
  在更新完LSOAexText后, 调用此方法, 告知合成类, 让合成类刷新;
  */
 - (BOOL)updateAexText:(LSOAexText *)aexText;
+
 /**dis
  增加声音图层;
  可设置从容器的什么时间点增加;
  */
 - (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS;
+
+- (LSOAudioLayer *)addAudioLayerWithURL:(NSURL *)url atTime:(CGFloat)startTimeS endTime:(CGFloat)endTime;
+
+
+
 /**
  增加一个声音图层;
  */
@@ -86,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 - (LSOLayer *)addImageLayerWithImage:(UIImage *)image atTime:(CGFloat)startTimeS;
+
+
 - (void)removeImageLayer:(LSOLayer *)imageLayer;
 
 
@@ -105,10 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addLogoUIImage:(UIImage *)image certerPosition:(CGPoint )centerPosition;
 
-
-
-
-
 //------------------------------------控制类方法---------------------------------------------
 /**
  当用户从下向上滑动, 让整个APP进入后台的时候,
@@ -119,6 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
  当用户从 后台的状态下, 恢复到当前界面, 则调用这个APP,恢复合成的运行;
  */
 - (void)applicationDidBecomeActive;
+
+
 
 /**
  设置合成容器的背景颜色
@@ -143,27 +154,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)seekToTimeS:(CGFloat)timeS;
 
-/**
- 定位到指定的AE图片;
- 定位后,会触发_aexImageChangedBlock 和 _playProgressBlock回调;
- */
-- (void)seekToAexImage:(LSOAexImage *)aexImage;
-
-/**
- 定位到指定的AE文本
- 定位后,会触发 _playProgressBlock回调;
- */
-- (void)seekToAexText:(LSOAexText *)aexText;
 
 /**
  异步准备一下;
  */
 - (void)prepareModuleAsync:(void (^)(void))handler;
+
 /**
  在调用此方法前
  [内部会开启一个线程执行]
  */
 -(BOOL)startPreview;
+
 /**
  当前是否在运行;
  */
@@ -213,12 +215,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) void(^playProgressBlock)(CGFloat progress,CGFloat percent);
 
 /**
- 
- */
-@property(nonatomic, copy) void(^aexImageChangedBlock)(LSOAexImage *aexImage,int index);
-
-
-/**
  播放完成.
  */
 @property(nonatomic, copy) void(^playCompletionBlock)(void);
@@ -242,47 +238,10 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 
 /**
- 当前选中的图片
- */
-@property (nonatomic, readonly) LSOAexImage *selectedAexImage;
-
-/**
-当前选中的文字
- */
-@property (nonatomic, readwrite) LSOAexText *selectedAexText;
-
-/**
- 当前用户选中了正在播放的一张图片;
- 选中后, 会暂停当前画面的播放;
- */
-@property(nonatomic, copy) void(^userSelectedAexImageBlock)(LSOAexImage *aexImage,int index);
-
-/**
- 当前用户选中了正在播放的文字;
- 选中后, 会暂停当前画面 的播放;
- */
-@property(nonatomic, copy) void(^userSelectedAexTextBlock)(LSOAexText *text,int index);
-
-
-@property(nonatomic, copy) void(^userSelectedLayerBlock)(LSOLayer *layer);
-
-@property(nonatomic, copy) void(^userSelectedImageLayerBlock)(LSOLayer *layer);
-
-/**
  适配ios13; 必须按照demo中的设置;
  */
 @property(nonatomic, copy) NSString *_Nullable(^mergeAVBlock)(NSString *video, NSString *audio);
 
-/**
- 禁止图片点击事件;
- 默认不禁止;
- */
-@property (nonatomic, assign) BOOL disableAexImageTouchEvent;
-
-/**
- 禁止文字点击事件;
- */
-@property (nonatomic, assign) BOOL disableAexTextTouchEvent;
 
 
 @end

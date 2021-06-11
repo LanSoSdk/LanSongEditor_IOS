@@ -18,7 +18,8 @@
 /**
  像素的模糊半径, 默认是2.0;
  建议最大值是50; 正常模糊是8.0;
- A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.
+ A radius in pixels to use for the blur, with a default of 2.0.
+ This adjusts the sigma variable in the Gaussian distribution function.
  */
 @property (readwrite, nonatomic) CGFloat blurRadiusInPixels;
 

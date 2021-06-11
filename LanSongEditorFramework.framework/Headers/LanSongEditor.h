@@ -16,28 +16,24 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
  当前此SDK的版本号.
  内部使用,请勿修改.
  */
-#define  LANSONGEDITOR_VISION  "4.5.0"
+#define  LANSONGEDITOR_VISION  "4.5.6"
 
-#define  LANSONGEDITOR_BUILD_TIME  "20210320_1712"
+#define  LANSONGEDITOR_BUILD_TIME  "20210610_1058"
+
 
 //所有类的父类
 #import <LanSongEditorFramework/LSOObject.h>
 
-
 #import <LanSongEditorFramework/LSOCameraView.h>
 #import <LanSongEditorFramework/LSOCamera.h>
 #import <LanSongEditorFramework/LSOCameraLive.h>
-
-#import <LanSongEditorFramework/LSOSegmentCamera.h>
-#import <LanSongEditorFramework/LSOSegmentModule.h>
-
 
 
 //aex的一些类---------------------------
 #import <LanSongEditorFramework/LSOAexModule.h>
 #import <LanSongEditorFramework/LSOAexImage.h>
 #import <LanSongEditorFramework/LSOAexText.h>
-#import <LanSongEditorFramework/LSOAexComposition.h>
+#import <LanSongEditorFramework/LSOAexPlayer.h>
 #import <LanSongEditorFramework/LSOAexDisplayView.h>
 #import <LanSongEditorFramework/LSOAexOption.h>
 
@@ -47,7 +43,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOEffect.h>
 #import <LanSongEditorFramework/LSOAudioLayer.h>
 
-#import <LanSongEditorFramework/LSOConcatComposition.h>
+#import <LanSongEditorFramework/LSOEditPlayer.h>
 #import <LanSongEditorFramework/LSODisplayView.h>
 #import <LanSongEditorFramework/LanSongLog.h>
 
@@ -55,10 +51,11 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOCamLayer.h>
 
 
-
 //segment
 #import <LanSongEditorFramework/LSOSegmentVideo.h>
-#import <LanSongEditorFramework/LSOSegmentPlayer.h>
+#import <LanSongEditorFramework/LSOSegmentPlayer2.h>
+
+
 #import <LanSongEditorFramework/LSOSegment2.h>
 
 // vlog的类
@@ -68,6 +65,26 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOVLogPlayer.h>
 #import <LanSongEditorFramework/LSOVLogDisplayView.h>
 #import <LanSongEditorFramework/LSOVLogLayer.h>
+
+
+// 各种播放器;
+#import <LanSongEditorFramework/LSOBookPagePlayer.h>
+#import <LanSongEditorFramework/LSOStickerPlayer.h>
+#import <LanSongEditorFramework/LSOAddAudioPlayer.h>
+#import <LanSongEditorFramework/LSOAudioLayer2.h>
+
+
+#import <LanSongEditorFramework/LSOAeExecute.h>
+
+
+#import <LanSongEditorFramework/LSOVideoCompositionExecute.h>
+
+#import <LanSongEditorFramework/LSOSegmentImage.h>
+#import <LanSongEditorFramework/LSOSegmentOneFrame.h>
+#import <LanSongEditorFramework/LSOImageEditPlayer.h>
+#import <LanSongEditorFramework/LSOAexSegmentPlayer.h>
+#import <LanSongEditorFramework/LSOAexSegmentModule.h>
+
 
 
 
@@ -85,6 +102,7 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/DrawPadAEPreview.h>
 #import <LanSongEditorFramework/DrawPadAEExecute.h>
 #import <LanSongEditorFramework/LSOAeCompositionView.h>
+
 #import <LanSongEditorFramework/BitmapPadPreview.h>
 #import <LanSongEditorFramework/DrawPadCameraPreview.h>
 #import <LanSongEditorFramework/BitmapPadExecute.h>
@@ -118,7 +136,6 @@ FOUNDATION_EXPORT const unsigned char LanSongEditorVersionString[];
 #import <LanSongEditorFramework/LSOAeImage.h>
 #import <LanSongEditorFramework/LSOAeText.h>
 #import <LanSongEditorFramework/LSOAEVideoSetting.h>
-//#import <LanSongEditorFramework/LanSongTESTVC.h>
 
 @interface LanSongEditor : NSObject
 

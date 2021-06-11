@@ -57,7 +57,7 @@
     [LSOFileUtil deleteAllSDKFiles];
     [self initView];
     
-    [DemoUtils showDialog:@"这是最简单的演示, 完整版见二维码链接(simplest demo. see QR code link)"];
+    [DemoUtils showDialog:@"这是最简单的演示, 完整功能, 请联系我们."];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -108,39 +108,13 @@
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(view.mas_bottom).with.offset(40);
     }];
-    
-
-    //app store demo: https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
-       
-       UIImageView *imageView=[[UIImageView alloc] init];
-       UIImage *image=[UIImage imageNamed:@"demoLink"];
-       imageView.image=image;
-       
-       [container addSubview:imageView];
-       
-       CGSize size=self.view.frame.size;
-       CGFloat padding=size.height*0.04;
-       
-       
-       [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.top.mas_equalTo(view.mas_bottom).with.offset(padding);
-           make.left.mas_equalTo(container.mas_left).with.offset(10);
-           make.size.mas_equalTo(CGSizeMake(200, 200));
-       }];
-    
-
 }
 -(UIView *)newLanSongTech:(UIView *)topView
 {
-    
     labPath=[[UILabel alloc] init];
     NSString *text1=[NSString stringWithFormat:
                      @" The simplest demo\n current version:%@, \n Expire date::%d  %d   \n\n full demo App Store link:",[LanSongEditor getVersion],
                         [LanSongEditor getLimitedYear],[LanSongEditor getLimitedMonth]];
-    
-    
-    //https://apps.apple.com/cn/app/%E8%93%9D%E6%9D%BE%E8%A7%86%E9%A2%91%E7%BC%96%E8%BE%91%E4%BD%93%E9%AA%8C/id1512903172
-    
     
     labPath.text=text1;
     labPath.textColor=[UIColor whiteColor];
@@ -210,6 +184,8 @@
 - (BOOL)shouldAutorotate {
     return YES;
 }
+
+
 //返回支持的方向
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;

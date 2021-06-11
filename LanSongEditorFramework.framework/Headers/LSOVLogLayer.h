@@ -225,7 +225,7 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @property (readwrite, assign) CGFloat sharpFilterPercent;
 /**
-调节色温的百分比.
+调节白平衡的百分比.
 这里的百分比是两倍的关系,范围是 0--2.0; 其中 1.0 是默认值,
 0---1.0是调小;
 1.0 是默认,

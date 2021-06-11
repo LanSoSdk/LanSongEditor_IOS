@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "LSOObject.h"
 #import "LSOAexOption.h"
+#import "LSOSegmentVideo.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,21 +39,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) CGFloat durationS;
 
-//----------------------用户设置的--------------------------------------------
+
 
 /**
- 用url路径更新当前AE图片;
- url可以是视频,也可以是图片;
- option:选项, 缩放形式, 视频开始时间点;
+ 替换分割后的图片
+ 用 LSOSegmentOneFrame得到的图片;
  */
+- (BOOL)updateWithSegmentUIImage:(UIImage *)image option:(LSOAexOption *_Nullable )option;
+
+
+/**
+ 替换分割后的视频;
+ */
+- (BOOL)updateWithSegmentVideo:(LSOSegmentVideo *)segmentVideo option:(LSOAexOption *_Nullable )option;
+
+
+/**
+ 替换普通的图片或视频.
+ */
+
 - (BOOL)updateWithURL:(NSURL *)url option:(LSOAexOption *_Nullable )option;
 
-
 /**
- 用UIImage图片对象, 更新当前AE图片;
- option: 选项, 缩放形式;
+ 替换图片
  */
 - (BOOL)updateWithUIImage:(UIImage *)image option:(LSOAexOption *_Nullable )option;
+
+
+
+/// 设置裁剪缩放大小
+/// @param size 把设置的图片(视频)缩放到的宽高, 比如图片原来是1080x1920; 通过手指缩放到720x1280, 则这里输入720x1280;
+/// @param point json的图片宽高为四方形区域, 替换后的图片(视频)的中心点在这个四方形区域的什么位置;
+- (void)setScaleSize:(CGSize)size  centerPoint:(CGPoint)point;
+
+/**
+ 缩放类型;
+ */
+@property (nonatomic,assign)  LSOScaleType scaleType;
+
 /**
  用户设置的视频路径;
  */

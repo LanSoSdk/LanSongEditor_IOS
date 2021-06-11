@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///  初始化
 /// @param url 输入的声音url完整路径
--(id)initWithURL:(NSURL *)url;
 
 /**
 声音文件本身的时长;
@@ -33,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 此为裁剪的开始时间;
 比如你从声音的的第三秒裁剪; 则这里填入cutStartTimeS=3;
  */
-@property (nonatomic, readwrite) CGFloat cutStartTimeS;
+@property (nonatomic, assign) CGFloat cutStartTimeS;
 
 /**
  你可以设置对声音做裁剪操作.
@@ -41,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  此为裁剪的结束时间;
  比如你从裁剪到第8秒 则这里填入cutEndTimeS=8.0;
  */
-@property (nonatomic, readwrite) CGFloat cutEndTimeS;
+@property (nonatomic, assign) CGFloat cutEndTimeS;
 
 
 /**
@@ -53,18 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
  还有一种情况: 比如你裁剪保留了3秒的时长, 但你想播放3遍, 则这里等于3*3=9.0;
  如果你设置了looping, 则这里是无限长
  */
-@property (nonatomic, readwrite) CGFloat layerDurationS;
+@property (nonatomic, assign) CGFloat layerDurationS;
 
 /**
  从容器的什么时间点开始增加声音;
  [可调节]
  */
-@property (nonatomic, readwrite) CGFloat startTimeOfComp;
+@property (nonatomic, assign) CGFloat startTimeOfComp;
 
 /**
  是否循环;
  */
-@property (nonatomic, readwrite) BOOL looping;
+@property (nonatomic, assign) BOOL looping;
 
 /**
  调节视频中的音频音量.
@@ -86,7 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
  音量淡入时长设置/获取;
  默认是0.0; 无淡入效果;
  最大为当前有效时长的1/3;
- LSTODO 
  */
 @property (readwrite, assign) CGFloat volumeFadeInDurationS;
 
@@ -98,6 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
+
+- (void)setCompDuration:(CGFloat) duration;
 
 
 

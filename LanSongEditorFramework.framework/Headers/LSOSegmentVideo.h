@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LSOLayer.h"
 #import "LSOCamLayer.h"
+
 #import "LSOXAssetInfo.h"
 
 
@@ -19,18 +21,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-
 /// 获取支持的最大时长;
 + (CGFloat )supportMaxDuration;
 
-- (instancetype)initWithURL:(NSURL *)url;
+
+/// 抠像并裁剪
+/// @param url 抠像的url
+/// @param start 视频的裁剪开始时间 单位秒;
+/// @param end 视频的裁剪结束时间; 最大时长为20秒;
+- (instancetype)initWithURL:(NSURL *)url cutStartTime:(CGFloat)start cutEndTime:(CGFloat)end;
 
 
-/// 设置裁剪时间, 在start开始前设置;
-/// @param startTime 开始时间
-/// @param endTime 结束时间
-- (void)setCurDurationStartTime:(CGFloat)startTime endTime:(CGFloat)endTime;
 
+
+/// init时的输入的url
+@property(nonatomic, readonly) NSURL *videoUrl;
+
+
+
+@property (nonatomic, assign) BOOL  onlyOneFrame;
 
 /// 开始分割
 - (void)start;
@@ -46,6 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 总的时长;
 @property (nonatomic, readonly) CGFloat durationS;
+
+
+
+/// 分割出第一帧的回调
+@property(nonatomic, copy) void(^segmentFirstFrameBlock)(void);
+
 
 /**
  导出进度回调;
@@ -63,12 +78,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) void(^segmentCompletionBlock)(void);
 
-@property(nonatomic, readonly) NSURL *videoUrl;
+
 
 
 @property(nonatomic, readonly)LSOXAssetInfo *assetInfo;
 
 - (BOOL)getFrame:(unsigned char *)rgbaPtr atTime:(CGFloat)time;
+
 
 - (void)releaseLSO;
 

@@ -247,6 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
 //删除所有关键帧
 -(void)removeAllKeyframe;
 
+
 //-------------------各种颜色调节-----------------
 /**
  调节亮度的百分比.
@@ -367,7 +368,7 @@ NS_ASSUME_NONNULL_BEGIN
  绿幕抠图的调节级别
  范围是:
  0--1.0f;
- 0是禁止抠像; 0.1抠的很弱; 0.5适中; 1.0是抠的最强(可能会把一些不是绿的也抠去;
+ 0是禁止抠像; 0.1抠的很弱; 0.5适中; 1.0是抠的最强(可能会把一些不是绿的也抠去);
  */
 
 @property (nonatomic,assign) CGFloat greenMattingLevel;
@@ -605,7 +606,7 @@ NS_ASSUME_NONNULL_BEGIN
  可通过这个获取是否设置了转场; 如果要取消转场;则这里等于nil;
  设置后, 默认转场时间为1秒;
  */
-@property(readwrite, assign)NSURL *transitionJsonUrl;
+@property(readwrite, strong)NSURL *transitionJsonUrl;
 
 @property(readwrite, strong)NSString *transitionName;
 
@@ -616,8 +617,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setMGTransitionWithColorUrl:(NSURL *)colorUrl maskUrl:(NSURL *)maskUrl;
 
-@property(readwrite, assign)NSURL *MGtransitionColorUrl;
-@property(readwrite, assign)NSURL *MGtransitionMaskUrl;
+@property(readwrite, strong)NSURL *MGtransitionColorUrl;
+@property(readwrite, strong)NSURL *MGtransitionMaskUrl;
 
 
 /**
@@ -704,6 +705,11 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setTouchScaleFactor:(CGFloat)scaleFactor;
 
 
+//是否在touch区域;
+
+/// 是否在子图层中
+
+
 
 
 
@@ -738,6 +744,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 -(void)updateFilterLink;
+
 
 
 @end

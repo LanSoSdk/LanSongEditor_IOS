@@ -119,11 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readwrite,nonatomic) LSOScaleType scaleType;
 
-/**
- 可设置选中的图层周边的颜色;
- 默认是红色;
- */
-@property (nonatomic, assign) UIColor *selectedColor;
 
 /**
  缩放到图层在容器中的具体大小;

@@ -21,7 +21,7 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
-@interface LSOConcatComposition : LSOObject
+@interface LSOEditPlayer : LSOObject
 
 
 
@@ -37,13 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
  读当前合成(容器)的总时长.单位秒;
  (当你设置每个图层的时长后, 此属性会改变.);
  */
-@property(readonly,atomic) CGFloat compDurationS;
+@property(readonly,atomic) CGFloat durationS;
 
 /**
  您在init的时候, 设置的合成宽高.
  暂时不支持在合成执行过程中, 调整合成的宽高.
  */
-@property (nonatomic,readonly) CGSize compositionSize;
+@property (nonatomic,readonly) CGSize playerSize;
  
 /**
  设置帧率,

@@ -11,11 +11,15 @@
 #import "LanSongContext.h"
 #import "LanSongFilter.h"
 
+@class LSOCamLayer;
 
 NS_ASSUME_NONNULL_BEGIN
 
 
 @interface LSOCameraView : UIView
+
+
+
 
 
 

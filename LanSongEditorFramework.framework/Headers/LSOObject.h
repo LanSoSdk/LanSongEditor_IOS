@@ -41,15 +41,26 @@ typedef NS_ENUM(NSUInteger, LSOLayerType2) {
     kLSOImageLayer,
     kLSOViewLayer,
     kLSOGIFLayer,
-    kLSOImageArrayLayer,
+    kLSOImageArrayLayer =10,
     kLSOSubLayer,
     kLSOMGSubLayer,
-    kLSOCameraLayer,
-    kLSOSegmentLayer,
-    kLSOSegmentCopyLayer,
+    
+    //相机类型的图层
+    kLSOCameraLayer=13,
+    
+    //分割图层
+    kLSOSegmentLayer=14,
+    
+    //分割复制的图层; 改成sub, 因为copy是oc的关键字;
+    kLSOSegmentSubLayer=15,
+    
+    /**
+     vlog的绘制层;
+     */
     kLSOVLogDrawLayer,
     kLSOAexLayer,
-    kLSOEndTextLayer
+    kLSOEndTextLayer,
+    kLSOGreenVideoLayer
     
 };
 
@@ -152,6 +163,23 @@ typedef enum {
 }LSOPlayerState;
 
 
+
+//人像分割模式
+typedef enum {
+    kLSOSegmentFast,
+    kLSOSegmentGood,
+}LSOSegmentMode;
+
+
+
+typedef enum {
+    kLSOCamera_640P,
+    kLSOCamera_720P,
+    kLSOCamera_1080P,
+}LSOCameraSize;
+
+
+
 @interface LSOObject : NSObject
 
 //给当前类做一个标记. TAG;
@@ -159,7 +187,7 @@ typedef enum {
  类似UIView中的id,
  比如你增加了多个图层, 为了区分不同的图层, 可以给图层增加一个tag 比如@"#1", 比如"firstLayer"
  */
-@property (assign,readwrite) NSObject *lsoTag;
+@property (strong,readwrite) NSObject *lsoTag;
 @property (assign,readwrite) BOOL lock;
 /**
  创建一个queue,
